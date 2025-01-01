@@ -211,6 +211,8 @@ autoload -Uz compinit
 compinit
 
 eval "$(starship init zsh)"
+
+STOW_DIR="$HOME/.dotfiles"
+
 # To update the gist
 # gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
-
