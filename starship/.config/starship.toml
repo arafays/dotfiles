@@ -1,7 +1,9 @@
 scan_timeout = 100
+
 add_newline = true
-right_format = """$all"""
+
 # default_format = "$all"
+
 format = """$username\
 $hostname\
 $localip\
@@ -12,6 +14,11 @@ $directory\
 $shell\
 $git_status\
 \n$character"""
+
+# add empty line at the end of right_format in starship
+right_format = """\n
+a
+"""
 
 [aws]
 symbol = "  "
