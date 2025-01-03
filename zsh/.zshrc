@@ -140,6 +140,7 @@ webm2mp4() {
 
 alias rg="rg --hidden --glob '!.git'"
 
+alias cat="bat"
 # corepack aliases
 alias yarn="corepack yarn"
 alias yarnpkg="corepack yarnpkg"
