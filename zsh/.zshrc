@@ -1,78 +1,33 @@
-## Created by Zap installer
-[[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]] ||
-    zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
-source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+# Define the directory where dotfiles are stored
+# STOW_DIR: Path to the directory containing dotfiles
+STOW_DIR="$HOME/.dotfiles"
 
-## if starship is not installed, install it
-if !command -v starship &> /dev/null; then
-    echo "Starship not found. Installing..."
-    curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
-fi
+# Configuration for Zsh history control
 
-# Editor used by CLI
+# Enable appending to the history file, rather than overwriting it
+# when the shell exits.
+setopt APPEND_HISTORY
+
+# Ignore duplicate commands and commands that start with a space
+# when saving to the history.
+HISTCONTROL=ignoreboth
+
+# Set the maximum number of history entries to save in memory.
+HISTSIZE=32768
+
+# Set the maximum number of history entries to save in the history file.
+HISTFILESIZE="${HISTSIZE}"
+
+# Set the default editor for command-line interface (CLI) to Neovim (nvim)
+# This will be used by commands that require an editor, such as git commit
+# Also set the editor for sudo commands to the same editor
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
- # auto start zellij
-# if command -v zellij &> /dev/null; then
-#     eval "$(zellij setup --generate-auto-start zsh)"
-# fi
-
-autoload -U +X compinit && compinit
-. <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
-
-plug "zdharma-continuum/fast-syntax-highlighting"
-plug "zsh-users/zsh-syntax-highlighting"
-plug "zsh-users/zsh-autosuggestions"
-plug "zsh-users/zsh-completions"
-plug "zap-zsh/supercharge"
-plug "zap-zsh/zap-prompt"
-plug "wintermi/zsh-mise"
-
-plugins=(
-  copypath
-  copyfile
-  dirhistory
-  docker
-  cp
-  gh
-  fzf
-  git
-  history
-  jsontools
-  github
-  node
-  golang
-  npm
-  npx
-  sudo
-  vscode
-  zsh-interactive-cd
-)
-
-bindkey -v
-export KEYTIMEOUT=1
-
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
-
-# Change cursor shape for different vi modes.
-function zle-keymap-select () {
-  case $KEYMAP in
-    vicmd) echo -ne '\e[1 q';;      # block
-    viins|main) echo -ne '\e[5 q';; # beam
-  esac
-}
-zle -N zle-keymap-select
-zle-line-init() {
-    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    echo -ne "\e[5 q"
-}
-zle -N zle-line-init
+export PATH="./bin:$HOME/.local/bin:$HOME/.local/share/omakub/bin:$PATH"
+# disable hashcmds to avoid issues with zsh and always use the latest version of the command
+unsetopt hashcmds
+export OMAKUB_PATH="/home/$USER/.local/share/omakub"
 
 if command --v fzf &> /dev/null; then
     export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -89,15 +44,6 @@ if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
-export PATH="./bin:$HOME/.local/bin:$HOME/.local/share/omakub/bin:$PATH"
-unsetopt hashcmds
-export OMAKUB_PATH="/home/$USER/.local/share/omakub"
-
-# History control
-setopt APPEND_HISTORY
-HISTCONTROL=ignoreboth
-HISTSIZE=32768
-HISTFILESIZE="${HISTSIZE}"
 
 # File system
 alias ls='eza -lh --group-directories-first --icons'
@@ -108,12 +54,6 @@ alias ff="fzf --preview 'batcat --style=numbers --color=always {}'"
 alias fd='fdfind'
 alias cd='z'
 
-# Directories
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias cd..='cd ..'
-
 # Tools
 alias n='nvim'
 alias g='git'
@@ -122,10 +62,6 @@ alias bat='batcat'
 alias lzg='lazygit'
 alias lzd='lazydocker'
 alias dev='code .'
-# Git
-alias gcm='git commit -m'
-alias gcam='git commit -a -m'
-alias gcad='git commit -a --amend'
 
 # Compression
 compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
@@ -141,6 +77,7 @@ webm2mp4() {
 alias rg="rg --hidden --glob '!.git'"
 
 alias cat="bat"
+
 # corepack aliases
 alias yarn="corepack yarn"
 alias yarnpkg="corepack yarnpkg"
@@ -149,9 +86,72 @@ alias pnpx="corepack pnpx"
 alias npm="corepack npm"
 alias npx="corepack npx"
 
-alias mm1="echo $(basename `pwd`)"
+alias scripts="cat package.json | jq --color-output '.scripts'"
 
-alias zt='f() { 
+# Technicolor dreams
+force_color_prompt=yes
+color_prompt=yes
+
+PROMPT=$'\uf0a9 '
+precmd() { print -Pn "\e]0;%~\a" }
+
+# if starship is not installed, install it
+if !command -v starship &> /dev/null; then
+    echo "Starship not found. Installing..."
+    curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
+fi
+
+## Created by Zap installer
+[[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]] ||
+    zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+
+# # # zsh plugins
+plug "zdharma-continuum/fast-syntax-highlighting"
+# use zsh-mise for polyglot development
+plug "wintermi/zsh-mise"
+# dont forget to use the command after
+# mise use --global usage@latest
+
+plug "MichaelAquilina/zsh-you-should-use"
+
+plug "zap-zsh/supercharge"
+plug "zap-zsh/completions"
+
+# # Enable additional plugins
+plug "zsh-users/zsh-completions"
+plug "zsh-users/zsh-autosuggestions"
+
+plug "mrjohannchang/zsh-interactive-cd"
+
+plugins=(
+  copypath
+  copyfile
+  dirhistory
+  docker
+  cp
+  gh
+  fzf
+  git
+  history
+  jsontools
+  github
+  node
+  pnpm
+  golang
+  npm
+  npx
+  sudo
+)
+
+# auto start zellij
+# if command -v zellij &> /dev/null; then
+#     eval "$(zellij setup --generate-auto-start zsh)"
+# fi
+autoload -U +X compinit && compinit
+. <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
+
+alias zt='f() {
     if [ "$1" = "." ]; then
         zellij attach --create "$(basename $PWD)" --working-dir "$PWD"
     elif [ -n "$1" ]; then
@@ -163,57 +163,32 @@ alias zt='f() {
 # alias zt='f() { if [ -n "$1" ]; then zellij attach --create "$1"; else zellij attach --create $(basename `pwd`); fi; }; f'
 alias zs="zellij -l welcome"
 
-alias scripts="cat package.json | jq --color-output '.scripts'"
 
-# Case-insensitive completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# bindkey -v
+# export KEYTIMEOUT=1
 
-# Show all matches at once
-zstyle ':completion:*' list-prompt '%S%M matches%s'
-zstyle ':completion:*' list-colors ''
+# # Use vim keys in tab complete menu:
+# bindkey -M menuselect 'h' vi-backward-char
+# bindkey -M menuselect 'k' vi-up-line-or-history
+# bindkey -M menuselect 'l' vi-forward-char
+# bindkey -M menuselect 'j' vi-down-line-or-history
+# bindkey -v '^?' backward-delete-char
 
-# Arrow keys match what you've typed so far against your command history
-bindkey '^[[A' history-beginning-search-backward
-bindkey '^[[B' history-beginning-search-forward
-bindkey '^[[C' forward-char
-bindkey '^[[D' backward-char
-
-# Immediately add a trailing slash when autocompleting symlinks to directories
-zstyle ':completion:*' special-dirs true
-
-# Do not autocomplete hidden files unless the pattern explicitly begins with a dot
-zstyle ':completion:*' file-patterns '*(-/):directories' '*(.)'
-
-# Show all autocomplete results at once
-zstyle ':completion:*' menu select
-
-# If there are more than 200 possible completions for a word, ask to show them all
-zstyle ':completion:*' max-errors 200
-
-# Show extra file information when completing, like `ls -F` does
-zstyle ':completion:*' list-dirs-first true
-zstyle ':completion:*' verbose true
-
-# Be more intelligent when autocompleting by also looking at the text after the cursor
-zstyle ':completion:*' completer _complete _ignored _approximate
-
-# Coloring for tab completions
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-# Technicolor dreams
-force_color_prompt=yes
-color_prompt=yes
-
-PROMPT=$'\uf0a9 '
-precmd() { print -Pn "\e]0;%~\a" }
-
-# Load and initialise completion system
-autoload -Uz compinit
-compinit
+# # Change cursor shape for different vi modes.
+# function zle-keymap-select () {
+#   case $KEYMAP in
+#     vicmd) echo -ne '\e[1 q';;      # block
+#     viins|main) echo -ne '\e[5 q';; # beam
+#   esac
+# }
+# zle -N zle-keymap-select
+# zle-line-init() {
+#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+#     echo -ne "\e[5 q"
+# }
+# zle -N zle-line-init
 
 eval "$(starship init zsh)"
 
-STOW_DIR="$HOME/.dotfiles"
-
-# To update the gist
-# gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
+# # # To update the gist
+# # # gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
