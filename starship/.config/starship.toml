@@ -4,13 +4,27 @@ add_newline = true
 
 # default_format = "$all"
 
+# Move the directory to the second line
 format = """
 [╭](fg:separator)\
+$directory\
 $all\
 $line_break\
 [╰](fg:separator)\
 $character\
 """
+# format = """
+# $line_break\
+# [╰](fg:separator)\
+# $character\
+# """
+
+[hostname]
+ssh_only = true
+ssh_symbol = " "
+format = 'on [$hostname](bold yellow) '
+trim_at = "."
+disabled = false
 
 [palettes.default]
 prompt_ok = "#8047c1"
@@ -18,6 +32,7 @@ prompt_err = "#e23140"
 icon = "#161514"
 separator = "#35312c"
 background = "#35312c"
+git_branch = "#9f31e2"
 
 directory = "#9f31e2"
 duration = "#e26f31"
@@ -37,20 +52,44 @@ disabled = false
 
 [directory]
 read_only = " 󰌾"
-format = "[─](fg:separator)[](fg:directory)[](fg:icon bg:directory)[](fg:directory bg:background)[ $path](bg:background)[](fg:background) "
-truncate_to_repo = false
-truncation_length = 0
+format = "[─](fg:separator)[](fg:directory)[](fg:icon bg:directory)[](fg:directory bg:background)[ $path](bg:background)[](fg:background)"
+truncate_to_repo = false # truncates directory to root folder if in github repo
+truncation_length = 3
+truncation_symbol = "…/"
+# repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
+# repo_root_style = 'underline white'
+
 
 [cmd_duration]
 format = "[─](fg:separator)[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
-min_time = 1000
+min_time = 4
+show_milliseconds = false
+
 
 [time]
 format = "[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background)"
-disabled = false
+disabled = true
+
+[git_branch]
+symbol = " "
+format = '[─](fg:separator)[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background)'
+
+
+[git_status]
+format = '[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[$modified](red bg:background)[$conflicted$stashed$deleted$renamed$typechanged$staged$untracked](bg:background)[](fg:background) '
+stashed = "[\\($count\\)](blue)"
+modified = " ! ${count}"
+ahead = '⇡${count}(red)'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+behind = '⇣${count}(red)'
+staged = '[++\($count\)](green)'
+untracked = '[??\($count\)](red)'
+
+[git_commit]
+tag_symbol = '  '
 
 [aws]
-symbol = "  "
+symbol = " "
 
 [buf]
 symbol = " "
@@ -82,20 +121,6 @@ symbol = " "
 [fossil_branch]
 symbol = " "
 
-[git_branch]
-symbol = " "
-
-[git_status]
-stashed = "[\\($count\\)](blue)"
-modified = "! ${count}(yellow)"
-ahead = '⇡${count}(red)'
-diverged = '⇕⇡${ahead_count}⇣${behind_count}'
-behind = '⇣${count}(red)'
-staged = '[++\($count\)](green)'
-
-[git_commit]
-tag_symbol = '  '
-
 [golang]
 symbol = " "
 
@@ -110,9 +135,6 @@ symbol = " "
 
 [hg_branch]
 symbol = " "
-
-[hostname]
-ssh_symbol = " "
 
 [java]
 symbol = " "
@@ -140,6 +162,7 @@ symbol = " "
 
 [nodejs]
 symbol = " "
+detect_files = ['package.json', 'yarn.lock', 'pnpm-lock.yaml', 'package-lock.json',  '.nvmrc', '.node-version', 'mise.toml']
 
 [ocaml]
 symbol = " "
