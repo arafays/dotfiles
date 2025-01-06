@@ -103,7 +103,7 @@ fi
 
 ## Created by Zap installer
 [[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]] ||
-    zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
+    zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --keep --branch release-v1
 source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
 # # # zsh plugins
