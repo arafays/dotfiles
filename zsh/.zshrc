@@ -1,6 +1,6 @@
 # Define the directory where dotfiles are stored
 # STOW_DIR: Path to the directory containing dotfiles
-STOW_DIR="$HOME/.dotfiles"
+STOW_DIR="$HOME/dotfiles"
 
 # Configuration for Zsh history control
 
