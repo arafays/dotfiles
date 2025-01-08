@@ -33,4 +33,3 @@ select user in "${!users[@]}"; do
     echo "Invalid selection. Please try again."
   fi
 done
-done
