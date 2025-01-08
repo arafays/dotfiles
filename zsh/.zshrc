@@ -2,6 +2,7 @@
 # STOW_DIR: Path to the directory containing dotfiles
 STOW_DIR="$HOME/dotfiles"
 WAYLAND_DISPLAY=wayland-0
+
 # Configuration for Zsh history control
 
 # Enable appending to the history file, rather than overwriting it
@@ -24,15 +25,12 @@ HISTFILESIZE="${HISTSIZE}"
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
-# disable hashcmds to avoid issues with zsh and always use the latest version of the command
-unsetopt hashcmds
-
-if command --v fzf &> /dev/null; then
-    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-    export FZF_CTRL_T_COMMAND="$HOME/.fzf/bin/fzf-tmux --height 40% --layout=reverse --border"
-    export FZF_CTRL_T_OPTS="--height 40% --layout=reverse --border"
-    eval "$(fzf --zsh)"
-fi
+# if command --v fzf &> /dev/null; then
+#     export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+#     export FZF_CTRL_T_COMMAND="$HOME/.fzf/bin/fzf-tmux --height 40% --layout=reverse --border"
+#     export FZF_CTRL_T_OPTS="--height 40% --layout=reverse --border"
+#     eval "$(fzf --zsh)"
+# fi
 
 if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
@@ -43,7 +41,6 @@ if command -v zoxide &> /dev/null; then
 fi
 
 # File system
-alias ff="fzf --preview 'batcat --style=numbers --color=always {}'"
 alias fd='fdfind'
 alias cd='z'
 
@@ -113,13 +110,11 @@ plug "zap-zsh/completions"
 # # Enable additional plugins
 plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-autosuggestions"
-
-plug "wintermi/zsh-mise"
+plug "zsh-users/zsh-interactive-cd"
+plug "zsh-users/fzf"
 
 plug "zap-zsh/exa"
-plug "zsh-users/fzf"
-plug "Aloxaf/fzf-tab"
-plug "Freed-Wu/fzf-tab-source"
+plug "wintermi/zsh-mise"
 
 plugins=(
   copypath
@@ -133,7 +128,6 @@ plugins=(
   jsontools
   github
   sudo
-  zsh-ineractive-cd
 )
 
 # auto start zellij
