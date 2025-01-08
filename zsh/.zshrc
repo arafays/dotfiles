@@ -42,12 +42,7 @@ if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
-
 # File system
-alias ls='eza -lh --group-directories-first --icons'
-alias lsa='ls -a'
-alias lt='eza --tree --level=2 --long --icons --git'
-alias lta='lt -a'
 alias ff="fzf --preview 'batcat --style=numbers --color=always {}'"
 alias fd='fdfind'
 alias cd='z'
@@ -119,7 +114,12 @@ plug "zap-zsh/completions"
 plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-autosuggestions"
 
-plug "mrjohannchang/zsh-interactive-cd"
+plug "wintermi/zsh-mise"
+
+plug "zap-zsh/exa"
+plug "zsh-users/fzf"
+plug "Aloxaf/fzf-tab"
+plug "Freed-Wu/fzf-tab-source"
 
 plugins=(
   copypath
@@ -128,17 +128,12 @@ plugins=(
   docker
   cp
   gh
-  fzf
   git
   history
   jsontools
   github
-  node
-  pnpm
-  golang
-  npm
-  npx
   sudo
+  zsh-ineractive-cd
 )
 
 # auto start zellij
