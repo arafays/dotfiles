@@ -24,10 +24,8 @@ HISTFILESIZE="${HISTSIZE}"
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 
-export PATH="./bin:$HOME/.local/bin:$HOME/.local/share/omakub/bin:$PATH"
 # disable hashcmds to avoid issues with zsh and always use the latest version of the command
 unsetopt hashcmds
-export OMAKUB_PATH="/home/$USER/.local/share/omakub"
 
 if command --v fzf &> /dev/null; then
     export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -58,7 +56,6 @@ alias cd='z'
 alias n='nvim'
 alias g='git'
 alias d='docker'
-alias bat='batcat'
 alias lzg='lazygit'
 alias lzd='lazydocker'
 alias dev='code .'
