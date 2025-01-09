@@ -32,10 +32,6 @@ export SUDO_EDITOR="$EDITOR"
 #     eval "$(fzf --zsh)"
 # fi
 
-if command -v mise &> /dev/null; then
-  eval "$(mise activate zsh)"
-fi
-
 if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
 fi
@@ -75,7 +71,7 @@ alias pnpx="corepack pnpx"
 alias npm="corepack npm"
 alias npx="corepack npx"
 
-alias scripts="cat package.json | jq --color-output '.scripts'"
+alias scripts="cat package.json | bat --color-output '.scripts'"
 
 # Technicolor dreams
 force_color_prompt=yes
@@ -97,24 +93,21 @@ source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
 # # # zsh plugins
 plug "zdharma-continuum/fast-syntax-highlighting"
-# use zsh-mise for polyglot development
-plug "wintermi/zsh-mise"
-# dont forget to use the command after
-# mise use --global usage@latest
-
 plug "MichaelAquilina/zsh-you-should-use"
 
 plug "zap-zsh/supercharge"
-plug "zap-zsh/completions"
 
-# # Enable additional plugins
+# Enable additional plugins
 plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-interactive-cd"
 plug "zsh-users/fzf"
+plug "zap-zsh/completions"
 
 plug "zap-zsh/exa"
 plug "wintermi/zsh-mise"
+# use zsh-mise for polyglot development
+# mise use --global usage@latest
 
 plugins=(
   copypath
@@ -149,6 +142,7 @@ alias zt='f() {
 # alias zt='f() { if [ -n "$1" ]; then zellij attach --create "$1"; else zellij attach --create $(basename `pwd`); fi; }; f'
 alias zs="zellij -l welcome"
 
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
 # bindkey -v
 # export KEYTIMEOUT=1

@@ -9,6 +9,7 @@ format = """
 [╭](fg:separator)\
 $directory\
 $time\
+$cmd_duration\
 $all\
 $line_break\
 [╰](fg:separator)\
@@ -60,15 +61,13 @@ truncation_symbol = "…/"
 # repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
 # repo_root_style = 'underline white'
 
-
 [cmd_duration]
-format = "[─](fg:separator)[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
+format = "[─](fg:separator)[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background) "
 min_time = 4
 show_milliseconds = false
 
-
 [time]
-format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
+format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background)"
 disabled = false
 
 [git_branch]
