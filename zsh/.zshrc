@@ -101,7 +101,6 @@ plug "zap-zsh/supercharge"
 plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-interactive-cd"
-plug "zsh-users/fzf"
 plug "zap-zsh/completions"
 
 plug "zap-zsh/exa"
@@ -114,6 +113,7 @@ plugins=(
   copyfile
   dirhistory
   docker
+  fzf
   cp
   gh
   git
