@@ -23,7 +23,7 @@
 }
 
 window#waybar {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 1);
   border-bottom: 0px solid #ffffff;
   /* color: #FFFFFF; */
   background: transparent;

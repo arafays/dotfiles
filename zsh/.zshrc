@@ -93,34 +93,33 @@ source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
 # # # zsh plugins
 plug "zdharma-continuum/fast-syntax-highlighting"
-plug "MichaelAquilina/zsh-you-should-use"
-
-plug "zap-zsh/supercharge"
-
-# Enable additional plugins
+# plug "MichaelAquilina/zsh-you-should-use"
+#
+# plug "zap-zsh/supercharge"
+#
+# # Enable additional plugins
 plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-interactive-cd"
-plug "zap-zsh/completions"
-
-plug "zap-zsh/exa"
+# plug "zap-zsh/completions"
+#
+# plug "zap-zsh/exa"
 plug "wintermi/zsh-mise"
 # use zsh-mise for polyglot development
 # mise use --global usage@latest
 
 plugins=(
-  copypath
-  copyfile
-  dirhistory
-  docker
+  # copypath
+  # copyfile
+  # dirhistory
+  # docker
+ #  gh
+  # git
   fzf
-  cp
-  gh
-  git
-  history
-  jsontools
-  github
-  sudo
+ #  cp
+ # history
+ #  jsontools
+ #  sudo
 )
 
 # auto start zellij
