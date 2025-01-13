@@ -86,39 +86,38 @@ if !command -v starship &> /dev/null; then
     curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
 fi
 
-source $ZSH/oh-my-zsh.sh
-
 ## Created by Zap installer
 [[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]] ||
     zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --keep --branch release-v1
 source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
+source <(fzf --zsh)
 # # # zsh plugins
 plug "zdharma-continuum/fast-syntax-highlighting"
-# plug "MichaelAquilina/zsh-you-should-use"
+plug "MichaelAquilina/zsh-you-should-use"
 #
 # plug "zap-zsh/supercharge"
 #
 # # Enable additional plugins
+plug "zsh-users/zsh-completions"
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-interactive-cd"
-# plug "zap-zsh/exa"
-plug "wintermi/zsh-mise"
-plug "zap-zsh/completions"
 
+plug "wintermi/zsh-mise"
+
+plug "zap-zsh/completions"
 plug "zap-zsh/exa"
 # use zsh-mise for polyglot development
 # mise use --global usage@latest
 
 plugins=(
-  fzf
+  mise
   cp
   gh
   git
   history
   jsontools
   sudo
-  mise
 )
 
 # auto start zellij
@@ -165,6 +164,7 @@ alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 #     echo -ne "\e[5 q"
 # }
 # zle -N zle-line-init
+# # Set up fzf key bindings and fuzzy completion
 
 eval "$(starship init zsh)"
 
