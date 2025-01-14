@@ -86,40 +86,39 @@ if !command -v starship &> /dev/null; then
     curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
 fi
 
-eval "$(mise activate zsh)"
 ## Created by Zap installer
 [[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]] ||
     zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --keep --branch release-v1
 source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
-source <(fzf --zsh)
 # # # zsh plugins
 plug "zdharma-continuum/fast-syntax-highlighting"
 plug "MichaelAquilina/zsh-you-should-use"
 #
-# plug "zap-zsh/supercharge"
+plug "zap-zsh/supercharge"
 #
-# # Enable additional plugins
-plug "zsh-users/zsh-completions"
-plug "zsh-users/zsh-autosuggestions"
-plug "zsh-users/zsh-interactive-cd"
 
-plug "wintermi/zsh-mise"
+plug "zsh-users/zsh-autosuggestions"
+plug "zsh-users/fzf"
 
 plug "zap-zsh/completions"
 plug "zap-zsh/exa"
-# use zsh-mise for polyglot development
-# mise use --global usage@latest
+plug "zap-zsh/fzf"
+plug "Aloxaf/fzf-tab"
 
-plugins=(
-  mise
-  cp
-  gh
-  git
-  history
-  jsontools
-  sudo
-)
+plug "wintermi/zsh-mise"
+
+
+# plugins=(
+#   mise
+#   cp
+#   gh
+#   git
+#   history
+#   fzf
+#   jsontools
+#   sudo
+# )
 
 # auto start zellij
 # if command -v zellij &> /dev/null; then
