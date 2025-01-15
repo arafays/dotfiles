@@ -4,7 +4,7 @@
 // sourced from header module //
 
     "layer": "top",
-    "output": [ "*" ],
+    "output": [ "DP-1" ],
     "position": "top",
     "mod": "dock",
     "height": 28,
@@ -142,10 +142,11 @@
         "all-outputs": true,
         "active-only": false,
         "on-click": "activate",
-        "disable-scroll": false,
         "on-scroll-up": "hyprctl dispatch workspace -1",
         "on-scroll-down": "hyprctl dispatch workspace +1",
         "persistent-workspaces": {
+        "DP-1": [2,3,4,5],
+      "DP-2": 1
         }
     },
 
