@@ -70,7 +70,7 @@ alias pnpx="corepack pnpx"
 alias npm="corepack npm"
 alias npx="corepack npx"
 
-alias scripts="cat package.json | bat --color-output '.scripts'"
+alias scripts="cat package.json | bat --color auto '.scripts'"
 
 # Technicolor dreams
 force_color_prompt=yes
@@ -93,36 +93,35 @@ source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 # # # zsh plugins
 plug "zdharma-continuum/fast-syntax-highlighting"
 plug "MichaelAquilina/zsh-you-should-use"
-#
+
 plug "zap-zsh/supercharge"
-#
 
 plug "zsh-users/zsh-autosuggestions"
-plug "zsh-users/fzf"
 
 plug "zap-zsh/completions"
-plug "zap-zsh/exa"
+
 plug "zap-zsh/fzf"
 plug "Aloxaf/fzf-tab"
 
 plug "wintermi/zsh-mise"
 
 
-# plugins=(
-#   mise
-#   cp
-#   gh
-#   git
-#   history
-#   fzf
-#   jsontools
-#   sudo
-# )
+alias lsa='ls -a'
+
+alias c='clear' # clear terminal
+alias l='eza -lh --icons=auto' # long list
+alias la='eza -lha --icons=auto' # long list all
+alias ls='eza -lh --icons=auto --group-directories-first' # short list
+alias ll='eza -lha --icons=auto --sort=name --group-directories-first' # long list all
+alias ld='eza -lhD --icons=auto' # long list dirs
+alias lt='eza --icons=auto --tree' # list folder as tree
 
 # auto start zellij
 # if command -v zellij &> /dev/null; then
 #     eval "$(zellij setup --generate-auto-start zsh)"
 # fi
+
+
 autoload -U +X compinit && compinit
 . <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
 
@@ -135,37 +134,98 @@ alias zt='f() {
         zellij attach --create "$(basename $PWD)"
     fi
 }; f'
-# alias zt='f() { if [ -n "$1" ]; then zellij attach --create "$1"; else zellij attach --create $(basename `pwd`); fi; }; f'
+
 alias zs="zellij -l welcome"
 
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
 
-# bindkey -v
-# export KEYTIMEOUT=1
 
-# # Use vim keys in tab complete menu:
-# bindkey -M menuselect 'h' vi-backward-char
-# bindkey -M menuselect 'k' vi-up-line-or-history
-# bindkey -M menuselect 'l' vi-forward-char
-# bindkey -M menuselect 'j' vi-down-line-or-history
-# bindkey -v '^?' backward-delete-char
+# Detect AUR wrapper
+if pacman -Qi yay &>/dev/null; then
+   aurhelper="yay"
+elif pacman -Qi paru &>/dev/null; then
+   aurhelper="paru"
+fi
 
-# # Change cursor shape for different vi modes.
-# function zle-keymap-select () {
-#   case $KEYMAP in
-#     vicmd) echo -ne '\e[1 q';;      # block
-#     viins|main) echo -ne '\e[5 q';; # beam
-#   esac
-# }
-# zle -N zle-keymap-select
-# zle-line-init() {
-#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-#     echo -ne "\e[5 q"
-# }
-# zle -N zle-line-init
-# # Set up fzf key bindings and fuzzy completion
+function in {
+    local -a inPkg=("$@")
+    local -a arch=()
+    local -a aur=()
+
+    for pkg in "${inPkg[@]}"; do
+        if pacman -Si "${pkg}" &>/dev/null; then
+            arch+=("${pkg}")
+        else
+            aur+=("${pkg}")
+        fi
+    done
+
+    if [[ ${#arch[@]} -gt 0 ]]; then
+        sudo pacman -S "${arch[@]}"
+    fi
+
+    if [[ ${#aur[@]} -gt 0 ]]; then
+        ${aurhelper} -S "${aur[@]}"
+    fi
+}
+
+alias un='$aurhelper -Rns' # uninstall package
+alias up='$aurhelper -Syu' # update system/package/aur
+alias pl='$aurhelper -Qs' # list installed package
+alias pa='$aurhelper -Ss' # list available package
+alias pc='$aurhelper -Sc' # remove unused cache
+alias po='$aurhelper -Qtdq | $aurhelper -Rns -' # remove unused packages, also try > $aurhelper -Qqd | $aurhelper -Rsu --print -
+
+alias mkdir='mkdir -pv' # create directory
+
+
+bindkey -v
+export KEYTIMEOUT=1
+
+# Use vim keys in tab complete menu:
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select () {
+  case $KEYMAP in
+    vicmd) echo -ne '\e[1 q';;      # block
+    viins|main) echo -ne '\e[5 q';; # beam
+  esac
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+# Set up fzf key bindings and fuzzy completion
 
 eval "$(starship init zsh)"
+
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# custom fzf flags
+# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+# To make fzf-tab follow FZF_DEFAULT_OPTS.
+# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+
 
 if command -v go-blueprint &> /dev/null; then
   eval "$(go-blueprint completion zsh)"
