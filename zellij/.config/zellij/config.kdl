@@ -10,4 +10,4 @@ plugins {
     tab-bar location="zellij:tab-bar"
     status-bar location="zellij:status-bar"
     compact-bar location="zellij:compact-bar"
-  }
+}

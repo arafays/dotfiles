@@ -4,7 +4,7 @@
         "exec": "echo ; echo  switch bar //  dock",
         "on-click": "wbarconfgen.sh n",
         "on-click-right": "wbarconfgen.sh p",
-        "on-click-middle": "sleep 0.1 && quickapps.sh alacritty zen-browser spotify code dolphin",
+        "on-click-middle": "sleep 0.1 && quickapps.sh kitty zen-browser spotify code dolphin",
         "interval" : 86400,
         "tooltip": true
     },

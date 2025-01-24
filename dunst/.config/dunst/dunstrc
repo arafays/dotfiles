@@ -64,7 +64,7 @@
     progress_bar_corner_radius = 4
 
     # Corner radius for the icon image.
-    icon_corner_radius = 10
+    icon_corner_radius = 3
 
     # Show how many messages are currently hidden (because of
     # notification_limit).
@@ -250,7 +250,7 @@
     # corners.
     # The radius will be automatically lowered if it exceeds half of the
     # notification height to avoid clipping text and/or icons.
-    corner_radius = 10
+    corner_radius = 3
 
     # Ignore the dbus closeNotification message.
     # Useful to enforce the timeout set by dunst configuration. Without this
@@ -449,15 +449,15 @@
     timeout = 0
 
 [urgency_low]
-    background = "#657FA380"
-    foreground = "#CCE1FFE6"
-    frame_color = "#657FA303"
+    background = "#A3896580"
+    foreground = "#FFEACCE6"
+    frame_color = "#A3896503"
     icon = "/home/arafay/.config/dunst/icons/hyprdots.svg"
     timeout = 5
 
 [urgency_normal]
-    background = "#3A526B80"
-    foreground = "#CCE6FFE6"
-    frame_color = "#3A526B03"
+    background = "#6B513A80"
+    foreground = "#FFE4CCE6"
+    frame_color = "#6B513A03"
     icon = "/home/arafay/.config/dunst/icons/hyprdots.svg"
     timeout = 5

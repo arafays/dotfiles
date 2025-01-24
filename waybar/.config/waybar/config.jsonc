@@ -16,8 +16,8 @@
 
 // positions generated based on config.ctl //
 
-	"modules-left": ["custom/padd","custom/l_end","cpu","memory","custom/cpuinfo","custom/gpuinfo","custom/r_end","custom/l_end","idle_inhibitor","clock","custom/r_end","custom/padd"],
-	"modules-center": ["custom/padd","custom/l_end","hyprland/workspaces","hyprland/window","custom/r_end","custom/padd"],
+	"modules-left": ["custom/padd","custom/l_end","cpu","memory","custom/cpuinfo","custom/r_end","custom/l_end","idle_inhibitor","clock","custom/r_end","custom/l_end","hyprland/workspaces","custom/r_end","custom/padd"],
+	"modules-center": ["custom/padd","custom/l_end","hyprland/window","custom/r_end","custom/padd"],
 	"modules-right": ["custom/padd","custom/l_end","backlight","network","pulseaudio","pulseaudio#microphone","custom/updates","custom/keybindhint","custom/r_end","custom/l_end","privacy","tray","battery","custom/r_end","custom/l_end","custom/wallchange","custom/theme","custom/wbar","custom/cliphist","custom/power","custom/r_end","custom/padd"],
 
 
@@ -57,47 +57,6 @@
         "restart-interval": 5, // once every 5 seconds
         "tooltip": true,
         "max-length": 1000
-    },
-
-    "custom/gpuinfo": {
-        "exec": "NO_EMOJI=1 gpuinfo.sh",
-        "return-type": "json",
-        "format": "{}",
-        "rotate": 0,
-        "interval": 5, // once every 5 seconds
-        "tooltip": true,
-        "max-length": 1000,
-        "on-click": "gpuinfo.sh --toggle",
-    },
-
-    "custom/gpuinfo#nvidia": {
-        "exec": "NO_EMOJI=1 gpuinfo.sh --use nvidia ",
-        "return-type": "json",
-        "format": "{}",
-        "rotate": 0,
-        "interval": 5, // once every 5 seconds
-        "tooltip": true,
-        "max-length": 1000,
-    },
-
-    "custom/gpuinfo#amd": {
-        "exec": "NO_EMOJI=1 gpuinfo.sh --use amd ",
-        "return-type": "json",
-        "format": "{}",
-        "rotate": 0,
-        "interval": 5, // once every 5 seconds
-        "tooltip": true,
-        "max-length": 1000,
-    },
-
-    "custom/gpuinfo#intel": {
-        "exec": "NO_EMOJI=1 gpuinfo.sh --use intel ",
-        "return-type": "json",
-        "format": "{}",
-        "rotate": 0,
-        "interval": 5, // once every 5 seconds
-        "tooltip": true,
-        "max-length": 1000,
     },
 
     "idle_inhibitor": {
@@ -142,11 +101,12 @@
         "all-outputs": true,
         "active-only": false,
         "on-click": "activate",
+        "disable-scroll": false,
         "on-scroll-up": "hyprctl dispatch workspace -1",
         "on-scroll-down": "hyprctl dispatch workspace +1",
         "persistent-workspaces": {
-        "DP-1": [2,3,4,5],
-      "DP-2": 1
+          "DP-1": [1,3,4,5],
+          "DP-2": [2]
         }
     },
 
@@ -184,7 +144,7 @@
         "tooltip": true,
         "format-wifi": " ",
         "rotate": 0,
-        "format-ethernet": "󰈀 ",
+        "format-ethernet": "󰈀  <span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
         "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰖪 ",
@@ -311,7 +271,7 @@
         "exec": "echo ; echo  switch bar //  dock",
         "on-click": "wbarconfgen.sh n",
         "on-click-right": "wbarconfgen.sh p",
-        "on-click-middle": "sleep 0.1 && quickapps.sh alacritty zen-browser spotify code dolphin",
+        "on-click-middle": "sleep 0.1 && quickapps.sh kitty zen-browser spotify code dolphin",
         "interval" : 86400,
         "tooltip": true
     },
