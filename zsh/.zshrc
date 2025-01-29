@@ -35,6 +35,11 @@ if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
+bindkey "\e[3~" delete-char # delete key
+
+bindkey -v
+export KEYTIMEOUT=1
+
 # File system
 alias fd='fdfind'
 alias cd='z'
@@ -169,10 +174,6 @@ alias po='$aurhelper -Qtdq | $aurhelper -Rns -' # remove unused packages, also t
 
 alias mkdir='mkdir -pv' # create directory
 
-
-bindkey -v
-export KEYTIMEOUT=1
-
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
@@ -194,8 +195,6 @@ zle-line-init() {
 }
 zle -N zle-line-init
 # Set up fzf key bindings and fuzzy completion
-
-eval "$(starship init zsh)"
 
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -221,8 +220,8 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 if command -v go-blueprint &> /dev/null; then
   eval "$(go-blueprint completion zsh)"
 fi
-# # # To update the gist
-# # # gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
+# To update the gist
+# gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
 
 
 #compdef pnpm
@@ -256,3 +255,5 @@ fi
 
 # bun completions
 [ -s "/home/arafay/.bun/_bun" ] && source "/home/arafay/.bun/_bun"
+
+eval "$(starship init zsh)"
