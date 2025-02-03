@@ -1,16 +1,6 @@
 return {
-  {
-    "EdenEast/nightfox.nvim",
-    options = {
-      styles = {
-        comments = "italic",
-        functions = "bold",
-        keywords = "italic",
-        strings = "bold",
-        variables = "bold",
-      },
-    },
-  },
+  -- { "ElisStaaf/monokai.nvim" },
+  { "EdenEast/nightfox.nvim" },
   {
     "LazyVim/LazyVim",
     opts = {
