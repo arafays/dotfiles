@@ -1,4 +1,4 @@
-theme "catppuccin-mocha"
+theme "terafox"
 default_layout "compact"
 on_force_close "quit"
 
