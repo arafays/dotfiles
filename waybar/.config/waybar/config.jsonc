@@ -50,11 +50,11 @@
     },
 
     "custom/cpuinfo": {
-        "exec": "NO_EMOJI=1 cpuinfo.sh",
+        "exec": " cpuinfo.sh",
         "return-type": "json",
         "format": "{}",
         "rotate": 0,
-        "restart-interval": 5, // once every 5 seconds
+        "interval": 5, // once every 5 seconds
         "tooltip": true,
         "max-length": 1000
     },
@@ -63,13 +63,12 @@
         "format": "{icon}",
         "rotate": 0,
         "format-icons": {
-            "activated": "",
-            "deactivated": "󰛊"
+            "activated": "󰅶 ",
+            "deactivated": "󰛊 "
         },
         "tooltip-format-activated":"Caffeine Mode Active",
         "tooltip-format-deactivated":"Caffeine Mode Inactive"
     },
-
     "clock": {
         "format": "{:%I:%M %p}",
         "rotate": 0,
@@ -105,8 +104,6 @@
         "on-scroll-up": "hyprctl dispatch workspace -1",
         "on-scroll-down": "hyprctl dispatch workspace +1",
         "persistent-workspaces": {
-          "DP-1": [1,3,4,5],
-          "DP-2": [2]
         }
     },
 
@@ -115,17 +112,24 @@
         "rotate": 0,
         "separate-outputs": true,
         "rewrite": {
-            "(.*)arafay@Mayabytes-0058:(.*)": "$1  :$2",
+            "arafay@Mayabytes-0058:(.*)": "$1 ",
             "(.*) — Mozilla Firefox": "$1 󰈹",
-            "(.*)Mozilla Firefox": "$1 Firefox 󰈹",
+            "(.*)Mozilla Firefox": "Firefox 󰈹",
             "(.*) - Visual Studio Code": "$1 󰨞",
-            "(.*)Visual Studio Code": "$1 Code 󰨞",
+            "(.*)Visual Studio Code": "Code 󰨞",
+            "(.*) - Code - OSS": "$1 󰨞",
+            "(.*)Code - OSS": "Code 󰨞",
             "(.*) — Dolphin": "$1 󰉋",
-            "(.*)Spotify.*": "$1 Spotify 󰓇",
-            "(.*)Steam": "$1 Steam 󰓓",
+            "(.*)Spotify": "Spotify 󰓇",
+            "(.*)Steam": "Steam 󰓓",
             "(.*) - Discord": "$1  ",
-            "(.*?)-\\s*YouTube(.*)": "$1󰗃", 
-            "(.*?\\s)YouTube(.*)": "$1YouTube 󰗃"
+            "(.*)Netflix": "Netflix 󰝆 ",
+            "(.*) — Google chrome": "$1  ",
+            "(.*)Google chrome": "Google chrome  ",
+            "(.*) — Github": "$1  ",
+            "(.*)Github": "Github ",
+            "(.*)Spotify Free": "Spotify 󰓇",
+            "(.*)Spotify Premiun": "Spotify 󰓇",
         },
         "max-length": 50
     },
@@ -135,6 +139,7 @@
         "rotate": 0,
         "format": "{icon} {percent}%",
         "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "tooltip-format": "{icon} {percent}% ",
         "on-scroll-up": "brightnesscontrol.sh i 1",
         "on-scroll-down": "brightnesscontrol.sh d 1",
         "min-length": 6
@@ -280,9 +285,9 @@
         "format": "{}",
         "rotate": 0,
         "exec": "echo ; echo 󰅇 clipboard history",
-        "on-click": "sleep 0.1 && cliphist.sh c",
-        "on-click-right": "sleep 0.1 && cliphist.sh d",
-        "on-click-middle": "sleep 0.1 && cliphist.sh w",
+        "on-click": "sleep 0.1 && cliphist.sh -c",
+        "on-click-right": "sleep 0.1 && cliphist.sh -d",
+        "on-click-middle": "sleep 0.1 && cliphist.sh -w",
         "interval" : 86400, // once every day
         "tooltip": true
     },
