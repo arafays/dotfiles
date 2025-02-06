@@ -99,7 +99,6 @@ plug "zap-zsh/completions"
 plug "zap-zsh/fzf"
 plug "Aloxaf/fzf-tab"
 
-plug "wintermi/zsh-mise"
 
 
 alias lsa='ls -a'
@@ -256,4 +255,5 @@ fi
 # bun completions
 [ -s "/home/arafay/.bun/_bun" ] && source "/home/arafay/.bun/_bun"
 
+eval "$(mise activate zsh)"
 eval "$(starship init zsh)"
