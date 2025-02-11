@@ -99,11 +99,14 @@
         "rotate": 0,
         "all-outputs": true,
         "active-only": false,
+        "exclusive": true,
         "on-click": "activate",
         "disable-scroll": false,
         "on-scroll-up": "hyprctl dispatch workspace -1",
         "on-scroll-down": "hyprctl dispatch workspace +1",
         "persistent-workspaces": {
+          "DP-1": [1,3,4,5],
+          "DP-2": [2]
         }
     },
 
@@ -115,6 +118,8 @@
             "arafay@Mayabytes-0058:(.*)": "$1 ",
             "(.*) — Mozilla Firefox": "$1 󰈹",
             "(.*)Mozilla Firefox": "Firefox 󰈹",
+            "(.*) — Zen browser": "$1 󰈹",
+            "(.*)Zen browser": "Firefox 󰈹",
             "(.*) - Visual Studio Code": "$1 󰨞",
             "(.*)Visual Studio Code": "Code 󰨞",
             "(.*) - Code - OSS": "$1 󰨞",
@@ -125,7 +130,9 @@
             "(.*) - Discord": "$1  ",
             "(.*)Netflix": "Netflix 󰝆 ",
             "(.*) — Google chrome": "$1  ",
-            "(.*)Google chrome": "Google chrome  ",
+            "(.*)Google chrome": "Google chrome  ", 
+            "(.*) — Chromium": "$1  ",
+            "(.*)Chromium": "Google chrome  ",
             "(.*) — Github": "$1  ",
             "(.*)Github": "Github ",
             "(.*)Spotify Free": "Spotify 󰓇",
