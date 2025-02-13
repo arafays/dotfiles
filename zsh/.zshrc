@@ -7,12 +7,11 @@ setopt APPEND_HISTORY
 # Ignore duplicate commands and commands that start with a space
 # when saving to the history.
 HISTCONTROL=ignoreboth
-
-# Set the maximum number of history entries to save in memory.
-HISTSIZE=32768
-
-# Set the maximum number of history entries to save in the history file.
 HISTFILESIZE="${HISTSIZE}"
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+
 
 # if command --v fzf &> /dev/null; then
 #     export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -21,43 +20,89 @@ HISTFILESIZE="${HISTSIZE}"
 #     eval "$(fzf --zsh)"
 # fi
 
-if command -v zoxide &> /dev/null; then
-  eval "$(zoxide init zsh)"
-fi
+# completions
+autoload -Uz compinit
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zmodload zsh/complist
+_comp_options+=(globdots)		# Include hidden files.
+zle_highlight=('paste:none')
+for dump in "${ZDOTDIR:-$HOME}/.zcompdump"(N.mh+24); do
+  compinit
+done
+compinit -C
 
-bindkey "\e[3~" delete-char # delete key
+unsetopt BEEP
+setopt AUTO_CD
+setopt GLOB_DOTS
+setopt NOMATCH
+setopt MENU_COMPLETE
+setopt EXTENDED_GLOB
+setopt INTERACTIVE_COMMENTS
+setopt APPEND_HISTORY
 
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+# setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+# setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+# Colors
+autoload -Uz colors && colors
+
+# exports
+export PATH="$HOME/.local/bin:$PATH"
+
+# bindings
+bindkey -s '^x' '^usource $ZSHRC\n'
+bindkey -M menuselect '?' history-incremental-search-forward
+bindkey -M menuselect '/' history-incremental-search-backward
+bindkey '^H' backward-kill-word # Ctrl + Backspace to delete a whole word.
 bindkey -v
 export KEYTIMEOUT=1
-# Technicolor dreams
-force_color_prompt=yes
-color_prompt=yes
+
+if [[ -o menucomplete ]]; then 
+  # Use vim keys in tab complete menu:
+  bindkey -M menuselect '^h' vi-backward-char
+  bindkey -M menuselect '^k' vi-up-line-or-history
+  bindkey -M menuselect '^l' vi-forward-char
+  bindkey -M menuselect '^j' vi-down-line-or-history
+  bindkey -M menuselect '^[[Z' vi-up-line-or-history
+fi
+
+bindkey -v '^?' backward-delete-char
 
 PROMPT=$'\uf0a9 '
 precmd() { print -Pn "\e]0;%~\a" }
-
-# if starship is not installed, install it
-if !command -v starship &> /dev/null; then
-    echo "Starship not found. Installing..."
-    curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
-fi
 
 ## Created by Zap installer
 [[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]] ||
     zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --keep --branch release-v1
 source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
-# # # zsh plugins
+# # zsh plugins
 plug "zdharma-continuum/fast-syntax-highlighting"
-plug "MichaelAquilina/zsh-you-should-use"
-
-plug "zap-zsh/supercharge"
 
 plug "zsh-users/zsh-autosuggestions"
+plug "zsh-users/zsh-completions"
+
+plug "MichaelAquilina/zsh-you-should-use"
 
 plug "zap-zsh/completions"
-
 plug "zap-zsh/fzf"
+
 plug "Aloxaf/fzf-tab"
 
 # auto start zellij
@@ -67,13 +112,6 @@ plug "Aloxaf/fzf-tab"
 
 autoload -U +X compinit && compinit
 . <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
-
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
@@ -111,43 +149,36 @@ zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
 
-if command -v go-blueprint &> /dev/null; then
-  eval "$(go-blueprint completion zsh)"
-fi
 # To update the gist
 # gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
 
-
-#compdef pnpm
-###-begin-pnpm-completion-###
-if type compdef &>/dev/null; then
-  _pnpm_completion () {
-    local reply
-    local si=$IFS
-
-    IFS=$'\n' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" SHELL=zsh pnpm completion-server -- "${words[@]}"))
-    IFS=$si
-
-    if [ "$reply" = "__tabtab_complete_files__" ]; then
-      _files
-    else
-      _describe 'values' reply
-    fi
-  }
-  # When called by the Zsh completion system, this will end with
-  # "loadautofunc" when initially autoloaded and "shfunc" later on, otherwise,
-  # the script was "eval"-ed so use "compdef" to register it with the
-  # completion system
-  if [[ $zsh_eval_context == *func ]]; then
-    _pnpm_completion "$@"
-  else
-    compdef _pnpm_completion pnpm
-  fi
+if command -v pnpm &> /dev/null; then
+  eval "$(pnpm completion zsh)"
 fi
-###-end-pnpm-completion-###
 
-# bun completions
-[ -s "/home/arafay/.bun/_bun" ] && source "/home/arafay/.bun/_bun"
+if commmand -v bun &> /dev/null; then
+  # bun completions
+  [ -s "/home/arafay/.bun/_bun" ] && source "/home/arafay/.bun/_bun"
+fi
 
-eval "$(mise activate zsh)"
-eval "$(starship init zsh)"
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
+if command -v go-blueprint &> /dev/null; then
+  eval "$(go-blueprint completion zsh)"
+fi
+
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+fi
+
+# if starship is not installed, install it
+if !command -v starship &> /dev/null; then
+    echo "Starship not found. Installing..."
+    curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
+fi
+
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+fi
