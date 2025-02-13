@@ -62,7 +62,7 @@ alias zs="zellij -l welcome" \
 ff="fzf --preview 'bat --style=numbers --color=always {}'" \
 lsa='ls -a' \
 c='clear' \
-l='eza -lh --icons=auto'\
+l='eza -lh --icons=auto' \
 la='eza -lha --icons=auto' \
 ls='eza -lh --icons=auto --group-directories-first' \
 ll='eza -lha --icons=auto --sort=name --group-directories-first' \
