@@ -174,9 +174,9 @@ if command -v mise &> /dev/null; then
 fi
 
 # if starship is not installed, install it
-if !command -v starship &> /dev/null; then
+if ! command -v starship &> /dev/null; then
     echo "Starship not found. Installing..."
-    curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
+    curl -fsSL https://starship.rs/install.sh | sh -- --yes
 fi
 
 if command -v starship &> /dev/null; then
