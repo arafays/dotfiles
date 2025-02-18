@@ -156,6 +156,12 @@ if command -v pnpm &> /dev/null; then
   eval "$(pnpm completion zsh)"
 fi
 
+if command -v gh &> /dev/null; then
+  # gh extension install github/gh-copilot --force
+  eval "$(gh completion --shell zsh)"
+  eval "$(gh copilot alias -- zsh)"
+fi
+
 if commmand -v bun &> /dev/null; then
   # bun completions
   [ -s "/home/arafay/.bun/_bun" ] && source "/home/arafay/.bun/_bun"
@@ -171,14 +177,14 @@ fi
 
 if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
+  eval "$(mise completion zsh)"
 fi
 
 # if starship is not installed, install it
 if !command -v starship &> /dev/null; then
     echo "Starship not found. Installing..."
-    curl -fsSL https://starship.rs/install.sh | bash -s -- --yes
-fi
-
-if command -v starship &> /dev/null; then
+    curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+    eval "$(starship init zsh)"
+else
   eval "$(starship init zsh)"
 fi
