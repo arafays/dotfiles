@@ -171,14 +171,14 @@ fi
 
 if command -v mise &> /dev/null; then
   eval "$(mise activate zsh)"
+  eval "$(mise completion zsh)"
 fi
 
 # if starship is not installed, install it
-if ! command -v starship &> /dev/null; then
+if !command -v starship &> /dev/null; then
     echo "Starship not found. Installing..."
-    curl -fsSL https://starship.rs/install.sh | sh -- --yes
-fi
-
-if command -v starship &> /dev/null; then
+    curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+    eval "$(starship init zsh)"
+else
   eval "$(starship init zsh)"
 fi
