@@ -107,6 +107,7 @@ mkdir='mkdir -p' # Always mkdir a path (this doesn't inhibit functionality to ma
 #     fi
 # }; f'
 
+
 zn() {
   kitty @ set-spacing padding=5
   zt "$@"

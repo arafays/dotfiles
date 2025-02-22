@@ -8,6 +8,7 @@ local map = LazyVim.safe_keymap_set
 map("i", "jk", "<Esc>", { noremap = true, silent = true })
 map("i", "jj", "<Esc>", { noremap = true, silent = true })
 
--- center cursor when moving up and down
-map("n", "<C-u>", 'v:count ? "<C-u>" : "<C-u>zz"', { expr = true, noremap = true, silent = true })
-map("n", "<C-d>", 'v:count ? "<C-d>" : "<C-d>zz"', { expr = true, noremap = true, silent = true })
+-- to the middle when pressing ctrl + u
+map("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+map("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
+

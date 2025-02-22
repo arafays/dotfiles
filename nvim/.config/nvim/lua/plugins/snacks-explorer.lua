@@ -11,5 +11,11 @@ return {
         },
       },
     },
+    terminal = {
+      win = {
+        position = "float",
+        border = "single",
+      },
+    },
   },
 }
