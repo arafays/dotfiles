@@ -1,5 +1,3 @@
-# Configuration for Zsh history control
-
 # Enable appending to the history file, rather than overwriting it
 # when the shell exits.
 setopt APPEND_HISTORY
@@ -11,14 +9,6 @@ HISTFILESIZE="${HISTSIZE}"
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000
-
-
-# if command --v fzf &> /dev/null; then
-#     export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-#     export FZF_CTRL_T_COMMAND="$HOME/.fzf/bin/fzf-tmux --height 40% --layout=reverse --border"
-#     export FZF_CTRL_T_OPTS="--height 40% --layout=reverse --border"
-#     eval "$(fzf --zsh)"
-# fi
 
 # completions
 autoload -Uz compinit
@@ -73,7 +63,7 @@ bindkey '^H' backward-kill-word # Ctrl + Backspace to delete a whole word.
 bindkey -v
 export KEYTIMEOUT=1
 
-if [[ -o menucomplete ]]; then 
+if [[ -o menucomplete ]]; then
   # Use vim keys in tab complete menu:
   bindkey -M menuselect '^h' vi-backward-char
   bindkey -M menuselect '^k' vi-up-line-or-history
@@ -86,6 +76,64 @@ bindkey -v '^?' backward-delete-char
 
 PROMPT=$'\uf0a9 '
 precmd() { print -Pn "\e]0;%~\a" }
+
+# if starship is not installed, install it
+if !command -v starship &> /dev/null; then
+    echo "Starship not found. Installing..."
+    curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+    eval "$(starship init zsh)"
+else
+  eval "$(starship init zsh)"
+fi
+
+if command -v fzf &> /dev/null; then
+  eval "$(fzf --zsh)"
+fi
+
+if command -v pnpm &> /dev/null; then
+  eval "$(pnpm completion zsh)"
+fi
+
+if command -v gh &> /dev/null; then
+  eval "$(gh copilot alias zsh)"
+fi
+
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
+if command -v go-blueprint &> /dev/null; then
+  eval "$(go-blueprint completion zsh)"
+fi
+
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+  eval "$(mise completion zsh)"
+fi
+
+if (( $+commands[bun] )); then
+  [ -s ~/.bun/_bun ] || bun completions
+
+  # cannot source directly, must add fpath to completions
+  fpath+=~/.bun/
+fi
+
+# auto start zellij
+# if command -v zellij &> /dev/null; then
+#     eval "$(zellij setup --generate-auto-start zsh)"
+# fi
+
+autoload -U +X compinit && compinit
+. <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
+
+
+# if command --v fzf &> /dev/null; then
+#     export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+#     export FZF_CTRL_T_COMMAND="$HOME/.fzf/bin/fzf-tmux --height 40% --layout=reverse --border"
+#     export FZF_CTRL_T_OPTS="--height 40% --layout=reverse --border"
+#     eval "$(fzf --zsh)"
+# fi
+
 
 ## Created by Zap installer
 [[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]] ||
@@ -104,14 +152,6 @@ plug "zap-zsh/completions"
 plug "zap-zsh/fzf"
 
 plug "Aloxaf/fzf-tab"
-
-# auto start zellij
-# if command -v zellij &> /dev/null; then
-#     eval "$(zellij setup --generate-auto-start zsh)"
-# fi
-
-autoload -U +X compinit && compinit
-. <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
@@ -151,34 +191,3 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # To update the gist
 # gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
-
-if command -v pnpm &> /dev/null; then
-  eval "$(pnpm completion zsh)"
-fi
-
-if commmand -v bun &> /dev/null; then
-  # bun completions
-  [ -s "/home/arafay/.bun/_bun" ] && source "/home/arafay/.bun/_bun"
-fi
-
-if command -v zoxide &> /dev/null; then
-  eval "$(zoxide init zsh)"
-fi
-
-if command -v go-blueprint &> /dev/null; then
-  eval "$(go-blueprint completion zsh)"
-fi
-
-if command -v mise &> /dev/null; then
-  eval "$(mise activate zsh)"
-  eval "$(mise completion zsh)"
-fi
-
-# if starship is not installed, install it
-if !command -v starship &> /dev/null; then
-    echo "Starship not found. Installing..."
-    curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
-    eval "$(starship init zsh)"
-else
-  eval "$(starship init zsh)"
-fi

@@ -1,7 +1,6 @@
 local M = {}
 
 -- Path to the identities file (adjust as needed)
-
 local identities_file = vim.fn.stdpath("config") .. "/user/git_identities.lua"
 
 -- Load predefined identities; if file missing or malformed, start with an empty table.
@@ -22,7 +21,7 @@ local function save_identities(identities)
     if dir then
       -- if it fails, try creating the directory
       vim.notify("File not created creating the directory ..", vim.log.levels.INFO)
-      os.execute("mkdir -p" .. dir)
+      os.execute("mkdir -p " .. dir)
       -- create the file
       file = io.open(identities_file, "w")
     end
@@ -44,7 +43,7 @@ end
 local function set_git_config(name, email)
   vim.fn.system("git config --local user.name " .. vim.fn.shellescape(name))
   vim.fn.system("git config --local user.email " .. vim.fn.shellescape(email))
-  vim.g.git_identity = name .. " <" .. email .. ">"
+  vim.g.git_identity = "<" .. email .. ">"
 end
 
 -- Main function: if in a Git repo and local Git identity isn’t set, prompt for one.
@@ -63,7 +62,7 @@ local function ensure_git_config()
 
   if local_name ~= "" and local_email ~= "" then
     -- Set our global variable too, so statusline knows.
-    vim.g.git_identity = local_name .. " <" .. local_email .. ">"
+    vim.g.git_identity = "<" .. local_email .. ">"
     return
   end
 
@@ -75,6 +74,7 @@ local function ensure_git_config()
 
   table.insert(choices, global_identity_prompt)
   table.insert(choices, new_identity_prompt)
+
   -- Build a list of choices formatted as "Name <email>".
   for _, id in ipairs(identities) do
     table.insert(choices, id.name .. " <" .. id.email .. ">")
