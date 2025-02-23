@@ -1,21 +1,32 @@
+---@module "snacks"
+---@type snacks.Config
+local config = {
+  picker = {
+    sources = {
+      explorer = {
+        hidden = true,
+      },
+    },
+    find = {
+      hidden = true,
+    },
+    finder = function()
+      return {
+        hidden = true,
+      }
+    end,
+  },
+  terminal = {
+    win = {
+      position = "float",
+      border = "single",
+    },
+  },
+}
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
-  ---@type snacks.Config
-  opts = {
-    picker = {
-      sources = {
-        explorer = {
-          hidden = true,
-        },
-      },
-    },
-    terminal = {
-      win = {
-        position = "float",
-        border = "single",
-      },
-    },
-  },
+  opts = config,
 }
