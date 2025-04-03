@@ -39,6 +39,9 @@ IconSize=16
 [PreviewSettings]
 Plugins=appimagethumbnail,audiothumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail,ffmpegthumbs
 
+[Search]
+What=Content
+
 [Toolbar mainToolBar]
 IconSize=16
 ToolButtonStyle=TextOnly
