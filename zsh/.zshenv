@@ -33,10 +33,11 @@ function in {
 
 EDITOR="nvim"
 SUDO_EDITOR="$EDITOR"
+DIFFPROG="$EDITOR"
 
 # cleaning up home folder
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-HOME/.config}"
+XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"
 XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
@@ -60,7 +61,7 @@ OS_FIREWALL="firewalld"
 
 
 export XDG_CONFIG_HOME XDG_CONFIG_DIR XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME XDG_DESKTOP_DIR XDG_DOWNLOAD_DIR \
-XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR OS_FIREWALL PARALLEL_HOME WGETRC SCREENRC MISE_NODE_COREPACK
+XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR OS_FIREWALL PARALLEL_HOME WGETRC SCREENRC MISE_NODE_COREPACK aurhelper
 
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'" \
 c='clear' \
@@ -95,7 +96,7 @@ fastfetch='fastfetch --logo-type kitty' \
 .3='cd ../../..' \
 .4='cd ../../../..' \
 .5='cd ../../../../..' \
-mkdir='mkdir -p' # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
+mkd='mkdir -p' # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
 
 #
 # alias zn="kitty @ set-spacing padding=5 && zt; kitty @ set-spacing padding=20"
