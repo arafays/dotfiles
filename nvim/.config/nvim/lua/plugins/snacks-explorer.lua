@@ -33,3 +33,5 @@
 --   lazy = false,
 --   opts = config,
 -- }
+--
+return {}

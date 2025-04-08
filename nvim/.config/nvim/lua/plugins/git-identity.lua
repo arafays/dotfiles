@@ -3,7 +3,6 @@ return {
   -- Configure snacks.nvim for better UI elements
   {
     "folke/snacks.nvim",
-    event = "VimEnter",
     lazy = false,
     priority = 100,
     config = function()
@@ -33,7 +32,6 @@ return {
       vim.defer_fn(function()
         -- Override vim.ui.select and vim.ui.input to use snacks
         vim.ui.select = require("snacks.picker").select
-        vim.ui.input = require("snacks.picker").input
       end, 200)
     end,
   },
