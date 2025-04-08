@@ -32,7 +32,8 @@ return {
       vim.defer_fn(function()
         -- Override vim.ui.select and vim.ui.input to use snacks
         vim.ui.select = require("snacks.picker").select
-      end, 200)
+        vim.ui.input = require("snacks.picker").pick
+      end, 100)
     end,
   },
 
@@ -44,7 +45,7 @@ return {
       opts = opts or {}
       opts.options = opts.options or {}
       opts.options.section_separators = { left = "", right = "" }
-      opts.options.component_separators = { left = "", right = "" }
+      -- opts.options.component_separators = { left = "", right = "" }
 
       opts.sections = opts.sections or {}
       opts.sections.lualine_b = opts.sections.lualine_b or {}

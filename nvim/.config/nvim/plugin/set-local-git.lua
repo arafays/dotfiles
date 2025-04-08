@@ -83,6 +83,7 @@ local function ensure_git_config()
   local identities = load_identities()
   local choices = {}
   local global_identity_prompt = "Use global Git user " .. global_name .. " <" .. global_email .. ">"
+  local no_global_identity_prompt = "No global identity found."
   local new_identity_prompt = "Add new identity..."
 
   -- Format the choices with icons for better UI
@@ -96,7 +97,36 @@ local function ensure_git_config()
     end
   end
 
-  table.insert(choices, global_identity_prompt)
+  local function create_new_identity(identity)
+    -- Prompt for new name.
+    vim.ui.input({ prompt = "Enter full name: " }, function(name)
+      if not name or name == "" then
+        vim.notify("Name cannot be empty.", vim.log.levels.ERROR)
+        return
+      end
+      -- Prompt for new email.
+      vim.ui.input({ prompt = "Enter email: " }, function(email)
+        if not email or email == "" then
+          vim.notify("Email cannot be empty.", vim.log.levels.ERROR)
+          return
+        end
+        identity = { name = name, email = email }
+        table.insert(identities, identity)
+        save_identities(identities)
+        set_git_config(identity.name, identity.email)
+        vim.notify("Local Git user set to: " .. identity.name .. " <" .. identity.email .. ">", vim.log.levels.INFO)
+      end)
+    end)
+    return identity
+  end
+
+  -- Add global identity option if available
+  if global_email and global_name then
+    table.insert(choices, global_identity_prompt)
+  else
+    table.insert(choices, no_global_identity_prompt)
+  end
+
   table.insert(choices, new_identity_prompt)
 
   -- Build a list of choices formatted as "Name <email>".
@@ -136,28 +166,11 @@ local function ensure_git_config()
         vim.log.levels.INFO
       )
     elseif choice == new_identity_prompt then
-      -- Prompt for new name.
-      vim.ui.input({ prompt = "Enter full name: " }, function(name)
-        if not name or name == "" then
-          vim.notify("Name cannot be empty.", vim.log.levels.ERROR)
-          return
-        end
-        -- Prompt for new email.
-        vim.ui.input({ prompt = "Enter email: " }, function(email)
-          if not email or email == "" then
-            vim.notify("Email cannot be empty.", vim.log.levels.ERROR)
-            return
-          end
-          selected_identity = { name = name, email = email }
-          table.insert(identities, selected_identity)
-          save_identities(identities)
-          set_git_config(selected_identity.name, selected_identity.email)
-          vim.notify(
-            "Local Git user set to: " .. selected_identity.name .. " <" .. selected_identity.email .. ">",
-            vim.log.levels.INFO
-          )
-        end)
-      end)
+      selected_identity = create_new_identity(selected_identity)
+    elseif choice == no_global_identity_prompt then
+      -- No action needed, just notify the user.
+      vim.notify("No global identity found. Please set one or create a new identity.", vim.log.levels.INFO)
+      selected_identity = create_new_identity(selected_identity)
     else
       -- Look up the selected identity.
       for _, id in ipairs(identities) do
@@ -205,5 +218,5 @@ vim.api.nvim_create_user_command("GitIdentity", function()
   require("lazy").load({ plugins = { "snacks.nvim" } })
   ensure_git_config()
 end, {
-  desc = "Set local git identity for current repository"
+  desc = "Set local git identity for current repository",
 })
