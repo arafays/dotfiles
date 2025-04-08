@@ -1,5 +1,3 @@
-local M = {}
-
 -- Path to the identities file (adjust as needed)
 local identities_file = vim.fn.stdpath("config") .. "/user/git_identities.lua"
 
@@ -41,28 +39,43 @@ end
 
 -- Set local Git config and update a global variable for statusline.
 local function set_git_config(name, email)
-  vim.fn.system("git config --local user.name " .. vim.fn.shellescape(name))
-  vim.fn.system("git config --local user.email " .. vim.fn.shellescape(email))
-  vim.g.git_identity = "<" .. email .. ">"
+  vim.system({ "git", "config", "--local", "user.name", name }, { text = true }):wait()
+  vim.system({ "git", "config", "--local", "user.email", email }, { text = true }):wait()
+  vim.g.git_identity = name .. " <" .. email .. ">"
 end
 
--- Main function: if in a Git repo and local Git identity isn’t set, prompt for one.
+-- Get git config value using vim.system (0.11 compatible)
+local function get_git_config(scope, key)
+  local result = vim.system({ "git", "config", "--" .. scope, "--get", key }, { text = true }):wait()
+  if result.code == 0 and result.stdout then
+    return vim.trim(result.stdout)
+  end
+  return ""
+end
+
+-- Check if in a git repository
+local function is_git_repo()
+  local result = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
+  return result.code == 0 and vim.trim(result.stdout) == "true"
+end
+
+-- Main function: if in a Git repo and local Git identity isn't set, prompt for one.
 local function ensure_git_config()
-  -- Proceed only if ".git" directory exists.
-  if vim.fn.isdirectory(".git") == 0 then
+  -- Proceed only if in a git repo
+  if not is_git_repo() then
     return
   end
 
-  -- Get current local Git config (trim to remove trailing newline).
-  local local_name = vim.trim(vim.fn.system("git config --local --get user.name"))
-  local local_email = vim.trim(vim.fn.system("git config --local --get user.email"))
+  -- Get current local Git config
+  local local_name = get_git_config("local", "user.name")
+  local local_email = get_git_config("local", "user.email")
 
-  local global_name = vim.trim(vim.fn.system("git config --global --get user.name"))
-  local global_email = vim.trim(vim.fn.system("git config --global --get user.email"))
+  local global_name = get_git_config("global", "user.name")
+  local global_email = get_git_config("global", "user.email")
 
   if local_name ~= "" and local_email ~= "" then
     -- Set our global variable too, so statusline knows.
-    vim.g.git_identity = "<" .. local_email .. ">"
+    vim.g.git_identity = local_name .. " <" .. local_email .. ">"
     return
   end
 
@@ -72,16 +85,40 @@ local function ensure_git_config()
   local global_identity_prompt = "Use global Git user " .. global_name .. " <" .. global_email .. ">"
   local new_identity_prompt = "Add new identity..."
 
+  -- Format the choices with icons for better UI
+  local format_item = function(item)
+    if item == global_identity_prompt then
+      return "  " .. item
+    elseif item == new_identity_prompt then
+      return "  " .. item
+    else
+      return "  " .. item
+    end
+  end
+
   table.insert(choices, global_identity_prompt)
   table.insert(choices, new_identity_prompt)
 
   -- Build a list of choices formatted as "Name <email>".
   for _, id in ipairs(identities) do
     table.insert(choices, id.name .. " <" .. id.email .. ">")
-  end -- Use vim.ui.select (LazyVim includes a nice UI) to prompt the user.
-  -- choices have been set
+  end
 
-  vim.ui.select(choices, { prompt = "Select a Git identity for this repo:" }, function(choice)
+  -- Ensure snacks.nvim is loaded
+  local function get_ui_select()
+    if package.loaded["snacks"] and package.loaded["snacks.picker"] then
+      return require("snacks.picker").select
+    else
+      return vim.ui.select
+    end
+  end
+
+  -- Use the appropriate UI select function
+  get_ui_select()(choices, {
+    prompt = "Select a Git identity for this repo:",
+    format_item = format_item,
+    kind = "git-identity",
+  }, function(choice)
     if not choice then
       vim.notify("No identity selected. Local Git user remains unset.", vim.log.levels.WARN)
       return
@@ -142,7 +179,31 @@ local function ensure_git_config()
   end)
 end
 
--- Run the function on startup.
-ensure_git_config()
+-- Wait for VimEnter event to delay identity checking until startup is complete
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    -- Delay git identity check to ensure dashboard loads properly
+    vim.defer_fn(function()
+      ensure_git_config()
+    end, 100)
+  end,
+  desc = "Set local git identity after startup is complete",
+  once = true,
+})
 
-return M
+-- Handle directory changes after startup is complete
+vim.api.nvim_create_autocmd("DirChanged", {
+  callback = function()
+    ensure_git_config()
+  end,
+  desc = "Set local git identity when changing directories",
+})
+
+-- Add a command to manually trigger the identity selection
+vim.api.nvim_create_user_command("GitIdentity", function()
+  -- Ensure snacks is loaded before running the command
+  require("lazy").load({ plugins = { "snacks.nvim" } })
+  ensure_git_config()
+end, {
+  desc = "Set local git identity for current repository"
+})
