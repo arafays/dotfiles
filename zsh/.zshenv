@@ -31,12 +31,17 @@ function in {
     fi
 }
 
+if [[ -z "$aurhelper" ]]; then
+  echo "No AUR helper detected. Some aliases may not work."
+fi
+
 EDITOR="nvim"
 SUDO_EDITOR="$EDITOR"
+DIFFPROG="$EDITOR"
 
 # cleaning up home folder
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-HOME/.config}"
+XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"
 XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
@@ -56,7 +61,7 @@ WGETRC="${XDG_CONFIG_HOME}/wgetrc"
 SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
 export XDG_CONFIG_HOME XDG_CONFIG_DIR XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME XDG_DESKTOP_DIR XDG_DOWNLOAD_DIR \
-XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR
+XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR aurhelper
 
 alias zs="zellij -l welcome" \
 ff="fzf --preview 'bat --style=numbers --color=always {}'" \
@@ -93,7 +98,7 @@ fastfetch='fastfetch --logo-type kitty' \
 .3='cd ../../..' \
 .4='cd ../../../..' \
 .5='cd ../../../../..' \
-mkdir='mkdir -p' \ 
+mkd='mkdir -p' \
 zn="kitty @ set-spacing padding=5 && zt; kitty @ set-spacing padding=20"
 alias zt='f() {
     if [ "$1" = "." ]; then
