@@ -1,42 +1,5 @@
 -- Define proper plugin specs
 return {
-  -- Configure snacks.nvim for better UI elements
-  {
-    "folke/snacks.nvim",
-    lazy = false,
-    priority = 100,
-    config = function()
-      require("snacks").setup({
-        picker = {
-          sources = {
-            select = {
-              hidden = false,
-            },
-            explorer = {
-              hidden = true,
-            },
-            find = {
-              hidden = true,
-            },
-          },
-        },
-        terminal = {
-          win = {
-            position = "float",
-            border = "single",
-          },
-        },
-      })
-
-      -- Set up the UI functions after LazyVim has fully started
-      vim.defer_fn(function()
-        -- Override vim.ui.select and vim.ui.input to use snacks
-        vim.ui.select = require("snacks.picker").select
-        vim.ui.input = require("snacks.picker").pick
-      end, 100)
-    end,
-  },
-
   -- Configure lualine to show git identity
   {
     "nvim-lualine/lualine.nvim",
@@ -44,7 +7,7 @@ return {
     opts = function(_, opts)
       opts = opts or {}
       opts.options = opts.options or {}
-      opts.options.section_separators = { left = "", right = "" }
+      -- opts.options.section_separators = { left = "", right = "" }
       -- opts.options.component_separators = { left = "", right = "" }
 
       opts.sections = opts.sections or {}
@@ -59,7 +22,6 @@ return {
         end,
         icon = "",
       })
-      table.insert(opts.sections.lualine_b, "branch")
     end,
   },
 }

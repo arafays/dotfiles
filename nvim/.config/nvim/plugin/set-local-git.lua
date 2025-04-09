@@ -41,7 +41,7 @@ end
 local function set_git_config(name, email)
   vim.system({ "git", "config", "--local", "user.name", name }, { text = true }):wait()
   vim.system({ "git", "config", "--local", "user.email", email }, { text = true }):wait()
-  vim.g.git_identity = name .. " <" .. email .. ">"
+  vim.g.git_identity = "<" .. email .. ">"
 end
 
 -- Get git config value using vim.system (0.11 compatible)
@@ -75,7 +75,7 @@ local function ensure_git_config()
 
   if local_name ~= "" and local_email ~= "" then
     -- Set our global variable too, so statusline knows.
-    vim.g.git_identity = local_name .. " <" .. local_email .. ">"
+    vim.g.git_identity = "<" .. local_email .. ">"
     return
   end
 

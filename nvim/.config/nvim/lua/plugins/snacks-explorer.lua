@@ -1,37 +1,35 @@
--- ---@module "snacks"
--- ---@type snacks.Config
--- local config = {
---   picker = {
---     sources = {
---       explorer = {
---         hidden = true,
---       },
---       select = {
---         hidden = false, -- Keep select items visible
---       },
---     },
---     find = {
---       hidden = true,
---     },
---     finder = function()
---       return {
---         hidden = true,
---       }
---     end,
---   },
---   terminal = {
---     win = {
---       position = "float",
---       border = "single",
---     },
---   },
--- }
+---@module "snacks"
+---@type snacks.Config
+local config = {
+  picker = {
+    sources = {
+      explorer = {
+        hidden = true,
+      },
+      select = {
+        hidden = false, -- Keep select items visible
+      },
+    },
+    find = {
+      hidden = true,
+    },
+    finder = function()
+      return {
+        hidden = true,
+      }
+    end,
+  },
+  terminal = {
+    win = {
+      position = "float",
+      border = "single",
+    },
+  },
+}
 
--- return {
---   "folke/snacks.nvim",
---   priority = 1000,
---   lazy = false,
---   opts = config,
--- }
---
-return {}
+return {
+  "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  opts = config,
+}
