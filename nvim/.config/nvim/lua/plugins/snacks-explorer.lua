@@ -1,23 +1,12 @@
----@module "snacks"
----@type snacks.Config
+---@class snacks.picker
 local config = {
   picker = {
     sources = {
       explorer = {
         hidden = true,
-      },
-      select = {
-        hidden = false, -- Keep select items visible
+        show_unlisted = true,
       },
     },
-    find = {
-      hidden = true,
-    },
-    finder = function()
-      return {
-        hidden = true,
-      }
-    end,
   },
   terminal = {
     win = {
