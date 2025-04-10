@@ -51,6 +51,8 @@ XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
 XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
 LESSHISTFILE=${LESSHISTFILE:-/tmp/less-hist}
 PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
+MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
+MANROFFOPT="-c"
 
 # wget
 WGETRC="${XDG_CONFIG_HOME}/wgetrc"
@@ -61,7 +63,7 @@ OS_FIREWALL="firewalld"
 
 
 export XDG_CONFIG_HOME XDG_CONFIG_DIR XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME XDG_DESKTOP_DIR XDG_DOWNLOAD_DIR \
-XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR OS_FIREWALL PARALLEL_HOME WGETRC SCREENRC MISE_NODE_COREPACK aurhelper
+XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR OS_FIREWALL PARALLEL_HOME WGETRC SCREENRC MISE_NODE_COREPACK aurhelper MANPAGER MANROFFOPT LESSHISTFILE DIFFPROG
 
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'" \
 c='clear' \
@@ -97,35 +99,6 @@ fastfetch='fastfetch --logo-type kitty' \
 .4='cd ../../../..' \
 .5='cd ../../../../..' \
 mkd='mkdir -p' # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
-
-#
-# alias zn="kitty @ set-spacing padding=5 && zt; kitty @ set-spacing padding=20"
-# alias zs="zn -l welcome"
-# alias zt='f() {
-#     if [ "$1" = "." ]; then
-#         zn attach --create "$(basename $PWD)" --working-dir "$PWD"
-#     elif [ -n "$1" ]; then
-#         zn attach --create "$1"
-#     else
-#         zn attach --create "$(basename $PWD)"
-#     fi
-# }; f'
-
-
-zn() {
-  kitty @ set-spacing padding=5
-  zt "$@"
-  kitty @ set-spacing padding=20
-}
-
-zt() {
-  local session_name="${1:-$(basename "$PWD")}"
-  zellij attach --create "$session_name" --working-dir "$PWD"
-}
-
-zs() {
-  zn "welcome"
-}
 
 tn() {
   local session_name="${1:-$(basename "$PWD")}"

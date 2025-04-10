@@ -1,20 +1,13 @@
 ---@module "snacks"
----@type snacks.Config
+---@class snacks.picker
 local config = {
+  ---@class snacks.picker.sources.Config
   picker = {
     sources = {
       explorer = {
         hidden = true,
       },
     },
-    find = {
-      hidden = true,
-    },
-    finder = function()
-      return {
-        hidden = true,
-      }
-    end,
   },
   terminal = {
     win = {
