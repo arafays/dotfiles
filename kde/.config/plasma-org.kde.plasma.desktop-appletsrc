@@ -70,7 +70,7 @@ immutability=1
 plugin=org.kde.plasma.icontasks
 
 [Containments][54][Applets][57][Configuration][General]
-launchers=applications:systemsettings.desktop,preferred://filemanager,preferred://browser
+launchers=applications:kitty.desktop,preferred://filemanager,preferred://browser,applications:upwork.desktop,applications:code.desktop
 
 [Containments][54][General]
 AppletOrder=55;111;57;110;107

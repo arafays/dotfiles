@@ -9,8 +9,8 @@ format = """
 [╭](fg:separator)\
 $directory\
 $time\
-$cmd_duration\
 $all\
+$cmd_duration\
 $line_break\
 [╰](fg:separator)\
 $character\
@@ -49,7 +49,7 @@ format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:st
 pipestatus = true
 pipestatus_separator = "-"
 pipestatus_segment_format = "$status"
-pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background)"
+pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background) "
 disabled = false
 
 [directory]
@@ -62,12 +62,12 @@ truncation_symbol = "…/"
 # repo_root_style = 'underline white'
 
 [cmd_duration]
-format = "[─](fg:separator)[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background) "
+format = " [](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
 min_time = 4
-show_milliseconds = false
+show_milliseconds = true
 
 [time]
-format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background)"
+format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
 disabled = false
 
 [git_branch]
