@@ -1,0 +1,8 @@
+[Greeter][LnF][General]
+alwaysShowClock=false
+showMediaControls=false
+
+[Greeter][Wallpaper][org.kde.image][General]
+Image=/usr/share/wallpapers/Next/
+PreviewImage=/usr/share/wallpapers/Next/
+SlidePaths=/usr/share/wallpapers/

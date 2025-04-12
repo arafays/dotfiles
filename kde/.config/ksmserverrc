@@ -1,0 +1,15 @@
+[LegacySession: saved at previous logout]
+count=0
+
+[Session: saved at previous logout]
+clientId1=10c4e1636f000174434134300000011240004
+clientId2=10c4e1636f000174434134400000011240006
+count=2
+program1=/usr/lib/kscreen_osd_service
+program2=/usr/bin/firewall-applet
+restartCommand1=/usr/lib/kscreen_osd_service,-session,10c4e1636f000174434134300000011240004_1744346459_709800
+restartCommand2=/usr/bin/firewall-applet,-session,10c4e1636f000174434134400000011240006_1744346459_709745,-name,firewall-applet
+restartStyleHint1=0
+restartStyleHint2=0
+userId1=arafays
+userId2=arafays
