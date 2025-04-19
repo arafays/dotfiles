@@ -1,2 +1,4 @@
 [Mouse]
 X11LibInputXAccelProfileFlat=true
+XLbInptScrollOnButtonDown=true
+cursorTheme=Qogir-dark

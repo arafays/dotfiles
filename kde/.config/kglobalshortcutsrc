@@ -39,6 +39,11 @@ Reboot Without Confirmation=none,,Reboot Without Confirmation
 Shut Down=none,,Shut Down
 _k_friendly_name=Session Management
 
+[ktorrent]
+_k_friendly_name=KTorrent
+queue_suspend=Alt+Shift+P,Alt+Shift+P,Suspend Torrents
+show_kt=Alt+Shift+T,Alt+Shift+T,Show/Hide KTorrent
+
 [kwin]
 Activate Window Demanding Attention=Meta+Ctrl+A,Meta+Ctrl+A,Activate Window Demanding Attention
 Cycle Overview=none,none,Cycle through Overview and Grid View
@@ -240,7 +245,8 @@ activate task manager entry 6=Alt+6,Meta+6,Activate Task Manager Entry 6
 activate task manager entry 7=Alt+7,Meta+7,Activate Task Manager Entry 7
 activate task manager entry 8=Alt+8,Meta+8,Activate Task Manager Entry 8
 activate task manager entry 9=Alt+9,Meta+9,Activate Task Manager Entry 9
-activate widget 104=,none,Activate Digital Clock Widget
+activate widget 104=none,none,Activate Digital Clock Widget
+activate widget 112=Meta+A,none,Activate Application Dashboard Widget
 activate widget 28=none,none,Activate Application Launcher Widget
 activate widget 3=none,none,Activate Application Launcher Widget
 clear-history=none,,Clear Clipboard History
@@ -249,7 +255,7 @@ cycle-panels=Meta+Alt+P,Meta+Alt+P,Move keyboard focus between panels
 cycleNextAction=none,,Next History Item
 cyclePrevAction=none,,Previous History Item
 manage activities=none,Meta+Q,Show Activity Switcher
-next activity=Meta+A,none,Walk through activities
+next activity=none,none,Walk through activities
 previous activity=Meta+Shift+A,none,Walk through activities (Reverse)
 repeat_action=none,,Manually Invoke Action on Current Clipboard
 show dashboard=Ctrl+F12,Ctrl+F12,Show Desktop

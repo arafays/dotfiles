@@ -132,10 +132,25 @@ ForegroundNormal=252,253,253
 ForegroundPositive=156,83,198
 ForegroundVisited=127,140,141
 
+[DirSelect Dialog]
+DirSelectDialog Size=820,584
+History Items[$e]=file:$HOME/torrents,file:$HOME/projects/vue-new
+Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x8c\x00\x00\x02\xa8\x00\xff\xff\xff\xff\x01\x00\x00\x00\x01\x00
+
 [General]
 AccentColor=233,58,154
 ColorSchemeHash=404c9c568102723de6d5694e4902840a6a5076c6
 LastUsedCustomAccentColor=233,58,154
+XftHintStyle=hintslight
+XftSubPixel=rgb
+fixed=NotoMono Nerd Font Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=NotoSans Nerd Font,8,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Regular
+toolBarFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
+[Icons]
+Theme=Qogir-dark
 
 [KDE]
 LookAndFeelPackage=Nothing
@@ -163,6 +178,7 @@ View Style=DetailTree
 [WM]
 activeBackground=27,27,29
 activeBlend=27,27,29
+activeFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=237,240,242
 inactiveBackground=27,27,29
 inactiveBlend=27,27,29

@@ -1,5 +1,5 @@
 [Activities][LastVirtualDesktop]
-13c59091-41aa-4d50-9086-4c640b5d9cac=d5684abd-b5ef-4310-a348-d90945f004a7
+13c59091-41aa-4d50-9086-4c640b5d9cac=0dcc2c10-32b8-4fd3-b870-0d232e65f4bf
 
 [Desktops]
 Id_1=0dcc2c10-32b8-4fd3-b870-0d232e65f4bf
@@ -11,8 +11,24 @@ Id_6=dae0c6bd-507a-45f5-9206-adaa9c177997
 Number=6
 Rows=2
 
+[Plugins]
+fadedesktopEnabled=true
+slideEnabled=false
+
+[ScreenEdges]
+RemainActiveOnFullscreen=true
+
 [Tiling]
 padding=4
 
 [Tiling][94921195-7c67-56b0-84b9-9ebb5d4444ef]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][e137f78f-cbc7-5dd1-b3e4-b9ec66fbd940]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Windows]
+RollOverDesktops=true
+
+[Xwayland]
+Scale=1

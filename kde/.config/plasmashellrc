@@ -1,10 +1,3 @@
-[PlasmaTransientsConfig]
-PreloadWeight=0
-
-[PlasmaTransientsConfig][ConfigDialog]
-DialogHeight=540
-DialogWidth=720
-
 [PlasmaViews][Panel 2]
 floating=0
 panelOpacity=2
