@@ -31,17 +31,24 @@ local function save_identities(identities)
   end
   file:write("return {\n")
   for _, id in ipairs(identities) do
-    file:write(string.format("  { name = %q, email = %q },\n", id.name, id.email))
+    file:write(string.format("  { name = %q, email = %q, signingkey = %q },\n", id.name, id.email, id.signingkey or ""))
   end
   file:write("}\n")
   file:close()
 end
 
 -- Set local Git config and update a global variable for statusline.
-local function set_git_config(name, email)
+local function set_git_config(name, email, signingkey)
   vim.system({ "git", "config", "--local", "user.name", name }, { text = true }):wait()
   vim.system({ "git", "config", "--local", "user.email", email }, { text = true }):wait()
-  vim.g.git_identity = "<" .. email .. ">"
+  if signingkey then
+    vim.system({ "git", "config", "--local", "user.signingkey", signingkey }, { text = true }):wait()
+    vim.system({ "git", "config", "--local", "commit.gpgsign", "true" }, { text = true }):wait()
+  else
+    vim.system({ "git", "config", "--local", "commit.gpgsign", "false" }, { text = true }):wait()
+  end
+
+  vim.g.git_identity = " " .. email .. " "
 end
 
 -- Get git config value using vim.system (0.11 compatible)
@@ -72,10 +79,11 @@ local function ensure_git_config()
 
   local global_name = get_git_config("global", "user.name")
   local global_email = get_git_config("global", "user.email")
+  local global_signingkey = get_git_config("global", "user.signingkey")
 
   if local_name ~= "" and local_email ~= "" then
     -- Set our global variable too, so statusline knows.
-    vim.g.git_identity = "<" .. local_email .. ">"
+    vim.g.git_identity = " " .. local_email .. " "
     return
   end
 
@@ -110,11 +118,18 @@ local function ensure_git_config()
           vim.notify("Email cannot be empty.", vim.log.levels.ERROR)
           return
         end
-        identity = { name = name, email = email }
-        table.insert(identities, identity)
-        save_identities(identities)
-        set_git_config(identity.name, identity.email)
-        vim.notify("Local Git user set to: " .. identity.name .. " <" .. identity.email .. ">", vim.log.levels.INFO)
+
+        vim.ui.input({ prompt = "Enter GPG signing key (optional press enter to leave blank): " }, function(signingkey)
+          if not signingkey or signingkey == "" then
+            signingkey = nil
+          end
+
+          identity = { name = name, email = email, signingkey = signingkey }
+          table.insert(identities, identity)
+          save_identities(identities)
+          set_git_config(identity.name, identity.email, identity.signingkey)
+          vim.notify("Local Git user set to: " .. identity.name .. " <" .. identity.email .. ">", vim.log.levels.INFO)
+        end)
       end)
     end)
     return identity
@@ -157,10 +172,10 @@ local function ensure_git_config()
     local selected_identity = nil
 
     if choice == global_identity_prompt then
-      selected_identity = { name = global_name, email = global_email }
+      selected_identity = { name = global_name, email = global_email, global_signingkey }
       table.insert(identities, selected_identity)
       save_identities(identities)
-      set_git_config(selected_identity.name, selected_identity.email)
+      set_git_config(selected_identity.name, selected_identity.email, selected_identity.signingkey)
       vim.notify(
         "Local Git user set to: " .. selected_identity.name .. " <" .. selected_identity.email .. ">",
         vim.log.levels.INFO
@@ -180,7 +195,7 @@ local function ensure_git_config()
         end
       end
       if selected_identity then
-        set_git_config(selected_identity.name, selected_identity.email)
+        set_git_config(selected_identity.name, selected_identity.email, selected_identity.signingkey)
         vim.notify(
           "Local Git user set to: " .. selected_identity.name .. " <" .. selected_identity.email .. ">",
           vim.log.levels.INFO
