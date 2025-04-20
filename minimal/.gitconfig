@@ -1,0 +1,16 @@
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[user]
+	name = Abdul Rafay Shaikh
+	email = me@arafays.com
+	signingkey = 180E3C70D183B913
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg
+[tag]
+	gpgSign = true
