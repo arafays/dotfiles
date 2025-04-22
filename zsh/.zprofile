@@ -1,10 +1,3 @@
-# Login-specific settings
-
-# Add local bin to PATH if it exists
-if [[ -d "$HOME/.local/bin" ]]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-
 # Initialize keychain if available
 if command -v keychain &> /dev/null; then
     eval "$(keychain --eval --quiet id_ed25519)"

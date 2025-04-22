@@ -1,0 +1,78 @@
+palette = "oxocarbon"
+
+format = """
+[░▒▓](separator)\
+[ 󰣇 ](bg:icon fg:status)\
+[](bg:directory fg:icon)\
+$directory\
+[](fg:directory bg:#1f1f1f)\
+$git_branch\
+$git_status\
+[](fg:#1f1f1f bg:#2d2d2d)\
+$nodejs\
+$rust\
+$golang\
+$php\
+[](fg:#2d2d2d bg:#3c3c3c)\
+$time\
+[ ](fg:#3c3c3c)\
+$all\
+$character"""
+
+[palettes.oxocarbon]
+prompt_ok = "#00BFFF"
+prompt_err = "#FF4C4C"
+icon = "#A6ACB0"
+separator = "#3C3C3C"
+background = "#2D2D2D"
+git_branch = "#00BFFF"
+directory = "#00BFFF"
+duration = "#FF4C4C"
+status = "#FF4C4C"
+
+[directory]
+style = "fg:#A6ACB0 bg:directory"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:#1f1f1f"
+format = '[[ $symbol $branch ](fg:#00BFFF bg:#1f1f1f)]($style)'
+
+[git_status]
+style = "bg:#1f1f1f"
+format = '[[($all_status$ahead_behind )](fg:#00BFFF bg:#1f1f1f)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:#2d2d2d"
+format = '[[ $symbol ($version) ](fg:#00BFFF bg:#2d2d2d)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:#2d2d2d"
+format = '[[ $symbol ($version) ](fg:#00BFFF bg:#2d2d2d)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:#2d2d2d"
+format = '[[ $symbol ($version) ](fg:#00BFFF bg:#2d2d2d)]($style)'
+
+[php]
+symbol = ""
+style = "bg:#2d2d2d"
+format = '[[ $symbol ($version) ](fg:#00BFFF bg:#2d2d2d)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"                                      # Hour:Minute Format
+style = "bg:#3c3c3c"
+format = '[[  $time ](fg:#A6ACB0 bg:#3c3c3c)]($style)'

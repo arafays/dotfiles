@@ -1,11 +1,11 @@
 {
   "go.goroot": "/home/arafay/.local/share/mise/installs/go/1.23.5",
   "debug.javascript.defaultRuntimeExecutable": {
-    "pwa-node": "/home/arafay/.local/share/mise/shims/node"
+    "pwa-node": "/home/arafay/.local/share/mise/installs/node/23.10.0/bin/node"
   },
   "python.defaultInterpreterPath": "/home/arafay/.local/share/mise/installs/python/3.13.1/bin/python",
   "go.alternateTools": {
-    "go": "/home/arafay/.local/share/mise/shims/go",
-    "gopls": "/home/arafay/.local/share/mise/shims/gopls"
+    "go": "/home/arafay/.local/share/mise/installs/go/1.23.5/bin/go",
+    "gopls": "/home/arafay/.local/share/mise/installs/go/1.23.5/bin/gopls"
   }
 }

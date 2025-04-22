@@ -8,7 +8,9 @@ add_newline = true
 format = """
 [╭](fg:separator)\
 $directory\
+$time\
 $all\
+$cmd_duration\
 $line_break\
 [╰](fg:separator)\
 $character\
@@ -22,7 +24,7 @@ $character\
 [hostname]
 ssh_only = true
 ssh_symbol = " "
-format = 'on [$hostname](bold yellow) '
+format = ' on [$hostname](bold yellow) '
 trim_at = "."
 disabled = false
 
@@ -47,7 +49,7 @@ format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:st
 pipestatus = true
 pipestatus_separator = "-"
 pipestatus_segment_format = "$status"
-pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background)"
+pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background) "
 disabled = false
 
 [directory]
@@ -59,24 +61,19 @@ truncation_symbol = "…/"
 # repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
 # repo_root_style = 'underline white'
 
-
 [cmd_duration]
-format = "[─](fg:separator)[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
+format = " [](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
 min_time = 4
-show_milliseconds = false
-
+show_milliseconds = true
 
 [time]
-format = "[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background)"
-disabled = true
+format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
+disabled = false
 
 [git_branch]
 symbol = " "
-format = '[─](fg:separator)[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background)'
-
 
 [git_status]
-format = '[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[$modified](red bg:background)[$conflicted$stashed$deleted$renamed$typechanged$staged$untracked](bg:background)[](fg:background) '
 stashed = "[\\($count\\)](blue)"
 modified = " ! ${count}"
 ahead = '⇡${count}(red)'

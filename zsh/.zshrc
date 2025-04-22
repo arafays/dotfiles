@@ -1,3 +1,5 @@
+[[ -f ~/.profile ]] && source ~/.profile
+
 # Enable appending to the history file, rather than overwriting it
 # when the shell exits.
 setopt APPEND_HISTORY
@@ -71,6 +73,16 @@ if [[ ! $(locale charmap) =~ "UTF-8" ]]; then
 fi
 precmd() { print -Pn "\e]0;%~\a" }
 
+
+function init_activations() {
+  # Activations
+  [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
+  [[ -x "$(command -v zoxide)" ]] && eval "$(zoxide init zsh)"
+  [[ -x "$(command -v mise)" ]] && eval "$(mise activate zsh)"
+}
+init_activations
+
+
 # Initialize Starship prompt
 if ! command -v starship &> /dev/null; then
   echo "Starship not found. Install it? (y/n)"
@@ -135,7 +147,7 @@ zle-line-init() {
 }
 zle -N zle-line-init
 
-# Command completions and activations
+# Initialize completions
 function init_completions() {
   # Completions
   [[ -x "$(command -v fzf)" ]] && eval "$(fzf --zsh)"
@@ -145,17 +157,7 @@ function init_completions() {
   [[ -x "$(command -v go-blueprint)" ]] && eval "$(go-blueprint completion zsh)"
   [[ -x "$(command -v mise)" ]] && eval "$(mise completion zsh)"
 }
-
-function init_activations() {
-  # Activations
-  [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
-  [[ -x "$(command -v zoxide)" ]] && eval "$(zoxide init zsh)"
-  [[ -x "$(command -v mise)" ]] && eval "$(mise activate zsh)"
-}
-
-# Initialize completions and activations
 init_completions
-init_activations
 
 # Aliases
 alias ff="fzf --preview 'bat --style=numbers --color=always {}'"

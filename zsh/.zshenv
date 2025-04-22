@@ -37,6 +37,16 @@ MANROFFOPT="-c"
 WGETRC="${XDG_CONFIG_HOME}/wgetrc"
 SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
+# Mise PATH setup - ensure it's added early in shell initialization
+if [ -d "$HOME/.local/share/mise/shims" ]; then
+    export PATH="$HOME/.local/share/mise/shims:$PATH"
+fi
+
+# Add local bin to PATH
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # System settings
 OS_FIREWALL="firewalld"
 
