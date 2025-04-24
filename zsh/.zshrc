@@ -78,6 +78,7 @@ function init_activations() {
   # Activations
   [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
   [[ -x "$(command -v zoxide)" ]] && eval "$(zoxide init zsh)"
+  # Only run mise activate, PATH is already set in .zshenv
   [[ -x "$(command -v mise)" ]] && eval "$(mise activate zsh)"
 }
 init_activations
