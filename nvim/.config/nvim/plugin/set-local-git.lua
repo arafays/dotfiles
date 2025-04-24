@@ -37,13 +37,28 @@ local function save_identities(identities)
   file:close()
 end
 
--- Set local Git config and update a global variable for statusline.
-local function set_git_config(name, email, signingkey)
+-- Set local Git config and update a global variable for status line.
+local function set_git_config(name, email, gitSigningKey)
   vim.system({ "git", "config", "--local", "user.name", name }, { text = true }):wait()
   vim.system({ "git", "config", "--local", "user.email", email }, { text = true }):wait()
-  if signingkey then
-    vim.system({ "git", "config", "--local", "user.signingkey", signingkey }, { text = true }):wait()
-    vim.system({ "git", "config", "--local", "commit.gpgsign", "true" }, { text = true }):wait()
+  -- Check if signing key is provided
+  if gitSigningKey and gitSigningKey ~= "" then
+    -- Verify if the GPG key exists in the system
+    local key_check = vim.system({ "gpg", "--list-keys", gitSigningKey }, { text = true }):wait()
+
+    if key_check.code == 0 then
+      -- Key exists, configure Git to use it
+      vim.system({ "git", "config", "--local", "user.signingkey", gitSigningKey }, { text = true }):wait()
+      vim.system({ "git", "config", "--local", "commit.gpgsign", "true" }, { text = true }):wait()
+      vim.notify("GPG signing key configured: " .. gitSigningKey, vim.log.levels.INFO)
+    else
+      -- Key doesn't exist, notify the user
+      vim.system({ "git", "config", "--local", "commit.gpgsign", "false" }, { text = true }):wait()
+      vim.notify(
+        "GPG signing key '" .. gitSigningKey .. "' not found in your system. Please import the key first.",
+        vim.log.levels.WARN
+      )
+    end
   else
     vim.system({ "git", "config", "--local", "commit.gpgsign", "false" }, { text = true }):wait()
   end
@@ -79,10 +94,10 @@ local function ensure_git_config()
 
   local global_name = get_git_config("global", "user.name")
   local global_email = get_git_config("global", "user.email")
-  local global_signingkey = get_git_config("global", "user.signingkey")
+  local global_signing_key = get_git_config("global", "user.signingkey")
 
   if local_name ~= "" and local_email ~= "" then
-    -- Set our global variable too, so statusline knows.
+    -- Set our global variable too, so status line knows.
     vim.g.git_identity = " " .. local_email .. " "
     return
   end
@@ -119,12 +134,12 @@ local function ensure_git_config()
           return
         end
 
-        vim.ui.input({ prompt = "Enter GPG signing key (optional press enter to leave blank): " }, function(signingkey)
-          if not signingkey or signingkey == "" then
-            signingkey = nil
+        vim.ui.input({ prompt = "Enter GPG signing key (optional press enter to leave blank): " }, function(signing_key)
+          if not signing_key or signing_key == "" then
+            signing_key = nil
           end
 
-          identity = { name = name, email = email, signingkey = signingkey }
+          identity = { name = name, email = email, signingkey = signing_key }
           table.insert(identities, identity)
           save_identities(identities)
           set_git_config(identity.name, identity.email, identity.signingkey)
@@ -172,7 +187,7 @@ local function ensure_git_config()
     local selected_identity = nil
 
     if choice == global_identity_prompt then
-      selected_identity = { name = global_name, email = global_email, global_signingkey }
+      selected_identity = { name = global_name, email = global_email, global_signing_key }
       table.insert(identities, selected_identity)
       save_identities(identities)
       set_git_config(selected_identity.name, selected_identity.email, selected_identity.signingkey)
