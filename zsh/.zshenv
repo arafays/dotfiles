@@ -40,16 +40,11 @@ SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 # PATH Configuration - Consolidate all PATH modifications here
 # This ensures PATH is set up early and only once
 
-# Add mise to PATH if available (for tool version management)
-if [ -d "$HOME/.local/share/mise/shims" ]; then
-    PATH="$HOME/.local/share/mise/shims:$PATH"
-fi
-
-# Add local bin to PATH
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
+# # Add local bin to PATH
+# if [ -d "$HOME/.local/bin" ]; then
+#     PATH="$HOME/.local/bin:$PATH"
+# fi
+#
 # Add any other PATH additions here
 # Example: Add cargo binaries
 # if [ -d "$HOME/.cargo/bin" ]; then
