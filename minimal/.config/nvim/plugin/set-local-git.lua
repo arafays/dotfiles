@@ -41,7 +41,7 @@ end
 local function set_git_config(name, email, signingkey)
   vim.system({ "git", "config", "--local", "user.name", name }, { text = true }):wait()
   vim.system({ "git", "config", "--local", "user.email", email }, { text = true }):wait()
-  if signingkey then
+  if signingkey ~= nil and signingkey ~= "" then
     vim.system({ "git", "config", "--local", "user.signingkey", signingkey }, { text = true }):wait()
     vim.system({ "git", "config", "--local", "commit.gpgsign", "true" }, { text = true }):wait()
   else
