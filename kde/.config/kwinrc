@@ -1,34 +1,19 @@
-[Activities][LastVirtualDesktop]
-13c59091-41aa-4d50-9086-4c640b5d9cac=0dcc2c10-32b8-4fd3-b870-0d232e65f4bf
-
 [Desktops]
-Id_1=0dcc2c10-32b8-4fd3-b870-0d232e65f4bf
-Id_2=94f3ec5e-f5a2-4822-845d-f8cd9537d429
-Id_3=d5684abd-b5ef-4310-a348-d90945f004a7
-Id_4=071ad30a-9206-4e0d-9de5-e76c273504d1
-Id_5=c38fb36c-0b96-4fd7-ade9-f01fa34f1784
-Id_6=dae0c6bd-507a-45f5-9206-adaa9c177997
-Number=6
-Rows=2
-
-[Plugins]
-fadedesktopEnabled=true
-slideEnabled=false
-
-[ScreenEdges]
-RemainActiveOnFullscreen=true
+Id_1=b723a009-a901-4d58-86e5-75394fbacd5d
+Number=1
+Rows=1
 
 [Tiling]
 padding=4
 
-[Tiling][94921195-7c67-56b0-84b9-9ebb5d4444ef]
+[Tiling][284bbf4b-9de4-5958-88f5-a58de14d53e9]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
-[Tiling][e137f78f-cbc7-5dd1-b3e4-b9ec66fbd940]
+[Tiling][d02c035d-eef0-5c68-aa2f-2e83d0ba08b1]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
-[Windows]
-RollOverDesktops=true
+[Tiling][e8c78f4f-a3b9-53cf-840a-e84f5d6fc924]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Xwayland]
-Scale=1
+Scale=1.15
