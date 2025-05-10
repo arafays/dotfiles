@@ -141,14 +141,14 @@ Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x9a\
 AccentColor=233,100,58
 ColorSchemeHash=404c9c568102723de6d5694e4902840a6a5076c6
 LastUsedCustomAccentColor=233,100,58
-TerminalApplication=kitty
-TerminalService=kitty.desktop
+TerminalApplication=alacritty
+TerminalService=alacritty.desktop
 XftHintStyle=hintslight
 XftSubPixel=rgb
-font=NotoSans Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-menuFont=NotoSans Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-smallestReadableFont=NotoSans Nerd Font ,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-toolBarFont=NotoSans Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=NotoSansM Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=NotoSansM Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=NotoSansM Nerd Font ,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=NotoSansM Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
 Theme=Tela-dracula-dark

@@ -265,7 +265,7 @@ switch to next activity=none,,Switch to Next Activity
 switch to previous activity=none,,Switch to Previous Activity
 toggle do not disturb=none,,Toggle do not disturb
 
-[services][kitty.desktop]
+[services][alacritty.desktop]
 _launch=Meta+Return
 
 [wacomtablet]

@@ -102,9 +102,7 @@ mkd='mkdir -p' \
 
 tn() {
   local session_name="${1:-$(basename "$PWD")}"
-  kitty @ set-spacing padding=5
   tmux new-session -A -s "$session_name" -c "$PWD"
-  kitty @ set-spacing padding=20
 }
 
 tt() {
