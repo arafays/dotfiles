@@ -2,14 +2,24 @@
 count=0
 
 [Session: saved at previous logout]
-clientId1=10c4e1636f000174610646600000009190004
-clientId2=10c4e1636f000174610646700000009190005
-count=2
-program1=/usr/lib/kscreen_osd_service
+clientId1=10c4e1636f000174616126100000010060006
+clientId2=10c4e1636f000174686877700000010160004
+clientId3=10c4e1636f000174610646600000009190004
+clientId4=10c4e1636f000174661715400000010060010
+count=4
+program1=/opt/piavpn/bin/pia-client
 program2=/usr/lib/DiscoverNotifier
-restartCommand1=/usr/lib/kscreen_osd_service,-session,10c4e1636f000174610646600000009190004_1746108977_535492
-restartCommand2=/usr/lib/DiscoverNotifier,-session,10c4e1636f000174610646700000009190005_1746108977_535514
+program3=/usr/lib/kscreen_osd_service
+program4=/usr/bin/qbittorrent
+restartCommand1=/opt/piavpn/bin/pia-client,-session,10c4e1636f000174616126100000010060006_1746891967_465516
+restartCommand2=/usr/lib/DiscoverNotifier,-session,10c4e1636f000174686877700000010160004_1746891967_463120
+restartCommand3=/usr/lib/kscreen_osd_service,-session,10c4e1636f000174610646600000009190004_1746891967_463347
+restartCommand4=/usr/bin/qbittorrent,-session,10c4e1636f000174661715400000010060010_1746891967_463068
 restartStyleHint1=0
 restartStyleHint2=0
+restartStyleHint3=0
+restartStyleHint4=0
 userId1=arafays
 userId2=arafays
+userId3=arafays
+userId4=arafays

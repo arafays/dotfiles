@@ -3,6 +3,6 @@ alwaysShowClock=false
 showMediaControls=false
 
 [Greeter][Wallpaper][org.kde.image][General]
-Image=/usr/share/wallpapers/Next/
-PreviewImage=/usr/share/wallpapers/Next/
+Image=/home/arafays/dotfiles/wallpapers/wallpapers/up-modern-bm8A-MmCphI-unsplash.jpg
+PreviewImage=/home/arafays/dotfiles/wallpapers/wallpapers/up-modern-bm8A-MmCphI-unsplash.jpg
 SlidePaths=/usr/share/wallpapers/

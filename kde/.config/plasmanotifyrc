@@ -1,5 +1,12 @@
 [Applications][brave-browser]
 Seen=true
+ShowPopups=false
+
+[Applications][local]
+Seen=true
+
+[Applications][org.qbittorrent.qBittorrent]
+Seen=true
 
 [Applications][zen]
 Seen=true
