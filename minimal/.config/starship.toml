@@ -105,80 +105,83 @@ untracked  = ' [ ${count}](red)'
 [git_commit]
 tag_symbol = '  '
 
+# ──────────────────────────────
+# Language & Tool Symbols
+# ──────────────────────────────
 [aws]
-symbol = " "
+symbol = "  "
 
 [buf]
-symbol = " "
+symbol = "  "
 
 [c]
-symbol = " "
+symbol = "  "
 
 [conda]
-symbol = " "
+symbol = "  "
 
 [crystal]
-symbol = " "
+symbol = "  "
 
 [dart]
-symbol = " "
+symbol = "  "
 
 [docker_context]
-symbol = " "
+symbol = "  "
 
 [elixir]
-symbol = " "
+symbol = "  "
 
 [elm]
-symbol = " "
+symbol = "  "
 
 [fennel]
-symbol = " "
+symbol = "  "
 
 [fossil_branch]
-symbol = " "
+symbol = "  " # nf-oct-git_branch_alt
 
 [golang]
-symbol = " "
+symbol = "  "
 
 [guix_shell]
-symbol = " "
+symbol = "  "
 
 [haskell]
-symbol = " "
+symbol = "  "
 
 [haxe]
-symbol = " "
+symbol = "  "
 
 [hg_branch]
-symbol = " "
+symbol = "  " # nf-oct-git_branch_alt
 
 [java]
-symbol = " "
+symbol = "  "
 
 [julia]
-symbol = " "
+symbol = "  "
 
 [kotlin]
-symbol = " "
+symbol = "  "
 
 [lua]
-symbol = " "
+symbol = "  "
 
 [memory_usage]
-symbol = "󰍛 "
+symbol = "󰍛  "
 
 [meson]
-symbol = "󰔷 "
+symbol = "󰔷  "
 
 [nim]
-symbol = "󰆥 "
+symbol = "󰆥  "
 
 [nix_shell]
-symbol = " "
+symbol = "  "
 
 [nodejs]
-symbol = " "
+symbol = "  "
 detect_files = [
   'package.json',
   'yarn.lock',
@@ -190,7 +193,40 @@ detect_files = [
 ]
 
 [ocaml]
-symbol = " "
+symbol = "  "
+
+[perl]
+symbol = "  "
+
+[php]
+symbol = "  "
+
+[pijul_channel]
+symbol = "  "
+
+[python]
+symbol = "  "
+
+[rlang]
+symbol = "󰟔  "
+
+[ruby]
+symbol = "  "
+
+[rust]
+symbol = "󱘗  "
+
+[scala]
+symbol = "  "
+
+[swift]
+symbol = "  "
+
+[zig]
+symbol = "  "
+
+[gradle]
+symbol = "  "
 
 [os.symbols]
 Alpaquita = " "
@@ -239,36 +275,3 @@ Windows = "󰍲 "
 
 [package]
 symbol = "󰏗 "
-
-[perl]
-symbol = " "
-
-[php]
-symbol = " "
-
-[pijul_channel]
-symbol = " "
-
-[python]
-symbol = " "
-
-[rlang]
-symbol = "󰟔 "
-
-[ruby]
-symbol = " "
-
-[rust]
-symbol = "󱘗 "
-
-[scala]
-symbol = " "
-
-[swift]
-symbol = " "
-
-[zig]
-symbol = " "
-
-[gradle]
-symbol = " "
