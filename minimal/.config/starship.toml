@@ -1,5 +1,5 @@
 scan_timeout = 100
-palette = "default"
+palette = "oxocarbon"
 add_newline = true
 
 # default_format = "$all"
@@ -21,24 +21,33 @@ $character\
 # $character\
 # """
 
+
+[palettes.oxocarbon]
+black = "#161616"
+red = "#ee5396"
+green = "#42be65"
+yellow = "#ffe97b"
+blue = "#33b1ff"
+magenta = "#be95ff"
+cyan = "#3ddbd9"
+white = "#dde1e6"
+icon = "#161616"
+status = "#ee5396"
+prompt_ok = "#be95ff"
+
+prompt_err = "#e23140"
+separator = "#45475A"
+background = "#262626"
+git_branch = "#be95ff"
+directory = "#F38BA8"
+duration = "#ee5396"
+
 [hostname]
 ssh_only = true
 ssh_symbol = " "
 format = ' on [$hostname](bold yellow) '
 trim_at = "."
 disabled = false
-
-[palettes.default]
-prompt_ok = "#8047c1"
-prompt_err = "#e23140"
-icon = "#161514"
-separator = "#35312c"
-background = "#35312c"
-git_branch = "#9f31e2"
-
-directory = "#9f31e2"
-duration = "#e26f31"
-status = "#e23140"
 
 [character]
 success_symbol = "[❯](fg:prompt_ok)"
@@ -68,7 +77,8 @@ show_milliseconds = true
 
 [time]
 format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
-disabled = false
+disabled = true
+time_format = "%H:%M"
 
 [git_branch]
 symbol = " "
