@@ -1,10 +1,9 @@
 return {
-  -- { "ElisStaaf/monokai.nvim" },
-  { "EdenEast/nightfox.nvim" },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "carbonfox",
+      -- Dark mode
+      colorscheme = "tokyonight-night",
     },
   },
 }

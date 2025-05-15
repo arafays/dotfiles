@@ -17,7 +17,7 @@ args = ["--login"]
 #ipc_socket            = true
 
 [env]
-TERM = "xterm-256color"
+TERM = "alacritty-direct"
 
 [window]
 #dimensions            = { columns = 0, lines = 0 }
@@ -27,11 +27,11 @@ dynamic_padding       = true
 decorations = "None"
 opacity = 1.0
 blur = true
-#startup_mode          = "Windowed"
+startup_mode          = "Maximized"
 #title                 = "Alacritty"
 dynamic_title         = true
 #class                 = { instance = "Alacritty", general = "Alacritty" }
-#decorations_theme_variant = "None"
+decorations_theme_variant = "None"
 #resize_increments     = false
 #option_as_alt         = "None"
 

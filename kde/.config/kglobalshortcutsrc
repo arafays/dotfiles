@@ -265,6 +265,9 @@ switch to next activity=none,,Switch to Next Activity
 switch to previous activity=none,,Switch to Previous Activity
 toggle do not disturb=none,,Toggle do not disturb
 
+[services][Alacritty.desktop]
+New=Meta+Return
+
 [services][alacritty.desktop]
 _launch=Meta+Return
 

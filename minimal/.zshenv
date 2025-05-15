@@ -31,6 +31,28 @@ function in {
     fi
 }
 
+function search {
+  local -a searchPkg=("$@")
+  local -a arch=()
+  local -a aur=()
+
+  for pkg in "${searchPkg[@]}"; do
+      if pacman -Si "${pkg}" &>/dev/null; then
+          arch+=("${pkg}")
+      else
+          aur+=("${pkg}")
+      fi
+    done
+
+    if [[ ${#arch[@]} -gt 0 ]]; then
+        sudo pacman -Ss "${arch[@]}"
+    fi
+
+    if [[ ${#aur[@]} -gt 0 ]]; then
+        ${aurhelper} -Ss "${aur[@]}"
+    fi
+}
+
 if [[ -z "$aurhelper" ]]; then
   echo "No AUR helper detected. Some aliases may not work."
 fi

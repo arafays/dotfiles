@@ -1,3 +1,7 @@
+## exports
+export PATH="$HOME/.local/bin:$PATH"
+export ZSH="$HOME/.oh-my-zsh"
+
 # Enable appending to the history file, rather than overwriting it
 # when the shell exits.
 setopt APPEND_HISTORY
@@ -50,10 +54,6 @@ export KEYTIMEOUT=1
 # Colors
 autoload -Uz colors && colors
 
-# exports
-export PATH="$HOME/.local/bin:$PATH"
-export ZSH="$HOME/.oh-my-zsh"
-
 if [[ -o menucomplete ]]; then
   # Use vim keys in tab complete menu:
   bindkey -M menuselect '^h' vi-backward-char
@@ -80,14 +80,20 @@ fi
 eval "$(starship init zsh)"
 
 # Group completion initializations into a single function
-function init_completions() {
+function init_essentials() {
   [[ -x "$(command -v fzf)" ]] && eval "$(fzf --zsh)"
-  [[ -x "$(command -v warp-cli)" ]] && eval "$(warp-cli generate-completions zsh)"
-  [[ -x "$(command -v pnpm)" ]] && eval "$(pnpm completion zsh)"
   [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
   [[ -x "$(command -v zoxide)" ]] && eval "$(zoxide init zsh)"
+  [[ -x "$(command -v mise)" ]] && { eval "$(mise activate zsh)";}
+}
+init_essentials
+
+# Group completion initializations into a single function
+function init_completions() {
+  [[ -x "$(command -v warp-cli)" ]] && eval "$(warp-cli generate-completions zsh)"
+  [[ -x "$(command -v pnpm)" ]] && eval "$(pnpm completion zsh)"
   [[ -x "$(command -v go-blueprint)" ]] && eval "$(go-blueprint completion zsh)"
-  [[ -x "$(command -v mise)" ]] && { eval "$(mise activate zsh)"; eval "$(mise completion zsh)"; }
+  [[ -x "$(command -v mise)" ]] && { eval "$(mise completion zsh)"; }
 }
 init_completions
 
@@ -103,15 +109,10 @@ source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
 # # zsh plugins
 plug "zdharma-continuum/fast-syntax-highlighting"
-
 plug "zsh-users/zsh-autosuggestions"
 plug "zsh-users/zsh-completions"
-
-plug "MichaelAquilina/zsh-you-should-use"
-
 plug "zap-zsh/completions"
 plug "zap-zsh/fzf"
-
 plug "Aloxaf/fzf-tab"
 
 # FZF-tab configuration

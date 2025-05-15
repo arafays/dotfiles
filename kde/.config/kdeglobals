@@ -134,7 +134,7 @@ ForegroundVisited=127,140,141
 
 [DirSelect Dialog]
 DirSelectDialog Size=1280,701
-History Items[$e]=file:$HOME/entertainment,file:$HOME/entertainment,file:$HOME/entertainment
+History Items[$e]=file:$HOME/projects/personal/arafays-web,file:$HOME/entertainment,file:$HOME/entertainment,file:$HOME/entertainment
 Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x9a\x00\x00\x02\xa8\x00\xff\xff\xff\xff\x01\x00\x00\x00\x01\x00
 
 [General]
@@ -145,10 +145,10 @@ TerminalApplication=alacritty
 TerminalService=alacritty.desktop
 XftHintStyle=hintslight
 XftSubPixel=rgb
-font=NotoSansM Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-menuFont=NotoSansM Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-smallestReadableFont=NotoSansM Nerd Font ,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-toolBarFont=NotoSansM Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=NotoSans Nerd Font,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
 Theme=Tela-dracula-dark
@@ -184,7 +184,7 @@ MaximumRemoteSize=0
 [WM]
 activeBackground=27,27,29
 activeBlend=27,27,29
-activeFont=NotoSans Nerd Font ,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+activeFont=NotoMono Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=237,240,242
 inactiveBackground=27,27,29
 inactiveBlend=27,27,29
