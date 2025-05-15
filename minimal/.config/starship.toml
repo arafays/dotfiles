@@ -54,7 +54,7 @@ success_symbol = "[❯](fg:prompt_ok)"
 error_symbol = "[❯](fg:prompt_err)"
 
 [status]
-format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $status](bg:background)[](fg:background)"
+format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $status](bg:background)[](fg:background) "
 pipestatus = true
 pipestatus_separator = "-"
 pipestatus_segment_format = "$status"
@@ -71,7 +71,7 @@ truncation_symbol = "…/"
 # repo_root_style = 'underline white'
 
 [cmd_duration]
-format = " [](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
+format = "[─](fg:separator)[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
 min_time = 4
 show_milliseconds = true
 
@@ -80,17 +80,27 @@ format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](
 disabled = true
 time_format = "%H:%M"
 
+
 [git_branch]
+format = "[─](fg:separator)[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background) "
 symbol = " "
 
 [git_status]
-stashed = "[\\($count\\)](blue)"
-modified = " ! ${count}"
-ahead = '⇡${count}(red)'
-diverged = '⇕⇡${ahead_count}⇣${behind_count}'
-behind = '⇣${count}(red)'
-staged = '[++\($count\)](green)'
-untracked = '[??\($count\)](red)'
+stashed    = ' [ ${count}](blue)'
+modified   = ' [ ${count}](yellow)'
+ahead      = ' [ ${count}](green)'
+diverged   = ' [ ⇡${ahead_count}(green) ⇣${behind_count}(red)](bold purple)'
+behind     = ' [ ${count}](red)'
+staged     = ' [ ${count}](green)'
+untracked  = ' [ ${count}](red)'
+
+# stashed = "[\\($count\\)](blue)"
+# modified = " ! ${count}"
+# ahead = '⇡${count}(red)'
+# diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+# behind = '⇣${count}(red)'
+# staged = '[++\($count\)](green)'
+# untracked = '[??\($count\)](red)'
 
 [git_commit]
 tag_symbol = '  '
