@@ -6,15 +6,12 @@ add_newline = true
 
 # Move the directory to the second line
 format = """
-[╭](fg:separator)\
-$directory\
-$time\
-$all\
-$cmd_duration\
-$line_break\
-[╰](fg:separator)\
-$character\
+[╭](fg:separator)$directory$all$fill$cmd_duration$line_break\
+[╰](fg:separator)$character
 """
+
+continuation_prompt = "󰁔 󰁔 "
+
 # format = """
 # $line_break\
 # [╰](fg:separator)\
@@ -32,14 +29,17 @@ magenta = "#be95ff"
 cyan = "#3ddbd9"
 white = "#dde1e6"
 icon = "#161616"
-status = "#ee5396"
-prompt_ok = "#be95ff"
+status = "#e23140"
 
+prompt_ok = "#42be65"
 prompt_err = "#e23140"
+
 separator = "#45475A"
+
 background = "#262626"
-git_branch = "#be95ff"
-directory = "#F38BA8"
+git_branch = "#33b1ff"
+
+directory = "#dde1e6"
 duration = "#ee5396"
 
 [hostname]
@@ -71,14 +71,14 @@ truncation_symbol = "…/"
 # repo_root_style = 'underline white'
 
 [cmd_duration]
-format = "[─](fg:separator)[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
+format = "[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
 min_time = 4
-show_milliseconds = true
+show_milliseconds = false
 
 [time]
 format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
-disabled = true
-time_format = "%H:%M"
+disabled = false
+time_format = "%H: %M"
 
 
 [git_branch]
@@ -86,13 +86,13 @@ format = "[─](fg:separator)[](fg:git_branch)[](fg:icon bg:git_branch)[�
 symbol = " "
 
 [git_status]
-stashed    = ' [ ${count}](blue)'
-modified   = ' [ ${count}](yellow)'
-ahead      = ' [ ${count}](green)'
-diverged   = ' [ ⇡${ahead_count}(green) ⇣${behind_count}(red)](bold purple)'
-behind     = ' [ ${count}](red)'
-staged     = ' [ ${count}](green)'
-untracked  = ' [ ${count}](red)'
+stashed = ' [ ${count}](blue)'
+modified = ' [ ${count}](yellow)'
+ahead = ' [ ${count}](green)'
+diverged = ' [ ⇡${ahead_count}(green) ⇣${behind_count}(red)](bold purple)'
+behind = ' [ ${count}](red)'
+staged = ' [ ${count}](green)'
+untracked = ' [ ${count}](red)'
 
 # stashed = "[\\($count\\)](blue)"
 # modified = " ! ${count}"

@@ -1,19 +1,24 @@
 updateInfoAdded=true
 
 [dolphin_detailsmodesettings.upd]
-ctime=1746094362
+ctime=1747391607
 done=rename-leading-padding,rename-side-padding,move-content-display
-mtime=1745619206
+mtime=1747075011
 
 [dolphin_statusandlocationbarssettings.upd]
-ctime=1746094362
+ctime=1747391607
 done=move-content-display,25.04-convert-bool-showstatusbar-to-enum-showstatusbar
-mtime=1745619206
+mtime=1747075011
 
 [gtkconfig.upd]
 ctime=1746873442
 done=25.04-convert-bool-showstatusbar-to-enum-showstatusbar,gtk_theme,dont_use_gtk_css_for_window_decorations,remove_deprecated_gtk4_option
 mtime=1746692800
+
+[konsole.upd]
+ctime=1747391612
+done=konsole_globalaccel,add-hamburgermenu-to-toolbar
+mtime=1747084971
 
 [kwin.upd]
 ctime=1746873442
