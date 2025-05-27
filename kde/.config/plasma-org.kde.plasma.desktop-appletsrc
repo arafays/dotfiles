@@ -114,7 +114,7 @@ immutability=1
 plugin=org.kde.plasma.digitalclock
 
 [Containments][31][Applets][38][Configuration]
-PreloadWeight=95
+PreloadWeight=100
 popupHeight=450
 popupWidth=810
 
@@ -123,14 +123,100 @@ dateDisplayFormat=BesideTime
 displayTimezoneFormat=UTCOffset
 fontFamily=NotoSansM Nerd Font\s
 fontWeight=400
-selectedTimeZones=America/Cancun,Local
+selectedTimeZones=EST5EDT,Local
+wheelChangesTimezone=true
 
 [Containments][31][Applets][38][Configuration][ConfigDialog]
 DialogHeight=540
 DialogWidth=720
 
+[Containments][31][Applets][39]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.memory
+
+[Containments][31][Applets][39][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
+[Containments][31][Applets][39][Configuration][Appearance]
+chartFace=org.kde.ksysguard.colorgrid
+title=Memory Usage
+
+[Containments][31][Applets][39][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][31][Applets][39][Configuration][FaceGrid][Appearance]
+chartFace=org.kde.ksysguard.linechart
+showTitle=false
+
+[Containments][31][Applets][39][Configuration][FaceGrid][SensorColors]
+memory/physical/used=212,21,21
+
+[Containments][31][Applets][39][Configuration][FaceGrid][Sensors]
+highPrioritySensorIds=["memory/physical/used"]
+
+[Containments][31][Applets][39][Configuration][SensorColors]
+memory/physical/used=212,21,21
+
+[Containments][31][Applets][39][Configuration][Sensors]
+highPrioritySensorIds=["memory/physical/used"]
+lowPrioritySensorIds=["memory/physical/total"]
+totalSensors=["memory/physical/usedPercent"]
+
+[Containments][31][Applets][40]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.net
+
+[Containments][31][Applets][40][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
+[Containments][31][Applets][40][Configuration][Appearance]
+chartFace=org.kde.ksysguard.linechart
+title=Network Speed
+
+[Containments][31][Applets][40][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][31][Applets][40][Configuration][SensorColors]
+network/all/download=212,21,21
+network/all/upload=21,212,212
+
+[Containments][31][Applets][40][Configuration][Sensors]
+highPrioritySensorIds=["network/all/download","network/all/upload"]
+
+[Containments][31][Applets][40][Configuration][org.kde.ksysguard.linechart][General]
+rangeAutoY=false
+rangeFromYUnit=200
+rangeToY=8
+rangeToYMultiplier=1048576
+rangeToYUnit=202
+
+[Containments][31][Applets][42]
+immutability=1
+plugin=org.kde.plasma.systemmonitor.cpu
+
+[Containments][31][Applets][42][Configuration]
+CurrentPreset=org.kde.plasma.systemmonitor
+
+[Containments][31][Applets][42][Configuration][Appearance]
+chartFace=org.kde.ksysguard.piechart
+title=Total CPU Use
+
+[Containments][31][Applets][42][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][31][Applets][42][Configuration][SensorColors]
+cpu/all/usage=212,21,21
+
+[Containments][31][Applets][42][Configuration][Sensors]
+highPrioritySensorIds=["cpu/all/usage"]
+lowPrioritySensorIds=["cpu/all/cpuCount","cpu/all/coreCount"]
+totalSensors=["cpu/all/usage"]
+
 [Containments][31][General]
-AppletOrder=34;36;35;38
+AppletOrder=34;36;35;42;39;40;38
 
 [Containments][8]
 activityId=

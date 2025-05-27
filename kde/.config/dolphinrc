@@ -1,11 +1,23 @@
 MenuBar=Disabled
 
+[CompactMode]
+IconSize=22
+PreviewSize=80
+
+[DetailsMode]
+IconSize=22
+PreviewSize=64
+
 [General]
+OpenExternallyCalledFolderInNewTab=true
 ShowFullPath=true
-ShowFullPathInTitlebar=true
 ShowStatusBar=FullWidth
 Version=202
 ViewPropsTimestamp=2025,5,1,18,35,4.943
+
+[IconsMode]
+IconSize=48
+PreviewSize=80
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false

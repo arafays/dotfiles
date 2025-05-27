@@ -79,24 +79,6 @@ if ! command -v starship &> /dev/null; then
 fi
 eval "$(starship init zsh)"
 
-# Group completion initializations into a single function
-function init_essentials() {
-  [[ -x "$(command -v fzf)" ]] && eval "$(fzf --zsh)"
-  [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
-  [[ -x "$(command -v zoxide)" ]] && eval "$(zoxide init zsh)"
-  [[ -x "$(command -v mise)" ]] && { eval "$(mise activate zsh)";}
-}
-init_essentials
-
-# Group completion initializations into a single function
-function init_completions() {
-  [[ -x "$(command -v warp-cli)" ]] && eval "$(warp-cli generate-completions zsh)"
-  [[ -x "$(command -v pnpm)" ]] && eval "$(pnpm completion zsh)"
-  [[ -x "$(command -v go-blueprint)" ]] && eval "$(go-blueprint completion zsh)"
-  [[ -x "$(command -v mise)" ]] && { eval "$(mise completion zsh)"; }
-}
-init_completions
-
 ## Zap installer
 if [[ ! -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ]]; then
   echo "Zap not found. Install it? (y/n)"
@@ -126,6 +108,25 @@ zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' fzf-preview 'bat --color=always --style=numbers --line-range :500 {}'
 
+# Group completion initializations into a single function
+function init_essentials() {
+  [[ -x "$(command -v fzf)" ]] && eval "$(fzf --zsh)"
+  [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
+  [[ -x "$(command -v zoxide)" ]] && eval "$(zoxide init zsh)"
+  [[ -x "$(command -v mise)" ]] && { eval "$(mise activate zsh)";}
+}
+init_essentials
+
+# Group completion initializations into a single function
+function init_completions() {
+  [[ -x "$(command -v warp-cli)" ]] && eval "$(warp-cli generate-completions zsh)"
+  [[ -x "$(command -v pnpm)" ]] && eval "$(pnpm completion zsh)"
+  [[ -x "$(command -v go-blueprint)" ]] && eval "$(go-blueprint completion zsh)"
+  [[ -x "$(command -v mise)" ]] && { eval "$(mise completion zsh)"; }
+}
+init_completions
+
+
 # Cursor shape for vi modes
 function zle-keymap-select () {
   case $KEYMAP in
@@ -145,3 +146,11 @@ zle -N zle-line-init
 # To update the gist
 # gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
 export GPG_TTY=$(tty)
+
+# pnpm
+export PNPM_HOME="/home/arafays/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

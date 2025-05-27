@@ -134,7 +134,7 @@ ForegroundVisited=127,140,141
 
 [DirSelect Dialog]
 DirSelectDialog Size=1280,701
-History Items[$e]=file:///srv/shared/entertainment,file:$HOME/dotfiles,file:$HOME/Videos/recordings,file:$HOME/projects/personal/arafays-web,file:$HOME/entertainment,file:$HOME/entertainment,file:$HOME/entertainment
+History Items[$e]=file:$HOME/projects/agent-commission-calculator,file:///srv/shared/entertainment,file:$HOME/dotfiles,file:$HOME/Videos/recordings,file:$HOME/projects/personal/arafays-web,file:$HOME/entertainment,file:$HOME/entertainment,file:$HOME/entertainment
 Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x9a\x00\x00\x02\xa8\x00\xff\xff\xff\xff\x01\x00\x00\x00\x01\x00
 
 [General]
@@ -142,9 +142,10 @@ AccentColor=233,100,58
 ColorSchemeHash=404c9c568102723de6d5694e4902840a6a5076c6
 LastUsedCustomAccentColor=233,100,58
 TerminalApplication=alacritty
-TerminalService=alacritty.desktop
+TerminalService=Alacritty.desktop
 XftHintStyle=hintslight
 XftSubPixel=rgb
+fixed=NotoSansM Nerd Font Mono,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 font=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 menuFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 smallestReadableFont=NotoSans Nerd Font,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
@@ -156,6 +157,7 @@ Theme=Tela-dracula-dark
 [KDE]
 LookAndFeelPackage=Nothing
 ShowDeleteCommand=false
+widgetStyle=Breeze
 
 [KFileDialog Settings]
 Allow Expansion=false

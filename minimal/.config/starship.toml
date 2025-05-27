@@ -37,7 +37,7 @@ prompt_err = "#e23140"
 separator = "#45475A"
 
 background = "#262626"
-git_branch = "#33b1ff"
+git_branch = "#ffe97b"
 
 directory = "#dde1e6"
 duration = "#ee5396"
@@ -77,7 +77,7 @@ show_milliseconds = false
 
 [time]
 format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
-disabled = false
+disabled = true
 time_format = "%H: %M"
 
 

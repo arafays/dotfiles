@@ -5,4 +5,5 @@ return {
   { name = "developer", email = "dev.testing785@gmail.com", signingkey = "" },
   { name = "Webnhubs", email = "dev.testing785@gmail.com", signingkey = "" },
   { name = "Mohammad Osama", email = "agency@craftidesigns.com", signingkey = "" },
+  { name = "Abdul Rafay Shaikh", email = "me@arafays.com", signingkey = "" },
 }
