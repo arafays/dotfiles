@@ -6,6 +6,7 @@ local config = {
     sources = {
       explorer = {
         hidden = true,
+        show_unlinked = true,
       },
     },
   },

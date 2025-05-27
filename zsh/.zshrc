@@ -171,7 +171,7 @@ alias ld='eza -lhD --icons=auto'
 alias lt='eza --icons=auto --tree'
 alias rg="rg --hidden --glob '!.git'"
 alias cat="bat"
-alias scripts="cat package.json | bat --color auto '.scripts'"
+alias scripts="jq '.scripts' package.json | bat --color auto"
 alias fd='fdfind'
 alias cd='z'
 alias n='nvim'
@@ -215,3 +215,11 @@ function webm2mp4() {
   output_file="${input_file%.webm}.mp4"
   ffmpeg -i "$input_file" -c:v libx264 -preset slow -crf 22 -c:a aac -b:a 192k "$output_file"
 }
+
+# pnpm
+export PNPM_HOME="/home/arafay/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

@@ -1,48 +1,76 @@
-
-[colors]
 [colors.primary]
-background = "#020202"
-foreground = "#d8dee9"
-dim_foreground = "#a5abb6"
+background = "#161616"
+foreground = "#ffffff"
+dim_foreground = "#CDD6F4"
+bright_foreground = "#CDD6F4"
 
 [colors.cursor]
-text = "#2e3440"
-cursor = "#d8dee9"
+text = "#1E1E2E"
+cursor = "#F5E0DC"
 
 [colors.vi_mode_cursor]
-text = "#2e3440"
-cursor = "#d8dee9"
+text = "#1E1E2E"
+cursor = "#B4BEFE"
+
+[colors.search.matches]
+foreground = "#1E1E2E"
+background = "#A6ADC8"
+
+[colors.search.focused_match]
+foreground = "#1E1E2E"
+background = "#A6E3A1"
+
+[colors.hints.start]
+foreground = "#1E1E2E"
+background = "#F9E2AF"
+
+[colors.hints.end]
+foreground = "#1E1E2E"
+background = "#A6ADC8"
+
+[colors.line_indicator]
+#foreground            = "None"
+#background            = "None"
+
+[colors.footer_bar]
+background = "#262626"
+foreground = "#ffffff"
 
 [colors.selection]
-text = "CellForeground"
-background = "#4c566a"
-
-[colors.normal]
-black = "#3b4252"
-red = "#bf616a"
-green = "#a3be8c"
-yellow = "#ebcb8b"
-blue = "#81a1c1"
-magenta = "#b48ead"
-cyan = "#88c0d0"
-white = "#e5e9f0"
-
-[colors.bright]
-black = "#4c566a"
-red = "#bf616a"
-green = "#a3be8c"
-yellow = "#ebcb8b"
-blue = "#81a1c1"
-magenta = "#b48ead"
-cyan = "#8fbcbb"
-white = "#eceff4"
+text = "#1E1E2E"
+background = "#F5E0DC"
 
 [colors.dim]
-black = "#373e4d"
-red = "#94545d"
-green = "#809575"
-yellow = "#b29e75"
-blue = "#68809a"
-magenta = "#8c738c"
-cyan = "#6d96a5"
-white = "#aeb3bb"
+black = "#45475A"
+red = "#F38BA8"
+green = "#A6E3A1"
+yellow = "#F9E2AF"
+blue = "#89B4FA"
+magenta = "#F5C2E7"
+cyan = "#94E2D5"
+white = "#BAC2DE"
+
+[colors.normal]
+black = "#262626"
+magenta = "#ff7eb6"
+green = "#42be65"
+yellow = "#ffe97b"
+blue = "#33b1ff"
+red = "#ee5396"
+cyan = "#3ddbd9"
+white = "#dde1e6"
+
+[colors.bright]
+black = "#393939"
+magenta = "#ff7eb6"
+green = "#42be65"
+yellow = "#ffe97b"
+blue = "#33b1ff"
+red = "#ee5396"
+cyan = "#3ddbd9"
+white = "#ffffff"
+
+
+[colors]
+transparent_background_colors = true
+draw_bold_text_with_bright_colors = true
