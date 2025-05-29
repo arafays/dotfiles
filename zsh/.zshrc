@@ -74,6 +74,14 @@ fi
 precmd() { print -Pn "\e]0;%~\a" }
 
 
+# pnpm
+export PNPM_HOME="/home/arafay/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 function init_activations() {
   # Activations
   [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
@@ -197,14 +205,13 @@ alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
 # Functions
-function tn() {
+
+tn() {
   local session_name="${1:-$(basename "$PWD")}"
-  kitty @ set-spacing padding=5
   tmux new-session -A -s "$session_name" -c "$PWD"
-  kitty @ set-spacing padding=20
 }
 
-function tt() {
+tt() {
   tn "$@"
 }
 
@@ -216,10 +223,3 @@ function webm2mp4() {
   ffmpeg -i "$input_file" -c:v libx264 -preset slow -crf 22 -c:a aac -b:a 192k "$output_file"
 }
 
-# pnpm
-export PNPM_HOME="/home/arafay/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end

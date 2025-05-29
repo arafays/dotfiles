@@ -17,11 +17,11 @@ TERM = "alacritty"
 [window]
 #dimensions            = { columns = 0, lines = 0 }
 #position              = { x = 0, y = 0 }
-padding = { x = 15, y = 15 }
+padding = { x = 10, y = 10 }
 dynamic_padding = true
 decorations = "None"
-opacity = 1
-blur = false
+opacity = 0.9
+blur = true
 startup_mode = "Maximized"
 title = "Alacritty"
 dynamic_title = true
@@ -45,7 +45,7 @@ glyph_offset = { x = 0, y = 0 }
 #builtin_box_drawing   = true
 
 [colors.primary]
-background = "#161616"
+background = "#000000"
 foreground = "#ffffff"
 dim_foreground = "#CDD6F4"
 bright_foreground = "#CDD6F4"

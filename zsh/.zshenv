@@ -14,6 +14,32 @@ EDITOR="nvim"
 SUDO_EDITOR="$EDITOR"
 DIFFPROG="$EDITOR"
 
+
+if [[ -z "$aurhelper" ]]; then
+  echo "No AUR helper detected. Some aliases may not work."
+fi
+
+function search {
+  local -a searchPkg=("$@")
+  local -a arch=()
+  local -a aur=()
+
+  for pkg in "${searchPkg[@]}"; do
+      if pacman -Si "${pkg}" &>/dev/null; then
+          arch+=("${pkg}")
+      else
+          aur+=("${pkg}")
+      fi
+    done
+
+    if [[ ${#arch[@]} -gt 0 ]]; then
+        sudo pacman -Ss "${arch[@]}"
+    fi
+
+    if [[ ${#aur[@]} -gt 0 ]]; then
+        ${aurhelper} -Ss "${aur[@]}"
+    fi
+}
 # XDG Base Directory Specification
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"

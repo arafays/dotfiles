@@ -6,8 +6,7 @@ add_newline = true
 
 # Move the directory to the second line
 format = """
-[╭](fg:separator)$directory$all$fill$cmd_duration\
-$line_break\
+[╭](fg:separator)$directory$all $fill $cmd_duration$line_break\
 [╰](fg:separator)$character
 """
 
