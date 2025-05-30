@@ -7,7 +7,7 @@ return {
     opts = function(_, opts)
       opts = opts or {}
       opts.options = opts.options or {}
-      opts.options.section_separators = { left = "", right = "" }
+      -- opts.options.section_separators = { left = "", right = "" }
       -- opts.options.component_separators = { left = "", right = "" }
 
       opts.sections = opts.sections or {}

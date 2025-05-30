@@ -1,4 +1,3 @@
-## Define the directory where dotfiles are stored
 # STOW_DIR: Path to the directory containing dotfiles
 STOW_DIR="$HOME/dotfiles"
 
@@ -8,12 +7,6 @@ if pacman -Qi yay &>/dev/null; then
 elif pacman -Qi paru &>/dev/null; then
    aurhelper="paru"
 fi
-
-# Editor settings
-EDITOR="nvim"
-SUDO_EDITOR="$EDITOR"
-DIFFPROG="$EDITOR"
-
 
 if [[ -z "$aurhelper" ]]; then
   echo "No AUR helper detected. Some aliases may not work."
@@ -40,6 +33,15 @@ function search {
         ${aurhelper} -Ss "${aur[@]}"
     fi
 }
+
+# Editor settings
+EDITOR="nvim"
+SUDO_EDITOR="$EDITOR"
+DIFFPROG="$EDITOR"
+
+# System settings
+OS_FIREWALL="firewalld"
+
 # XDG Base Directory Specification
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"
@@ -63,29 +65,12 @@ MANROFFOPT="-c"
 WGETRC="${XDG_CONFIG_HOME}/wgetrc"
 SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
-# PATH Configuration - Consolidate all PATH modifications here
-# This ensures PATH is set up early and only once
-
-# # Add local bin to PATH
-# if [ -d "$HOME/.local/bin" ]; then
-#     PATH="$HOME/.local/bin:$PATH"
-# fi
-#
-# Add any other PATH additions here
-# Example: Add cargo binaries
-# if [ -d "$HOME/.cargo/bin" ]; then
-#     PATH="$HOME/.cargo/bin:$PATH"
-# fi
-
-# Export PATH only once after all modifications
-export PATH
-
-# System settings
-OS_FIREWALL="firewalld"
-
 # Export all variables
 export XDG_CONFIG_HOME XDG_CONFIG_DIR XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME \
        XDG_DESKTOP_DIR XDG_DOWNLOAD_DIR XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR \
        XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR \
        STOW_DIR EDITOR SUDO_EDITOR OS_FIREWALL PARALLEL_HOME WGETRC SCREENRC \
        aurhelper MANPAGER MANROFFOPT LESSHISTFILE DIFFPROG
+
+# Export PATH only once after all modifications
+export PATH
