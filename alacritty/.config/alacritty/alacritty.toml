@@ -3,6 +3,9 @@
 #"~/.config/alacritty/keybindings.toml",
 #]
 
+[env]
+TERM = "alacritty"
+
 [terminal.shell]
 program = "/usr/bin/zsh"
 args = ["--login"]
