@@ -204,8 +204,9 @@ alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
-# Functions
+TERM=alacritty
 
+# Functions
 tn() {
   local session_name="${1:-$(basename "$PWD")}"
   tmux new-session -A -s "$session_name" -c "$PWD"

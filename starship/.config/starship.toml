@@ -1,23 +1,16 @@
-scan_timeout = 100
+# scan_timeout = 100
 palette = "oxocarbon"
 add_newline = true
 
 # default_format = "$all"
 
 # Move the directory to the second line
-format = """
-[╭](fg:separator)$directory$all $fill $cmd_duration$line_break\
-[╰](fg:separator)$character
-"""
-
-continuation_prompt = "󰁔 󰁔 "
-
 # format = """
-# $line_break\
-# [╰](fg:separator)\
-# $character\
+# [╭](fg:separator)$directory $all $fill $cmd_duration$line_break\
+# [╰](fg:separator)$character
 # """
 
+# continuation_prompt = "󰁔 󰁔 "
 
 [palettes.oxocarbon]
 black = "#161616"
@@ -28,6 +21,7 @@ blue = "#33b1ff"
 magenta = "#be95ff"
 cyan = "#3ddbd9"
 white = "#dde1e6"
+
 icon = "#161616"
 status = "#e23140"
 
@@ -42,47 +36,42 @@ git_branch = "#ffe97b"
 directory = "#dde1e6"
 duration = "#ee5396"
 
-[hostname]
-ssh_only = true
-ssh_symbol = " "
-format = ' on [$hostname](bold yellow) '
-trim_at = "."
-disabled = false
+# [hostname]
+# ssh_only = true
+# ssh_symbol = " "
+# format = ' on [$hostname](bold yellow)'
+# trim_at = "."
+# disabled = false
 
 [character]
 success_symbol = "[❯](fg:prompt_ok)"
 error_symbol = "[❯](fg:prompt_err)"
-
-[status]
-format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $status](bg:background)[](fg:background) "
-pipestatus = true
-pipestatus_separator = "-"
-pipestatus_segment_format = "$status"
-pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background) "
-disabled = false
+#
+# [status]
+# format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $status](bg:background)[](fg:status)"
+# pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background) "
 
 [directory]
 read_only = " 󰌾"
-format = "[─](fg:separator)[](fg:directory)[](fg:icon bg:directory)[](fg:directory bg:background)[ $path](bg:background)[](fg:background)"
-truncate_to_repo = false                                                                                                                       # truncates directory to root folder if in github repo
+# format = "[─](fg:separator)[](fg:directory)[](fg:icon bg:directory)[](fg:directory bg:background)[ $path](bg:background)[](fg:background)"
+truncate_to_repo = false # truncates directory to root folder if in github repo
 truncation_length = 3
 truncation_symbol = "…/"
 # repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
 # repo_root_style = 'underline white'
-
-[cmd_duration]
-format = "[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
-min_time = 4
-show_milliseconds = false
-
-[time]
-format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
-disabled = true
-time_format = "%H: %M"
-
+#
+# [cmd_duration]
+# format = "[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
+# min_time = 4
+# show_milliseconds = false
+#
+# [time]
+# format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
+# disabled = true
+# time_format = "%H:%M"
 
 [git_branch]
-format = "[─](fg:separator)[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background) "
+format = "[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background) "
 symbol = " "
 
 [git_status]
@@ -108,80 +97,81 @@ tag_symbol = '  '
 # ──────────────────────────────
 # Language & Tool Symbols
 # ──────────────────────────────
+
 [aws]
-symbol = "  "
+symbol = " "
 
 [buf]
-symbol = "  "
+symbol = " "
 
 [c]
-symbol = "  "
+symbol = " "
 
 [conda]
-symbol = "  "
+symbol = " "
 
 [crystal]
-symbol = "  "
+symbol = " "
 
 [dart]
-symbol = "  "
+symbol = " "
 
 [docker_context]
-symbol = "  "
+symbol = " "
 
 [elixir]
-symbol = "  "
+symbol = " "
 
 [elm]
-symbol = "  "
+symbol = " "
 
 [fennel]
-symbol = "  "
+symbol = " "
 
 [fossil_branch]
-symbol = "  " # nf-oct-git_branch_alt
+symbol = " "
 
 [golang]
-symbol = "  "
+symbol = " "
 
 [guix_shell]
-symbol = "  "
+symbol = " "
 
 [haskell]
-symbol = "  "
+symbol = " "
 
 [haxe]
-symbol = "  "
+symbol = " "
 
 [hg_branch]
-symbol = "  " # nf-oct-git_branch_alt
+symbol = " "
 
 [java]
-symbol = "  "
+symbol = " "
 
 [julia]
-symbol = "  "
+symbol = " "
 
 [kotlin]
-symbol = "  "
+symbol = " "
 
 [lua]
-symbol = "  "
+symbol = " "
 
 [memory_usage]
-symbol = "󰍛  "
+symbol = "󰍛 "
 
 [meson]
-symbol = "󰔷  "
+symbol = "󰔷 "
 
 [nim]
-symbol = "󰆥  "
+symbol = "󰆥 "
 
 [nix_shell]
-symbol = "  "
+symbol = " "
 
 [nodejs]
-symbol = "  "
+symbol = " "
 detect_files = [
   'package.json',
   'yarn.lock',
@@ -193,40 +183,40 @@ detect_files = [
 ]
 
 [ocaml]
-symbol = "  "
+symbol = " "
 
 [perl]
-symbol = "  "
+symbol = " "
 
 [php]
-symbol = "  "
+symbol = " "
 
 [pijul_channel]
-symbol = "  "
+symbol = " "
 
 [python]
-symbol = "  "
+symbol = " "
 
 [rlang]
-symbol = "󰟔  "
+symbol = "󰟔 "
 
 [ruby]
-symbol = "  "
+symbol = " "
 
 [rust]
-symbol = "󱘗  "
+symbol = "󱘗 "
 
 [scala]
-symbol = "  "
+symbol = " "
 
 [swift]
-symbol = "  "
+symbol = " "
 
 [zig]
-symbol = "  "
+symbol = " "
 
 [gradle]
-symbol = "  "
+symbol = " "
 
 [os.symbols]
 Alpaquita = " "
