@@ -11,9 +11,6 @@ args = ["--login"]
 #live_config_reload    = true
 #ipc_socket            = true
 
-[env]
-TERM = "alacritty"
-
 [window]
 #dimensions            = { columns = 0, lines = 0 }
 #position              = { x = 0, y = 0 }
