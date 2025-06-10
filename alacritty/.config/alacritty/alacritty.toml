@@ -20,7 +20,7 @@ args = ["--login"]
 padding = { x = 10, y = 10 }
 dynamic_padding = true
 decorations = "None"
-opacity = 0.9
+opacity = 1
 blur = true
 startup_mode = "Maximized"
 title = "Alacritty"
