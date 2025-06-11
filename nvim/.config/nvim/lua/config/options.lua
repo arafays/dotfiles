@@ -3,3 +3,5 @@
 -- Add any additional options here
 
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
+
+vim.opt.background = "dark" -- set this to dark or light
