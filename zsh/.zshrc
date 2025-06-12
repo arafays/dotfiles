@@ -1,5 +1,7 @@
 [[ -f ~/.profile ]] && source ~/.profile
 
+TERM='alacritty'
+
 # Enable appending to the history file, rather than overwriting it
 # when the shell exits.
 setopt APPEND_HISTORY
@@ -27,6 +29,13 @@ setopt NOMATCH
 setopt MENU_COMPLETE
 setopt EXTENDED_GLOB
 setopt INTERACTIVE_COMMENTS
+
+# Prompt
+PROMPT=$'\uf0a9 ' # Unicode arrow
+if [[ ! $(locale charmap) =~ "UTF-8" ]]; then
+  PROMPT="> " # Fallback for non-UTF-8 locales
+fi
+precmd() { print -Pn "\e]0;%~\a" }
 
 # Colors
 autoload -Uz colors && colors
@@ -191,7 +200,7 @@ alias .5='cd ../../../../..'
 export PNPM_HOME="/home/arafay/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH:$HOME/.pub-cache/bin" ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
