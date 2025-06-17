@@ -1,16 +1,9 @@
-# scan_timeout = 100
+# "$schema" = 'https://starship.rs/config-schema.json'
 palette = "oxocarbon"
 add_newline = true
 
-# default_format = "$all"
-
-# Move the directory to the second line
-# format = """
-# [╭](fg:separator)$directory $all $fill $cmd_duration$line_break\
-# [╰](fg:separator)$character
-# """
-
-# continuation_prompt = "󰁔 󰁔 "
+[fill]
+symbol = ' '
 
 [palettes.oxocarbon]
 black = "#161616"
@@ -36,39 +29,14 @@ git_branch = "#ffe97b"
 directory = "#dde1e6"
 duration = "#ee5396"
 
-# [hostname]
-# ssh_only = true
-# ssh_symbol = " "
-# format = ' on [$hostname](bold yellow)'
-# trim_at = "."
-# disabled = false
+format = """\
+  󰣇 \
+  $directory\
+  $git_branch$git_commit$git_state $git_status\
+  $character\n
+"""
+continuation_prompt = '▶▶ '
 
-[character]
-success_symbol = "[❯](fg:prompt_ok)"
-error_symbol = "[❯](fg:prompt_err)"
-#
-# [status]
-# format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $status](bg:background)[](fg:status)"
-# pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background) "
-
-[directory]
-read_only = " 󰌾"
-# format = "[─](fg:separator)[](fg:directory)[](fg:icon bg:directory)[](fg:directory bg:background)[ $path](bg:background)[](fg:background)"
-truncate_to_repo = false # truncates directory to root folder if in github repo
-truncation_length = 3
-truncation_symbol = "…/"
-# repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
-# repo_root_style = 'underline white'
-#
-# [cmd_duration]
-# format = "[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
-# min_time = 4
-# show_milliseconds = false
-#
-# [time]
-# format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
-# disabled = true
-# time_format = "%H:%M"
 
 [git_branch]
 format = "[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background) "

@@ -1,0 +1,414 @@
+# Set terminal title to current directory
+function _set_terminal_title() {
+    print -Pn "\e]0;%~\a"
+}
+
+function _checkTerminal {
+    unset -f _checkTerminal
+    if [[ "$TERM_PROGRAM" == "alacritty" || "$TERMINAL" == *"alacritty"* || "$TERMINAL_EMULATOR" == *"alacritty"* ]]; then
+        export TERM=alacritty
+        # Alacritty supports true color
+        export COLORTERM=truecolor
+    elif [[ "$TERM_PROGRAM" == "kitty" || "$TERMINAL" == *"kitty"* || "$TERMINAL_EMULATOR" == *"kitty"* ]]; then
+        export TERM=xterm-kitty
+        # Kitty supports true color
+        export COLORTERM=truecolor
+    fi
+}
+
+# Detect AUR wrapper
+function _checkAurHelper {
+    unset -f _checkAurHelper
+    if pacman -Qi yay &>/dev/null; then
+        export aurhelper="yay"
+    elif pacman -Qi paru &>/dev/null; then
+        export aurhelper="paru"
+    fi
+
+    if [[ -z "$aurhelper" ]]; then
+        echo "No AUR helper detected. Some aliases may not work."
+    fi
+}
+
+function _load_zsh_plugins {
+    # Function body starts here properly
+
+    ### Added by Zinit's installer
+    if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+        print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+        command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+        command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" &&
+            print -P "%F{33} %F{34}Installation successful.%f%b" ||
+            print -P "%F{160} The clone has failed.%f%b"
+    fi
+
+    source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+    autoload -Uz _zinit
+    ((${#_comps[@]} > 0)) && _comps[zinit]=_zinit
+
+    # Load a few important annexes, without Turbo
+    # (this is currently required for annexes)
+    zinit light-mode for \
+        zdharma-continuum/zinit-annex-as-monitor \
+        zdharma-continuum/zinit-annex-bin-gem-node \
+        zdharma-continuum/zinit-annex-patch-dl \
+        zdharma-continuum/zinit-annex-rust
+
+    ### End of Zinit's installer chunk
+
+    # Load plugins with zinit
+    zinit light zdharma-continuum/fast-syntax-highlighting
+    zinit light zsh-users/zsh-autosuggestions
+    zinit light zsh-users/zsh-completions
+    zinit light MichaelAquilina/zsh-you-should-use
+    zinit light Aloxaf/fzf-tab
+
+    # For fzf functionality, load via zinit instead of zap plugin
+    zinit ice from"gh-r" as"command"
+    zinit light junegunn/fzf
+}
+
+# best fzf aliases ever
+_fuzzy_change_directory() {
+    local initial_query="$1"
+    local selected_dir
+    local fzf_options=('--preview=ls -p {}' '--preview-window=right:60%')
+    fzf_options+=(--height "80%" --layout=reverse --preview-window right:60% --cycle)
+    local max_depth=7
+
+    if [[ -n "$initial_query" ]]; then
+        fzf_options+=("--query=$initial_query")
+    fi
+
+    #type -d
+    selected_dir=$(find . -maxdepth $max_depth \( -name .git -o -name node_modules -o -name .venv -o -name target -o -name .cache \) -prune -o -type d -print 2>/dev/null | fzf "${fzf_options[@]}")
+
+    if [[ -n "$selected_dir" && -d "$selected_dir" ]]; then
+        cd "$selected_dir" || return 1
+    else
+        return 1
+    fi
+}
+
+# Function to display a slow load warning for shell startup
+function _slow_load_warning {
+    local lock_file="/tmp/.arafay_slow_load_warning.lock"
+    local load_time=$SECONDS
+
+    # Check if the lock file exists
+    if [[ ! -f $lock_file ]]; then
+        # Create the lock file
+        touch $lock_file
+
+        # Display the warning if load time exceeds the limit
+        time_limit=3
+        if ((load_time > time_limit)); then
+            cat <<EOF
+    ⚠️ Warning: Shell startup took more than ${time_limit} seconds. Consider optimizing your configuration.
+        1. This might be due to slow plugins or initialization scripts.
+        2. Duplicate plugin initializations or conflicting configurations.
+        3. Check for large files being sourced during startup.
+
+    Possible solutions:
+        - Review zinit plugin loading in your dotfiles
+        - Check for redundant completions or aliases
+        - Consider using zinit's turbo mode for non-critical plugins
+
+    For more information or to contribute improvements:
+        🌐 https://github.com/arafays/dotfiles
+
+EOF
+        fi
+    fi
+}
+
+_fuzzy_edit_search_file_content() {
+    # [f]uzzy [e]dit  [s]earch [f]ile [c]ontent
+    local selected_file
+    selected_file=$(grep -irl "${1:-}" ./ | fzf --height "80%" --layout=reverse --preview-window right:60% --cycle --preview 'cat {}' --preview-window right:60%)
+
+    if [[ -n "$selected_file" ]]; then
+        if command -v "$EDITOR" &>/dev/null; then
+            "$EDITOR" "$selected_file"
+        else
+            echo "EDITOR is not specified. using vim.  (you can export EDITOR in ~/.zshrc)"
+            vim "$selected_file"
+        fi
+
+    else
+        echo "No file selected or search returned no results."
+    fi
+}
+
+function _load_persistent_aliases {
+    unset -f _load_persistent_aliases
+
+    if [[ -x "$(command -v eza)" ]]; then
+        # File navigation and listing
+        alias ls='eza -lh --icons=auto --group-directories-first' \
+            ll='eza -lha --icons=auto --sort=name --group-directories-first' \
+            l='eza -lh --icons=auto' \
+            la='eza -lha --icons=auto' \
+            ld='eza -lhD --icons=auto' \
+            lt='eza --icons=auto --tree'
+    fi
+
+    # Package management aliases (only set if aurhelper is available)
+    if [[ -n "$aurhelper" ]]; then
+        alias in='$aurhelper -S' \
+            un='$aurhelper -Rns' \
+            up='$aurhelper -Syu' \
+            pl='$aurhelper -Qs' \
+            pa='$aurhelper -Ss' \
+            pc='$aurhelper -Sc' \
+            po='$aurhelper -Qtdq | $aurhelper -Rns -'
+    fi
+
+    if [[ -x "$(command -v fzf)" ]]; then
+        alias ff='fzf --preview "bat --style=numbers --color=always {}"'
+    fi
+
+    # if zoxide exists replace cd
+    if _cmd_exists zoxide; then
+        alias cd='zoxide cd'
+    fi
+}
+
+# Cursor shape for vi modes
+function zle-keymap-select() {
+    case $KEYMAP in
+    vicmd) echo -ne '\e[1 q' ;;        # block
+    viins | main) echo -ne '\e[5 q' ;; # beam
+    esac
+    zle reset-prompt
+}
+
+zle-line-init() {
+    zle -K viins
+    echo -ne "\e[5 q"
+}
+function _load_post_init() {
+    _load_persistent_aliases
+
+    # Completion settings
+    autoload -U compinit && compinit -C
+    autoload -Uz colors && colors
+
+    zstyle ':completion:*' menu yes select
+    zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+    _comp_options+=(globdots) # Include hidden files.
+    zle_highlight=('paste:none')
+
+    # FZF-tab configuration
+    ((${#_comps[@]} > 0)) && _comps[zinit]=_zinit
+
+    ###### fzf-tab configuration - https://github.com/Aloxaf/fzf-tab#configure
+    # disable sort when completing `git checkout`
+    zstyle ':completion:*:git-checkout:*' sort false
+    # set descriptions format to enable group support
+    zstyle ':completion:*:descriptions' format '[%d]'
+    # set list-colors to enable filename colorizing
+    zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+    # preview directory's content with exa when completing cd
+    zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+    # switch group using `,` and `.`
+    zstyle ':fzf-tab:*' switch-group ',' '.'
+
+    zstyle ':completion:*:git-checkout:*' sort false
+    zstyle ':completion:*:descriptions' format '[%d]'
+    zstyle ':completion:*' menu no
+    zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+    zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+    zstyle ':fzf-tab:*' use-fzf-default-opts yes
+    zstyle ':fzf-tab:*' switch-group '<' '>'
+    zstyle ':fzf-tab:*' fzf-preview 'bat --color=always --style=numbers --line-range :500 {}'
+
+    zle -N zle-keymap-select
+
+    zle -N zle-line-init
+
+    # zsh-autosuggestions won't work on first prompt when deferred
+    if typeset -f _zsh_autosuggest_start >/dev/null; then
+        _zsh_autosuggest_start
+    fi
+
+    # User rc file always overrides
+    [[ -f $HOME/.zshrc ]] && source $HOME/.zshrc
+}
+
+function _load_if_terminal {
+    if [ -t 1 ]; then
+        # Run the function to set terminal environment
+        unset -f _load_if_terminal
+
+        _checkTerminal
+
+        _checkAurHelper
+
+        if ! command -v starship &>/dev/null; then
+            echo "Starship not found. Install it? (y/n)"
+            read -r response
+            if [[ "$response" == "y" ]]; then
+                curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+            fi
+        else
+            # ===== START Initialize Starship prompt =====
+            eval "$(starship init zsh)"
+            export STARSHIP_CACHE=$XDG_CACHE_HOME/starship
+            export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
+        fi
+
+        # Load plugins
+        _load_zsh_plugins
+
+        zle -N zle-line-init _load_post_init # Loads when the line editor initializes // The best option
+
+        # Load zsh hooks module once
+        autoload -Uz add-zsh-hook
+
+        # Warn if the shell is slow to load
+        add-zsh-hook -Uz precmd _set_terminal_title
+        add-zsh-hook -Uz precmd _slow_load_warning
+
+        # Better versions of standard commands
+        alias cat='bat' \
+            cd='z' \
+            mkdir='mkdir -p' \
+            rg='rg --hidden --glob "!.git"' \
+            fd='fdfind'
+
+        # Applications
+        alias n='nvim' \
+            vc='code' \
+            dev='code .' \
+            g='git' \
+            d='docker' \
+            lzg='lazygit' \
+            lzd='lazydocker' \
+            fastfetch='fastfetch --logo-type kitty'
+
+        # Utility
+        alias c='clear' \
+            scripts='jq ".scripts" package.json | bat --color auto' \
+            decompress='tar -xzf'
+
+        # Navigation shortcuts
+        alias ..='cd ..' \
+            ...='cd ../..' \
+            .3='cd ../../..' \
+            .4='cd ../../../..' \
+            .5='cd ../../../../..'
+
+        # Fuzzy search functions
+        alias ffec='_fuzzy_edit_search_file_content' \
+            ffcd='_fuzzy_change_directory' \
+            ffe='_fuzzy_edit_search_file' \
+            df='_df'
+
+        autoload -U up-line-or-beginning-search
+        autoload -U down-line-or-beginning-search
+
+        # Some binds for navigation
+        bindkey '\e[H' beginning-of-line
+        bindkey '\e[F' end-of-line
+
+        # Key bindings
+        zle -N up-line-or-beginning-search
+        zle -N down-line-or-beginning-search
+        zmodload zsh/complist
+        bindkey -s '^x' 'source $HOME/.zshrc\n'
+        bindkey -M menuselect '?' history-incremental-search-forward
+        bindkey -M menuselect '/' history-incremental-search-backward
+        bindkey '^H' backward-kill-word # Ctrl + Backspace to delete a whole word.
+        bindkey -v
+    fi
+}
+
+function _load_persistent_aliases {
+    # Persistent aliases are loaded after the plugin is loaded
+    # This way omz will not override them
+    unset -f _load_persistent_aliases
+
+    if [[ -x "$(command -v eza)" ]]; then
+        alias l='eza -lh --icons=auto' \
+            ll='eza -lha --icons=auto --sort=name --group-directories-first' \
+            ld='eza -lhD --icons=auto' \
+            lt='eza --icons=auto --tree'
+    fi
+
+}
+
+_df() {
+    if [[ $# -ge 1 && -e "${@: -1}" ]]; then
+        duf "${@: -1}"
+    else
+        duf
+    fi
+}
+
+function in() {
+    local -a inPkg=("$@")
+    local -a arch=()
+    local -a aur=()
+
+    for pkg in "${inPkg[@]}"; do
+        if pacman -Si "${pkg}" &>/dev/null; then
+            arch+=("${pkg}")
+        else
+            aur+=("${pkg}")
+        fi
+    done
+
+    if [[ ${#arch[@]} -gt 0 ]]; then
+        sudo pacman -S "${arch[@]}"
+    fi
+
+    if [[ ${#aur[@]} -gt 0 ]]; then
+        ${aurhelper} -S "${aur[@]}"
+    fi
+}
+
+function search() {
+    local -a searchPkg=("$@")
+    local -a arch=()
+    local -a aur=()
+
+    for pkg in "${searchPkg[@]}"; do
+        if pacman -Si "${pkg}" &>/dev/null; then
+            arch+=("${pkg}")
+        else
+            aur+=("${pkg}")
+        fi
+    done
+
+    if [[ ${#arch[@]} -gt 0 ]]; then
+        sudo pacman -Ss "${arch[@]}"
+    fi
+
+    if [[ ${#aur[@]} -gt 0 ]]; then
+        ${aurhelper} -Ss "${aur[@]}"
+    fi
+}
+
+function compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
+
+function webm2mp4() {
+    input_file="$1"
+    output_file="${input_file%.webm}.mp4"
+    ffmpeg -i "$input_file" -c:v libx264 -preset slow -crf 22 -c:a aac -b:a 192k "$output_file"
+}
+
+# Basic prompt fallback (only used if Starship isn't available)
+PROMPT=$'\uf0a9 ' # Unicode arrow
+if [[ ! $(locale charmap) =~ "UTF-8" ]]; then
+    PROMPT="> " # Fallback for non-UTF-8 locales
+fi
+
+# Export all variables
+export XDG_CONFIG_HOME XDG_CONFIG_DIR XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME XDG_DESKTOP_DIR XDG_DOWNLOAD_DIR XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR OS_FIREWALL PARALLEL_HOME WGETRC SCREENRC MANPAGER MANROFFOPT LESSHISTFILE DIFFPROG
+
+
+
+# Export PATH only once after all modifications
+export PATH
+_load_if_terminal

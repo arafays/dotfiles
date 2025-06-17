@@ -1,76 +1,70 @@
+# .zshenv - Only essential environment variables and PATH modifications
+# This file is loaded for ALL shells (interactive and non-interactive)
+# Keep it minimal and fast!
+
 # STOW_DIR: Path to the directory containing dotfiles
-STOW_DIR="$HOME/dotfiles"
-
-# Detect AUR wrapper
-if pacman -Qi yay &>/dev/null; then
-   aurhelper="yay"
-elif pacman -Qi paru &>/dev/null; then
-   aurhelper="paru"
-fi
-
-if [[ -z "$aurhelper" ]]; then
-  echo "No AUR helper detected. Some aliases may not work."
-fi
-
-function search {
-  local -a searchPkg=("$@")
-  local -a arch=()
-  local -a aur=()
-
-  for pkg in "${searchPkg[@]}"; do
-      if pacman -Si "${pkg}" &>/dev/null; then
-          arch+=("${pkg}")
-      else
-          aur+=("${pkg}")
-      fi
-    done
-
-    if [[ ${#arch[@]} -gt 0 ]]; then
-        sudo pacman -Ss "${arch[@]}"
-    fi
-
-    if [[ ${#aur[@]} -gt 0 ]]; then
-        ${aurhelper} -Ss "${aur[@]}"
-    fi
-}
-
-# Editor settings
-EDITOR="nvim"
-SUDO_EDITOR="$EDITOR"
-DIFFPROG="$EDITOR"
-
-# System settings
-OS_FIREWALL="firewalld"
+export STOW_DIR="$HOME/dotfiles"
 
 # XDG Base Directory Specification
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"
-XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
-XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR:-$HOME/Desktop}"
-XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR:-$HOME/Downloads}"
-XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR:-$HOME/Templates}"
-XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR:-$HOME/Public}"
-XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}"
-XDG_MUSIC_DIR="${XDG_MUSIC_DIR:-$HOME/Music}"
-XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
-XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR:-$HOME/Desktop}"
+export XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR:-$HOME/Downloads}"
+export XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR:-$HOME/Templates}"
+export XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR:-$HOME/Public}"
+export XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}"
+export XDG_MUSIC_DIR="${XDG_MUSIC_DIR:-$HOME/Music}"
+export XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
+export XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
+# Essential PATH modifications
+typeset -U path PATH # Remove duplicates automatically
+path=(
+    "$HOME/.local/bin"
+    $path
+)
 
-# Application-specific settings
-LESSHISTFILE=${LESSHISTFILE:-/tmp/less-hist}
-PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
-MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
-MANROFFOPT="-c"
-WGETRC="${XDG_CONFIG_HOME}/wgetrc"
-SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
+# Essential environment variables
+export EDITOR="nvim"
+export SUDO_EDITOR="$EDITOR"
+export STOW_DIR="$HOME/dotfiles"
 
-# Export all variables
-export XDG_CONFIG_HOME XDG_CONFIG_DIR XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME \
-       XDG_DESKTOP_DIR XDG_DOWNLOAD_DIR XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR \
-       XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR \
-       STOW_DIR EDITOR SUDO_EDITOR OS_FIREWALL PARALLEL_HOME WGETRC SCREENRC \
-       aurhelper MANPAGER MANROFFOPT LESSHISTFILE DIFFPROG
+# History settings (these affect all shells)
+export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+export HISTSIZE=50000
+export SAVEHIST=50000
 
-# Export PATH only once after all modifications
-export PATH
+# Application-specific settings that need to be available everywhere
+export LESSHISTFILE="/tmp/less-hist"
+export MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
+export MANROFFOPT="-c"
+export WGETRC="${XDG_CONFIG_HOME}/wgetrc"
+
+export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
+export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
+
+export KEYTIMEOUT=1
+
+export OS_FIREWALL="$(command -v ufw || command -v firewalld || command -v iptables || command -v nftables || command -v pfctl || echo "none")"
+
+# Basic shell options that should be set early
+unsetopt BEEP
+setopt AUTO_CD
+setopt GLOB_DOTS
+setopt NOMATCH
+setopt MENU_COMPLETE
+setopt EXTENDED_GLOB
+setopt INTERACTIVE_COMMENTS
+setopt APPEND_HISTORY
+setopt BANG_HIST              # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS       # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS   # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS      # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE      # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS      # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY            # Don't execute immediately upon history expansion.

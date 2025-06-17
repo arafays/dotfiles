@@ -1,0 +1,28 @@
+function _init_activations() {
+  # Activations
+  [[ -x "$(command -v gh)" ]] && eval "$(gh copilot alias zsh)"
+  [[ -x "$(command -v zoxide)" ]] && eval "$(zoxide init zsh)"
+  # Only run mise activate, PATH is already set in .zshenv
+  [[ -x "$(command -v mise)" ]] && eval "$(mise activate zsh)"
+
+  # pnpm
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+  case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+  esac
+  # pnpm end
+}
+_init_activations
+
+# Initialize completions
+function _init_completions() {
+  # Completions
+  [[ -x "$(command -v fzf)" ]] && eval "$(fzf --zsh)"
+  [[ -x "$(command -v warp-cli)" ]] && eval "$(warp-cli generate-completions zsh)"
+  [[ -x "$(command -v pnpm)" ]] && eval "$(pnpm completion zsh)"
+  [[ -x "$(command -v gh)" ]] && eval "$(gh completion -s zsh)"
+  [[ -x "$(command -v go-blueprint)" ]] && eval "$(go-blueprint completion zsh)"
+  [[ -x "$(command -v mise)" ]] && eval "$(mise completion zsh)"
+}
+_init_completions
