@@ -413,21 +413,39 @@ _mise_chpwd_hook_optimized() {
     # Track loaded completions to avoid duplicates
     local -A loaded_completions
 
-    # Check what's already loaded
-    for plugin in $(zini completions); do
-      loaded_completions[$plugin]=1
-    done
+    # # Parse the output of `zinit completions` and build completion status
+    # while IFS= read -r line; do
+    #   # Skip progress and empty lines
+    #   [[ $line =~ ^[0-9]+\.[0-9]+%\ *$ || -z $line ]] && continue
 
-    # Load npm completion if not already loaded
-    if _cmd_exists npm && [[ -z ${loaded_completions['lukechilds/zsh-better-npm-completion']} ]]; then
-      zinit wait lucid for lukechilds/zsh-better-npm-completion
-    fi
+    #   # Split into tools and source
+    #   local source tools_str
+    #   tools_str=$(echo "$line" | awk -F'[[:space:]]+[^[:space:]]+$' '{print $1}')
+    #   source=$(echo "$line" | awk '{print $NF}')
+
+    #   # Process comma-separated tools
+    #   echo "$tools_str" | tr ',' '\n' | while read -r tool; do
+    #     # Clean up tool name
+    #     tool=${tool## }    # Remove leading spaces
+    #     tool=${tool%% }    # Remove trailing spaces
+    #     [[ -z $tool ]] && continue
+
+    #     # Store both the completion status and its source
+    #     loaded_completions[$tool]=$source
+    #   done
+    # done < <(zinit completions)
+
+    # # Debug: Print loaded completions
+    # echo "Loaded completions:"
+    # for tool in ${(k)loaded_completions}; do
+    #   echo "$tool -> ${loaded_completions[$tool]}"
+    # done
 
     # Load pnpm completion and plugin if not already loaded
     if _cmd_exists pnpm; then
-      if [[ -z ${loaded_completions['pnpm-completion']} ]]; then
+      if [[ -z ${loaded_completions['pnpm']} ]]; then
         zinit id-as"pnpm-completion" wait lucid for \
-          atload"eval \"\$(pnpm completion zsh)\"" \
+          atload"eval \"$(pnpm completion zsh)\"" \
           zdharma-continuum/null
       fi
 
@@ -437,10 +455,12 @@ _mise_chpwd_hook_optimized() {
     fi
 
     # Load bun completion if not already loaded
-    if _cmd_exists bun && [[ -z ${loaded_completions['bun-completion']} ]]; then
-      zinit id-as"bun-completion" wait lucid for \
-        atload"eval \"\$(bun completions)\"" \
-        zdharma-continuum/null
+    if _cmd_exists bun; then
+      if [[ -z ${loaded_completions['bun']} ]]; then
+        zinit id-as"bun-completion" wait lucid for \
+          atload"eval \"$(bun completions)\"" \
+          zdharma-continuum/null
+      fi
     fi
 
   fi

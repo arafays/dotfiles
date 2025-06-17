@@ -1,3 +1,6 @@
+export ANDROID_HOME=/opt/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
 # .zshenv - Only essential environment variables and PATH modifications
 # This file is loaded for ALL shells (interactive and non-interactive)
 # Keep it minimal and fast!
