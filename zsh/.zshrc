@@ -166,11 +166,8 @@ EOF
 }
 
 _init_plugins() {
-  # Essential plugins (load immediately)
-  zinit light zdharma-continuum/fast-syntax-highlighting
-
   # Deferred plugins (load after prompt is ready)
-  zinit wait lucid for \
+  zinit wait lucid light-mode for \
     atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
     atload"_zsh_autosuggest_start" \
@@ -181,68 +178,6 @@ _init_plugins() {
   # Load after 1 second for non-essential plugins
   zinit wait'1' lucid for \
     MichaelAquilina/zsh-you-should-use
-
-  completions=(
-    [gh]='gh completion -s zsh'
-    [zoxide]='zoxide init zsh'
-    [mise]='mise activate zsh && mise completion zsh'
-    [fzf]='fzf --zsh'
-    ['warp-cli']='warp-cli generate-completions zsh'
-    ['go-blueprint']='go-blueprint completion zsh'
-    [pnpm]='pnpm completion zsh'
-  )
-
-  # for key value in ${(kv)completions}; do
-  #     echo "$key -> $value"
-  # done
-
-  # FZF integration
-  if _cmd_exists fzf; then
-    zinit wait'1' lucid for Aloxaf/fzf-tab
-  else
-    echo "fzf not found. Install it? (y/n)"
-    read -r response
-    if [[ "$response" == "y" ]]; then
-      if _cmd_exists aurhelper; then
-        $aurhelper -S fzf
-      else
-        echo "No AUR helper found. Please install fzf-tab manually."
-        exit 1
-      fi
-    fi
-  fi
-
-  # Directory jumping
-  if _cmd_exists zoxide; then
-    eval "$(zoxide init zsh)"
-  else
-    echo "zsh zoxide not found. Install it? (y/n)"
-    read -r response
-    if [[ "$response" == "y" ]]; then
-      if _cmd_exists aurhelper; then
-        $aurhelper -S zoxide
-      else
-        echo "No AUR helper found. Please install zoxide manually."
-        exit 1
-      fi
-    fi
-  fi
-
-  if _cmd_exists mise; then
-    eval "$(mise activate zsh)"
-  else
-    echo "mise not found. Install it? (y/n)"
-    read -r response
-    if [[ "$response" == "y" ]]; then
-      if _cmd_exists aurhelper; then
-        $aurhelper -S mise
-      else
-        echo "No AUR helper found. Please install mise manually."
-        exit 1
-      fi
-    fi
-  fi
-
 }
 
 _load_aliases() {
@@ -361,3 +296,77 @@ echo
 
 _init_plugins
 _load_aliases
+
+# # Optimize completion loading by directly sourcing completion files
+# if _cmd_exists gh; then
+#   eval "$(gh completion -s zsh)"
+# fi
+
+# if _cmd_exists zoxide; then
+#   eval "$(zoxide init zsh)"
+# fi
+
+if _cmd_exists mise; then
+  eval "$(mise activate zsh && mise completion zsh)"
+else
+  echo "mise not found. Install it? (y/n)"
+  read -r response
+  if [[ "$response" == "y" ]]; then
+    if _cmd_exists aurhelper; then
+      $aurhelper -S mise-bin
+      eval "$(mise activate zsh && mise completion zsh)"
+    else
+      echo "No AUR helper found. Please install mise manually."
+      exit 1
+    fi
+  fi
+fi
+
+if _cmd_exists fzf; then
+  eval "$(fzf --zsh)"
+fi
+
+if _cmd_exists warp-cli; then
+  eval "$(warp-cli generate-completions zsh)"
+fi
+
+if _cmd_exists go-blueprint; then
+  eval "$(go-blueprint completion zsh)"
+fi
+
+if _cmd_exists pnpm; then
+  eval "$(pnpm completion zsh)"
+fi
+
+# FZF integration
+if _cmd_exists fzf; then
+  zinit wait'1' lucid for Aloxaf/fzf-tab
+else
+  echo "fzf not found. Install it? (y/n)"
+  read -r response
+  if [[ "$response" == "y" ]]; then
+    if _cmd_exists aurhelper; then
+      $aurhelper -S fzf
+      autoload -Uz fzf-tab
+      zinit wait'1' lucid for Aloxaf/fzf-tab
+    else
+      echo "No AUR helper found. Please install fzf-tab manually."
+      exit 1
+    fi
+  fi
+fi
+
+if _cmd_exists zoxide; then
+  eval "$(zoxide init zsh)"
+else
+  echo "zsh zoxide not found. Install it? (y/n)"
+  read -r response
+  if [[ "$response" == "y" ]]; then
+    if _cmd_exists aurhelper; then
+      $aurhelper -S zoxide
+    else
+      echo "No AUR helper found. Please install zoxide manually."
+      exit 1
+    fi
+  fi
+fi
