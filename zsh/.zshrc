@@ -191,23 +191,24 @@ _init_plugins() {
     fi
   fi
 
+  if _cmd_exists pnpm; then
+    zinit wait'1' lucid for \
+      atload'eval "$(pnpm completion zsh)"' \
+      OMZ::plugins/npm/npm.plugin.zsh
+  fi
+
   if _cmd_exists warp-cli; then
     zinit wait'1' lucid for \
       atload'eval "$(warp-cli generate-completions zsh)"' \
       OMZ::plugins/command-not-found/command-not-found.plugin.zsh
   fi
 
-  if _cmd_exists go-blueprint; then
+  if _cmd_exists docker; then
     zinit wait'1' lucid for \
-      atload'eval "$(go-blueprint completion zsh)"' \
-      OMZ::plugins/golang/golang.plugin.zsh
+      atload'eval "$(docker completion zsh)"' \
+      OMZ::plugins/docker/docker.plugin.zsh
   fi
 
-  if _cmd_exists pnpm; then
-    zinit wait'1' lucid for \
-      atload'eval "$(pnpm completion zsh)"' \
-      OMZ::plugins/npm/npm.plugin.zsh
-  fi
 }
 
 _load_aliases() {
@@ -301,7 +302,7 @@ _define_functions() {
 }
 
 export BAT_THEME="ansi"
-export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
+export FZF_DEFAULT_OPTS="--height 80% --layout=reverse --border --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:70% --color=bg+:#161616,bg:#000000,spinner:#08bdba,hl:#3ddbd9,fg:#f2f4f8,header:#3ddbd9,info:#08bdba,pointer:#08bdba,marker:#08bdba,fg+:#f2f4f8,prompt:#08bdba,hl+:#3ddbd9"
 
 # Initialize everything
 _setup_vi_mode
