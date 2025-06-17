@@ -1,5 +1,3 @@
-zmodload zsh/zprof
-
 # Cache directory for command existence checks
 typeset -A _cmd_cache
 _cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
@@ -153,7 +151,6 @@ _slow_load_warning() {
 }
 
 _init_plugins() {
-
   # Deferred plugins (load after prompt is ready)
   zinit wait lucid light-mode for \
     atinit"zicompinit; zicdreplay" \
@@ -166,6 +163,51 @@ _init_plugins() {
   # Load after 1 second for non-essential plugins
   zinit wait'1' lucid for \
     MichaelAquilina/zsh-you-should-use
+
+  # Load completions for various tools using Zinit
+  if _cmd_exists gh; then
+    zinit wait'1' lucid for \
+      atload'eval "$(gh completion -s zsh)"' \
+      OMZ::plugins/git/git.plugin.zsh
+  fi
+
+  if _cmd_exists mise; then
+    zinit wait'1' lucid for \
+      atload'eval "$(mise activate zsh && mise completion zsh)"' \
+      OMZ::plugins/nvm/nvm.plugin.zsh
+  else
+    echo "mise not found. Install it? (y/n)"
+    read -r response
+    if [[ "$response" == "y" ]]; then
+      if _cmd_exists aurhelper; then
+        $aurhelper -S mise-bin
+        zinit wait'1' lucid for \
+          atload'eval "$(mise activate zsh && mise completion zsh)"' \
+          OMZ::plugins/nvm/nvm.plugin.zsh
+      else
+        echo "No AUR helper found. Please install mise manually."
+        exit 1
+      fi
+    fi
+  fi
+
+  if _cmd_exists warp-cli; then
+    zinit wait'1' lucid for \
+      atload'eval "$(warp-cli generate-completions zsh)"' \
+      OMZ::plugins/command-not-found/command-not-found.plugin.zsh
+  fi
+
+  if _cmd_exists go-blueprint; then
+    zinit wait'1' lucid for \
+      atload'eval "$(go-blueprint completion zsh)"' \
+      OMZ::plugins/golang/golang.plugin.zsh
+  fi
+
+  if _cmd_exists pnpm; then
+    zinit wait'1' lucid for \
+      atload'eval "$(pnpm completion zsh)"' \
+      OMZ::plugins/npm/npm.plugin.zsh
+  fi
 }
 
 _load_aliases() {
@@ -291,21 +333,6 @@ else
   fi
 fi
 
-if _cmd_exists mise; then
-  eval "$(mise activate zsh && mise completion zsh)"
-else
-  echo "mise not found. Install it? (y/n)"
-  read -r response
-  if [[ "$response" == "y" ]]; then
-    if _cmd_exists aurhelper; then
-      $aurhelper -S mise-bin
-      eval "$(mise activate zsh && mise completion zsh)"
-    else
-      echo "No AUR helper found. Please install mise manually."
-      exit 1
-    fi
-  fi
-fi
 if _cmd_exists fzf; then
   eval "$(fzf --zsh)"
   zinit wait'1' lucid for Aloxaf/fzf-tab
@@ -323,23 +350,6 @@ else
     fi
   fi
 fi
+
 _load_aliases
-
 _init_plugins
-
-if _cmd_exists gh; then
-  eval "$(gh completion -s zsh)"
-fi
-
-if _cmd_exists warp-cli; then
-  eval "$(warp-cli generate-completions zsh)"
-fi
-
-if _cmd_exists go-blueprint; then
-  eval "$(go-blueprint completion zsh)"
-fi
-
-if _cmd_exists pnpm; then
-  eval "$(pnpm completion zsh)"
-fi
-zprof
