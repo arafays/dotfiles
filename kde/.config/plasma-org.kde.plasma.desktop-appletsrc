@@ -16,6 +16,10 @@ location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
+[Containments][1][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
 [Containments][1][General]
 positions={"2226x1252":[],"2560x1440":[]}
 
@@ -249,7 +253,7 @@ immutability=1
 plugin=org.kde.plasma.notifications
 
 [Containments][8][Applets][13][Configuration]
-PreloadWeight=85
+PreloadWeight=90
 
 [Containments][8][Applets][14]
 immutability=1
@@ -268,7 +272,7 @@ immutability=1
 plugin=org.kde.plasma.volume
 
 [Containments][8][Applets][17][Configuration]
-PreloadWeight=65
+PreloadWeight=70
 
 [Containments][8][Applets][17][Configuration][General]
 migrated=true
@@ -286,14 +290,14 @@ immutability=1
 plugin=org.kde.plasma.networkmanagement
 
 [Containments][8][Applets][22][Configuration]
-PreloadWeight=47
+PreloadWeight=39
 
 [Containments][8][Applets][23]
 immutability=1
 plugin=org.kde.plasma.brightness
 
 [Containments][8][Applets][23][Configuration]
-PreloadWeight=59
+PreloadWeight=64
 
 [Containments][8][Applets][24]
 immutability=1

@@ -2,6 +2,7 @@
 export PATH="$HOME/.local/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 
+export WGPU_BACKEND=gl
 # Enable appending to the history file, rather than overwriting it
 # when the shell exits.
 setopt APPEND_HISTORY

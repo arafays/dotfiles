@@ -2,19 +2,19 @@
 count=0
 
 [Session: saved at previous logout]
-clientId1=10c4e1636f000174911502700000012200004
-clientId2=10c4e1636f000174616126100000010060006
-clientId3=10c4e1636f000174744156600000012740005
-clientId4=10c4e1636f000174883588600000012080028
+clientId1=10c4e1636f000174616126100000010060006
+clientId2=10c4e1636f000175006705600000012220004
+clientId3=10c4e1636f000174883588600000012080028
+clientId4=10c4e1636f000174744156600000012740005
 count=4
-program1=/usr/lib/DiscoverNotifier
-program2=/opt/piavpn/bin/pia-client
-program3=/usr/bin/kwalletd6
-program4=/usr/bin/qbittorrent
-restartCommand1=/usr/lib/DiscoverNotifier,-session,10c4e1636f000174911502700000012200004_1749125653_283281
-restartCommand2=/opt/piavpn/bin/pia-client,-session,10c4e1636f000174616126100000010060006_1749125653_283287
-restartCommand3=/usr/bin/kwalletd6,-session,10c4e1636f000174744156600000012740005_1749125653_283287
-restartCommand4=/usr/bin/qbittorrent,-session,10c4e1636f000174883588600000012080028_1749125653_283460
+program1=/opt/piavpn/bin/pia-client
+program2=/usr/lib/DiscoverNotifier
+program3=/usr/bin/qbittorrent
+program4=/usr/bin/kwalletd6
+restartCommand1=/opt/piavpn/bin/pia-client,-session,10c4e1636f000174616126100000010060006_1750090086_663592
+restartCommand2=/usr/lib/DiscoverNotifier,-session,10c4e1636f000175006705600000012220004_1750090086_663597
+restartCommand3=/usr/bin/qbittorrent,-session,10c4e1636f000174883588600000012080028_1750090086_663908
+restartCommand4=/usr/bin/kwalletd6,-session,10c4e1636f000174744156600000012740005_1750090086_663908
 restartStyleHint1=0
 restartStyleHint2=0
 restartStyleHint3=0
