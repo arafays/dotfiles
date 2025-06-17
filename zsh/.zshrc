@@ -1,4 +1,5 @@
-# Cache directory for command existence checks
+zmodload zsh/zprof
+
 typeset -A _cmd_cache
 _cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 _cache_file="$_cache_dir/cmd_cache"
@@ -29,16 +30,6 @@ _set_terminal_title() {
     git_branch=" ($(git branch --show-current 2>/dev/null))"
   fi
   print -Pn "\e]0;%~$git_branch\a"
-}
-
-# Performance monitoring using zinit
-_perf_monitor() {
-  zinit light zsh-users/zsh-zprof
-  zprof
-  local start_time=$SECONDS
-  if ((start_time > 2)); then
-    echo "⚠️  Shell startup took ${start_time}s. Consider optimizing further."
-  fi
 }
 
 # Terminal detection (only run once)
@@ -89,7 +80,18 @@ _setup_vi_mode() {
   zle -N zle-line-init
 
   # Better vi mode bindings
-  bindkey '^R' fzf-history-widget
+  # Ensure fzf-history-widget is defined
+  if [[ -n "$(command -v fzf)" ]]; then
+    fzf-history-widget() {
+      local selected=$(fc -rl 1 | fzf --height 40% --layout=reverse --border --preview 'echo {}' --preview-window=up:3:wrap)
+      if [[ -n "$selected" ]]; then
+        BUFFER="$selected"
+        CURSOR=${#BUFFER}
+      fi
+    }
+    zle -N fzf-history-widget
+    bindkey '^R' fzf-history-widget
+  fi
   bindkey '^P' up-history
   bindkey '^N' down-history
   bindkey '^A' beginning-of-line
@@ -153,9 +155,11 @@ _load_completion() {
   local completion_cmd="$2"
   local delay="${3:-2}"
 
-  zinit wait"$delay" lucid for \
-    atload"eval \"\$($completion_cmd)\"" \
-    zdharma-continuum/null
+  if [[ -n "$completion_cmd" ]]; then
+    zinit wait"$delay" lucid for \
+      atload"eval \"\$($completion_cmd)\"" \
+      zdharma-continuum/null
+  fi
 }
 
 # Install tool from AUR
@@ -184,16 +188,16 @@ _setup_essential_tools() {
   local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "zoxide" "fd-find" "bat" "ripgrep" "fzf" "eza")
   local completions=(
     "git completion zsh"
-    "nvim completion zsh"
-    "mise activate zsh && mise completion zsh"
+    "nvim --generate-man-pages"
+    "mise activate zsh"
     "gh completion -s zsh"
     "docker completion zsh"
     "zoxide init zsh"
-    "fd --type f --hidden --follow --exclude .git"
-    "bat --config-dir ~/.config/bat"
-    "rg --completion zsh"
+    "fd --generate-completion zsh"
+    "bat --generate-completion zsh"
+    "rg --generate-completion zsh"
     "fzf --zsh"
-    "eza --completion zsh"
+    "eza --generate-completion zsh"
   )
 
   for i in {1..${#tools[@]}}; do
@@ -232,16 +236,28 @@ _setup_optional_tools() {
     fi
   done
 }
+
 _setup_mise_tools() {
   if _cmd_exists mise; then
     # Load Mise completions
     zinit wait'2' lucid for \
-      atload"mise activate zsh && mise completion zsh" \
+      atload"mise activate zsh" \
       zdharma-continuum/null
 
-    local tools=("pnpm" "bun" "node" "npm" "yarn" "npm:firebase-tools")
+    local tools=("pnpm" "bun" "node" "npm" "yarn" "npm:firebase")
+    local completions=(
+      "pnpm completion zsh"
+      "bun completions zsh"
+      "node --completion-bash"
+      "npm completion"
+      "yarn completion"
+      "firebase completion zsh"
+    )
 
-    for tool in "${tools[@]}"; do
+    for i in {1..${#tools[@]}}; do
+      local tool="${tools[$i]}"
+      local completion_cmd="${completions[$i]}"
+
       if _cmd_exists "$tool"; then
         _load_completion "$tool" "$tool completion zsh" "2"
       fi
@@ -438,17 +454,12 @@ _setup_vi_mode
 _init_zinit
 _init_starship
 
-autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title
-
-# Initialize completions
-autoload -Uz compinit
-compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-$ZSH_VERSION"
 
 # Load functions and aliases
 _define_functions
-_load_aliases
 _init_plugins
+_load_aliases
 
 # Performance warning
 _end_time=$SECONDS
@@ -459,3 +470,5 @@ fi
 
 # Cleanup
 unset _start_time _end_time _load_time
+
+zprof
