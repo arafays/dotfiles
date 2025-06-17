@@ -29,6 +29,8 @@ path=(
 # Essential environment variables
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
+export VISUAL="nvim"
+export BROWSER="zen-browser"
 export STOW_DIR="$HOME/dotfiles"
 
 # History settings (these affect all shells)
