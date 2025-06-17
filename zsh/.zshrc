@@ -1,9 +1,15 @@
+zmodload zsh/zprof
+
 # Cache directory for command existence checks
 typeset -A _cmd_cache
 _cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 _cache_file="$_cache_dir/cmd_cache"
 [[ ! -d "$_cache_dir" ]] && mkdir -p "$_cache_dir"
-
+if [[ -f "$_cache_file" ]]; then
+  source "$_cache_file"
+else
+  mkdir -p "$_cache_dir"
+fi
 # Define config directory
 local zsh_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 
@@ -29,13 +35,18 @@ _set_terminal_title() {
   print -Pn "\e]0;%~\a"
 }
 
-# Performance monitoring
+# Performance monitoring using zinit
 _perf_monitor() {
+
+  # Load zinit for performance monitoring
+  zinit light zsh-users/zsh-zprof
+  zprof
   local start_time=$SECONDS
   if ((start_time > 2)); then
     echo "⚠️  Shell startup took ${start_time}s. Consider optimizing further."
   fi
 }
+
 # Terminal detection (only run once)
 _detect_terminal() {
   if [[ -n "$COLORTERM" ]]; then
@@ -54,18 +65,16 @@ _detect_terminal() {
 }
 _detect_terminal
 
-# AUR helper detection with caching
 _detect_aur_helper() {
-  if [[ -n "$aurhelper" ]]; then
-    return # Already detected
-  fi
-
-  if _cmd_exists yay; then
-    export aurhelper="yay"
-  elif _cmd_exists paru; then
-    export aurhelper="paru"
-  fi
+  [[ -n "$aurhelper" ]] && return
+  for helper in yay paru; do
+    if _cmd_exists "$helper"; then
+      export aurhelper="$helper"
+      break
+    fi
+  done
 }
+_detect_aur_helper
 
 # Vi mode configuration
 _setup_vi_mode() {
@@ -133,39 +142,18 @@ _init_starship() {
   fi
 }
 
-# Function to display a slow load warning for shell startup
-function _slow_load_warning {
+_slow_load_warning() {
   local lock_file="/tmp/.arafay_slow_load_warning.lock"
-  local load_time=$SECONDS
-
-  # Check if the lock file exists
   if [[ ! -f $lock_file ]]; then
-    # Create the lock file
     touch $lock_file
-
-    # Display the warning if load time exceeds the limit
-    time_limit=3
-    if ((load_time > time_limit)); then
-      cat <<EOF
-    ⚠️ Warning: Shell startup took more than ${time_limit} seconds. Consider optimizing your configuration.
-        1. This might be due to slow plugins or initialization scripts.
-        2. Duplicate plugin initializations or conflicting configurations.
-        3. Check for large files being sourced during startup.
-
-    Possible solutions:
-        - Review zinit plugin loading in your dotfiles
-        - Check for redundant completions or aliases
-        - Consider using zinit's turbo mode for non-critical plugins
-
-    For more information or to contribute improvements:
-        🌐 https://github.com/arafays/dotfiles
-
-EOF
+    if ((SECONDS > 3)); then
+      echo "⚠️ Shell startup took more than 3 seconds. Consider optimizing your configuration."
     fi
   fi
 }
 
 _init_plugins() {
+
   # Deferred plugins (load after prompt is ready)
   zinit wait lucid light-mode for \
     atinit"zicompinit; zicdreplay" \
@@ -274,9 +262,7 @@ export BAT_THEME="ansi"
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 
 # Initialize everything
-_detect_aur_helper
 _setup_vi_mode
-_define_functions
 
 # Load zsh hooks module once
 autoload -Uz add-zsh-hook
@@ -286,25 +272,24 @@ add-zsh-hook -Uz precmd _set_terminal_title
 add-zsh-hook -Uz precmd _slow_load_warning
 _init_zinit
 _init_starship
+autoload -Uz compinit && compinit
 
-# Initialize completions early to avoid compdef errors
-autoload -Uz compinit
-compinit
+_define_functions
 
-# echo starttime
-echo
-
-_init_plugins
-_load_aliases
-
-# # Optimize completion loading by directly sourcing completion files
-# if _cmd_exists gh; then
-#   eval "$(gh completion -s zsh)"
-# fi
-
-# if _cmd_exists zoxide; then
-#   eval "$(zoxide init zsh)"
-# fi
+if _cmd_exists zoxide; then
+  eval "$(zoxide init zsh)"
+else
+  echo "zsh zoxide not found. Install it? (y/n)"
+  read -r response
+  if [[ "$response" == "y" ]]; then
+    if _cmd_exists aurhelper; then
+      $aurhelper -S zoxide
+    else
+      echo "No AUR helper found. Please install zoxide manually."
+      exit 1
+    fi
+  fi
+fi
 
 if _cmd_exists mise; then
   eval "$(mise activate zsh && mise completion zsh)"
@@ -321,25 +306,8 @@ else
     fi
   fi
 fi
-
 if _cmd_exists fzf; then
   eval "$(fzf --zsh)"
-fi
-
-if _cmd_exists warp-cli; then
-  eval "$(warp-cli generate-completions zsh)"
-fi
-
-if _cmd_exists go-blueprint; then
-  eval "$(go-blueprint completion zsh)"
-fi
-
-if _cmd_exists pnpm; then
-  eval "$(pnpm completion zsh)"
-fi
-
-# FZF integration
-if _cmd_exists fzf; then
   zinit wait'1' lucid for Aloxaf/fzf-tab
 else
   echo "fzf not found. Install it? (y/n)"
@@ -355,18 +323,23 @@ else
     fi
   fi
 fi
+_load_aliases
 
-if _cmd_exists zoxide; then
-  eval "$(zoxide init zsh)"
-else
-  echo "zsh zoxide not found. Install it? (y/n)"
-  read -r response
-  if [[ "$response" == "y" ]]; then
-    if _cmd_exists aurhelper; then
-      $aurhelper -S zoxide
-    else
-      echo "No AUR helper found. Please install zoxide manually."
-      exit 1
-    fi
-  fi
+_init_plugins
+
+if _cmd_exists gh; then
+  eval "$(gh completion -s zsh)"
 fi
+
+if _cmd_exists warp-cli; then
+  eval "$(warp-cli generate-completions zsh)"
+fi
+
+if _cmd_exists go-blueprint; then
+  eval "$(go-blueprint completion zsh)"
+fi
+
+if _cmd_exists pnpm; then
+  eval "$(pnpm completion zsh)"
+fi
+zprof
