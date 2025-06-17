@@ -155,11 +155,33 @@ _load_completion() {
   local completion_cmd="$2"
   local delay="${3:-2}"
 
-  if [[ -n "$completion_cmd" ]]; then
-    zinit wait"$delay" lucid for \
-      atload"eval \"\$($completion_cmd)\"" \
-      zdharma-continuum/null
+  # Skip if tool doesn't exist
+  if ! _cmd_exists "$tool"; then
+    return
   fi
+  if [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
+    return
+  fi
+
+  # Use Zinit's built-in completion management
+  case "$tool" in
+  git)
+    zinit ice blockf
+    zinit light zsh-users/zsh-completions
+    ;;
+  docker)
+    zinit ice blockf
+    zinit light zsh-users/zsh-completions
+    ;;
+  *)
+    # For other tools, use their native completion if available
+    if [[ -n "$completion_cmd" ]]; then
+      zinit wait"$delay" lucid for \
+        atload"eval \"\$($completion_cmd)\"" \
+        zdharma-continuum/null
+    fi
+    ;;
+  esac
 }
 
 # Install tool from AUR
@@ -187,17 +209,17 @@ _setup_essential_tools() {
   local tools=("git" "nvim" "mise" "gh" "docker" "zoxide" "fd" "bat" "rg" "fzf" "eza")
   local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "zoxide" "fd-find" "bat" "ripgrep" "fzf" "eza")
   local completions=(
-    "git completion zsh"
-    "nvim --generate-man-pages"
+    "skip"
+    "skip"
     "mise activate zsh"
     "gh completion -s zsh"
     "docker completion zsh"
     "zoxide init zsh"
-    "fd --generate-completion zsh"
-    "bat --generate-completion zsh"
-    "rg --generate-completion zsh"
+    "fd --gen-completions zsh"
+    "bat --completion zsh"
+    "rg --generate=complete-zsh"
     "fzf --zsh"
-    "eza --generate-completion zsh"
+    "skip"
   )
 
   for i in {1..${#tools[@]}}; do
@@ -206,7 +228,7 @@ _setup_essential_tools() {
     local completion_cmd="${completions[$i]}"
 
     if _cmd_exists "$tool"; then
-      _load_completion "$tool" "$completion_cmd" "2"
+      _load_completion "$tool" "$completion_cmd" "0"
     else
       echo "$tool not found. Install it? (y/n)"
       read -r response
@@ -239,27 +261,23 @@ _setup_optional_tools() {
 
 _setup_mise_tools() {
   if _cmd_exists mise; then
-    # Load Mise completions
+    # Load Mise completions and activate
     zinit wait'2' lucid for \
-      atload"mise activate zsh" \
+      atload"eval \"\$(mise activate zsh)\"" \
       zdharma-continuum/null
 
-    local tools=("pnpm" "bun" "node" "npm" "yarn" "npm:firebase")
-    local completions=(
-      "pnpm completion zsh"
-      "bun completions zsh"
-      "node --completion-bash"
-      "npm completion"
-      "yarn completion"
-      "firebase completion zsh"
-    )
+    # Enable corepack for Node.js package managers
+    if _cmd_exists node; then
+      corepack enable
+    fi
 
-    for i in {1..${#tools[@]}}; do
-      local tool="${tools[$i]}"
-      local completion_cmd="${completions[$i]}"
-
+    # Node.js related tools are managed by mise and corepack
+    # No need to manually load their completions
+    local tools=("node" "npm" "pnpm" "yarn" "bun")
+    for tool in "${tools[@]}"; do
       if _cmd_exists "$tool"; then
-        _load_completion "$tool" "$tool completion zsh" "2"
+        # These tools are managed by mise/corepack, no need for manual completion loading
+        continue
       fi
     done
   fi
@@ -453,13 +471,13 @@ _detect_aur_helper
 _setup_vi_mode
 _init_zinit
 _init_starship
-
+autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title
-
+autoload -Uz compinit && compinit
 # Load functions and aliases
 _define_functions
-_init_plugins
 _load_aliases
+_init_plugins
 
 # Performance warning
 _end_time=$SECONDS
