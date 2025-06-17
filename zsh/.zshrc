@@ -1,4 +1,21 @@
-zmodload zsh/zprof
+# zmodload zsh/zprof
+
+export BAT_THEME="ansi"
+export BAT_PAGER="less -RF"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS="
+  --height 80%
+  --layout=reverse
+  --border
+  --preview 'bat --color=always --style=numbers --line-range=:500 {}'
+  --preview-window=right:60%
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'
+  --color=bg+:#161616,bg:#000000,spinner:#08bdba,hl:#3ddbd9,fg:#f2f4f8,header:#3ddbd9,info:#08bdba,pointer:#08bdba,marker:#08bdba,fg+:#f2f4f8,prompt:#08bdba,hl+:#3ddbd9"
+
+# Performance tracking
+_start_time=$SECONDS
 
 typeset -A _cmd_cache
 _cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
@@ -58,6 +75,27 @@ _detect_aur_helper() {
       break
     fi
   done
+}
+
+# Install tool from AUR
+_install_tool() {
+  local tool="$1"
+  local aur_package="$2"
+
+  if [[ -z "$aurhelper" ]]; then
+    echo "No AUR helper found. Please install $tool manually."
+    return 1
+  fi
+
+  echo "Installing $tool using $aurhelper..."
+  if $aurhelper -S "$aur_package"; then
+    # Clear cache for this tool
+    unset "_cmd_cache[$tool]"
+    return 0
+  else
+    echo "Failed to install $tool"
+    return 1
+  fi
 }
 
 _setup_vi_mode() {
@@ -149,67 +187,11 @@ _init_starship() {
   fi
 }
 
-# Load completions for a tool
-_load_completion() {
-  local tool="$1"
-  local completion_cmd="$2"
-  local delay="${3:-2}"
-
-  # Skip if tool doesn't exist
-  if ! _cmd_exists "$tool"; then
-    return
-  fi
-  if [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
-    return
-  fi
-
-  # Use Zinit's built-in completion management
-  case "$tool" in
-  git)
-    zinit ice blockf
-    zinit light zsh-users/zsh-completions
-    ;;
-  docker)
-    zinit ice blockf
-    zinit light zsh-users/zsh-completions
-    ;;
-  *)
-    # For other tools, use their native completion if available
-    if [[ -n "$completion_cmd" ]]; then
-      zinit wait"$delay" lucid for \
-        atload"eval \"\$($completion_cmd)\"" \
-        zdharma-continuum/null
-    fi
-    ;;
-  esac
-}
-
-# Install tool from AUR
-_install_tool() {
-  local tool="$1"
-  local aur_package="$2"
-
-  if [[ -z "$aurhelper" ]]; then
-    echo "No AUR helper found. Please install $tool manually."
-    return 1
-  fi
-
-  echo "Installing $tool using $aurhelper..."
-  if $aurhelper -S "$aur_package"; then
-    # Clear cache for this tool
-    unset "_cmd_cache[$tool]"
-    return 0
-  else
-    echo "Failed to install $tool"
-    return 1
-  fi
-}
-
 _setup_essential_tools() {
   local tools=("git" "nvim" "mise" "gh" "docker" "zoxide" "fd" "bat" "rg" "fzf" "eza")
   local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "zoxide" "fd-find" "bat" "ripgrep" "fzf" "eza")
   local completions=(
-    "skip"
+    "git"
     "skip"
     "mise activate zsh"
     "gh completion -s zsh"
@@ -254,33 +236,9 @@ _setup_optional_tools() {
     local completion_cmd="${completions[$i]}"
 
     if _cmd_exists "$tool"; then
-      _load_completion "$tool" "$completion_cmd" "2"
+      _load_completion "$tool" "$completion_cmd" "1"
     fi
   done
-}
-
-_setup_mise_tools() {
-  if _cmd_exists mise; then
-    # Load Mise completions and activate
-    zinit wait'2' lucid for \
-      atload"eval \"\$(mise activate zsh)\"" \
-      zdharma-continuum/null
-
-    # Enable corepack for Node.js package managers
-    if _cmd_exists node; then
-      corepack enable
-    fi
-
-    # Node.js related tools are managed by mise and corepack
-    # No need to manually load their completions
-    local tools=("node" "npm" "pnpm" "yarn" "bun")
-    for tool in "${tools[@]}"; do
-      if _cmd_exists "$tool"; then
-        # These tools are managed by mise/corepack, no need for manual completion loading
-        continue
-      fi
-    done
-  fi
 }
 
 _init_plugins() {
@@ -301,7 +259,6 @@ _init_plugins() {
   # Setup tool completions
   _setup_essential_tools
   _setup_optional_tools
-  _setup_mise_tools
 }
 
 _load_aliases() {
@@ -448,22 +405,86 @@ _define_functions() {
   }
 }
 
-export BAT_THEME="ansi"
-export BAT_PAGER="less -RF"
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-export FZF_DEFAULT_OPTS="
-  --height 80%
-  --layout=reverse
-  --border
-  --preview 'bat --color=always --style=numbers --line-range=:500 {}'
-  --preview-window=right:60%
-  --bind 'ctrl-/:change-preview-window(down|hidden|)'
-  --color=bg+:#161616,bg:#000000,spinner:#08bdba,hl:#3ddbd9,fg:#f2f4f8,header:#3ddbd9,info:#08bdba,pointer:#08bdba,marker:#08bdba,fg+:#f2f4f8,prompt:#08bdba,hl+:#3ddbd9"
+# Optimized version that checks if plugins are already loaded
+_mise_chpwd_hook_optimized() {
+  # Check if mise is available and we have mise config files
+  if _cmd_exists mise && [[ -f .mise.toml || -f .tool-versions || -f mise.toml ]]; then
 
-# Performance tracking
-_start_time=$SECONDS
+    # Track loaded completions to avoid duplicates
+    local -A loaded_completions
+
+    # Check what's already loaded
+    for plugin in $(zini completions); do
+      loaded_completions[$plugin]=1
+    done
+
+    # Load npm completion if not already loaded
+    if _cmd_exists npm && [[ -z ${loaded_completions['lukechilds/zsh-better-npm-completion']} ]]; then
+      zinit wait lucid for lukechilds/zsh-better-npm-completion
+    fi
+
+    # Load pnpm completion and plugin if not already loaded
+    if _cmd_exists pnpm; then
+      if [[ -z ${loaded_completions['pnpm-completion']} ]]; then
+        zinit id-as"pnpm-completion" wait lucid for \
+          atload"eval \"\$(pnpm completion zsh)\"" \
+          zdharma-continuum/null
+      fi
+
+      if [[ -z ${loaded_completions['ntnyq/omz-plugin-pnpm']} ]]; then
+        zinit wait lucid for ntnyq/omz-plugin-pnpm
+      fi
+    fi
+
+    # Load bun completion if not already loaded
+    if _cmd_exists bun && [[ -z ${loaded_completions['bun-completion']} ]]; then
+      zinit id-as"bun-completion" wait lucid for \
+        atload"eval \"\$(bun completions)\"" \
+        zdharma-continuum/null
+    fi
+
+  fi
+}
+
+_load_completion() {
+  local tool="$1"
+  local completion_cmd="$2"
+  local delay="${3:-2}"
+
+  # Skip if tool doesn't exist
+  if ! _cmd_exists "$tool"; then
+    return
+  fi
+  if [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
+    return
+  fi
+
+  # Use Zinit's built-in completion management
+  case "$tool" in
+  git)
+    zinit ice blockf
+    zinit light zsh-users/zsh-completions
+    ;;
+  docker)
+    zinit ice blockf
+    zinit light zsh-users/zsh-completions
+    ;;
+  bat)
+    # TODO: implement a more robust way to handle bat completions
+    ;;
+  rg)
+    # TODO: implement a more robust way to handle ripgrep completions
+    ;;
+  *)
+    # For other tools, use their native completion if available
+    if [[ -n "$completion_cmd" ]]; then
+      zinit wait"$delay" lucid for \
+        atload"eval \"\$($completion_cmd)\"" \
+        zdharma-continuum/null
+    fi
+    ;;
+  esac
+}
 
 # Initialize components
 _detect_terminal
@@ -473,11 +494,15 @@ _init_zinit
 _init_starship
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title
+add-zsh-hook chpwd _mise_chpwd_hook_optimized
 autoload -Uz compinit && compinit
+
 # Load functions and aliases
 _define_functions
 _load_aliases
 _init_plugins
+
+_mise_chpwd_hook_optimized
 
 # Performance warning
 _end_time=$SECONDS
@@ -489,4 +514,4 @@ fi
 # Cleanup
 unset _start_time _end_time _load_time
 
-zprof
+# zprof
