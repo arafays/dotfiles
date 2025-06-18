@@ -403,6 +403,43 @@ _define_functions() {
   ps_grep() {
     ps aux | grep -v grep | grep -i "$1"
   }
+
+  # Enhanced tmux session management
+  tn() {
+    local session_name="${1:-$(basename "$PWD")}"
+    # Clean session name (replace dots and special chars with underscores)
+    session_name="${session_name//[^a-zA-Z0-9_-]/_}"
+    tmux new-session -A -s "$session_name" -c "$PWD"
+  }
+
+  # Tmux session switcher with fzf (if available)
+  ts() {
+    if _cmd_exists fzf; then
+      local session
+      session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --height=60% --layout=reverse --prompt="Switch to session: ") &&
+        tmux switch-client -t "$session" 2>/dev/null || tmux attach-session -t "$session"
+    else
+      tmux list-sessions
+    fi
+  }
+
+  # Kill tmux session
+  tk() {
+    if [[ -n "$1" ]]; then
+      tmux kill-session -t "$1"
+    elif _cmd_exists fzf; then
+      local session
+      session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --height=60% --layout=reverse --prompt="Kill session: ") &&
+        tmux kill-session -t "$session"
+    else
+      echo "Usage: tk <session_name>"
+    fi
+  }
+
+  # List tmux sessions
+  tl() {
+    tmux list-sessions
+  }
 }
 
 # Optimized version that checks if plugins are already loaded
@@ -445,7 +482,7 @@ _mise_chpwd_hook_optimized() {
     if _cmd_exists pnpm; then
       if [[ -z ${loaded_completions['pnpm']} ]]; then
         zinit id-as"pnpm-completion" wait lucid for \
-          atload"eval \"$(pnpm completion zsh)\"" \
+          atload"pnpm completion zsh" \
           zdharma-continuum/null
       fi
 
@@ -458,7 +495,7 @@ _mise_chpwd_hook_optimized() {
     if _cmd_exists bun; then
       if [[ -z ${loaded_completions['bun']} ]]; then
         zinit id-as"bun-completion" wait lucid for \
-          atload"eval \"$(bun completions)\"" \
+          atload"bun completions" \
           zdharma-continuum/null
       fi
     fi
@@ -535,3 +572,4 @@ fi
 unset _start_time _end_time _load_time
 
 # zprof
+export PATH

@@ -1,9 +1,4 @@
-export ANDROID_HOME=/opt/android-sdk
-export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
-
-# .zshenv - Only essential environment variables and PATH modifications
-# This file is loaded for ALL shells (interactive and non-interactive)
-# Keep it minimal and fast!
+[[ -f ~/.profile ]] && source ~/.profile
 
 # STOW_DIR: Path to the directory containing dotfiles
 export STOW_DIR="$HOME/dotfiles"
@@ -22,19 +17,6 @@ export XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}"
 export XDG_MUSIC_DIR="${XDG_MUSIC_DIR:-$HOME/Music}"
 export XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
 export XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
-# Essential PATH modifications
-typeset -U path PATH # Remove duplicates automatically
-path=(
-    "$HOME/.local/bin"
-    $path
-)
-
-# Essential environment variables
-export EDITOR="nvim"
-export SUDO_EDITOR="$EDITOR"
-export VISUAL="nvim"
-export BROWSER="zen-browser"
-export STOW_DIR="$HOME/dotfiles"
 
 # History settings (these affect all shells)
 export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
