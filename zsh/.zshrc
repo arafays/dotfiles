@@ -194,7 +194,7 @@ _setup_essential_tools() {
     "git"
     "skip"
     "mise activate zsh"
-    "gh completion -s zsh"
+    "gh completion -s zsh && gh copilot alias zsh"
     "docker completion zsh"
     "zoxide init zsh"
     "fd --gen-completions zsh"
@@ -265,15 +265,16 @@ _load_aliases() {
   # if zoxide exists replace cd
 
   _cmd_exists fzf && alias fzf='fzf --height 40% --layout=reverse --border'
-
   _cmd_exists fzf && alias ff='fzf --preview "bat --style=numbers --color=always {}"'
+  _cmd_exists fd && alias find='fd'
+  _cmd_exists fd && alias f='fd --type f --hidden --follow --exclude .git'
 
   _cmd_exists rg && alias grep='rg --color=auto --line-number --smart-case  --hidden --glob "!.git"'
+
   _cmd_exists bat && alias cat='bat --paging=never'
   _cmd_exists bat && alias less='bat --paging=always --style=plain --color=always'
 
   _cmd_exists zoxide && alias cd='z'
-  _cmd_exists fd && alias find='fd'
 
   # Eza aliases (enhanced ls)
   if _cmd_exists eza; then
