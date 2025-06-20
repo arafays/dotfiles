@@ -160,10 +160,10 @@ _init_starship() {
       if _cmd_exists "$cmd"; then
         case "$cmd" in
         pokego | pokemon-colorscripts)
-          "$cmd" --no-title -r 1,3,6 2>/dev/null
+          "$cmd" --no-title -r 2>/dev/null
           ;;
         fastfetch)
-          "$cmd" --logo-type kitty 2>/dev/null
+          "$cmd" --logo-type small 2>/dev/null
           ;;
         esac
         break

@@ -53,7 +53,9 @@
         "/home/arafay/.local/share/waybar/modules/pulseaudio.jsonc",
         "/home/arafay/.local/share/waybar/modules/tray.jsonc",
         "/home/arafay/.local/share/waybar/modules/wlr-taskbar#windows.jsonc",
-        "/home/arafay/.local/share/waybar/modules/wlr-taskbar.jsonc"
+        "/home/arafay/.local/share/waybar/modules/wlr-taskbar.jsonc",
+        "/home/arafay/.local/share/waybar/modules/hyprland-workspaces#kanji.jsonc",
+        "/home/arafay/.local/share/waybar/modules/hyprland-workspaces#roman.jsonc"
     ],
     "image#wallpaper": {
         "size": 30,

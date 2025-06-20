@@ -1,9 +1,18 @@
-# "$schema" = 'https://starship.rs/config-schema.json'
+"$schema" = 'https://starship.rs/config-schema.json'
+
 palette = "oxocarbon"
 add_newline = true
+format = """\
+  󰣇 \
+  $directory\
+  $git_branch$git_commit$git_state $git_status\
+  $fill $all\
+  $character\n
+"""
 
 [fill]
-symbol = ' '
+symbol = '_'
+style = "bold black"
 
 [palettes.oxocarbon]
 black = "#161616"
@@ -29,17 +38,13 @@ git_branch = "#ffe97b"
 directory = "#dde1e6"
 duration = "#ee5396"
 
-format = """\
-  󰣇 \
-  $directory\
-  $git_branch$git_commit$git_state $git_status\
-  $character\n
-"""
-continuation_prompt = '▶▶ '
+[directory]
+read_only = " 󰌾"
+home_symbol = "~"
+truncation_length = 3
 
 
 [git_branch]
-format = "[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background) "
 symbol = " "
 
 [git_status]
