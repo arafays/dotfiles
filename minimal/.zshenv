@@ -37,6 +37,32 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
 export MANROFFOPT="-c"
 export WGETRC="${XDG_CONFIG_HOME}/wgetrc"
 
+# # Display server configuration for X11/Wayland applications
+# if [[ -z "$DISPLAY" && -n "$XDG_SESSION_TYPE" ]]; then
+#   case "$XDG_SESSION_TYPE" in
+#     "x11")
+#       # Check if X server is running on common displays
+#       for display in ":0" ":1" ":10"; do
+#         if [[ -S "/tmp/.X11-unix/X${display#:}" ]] || [[ -f "/tmp/.X${display#:}-lock" ]]; then
+#           export DISPLAY="$display"
+#           break
+#         fi
+#       done
+#       # Fallback if no socket found but we know we're in X11
+#       [[ -z "$DISPLAY" ]] && export DISPLAY=":0"
+#       ;;
+#     "wayland")
+#       # For Wayland, ensure XWayland compatibility
+#       [[ -z "$DISPLAY" && -n "$WAYLAND_DISPLAY" ]] && export DISPLAY=":0"
+#       ;;
+#   esac
+# elif [[ -z "$DISPLAY" ]]; then
+#   # Fallback detection when XDG_SESSION_TYPE is not set
+#   if pgrep -x "Xorg" >/dev/null 2>&1 || pgrep -x "X" >/dev/null 2>&1; then
+#     export DISPLAY=":0"
+#   fi
+# fi
+
 export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
