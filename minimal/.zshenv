@@ -1,6 +1,7 @@
-## Define the directory where dotfiles are stored
+[[ -f ~/.profile ]] && source ~/.profile
+
 # STOW_DIR: Path to the directory containing dotfiles
-STOW_DIR="$HOME/dotfiles"
+export STOW_DIR="$HOME/dotfiles"
 
 # Detect AUR wrapper
 if pacman -Qi yay &>/dev/null; then
@@ -9,133 +10,78 @@ elif pacman -Qi paru &>/dev/null; then
    aurhelper="paru"
 fi
 
-function in {
-    local -a inPkg=("$@")
-    local -a arch=()
-    local -a aur=()
-
-    for pkg in "${inPkg[@]}"; do
-        if pacman -Si "${pkg}" &>/dev/null; then
-            arch+=("${pkg}")
-        else
-            aur+=("${pkg}")
-        fi
-    done
-
-    if [[ ${#arch[@]} -gt 0 ]]; then
-        sudo pacman -S "${arch[@]}"
-    fi
-
-    if [[ ${#aur[@]} -gt 0 ]]; then
-        ${aurhelper} -S "${aur[@]}"
-    fi
-}
-
-function search {
-  local -a searchPkg=("$@")
-  local -a arch=()
-  local -a aur=()
-
-  for pkg in "${searchPkg[@]}"; do
-      if pacman -Si "${pkg}" &>/dev/null; then
-          arch+=("${pkg}")
-      else
-          aur+=("${pkg}")
-      fi
-    done
-
-    if [[ ${#arch[@]} -gt 0 ]]; then
-        sudo pacman -Ss "${arch[@]}"
-    fi
-
-    if [[ ${#aur[@]} -gt 0 ]]; then
-        ${aurhelper} -Ss "${aur[@]}"
-    fi
-}
-
-if [[ -z "$aurhelper" ]]; then
-  echo "No AUR helper detected. Some aliases may not work."
-fi
-
 EDITOR="nvim"
 SUDO_EDITOR="$EDITOR"
 DIFFPROG="$EDITOR"
 
-# cleaning up home folder
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"
-XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
-XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR:-$HOME/Desktop}"
-XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR:-$HOME/Downloads}"
-XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR:-$HOME/Templates}"
-XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR:-$HOME/Public}"
-XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}"
-XDG_MUSIC_DIR="${XDG_MUSIC_DIR:-$HOME/Music}"
-XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
-XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
-LESSHISTFILE=${LESSHISTFILE:-/tmp/less-hist}
-PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CONFIG_DIR="${XDG_CONFIG_DIR:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DESKTOP_DIR="${XDG_DESKTOP_DIR:-$HOME/Desktop}"
+export XDG_DOWNLOAD_DIR="${XDG_DOWNLOAD_DIR:-$HOME/Downloads}"
+export XDG_TEMPLATES_DIR="${XDG_TEMPLATES_DIR:-$HOME/Templates}"
+export XDG_PUBLICSHARE_DIR="${XDG_PUBLICSHARE_DIR:-$HOME/Public}"
+export XDG_DOCUMENTS_DIR="${XDG_DOCUMENTS_DIR:-$HOME/Documents}"
+export XDG_MUSIC_DIR="${XDG_MUSIC_DIR:-$HOME/Music}"
+export XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
+export XDG_VIDEOS_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
 
 # wget
 WGETRC="${XDG_CONFIG_HOME}/wgetrc"
 SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
-export XDG_CONFIG_HOME XDG_CONFIG_DIR XDG_DATA_HOME XDG_STATE_HOME XDG_CACHE_HOME XDG_DESKTOP_DIR XDG_DOWNLOAD_DIR \
-XDG_TEMPLATES_DIR XDG_PUBLICSHARE_DIR XDG_DOCUMENTS_DIR XDG_MUSIC_DIR XDG_PICTURES_DIR XDG_VIDEOS_DIR STOW_DIR EDITOR SUDO_EDITOR aurhelper
+# Application-specific settings that need to be available everywhere
+export MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
+export MANROFFOPT="-c"
+export WGETRC="${XDG_CONFIG_HOME}/wgetrc"
 
-alias zs="zellij -l welcome" \
-ff="fzf --preview 'bat --style=numbers --color=always {}'" \
-lsa='eza -a' \
-c='clear' \
-l='eza -lh --icons=auto' \
-la='eza -lha --icons=auto' \
-ls='eza -lh --icons=auto --group-directories-first' \
-ll='eza -lha --icons=auto --sort=name --group-directories-first' \
-ld='eza -lhD --icons=auto' \
-lt='eza --icons=auto --tree' \
-rg="rg --hidden --glob '!.git'" \
-cat="bat" \
-scripts="cat package.json | bat --color auto '.scripts'" \
-fd='fdfind' \
-cd='z' \
-n='nvim' \
-g='git' \
-d='docker' \
-lzg='lazygit' \
-lzd='lazydocker' \
-dev='code .' \
-decompress="tar -xzf" \
-un='$aurhelper -Rns' \
-up='$aurhelper -Syu' \
-pl='$aurhelper -Qs' \
-pa='$aurhelper -Ss' \
-pc='$aurhelper -Sc' \
-po='$aurhelper -Qtdq | $aurhelper -Rns -' \
-vc='code' \
-fastfetch='fastfetch --logo-type kitty' \
-..='cd ..' \
-...='cd ../..' \
-.3='cd ../../..' \
-.4='cd ../../../..' \
-.5='cd ../../../../..' \
-mkd='mkdir -p' \
+export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
+export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 
-tn() {
-  local session_name="${1:-$(basename "$PWD")}"
-  tmux new-session -A -s "$session_name" -c "$PWD"
-}
+export KEYTIMEOUT=1
 
-tt() {
-  tn "$@"
-}
+export OS_FIREWALL="$(command -v ufw || command -v firewalld || command -v iptables || command -v nftables || command -v pfctl || echo "none")"
 
-compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
-# Convert webm files generated by the Gnome screenshot video recorder to mp4s that are more compatible
-webm2mp4() {
-  input_file="$1"
-  output_file="${input_file%.webm}.mp4"
-  ffmpeg -i "$input_file" -c:v libx264 -preset slow -crf 22 -c:a aac -b:a 192k "$output_file"
-}
+export WGPU_BACKEND=gl
+
+export BAT_THEME="ansi"
+export BAT_PAGER="less -RF"
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS="--height 80%
+  --layout=reverse
+  --border
+  --preview 'bat --color=always --style=numbers --line-range=:500 {}'
+  --preview-window=right:60%
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'
+  --color=bg+:#161616,bg:#000000,spinner:#08bdba,hl:#3ddbd9,fg:#f2f4f8,header:#3ddbd9,info:#08bdba,pointer:#08bdba,marker:#08bdba,fg+:#f2f4f8,prompt:#08bdba,hl+:#3ddbd9"
+
+# History settings (these affect all shells)
+export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+export HISTSIZE=50000
+export SAVEHIST=50000
+export LESSHISTFILE=${LESSHISTFILE:-/tmp/less-hist}
+
+# Basic shell options that should be set early
+unsetopt BEEP
+setopt AUTO_CD
+setopt GLOB_DOTS
+setopt NOMATCH
+setopt MENU_COMPLETE
+setopt EXTENDED_GLOB
+setopt INTERACTIVE_COMMENTS
+setopt APPEND_HISTORY
+setopt BANG_HIST              # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS       # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS   # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS      # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE      # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS      # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY            # Don't execute immediately upon history expansion.
 

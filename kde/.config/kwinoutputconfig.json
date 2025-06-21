@@ -2,16 +2,20 @@
     {
         "data": [
             {
+                "allowDdcCi": true,
                 "allowSdrSoftwareBrightness": false,
                 "autoRotation": "InTabletMode",
                 "brightness": 0.9725490196078431,
                 "colorPowerTradeoff": "PreferEfficiency",
                 "colorProfileSource": "sRGB",
                 "connectorName": "DVI-I-1",
+                "detectedDdcCi": true,
                 "edidHash": "9bab8b93fa48d44abcbd92b2885d0755",
                 "edidIdentifier": "HWP 10584 0 48 2012 0",
+                "edrPolicy": "always",
                 "highDynamicRange": false,
                 "iccProfilePath": "",
+                "maxBitsPerColor": 0,
                 "mode": {
                     "height": 1440,
                     "refreshRate": 59951,
@@ -23,6 +27,7 @@
                 "sdrBrightness": 200,
                 "sdrGamutWideness": 0,
                 "transform": "Normal",
+                "uuid": "88fa6ccf-ba18-4076-81fd-326dd15c371d",
                 "vrrPolicy": "Automatic",
                 "wideColorGamut": false
             },
@@ -64,7 +69,8 @@
                             "x": 0,
                             "y": 0
                         },
-                        "priority": 0
+                        "priority": 0,
+                        "replicationSource": ""
                     }
                 ]
             },
@@ -78,7 +84,8 @@
                             "x": 0,
                             "y": 0
                         },
-                        "priority": 0
+                        "priority": 0,
+                        "replicationSource": ""
                     }
                 ]
             }

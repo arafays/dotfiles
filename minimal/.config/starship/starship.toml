@@ -1,22 +1,13 @@
+# "$schema" = 'https://starship.rs/config-schema.json'
 scan_timeout = 100
 palette = "oxocarbon"
 add_newline = true
 
-# default_format = "$all"
-
-# Move the directory to the second line
 format = """
-[╭](fg:separator)$directory$all$fill$cmd_duration$line_break\
+[╭](fg:separator)󰣇 $directory $git_branch$git_commit$git_state $git_status$fill$all$cmd_duration$line_break\
 [╰](fg:separator)$character
 """
-
-continuation_prompt = "󰁔 󰁔 "
-
-# format = """
-# $line_break\
-# [╰](fg:separator)\
-# $character\
-# """
+continuation_prompt = '▶▶ '
 
 
 [palettes.oxocarbon]
@@ -54,35 +45,28 @@ success_symbol = "[❯](fg:prompt_ok)"
 error_symbol = "[❯](fg:prompt_err)"
 
 [status]
-format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $status](bg:background)[](fg:background) "
+format = "[$status](fg:status) "
 pipestatus = true
-pipestatus_separator = "-"
 pipestatus_segment_format = "$status"
-pipestatus_format = "[─](fg:separator)[](fg:status)[](fg:icon bg:status)[](fg:status bg:background)[ $pipestatus](bg:background)[](fg:background) "
+pipestatus_format = "[$pipestatus](fg:status) "
 disabled = false
+pipestatus_separator = "-"
 
 [directory]
 read_only = " 󰌾"
-format = "[─](fg:separator)[](fg:directory)[](fg:icon bg:directory)[](fg:directory bg:background)[ $path](bg:background)[](fg:background)"
-truncate_to_repo = false                                                                                                                       # truncates directory to root folder if in github repo
+truncate_to_repo = false # truncates directory to root folder if in github repo
 truncation_length = 3
 truncation_symbol = "…/"
-# repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) '
-# repo_root_style = 'underline white'
 
 [cmd_duration]
-format = "[](fg:duration)[󱐋](fg:icon bg:duration)[](fg:duration bg:background)[ $duration](bg:background)[](fg:background)"
 min_time = 4
 show_milliseconds = false
 
-[time]
-format = "[─](fg:separator)[](fg:duration)[󰥔](fg:icon bg:duration)[](fg:duration bg:background)[ $time](bg:background)[](fg:background) "
-disabled = true
-time_format = "%H: %M"
-
+# [time]
+# disabled = true
+# time_format = "%H: %M :%S"
 
 [git_branch]
-format = "[─](fg:separator)[](fg:git_branch)[](fg:icon bg:git_branch)[](fg:git_branch bg:background)[ $branch](bg:background)[](fg:background) "
 symbol = " "
 
 [git_status]
@@ -93,14 +77,6 @@ diverged = ' [ ⇡${ahead_count}(green) ⇣${behind_count}(red)](bold purple)
 behind = ' [ ${count}](red)'
 staged = ' [ ${count}](green)'
 untracked = ' [ ${count}](red)'
-
-# stashed = "[\\($count\\)](blue)"
-# modified = " ! ${count}"
-# ahead = '⇡${count}(red)'
-# diverged = '⇕⇡${ahead_count}⇣${behind_count}'
-# behind = '⇣${count}(red)'
-# staged = '[++\($count\)](green)'
-# untracked = '[??\($count\)](red)'
 
 [git_commit]
 tag_symbol = '  '
