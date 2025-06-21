@@ -3,10 +3,33 @@ alignment=132
 floating=0
 panelLengthMode=0
 panelOpacity=1
-panelVisibility=2
+panelVisibility=0
 
 [PlasmaViews][Panel 2][Defaults]
-thickness=62
+maxLength=2160
+minLength=2160
+offset=0
+thickness=29
+
+[PlasmaViews][Panel 2][Horizontal2560]
+maxLength=2160
+minLength=2160
+
+[PlasmaViews][Panel 22]
+alignment=1
+panelLengthMode=0
+panelOpacity=1
+panelVisibility=2
+
+[PlasmaViews][Panel 22][Defaults]
+maxLength=895
+minLength=540
+offset=0
+thickness=58
+
+[PlasmaViews][Panel 22][Horizontal2560]
+maxLength=895
+minLength=540
 
 [PlasmaViews][Panel 31]
 floating=1

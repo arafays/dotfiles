@@ -134,7 +134,7 @@ ForegroundVisited=127,140,141
 
 [DirSelect Dialog]
 DirSelectDialog Size=1280,701
-History Items[$e]=file:$HOME/projects/personal/statement-parser,file:$HOME/projects/personal/statement-parser,file:$HOME/projects/personal/zaiqacaterer.com,file:$HOME/projects/personal,file:$HOME/projects/zaiqa-store,file:$HOME/projects/agent-commission-calculator,file:///srv/shared/entertainment,file:$HOME/dotfiles,file:$HOME/Videos/recordings,file:$HOME/projects/personal/arafays-web,file:$HOME/entertainment,file:$HOME/entertainment,file:$HOME/entertainment
+History Items[$e]=file:$HOME,file:$HOME/empty,file:$HOME/projects/personal/statement-parser,file:$HOME/projects/personal/statement-parser,file:$HOME/projects/personal/zaiqacaterer.com,file:$HOME/projects/personal,file:$HOME/projects/zaiqa-store,file:$HOME/projects/agent-commission-calculator,file:///srv/shared/entertainment,file:$HOME/dotfiles,file:$HOME/Videos/recordings,file:$HOME/projects/personal/arafays-web,file:$HOME/entertainment,file:$HOME/entertainment,file:$HOME/entertainment
 Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\x9a\x00\x00\x02\xa8\x00\xff\xff\xff\xff\x01\x00\x00\x00\x01\x00
 
 [General]

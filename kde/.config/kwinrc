@@ -1,50 +1,20 @@
-[Activities][LastVirtualDesktop]
-af143dfe-8c01-4cd6-b55d-bffd22ef429e=bc3a41e4-6e1d-4668-bd2c-65ddd2271f35
+[Compositing]
+Backend=OpenGL
+Enabled=false
 
 [Desktops]
-Id_1=b723a009-a901-4d58-86e5-75394fbacd5d
-Id_2=bc3a41e4-6e1d-4668-bd2c-65ddd2271f35
-Id_3=62bae199-8f7d-4847-b174-d188e28b9cc2
-Id_4=35878dca-f962-40cf-a742-822b7c6f6dc6
-Id_5=f6e46be2-04b0-46f6-8f3d-9fb64056eb4a
-Number=5
+Id_1=1bd9aa05-db4d-439e-84c7-b254c134bb4a
+Number=1
 Rows=1
 
-[Plugins]
-blurEnabled=false
-fadedesktopEnabled=true
-slideEnabled=false
+[Effect-PresentWindows]
+BorderActivateClass=9
 
 [Tiling]
 padding=4
 
-[Tiling][284bbf4b-9de4-5958-88f5-a58de14d53e9]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
-
-[Tiling][35878dca-f962-40cf-a742-822b7c6f6dc6][88fa6ccf-ba18-4076-81fd-326dd15c371d]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
-
-[Tiling][62bae199-8f7d-4847-b174-d188e28b9cc2][88fa6ccf-ba18-4076-81fd-326dd15c371d]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
-
-[Tiling][b723a009-a901-4d58-86e5-75394fbacd5d][88fa6ccf-ba18-4076-81fd-326dd15c371d]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
-
-[Tiling][bc3a41e4-6e1d-4668-bd2c-65ddd2271f35][88fa6ccf-ba18-4076-81fd-326dd15c371d]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
-
-[Tiling][d02c035d-eef0-5c68-aa2f-2e83d0ba08b1]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
-
 [Tiling][e8c78f4f-a3b9-53cf-840a-e84f5d6fc924]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
-[Tiling][f6e46be2-04b0-46f6-8f3d-9fb64056eb4a][88fa6ccf-ba18-4076-81fd-326dd15c371d]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
-
 [Windows]
-DelayFocusInterval=100
-RollOverDesktops=true
-
-[Xwayland]
-Scale=1.15
+BorderlessMaximizedWindows=true
