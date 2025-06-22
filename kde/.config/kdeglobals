@@ -151,13 +151,9 @@ menuFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 smallestReadableFont=NotoSans Nerd Font,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 toolBarFont=NotoSans Nerd Font,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
-[Icons]
-Theme=Tela-dracula-dark
-
 [KDE]
 LookAndFeelPackage=Nothing
 ShowDeleteCommand=false
-widgetStyle=Breeze
 
 [KFileDialog Settings]
 Allow Expansion=false

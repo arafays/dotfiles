@@ -4,11 +4,16 @@ MenuBar=Disabled
 IconSize=22
 PreviewSize=80
 
+[ContextMenu]
+ShowCopyMoveMenu=true
+
 [DetailsMode]
 IconSize=22
 PreviewSize=64
 
 [General]
+FilterBar=true
+GlobalViewProps=false
 OpenExternallyCalledFolderInNewTab=true
 ShowFullPath=true
 ShowStatusBar=FullWidth

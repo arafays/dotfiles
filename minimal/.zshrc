@@ -358,9 +358,6 @@ _load_aliases() {
   _cmd_exists zoxide && alias cd='z'
   _cmd_exists fd && alias find='fd'
 
-  # Browser aliases
-  _cmd_exists zen-browser && alias zen='DISPLAY=:0 zen-browser'
-
   # Eza aliases (enhanced ls)
   if _cmd_exists eza; then
     alias ls='eza -lh --icons=auto --group-directories-first'

@@ -13,8 +13,11 @@ ordering=applications:org.kde.dolphin.desktop,applications:systemsettings.deskto
 [Favorites-org.kde.plasma.kickoff.favorites.instance-3-13c59091-41aa-4d50-9086-4c640b5d9cac]
 ordering=preferred://browser,org.kde.kontact.desktop,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.discover.desktop
 
+[Favorites-org.kde.plasma.kickoff.favorites.instance-3-af143dfe-8c01-4cd6-b55d-bffd22ef429e]
+ordering=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.discover.desktop,applications:brave-browser.desktop,applications:code.desktop,applications:dev.warp.Warp.desktop,applications:spotify-adblock.desktop,applications:upwork.desktop
+
 [Favorites-org.kde.plasma.kickoff.favorites.instance-3-global]
-ordering=preferred://browser,org.kde.kontact.desktop,systemsettings.desktop,org.kde.dolphin.desktop,org.kde.discover.desktop
+ordering=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.discover.desktop,applications:brave-browser.desktop,applications:code.desktop,applications:dev.warp.Warp.desktop,applications:spotify-adblock.desktop,applications:upwork.desktop
 
 [Favorites-org.kde.plasma.kickoff.favorites.instance-55-13c59091-41aa-4d50-9086-4c640b5d9cac]
 ordering=applications:org.kde.dolphin.desktop,applications:systemsettings.desktop,preferred://browser,applications:org.kde.spectacle.desktop
