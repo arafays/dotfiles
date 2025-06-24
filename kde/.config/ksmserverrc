@@ -3,18 +3,18 @@ count=0
 
 [Session: saved at previous logout]
 clientId1=10c4e1636f000174616126100000010060006
-clientId2=10c4e1636f000175052553800000394190004
-clientId3=10c4e1636f000175049529700000012520006
-clientId4=10c4e1636f000175052553900000394190005
+clientId2=10c4e1636f000175072917400000012330004
+clientId3=10c4e1636f000175072917400000012330005
+clientId4=10c4e1636f000175049529700000012520006
 count=4
 program1=/opt/piavpn/bin/pia-client
 program2=/usr/lib/DiscoverNotifier
-program3=/usr/bin/kwalletd6
-program4=Arch-Update
-restartCommand1=/opt/piavpn/bin/pia-client,-session,10c4e1636f000174616126100000010060006_1750525555_180448
-restartCommand2=/usr/lib/DiscoverNotifier,-session,10c4e1636f000175052553800000394190004_1750525555_180502
-restartCommand3=/usr/bin/kwalletd6,-session,10c4e1636f000175049529700000012520006_1750525555_180465
-restartCommand4=Arch-Update,-session,10c4e1636f000175052553900000394190005_1750525555_180471,-name,Arch-Update
+program3=Arch-Update
+program4=/usr/bin/kwalletd6
+restartCommand1=/opt/piavpn/bin/pia-client,-session,10c4e1636f000174616126100000010060006_1750733760_40586
+restartCommand2=/usr/lib/DiscoverNotifier,-session,10c4e1636f000175072917400000012330004_1750733760_40581
+restartCommand3=Arch-Update,-session,10c4e1636f000175072917400000012330005_1750733760_40596,-name,Arch-Update
+restartCommand4=/usr/bin/kwalletd6,-session,10c4e1636f000175049529700000012520006_1750733760_40612
 restartStyleHint1=0
 restartStyleHint2=0
 restartStyleHint3=0

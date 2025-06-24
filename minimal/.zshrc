@@ -347,7 +347,7 @@ _init_plugins() {
 _load_aliases() {
   # if zoxide exists replace cd
 
-  _cmd_exists fzf && alias fzf='fzf --height 40% --layout=reverse --border'
+  _cmd_exists fzf && alias fzf='fzf --height 60% --layout=reverse --border'
 
   _cmd_exists fzf && alias ff='fzf --preview "bat --style=numbers --color=always {}"'
 
@@ -410,7 +410,7 @@ _define_functions() {
   fcd() {
     local dir
     dir=$(find . -maxdepth 5 \( -name .git -o -name node_modules -o -name .next -o -name dist \) -prune -o -type d -print 2>/dev/null |
-      fzf --height=40% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%) &&
+      fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%) &&
       cd "$dir"
   }
 

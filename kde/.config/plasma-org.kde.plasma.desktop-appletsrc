@@ -39,6 +39,10 @@ location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
+[Containments][91][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
 [Containments][91][General]
 positions={"2560x1440":[]}
 
@@ -323,7 +327,7 @@ immutability=1
 plugin=org.kde.plasma.mediacontroller
 
 [Containments][92][Applets][99][Applets][116][Configuration]
-PreloadWeight=55
+PreloadWeight=0
 
 [Containments][92][Applets][99][Applets][117]
 immutability=1

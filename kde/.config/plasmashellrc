@@ -1,6 +1,3 @@
-[PlasmaTransientsConfig]
-PreloadWeight=0
-
 [PlasmaViews][Panel 112]
 panelOpacity=2
 panelVisibility=2

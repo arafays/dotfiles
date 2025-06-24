@@ -74,7 +74,7 @@ export WGPU_BACKEND=gl
 
 export BAT_THEME="ansi"
 export BAT_PAGER="less -RF"
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --height 80% --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
 export FZF_DEFAULT_OPTS="--height 80%
@@ -82,8 +82,7 @@ export FZF_DEFAULT_OPTS="--height 80%
   --border
   --preview 'bat --color=always --style=numbers --line-range=:500 {}'
   --preview-window=right:60%
-  --bind 'ctrl-/:change-preview-window(down|hidden|)'
-  --color=bg+:#161616,bg:#000000,spinner:#08bdba,hl:#3ddbd9,fg:#f2f4f8,header:#3ddbd9,info:#08bdba,pointer:#08bdba,marker:#08bdba,fg+:#f2f4f8,prompt:#08bdba,hl+:#3ddbd9"
+  --bind 'ctrl-/:change-preview-window(down|hidden|)' "
 
 # History settings (these affect all shells)
 export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
