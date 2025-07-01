@@ -2,6 +2,23 @@
 
 set -euo pipefail # Exit on any error, on unset variables, and on pipe failures
 
+# Check if running on an Arch-based distribution
+if [ ! -f /etc/arch-release ]; then
+    echo "This script is intended for Arch-based Linux distributions."
+    echo "Please check the script and adapt it for your distribution."
+    exit 1
+fi
+
+# Check if yay is installed
+if ! command -v yay &> /dev/null; then
+    echo "yay is not installed. Please install it first."
+    echo "You can install it by running:"
+    echo "git clone https://aur.archlinux.org/yay.git"
+    echo "cd yay"
+    echo "makepkg -si"
+    exit 1
+fi
+
 echo "🚀 Installing essential development tools..."
 
 # Essential CLI tools and utilities

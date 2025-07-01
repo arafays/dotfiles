@@ -1,14 +1,7 @@
-
-#working_directory     = "None"
-#live_config_reload    = true
-#ipc_socket            = true
-
 [general]
 live_config_reload = true
 
 [window]
-#dimensions            = { columns = 0, lines = 0 }
-#position              = { x = 0, y = 0 }
 padding = { x = 10, y = 10 }
 dynamic_padding = true
 decorations = "None"
@@ -19,15 +12,12 @@ title = "Alacritty"
 dynamic_title = true
 class = { instance = "Alacritty", general = "Alacritty" }
 decorations_theme_variant = "None"
-#resize_increments     = false
-#option_as_alt         = "None"
 
 [terminal.shell]
 program = "/usr/bin/zsh"
 
 [scrolling]
 history = 65535
-#multiplier            = 3
 
 [font]
 # normal = { family = "NotoSansM Nerd Font", style = "Regular" }
@@ -37,7 +27,6 @@ history = 65535
 size = 10
 offset = { x = 0, y = 0 }
 glyph_offset = { x = 0, y = 0 }
-#builtin_box_drawing   = true
 
 
 [colors.primary]
@@ -71,8 +60,6 @@ foreground = "#1E1E2E"
 background = "#A6ADC8"
 
 [colors.line_indicator]
-#foreground            = "None"
-#background            = "None"
 
 [colors.footer_bar]
 background = "#262626"
@@ -124,7 +111,6 @@ color = "#C0C5CE"
 command = { program = "notify-send", args = ["alacritty", "bell"] }
 
 [selection]
-#semantic_escape_chars = ",│‘|:"' ()[]{}<>t"
 save_to_clipboard = true
 
 [cursor.style]
@@ -138,11 +124,8 @@ blinking = "Off"
 [cursor]
 blink_interval = 500
 blink_timeout = 0
-#unfocused_hollow      = true
-#thickness             = 0.15
 
 [terminal]
-#osc52                 = "OnlyCopy"
 
 [mouse]
 hide_when_typing = true
@@ -186,10 +169,3 @@ bindings = [
 
 
 [debug]
-#render_timer          = false
-#persistent_logging    = false
-#log_level             = "Warn"
-#renderer              = "None"
-#print_events          = false
-#highlight_damage      = false
-#prefer_egl            = false

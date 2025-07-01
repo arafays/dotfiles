@@ -621,6 +621,15 @@ _init_plugins
 # Run mise hook once after everything is loaded
 _mise_chpwd_hook_optimized
 
+_save_cmd_cache() {
+  if (( ${#_cmd_cache_new_entries[@]} > 0 )); then
+    for cmd in "${(@k)_cmd_cache_new_entries}"; do
+      echo "_cmd_cache[$cmd]=${_cmd_cache_new_entries[$cmd]}"
+    done >> "$_cache_file"
+  fi
+}
+add-zsh-hook zshexit _save_cmd_cache
+
 # Performance warning
 # _end_time=$SECONDS
 # _load_time=$((_end_time - _start_time))
