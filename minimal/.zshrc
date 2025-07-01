@@ -1,4 +1,7 @@
-zmodload zsh/zprof
+# zmodload zsh/zprof
+
+# Performance tracking
+_start_time=$SECONDS
 
 # Basic shell options
 unsetopt BEEP
@@ -24,9 +27,6 @@ setopt HIST_VERIFY            # Don't execute immediately upon history expansion
 
 # GPG configuration
 export GPG_TTY=$(tty)
-
-# Performance tracking
-_start_time=$SECONDS
 
 typeset -A _cmd_cache
 _cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
@@ -78,7 +78,6 @@ _detect_aur_helper() {
     fi
   done
 }
-
 
 # Terminal title
 _set_terminal_title() {
@@ -190,8 +189,6 @@ _setup_vi_mode() {
   bindkey '^E' end-of-line
   bindkey -s '^x' 'source $HOME/.zshrc\n'  # Ctrl+X to reload zshrc
   bindkey '^H' backward-kill-word           # Ctrl+Backspace to delete whole word
-
-
 }
 
 # Initialize Zinit (lazy loading)
@@ -275,7 +272,7 @@ _setup_essential_tools() {
       read -r response
       if [[ "$response" == "y" ]]; then
         if _install_tool "$tool" "$package"; then
-          _load_completion "$tool" "$completion_cmd" "4"
+          _load_completion "$tool" "$completion_cmd" "3"
         fi
       fi
     fi
@@ -295,7 +292,7 @@ _setup_optional_tools() {
     local completion_cmd="${completions[$i]}"
 
     if _cmd_exists "$tool"; then
-      _load_completion "$tool" "$completion_cmd" "4"
+      _load_completion "$tool" "$completion_cmd" "3"
     fi
   done
 }
@@ -622,23 +619,24 @@ _init_plugins
 _mise_chpwd_hook_optimized
 
 _save_cmd_cache() {
-  if (( ${#_cmd_cache_new_entries[@]} > 0 )); then
-    for cmd in "${(@k)_cmd_cache_new_entries}"; do
+  if ((${#_cmd_cache_new_entries[@]} > 0)); then
+    for cmd in "${!_cmd_cache_new_entries[@]}"; do
       echo "_cmd_cache[$cmd]=${_cmd_cache_new_entries[$cmd]}"
-    done >> "$_cache_file"
+    done >>"$_cache_file"
   fi
 }
 add-zsh-hook zshexit _save_cmd_cache
 
-# Performance warning
-# _end_time=$SECONDS
-# _load_time=$((_end_time - _start_time))
-# if ((_load_time > 3)); then
-#   echo "⚠️  Shell startup took ${_load_time}s. Consider optimizing further."
-# fi
+Performance warning
+_end_time=$SECONDS
+_load_time=$((_end_time - _start_time))
+if ((_load_time > 3)); then
+  echo "⚠️  Shell startup took ${_load_time}s. Consider optimizing further."
+fi
 
 # # Cleanup
 # unset _start_time _end_time _load_time
+
 # zprof
 
 

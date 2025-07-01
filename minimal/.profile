@@ -1,9 +1,53 @@
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
+# Define an array to manage PATH entries
+path_array=(
+	"$HOME/.local/bin"
+)
 
-# Add ~/.local/bin and mise shims to PATH for all applications
-export PATH="$HOME/.local/bin:$PATH"
+# Function to update PATH from path_array
+update_path() {
+	local new_path=""
+	for dir in "${path_array[@]}"; do
+		if [[ -d "$dir" ]]; then
+			if [[ -z "$new_path" ]]; then
+				new_path="$dir"
+			else
+				new_path="$new_path:$dir"
+			fi
+		fi
+	done
+	export PATH="$new_path:$PATH"
+}
+
+# Function to add a new path
+add_path() {
+	local new_path="$1"
+	if [[ -d "$new_path" && ! " ${path_array[*]} " =~ " $new_path " ]]; then
+		path_array+=("$new_path")
+		update_path
+	fi
+}
+
+# Function to remove a path
+remove_path() {
+	local remove_path="$1"
+	local new_array=()
+	for item in "${path_array[@]}"; do
+		[[ "$item" != "$remove_path" ]] && new_array+=("$item")
+	done
+	path_array=("${new_array[@]}")
+	update_path
+}
+
+# Function to list all paths
+list_paths() {
+	printf "%s\n" "${path_array[@]}"
+}
+
+# Initialize PATH
+update_path
 
 # Ensure DISPLAY is properly set for X11 applications
 # Only set if not already properly configured
@@ -29,6 +73,8 @@ fi
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export DIFFPROG="$EDITOR"
+export VISUAL="nvim"
+export BROWSER="zen-browser"
 
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -68,3 +114,5 @@ export FZF_DEFAULT_OPTS="--height 80% \
   --preview 'bat --color=always --style=numbers --line-range=:500 {}' \
   --preview-window=right:60% \
   --bind 'ctrl-/:change-preview-window(down|hidden|)' "
+
+export CHROME_EXECUTABLE="$(which chromium || which chrome)"
