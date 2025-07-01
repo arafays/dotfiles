@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Exit on any error
+set -euo pipefail # Exit on any error, on unset variables, and on pipe failures
 
 echo "🚀 Installing essential development tools..."
 

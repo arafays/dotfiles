@@ -29,6 +29,7 @@ DialogWidth=1920
 AppletOrder=113
 
 [Containments][91]
+ItemGeometries-2226x1252=
 ItemGeometries-2560x1440=
 ItemGeometriesHorizontal=
 activityId=af143dfe-8c01-4cd6-b55d-bffd22ef429e
@@ -44,7 +45,7 @@ DialogHeight=540
 DialogWidth=720
 
 [Containments][91][General]
-positions={"2560x1440":[]}
+positions={"2226x1252":[],"2560x1440":[]}
 
 [Containments][92]
 activityId=
@@ -61,6 +62,8 @@ plugin=org.kde.plasma.systemmonitor.memory
 
 [Containments][92][Applets][120][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+popupHeight=400
+popupWidth=560
 
 [Containments][92][Applets][120][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -84,6 +87,8 @@ plugin=org.kde.plasma.systemmonitor.net
 
 [Containments][92][Applets][121][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+popupHeight=400
+popupWidth=560
 
 [Containments][92][Applets][121][Configuration][Appearance]
 chartFace=org.kde.ksysguard.linechart
@@ -114,6 +119,8 @@ plugin=org.kde.plasma.systemmonitor.cpu
 
 [Containments][92][Applets][122][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+popupHeight=400
+popupWidth=560
 
 [Containments][92][Applets][122][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -137,6 +144,9 @@ plugin=org.kde.plasma.systemmonitor
 
 [Containments][92][Applets][123][Configuration]
 CurrentPreset=org.kde.plasma.systemmonitor
+PreloadWeight=65
+popupHeight=400
+popupWidth=560
 
 [Containments][92][Applets][123][Configuration][Appearance]
 chartFace=org.kde.ksysguard.piechart
@@ -306,7 +316,7 @@ immutability=1
 plugin=org.kde.plasma.volume
 
 [Containments][92][Applets][99][Applets][111][Configuration]
-PreloadWeight=60
+PreloadWeight=75
 
 [Containments][92][Applets][99][Applets][111][Configuration][General]
 migrated=true
@@ -315,12 +325,15 @@ migrated=true
 immutability=1
 plugin=org.kde.plasma.battery
 
+[Containments][92][Applets][99][Applets][114][Configuration]
+PreloadWeight=42
+
 [Containments][92][Applets][99][Applets][115]
 immutability=1
 plugin=org.kde.plasma.brightness
 
 [Containments][92][Applets][99][Applets][115][Configuration]
-PreloadWeight=55
+PreloadWeight=62
 
 [Containments][92][Applets][99][Applets][116]
 immutability=1

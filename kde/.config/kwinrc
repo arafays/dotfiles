@@ -1,5 +1,5 @@
 [Activities][LastVirtualDesktop]
-af143dfe-8c01-4cd6-b55d-bffd22ef429e=a55b4c0c-98be-45b9-9e86-14e6a4bfe269
+af143dfe-8c01-4cd6-b55d-bffd22ef429e=6220b23d-07f4-4504-8ede-e8e5c504c9e8
 
 [Compositing]
 Backend=OpenGL
@@ -20,8 +20,26 @@ BorderActivateClass=9
 [Tiling]
 padding=4
 
+[Tiling][1bd9aa05-db4d-439e-84c7-b254c134bb4a][88fa6ccf-ba18-4076-81fd-326dd15c371d]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][4f13b3a7-127f-4d75-bb6a-c1956a27c40e][88fa6ccf-ba18-4076-81fd-326dd15c371d]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][52f6426c-b388-4791-b99b-3c9400c67146][88fa6ccf-ba18-4076-81fd-326dd15c371d]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][6220b23d-07f4-4504-8ede-e8e5c504c9e8][88fa6ccf-ba18-4076-81fd-326dd15c371d]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][a55b4c0c-98be-45b9-9e86-14e6a4bfe269][88fa6ccf-ba18-4076-81fd-326dd15c371d]
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Tiling][e8c78f4f-a3b9-53cf-840a-e84f5d6fc924]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Windows]
 BorderlessMaximizedWindows=true
+
+[Xwayland]
+Scale=1.15
