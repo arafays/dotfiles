@@ -18,8 +18,8 @@ local function save_identities(identities)
     local dir = identities_file:match("(.*/)")
     if dir then
       -- if it fails, try creating the directory
-      vim.notify("File not created creating the directory ..", vim.log.levels.INFO)
-      os.execute("mkdir -p " .. dir)
+      vim.notify("Identities directory not found, creating it...", vim.log.levels.INFO)
+      vim.fn.mkdir(dir, "p")
       -- create the file
       file = io.open(identities_file, "w")
     end
@@ -172,7 +172,7 @@ local function ensure_git_config()
     local selected_identity = nil
 
     if choice == global_identity_prompt then
-      selected_identity = { name = global_name, email = global_email, global_signingkey }
+      selected_identity = { name = global_name, email = global_email, signingkey = global_signingkey }
       table.insert(identities, selected_identity)
       save_identities(identities)
       set_git_config(selected_identity.name, selected_identity.email, selected_identity.signingkey)
