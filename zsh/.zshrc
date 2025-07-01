@@ -1,26 +1,40 @@
 # zmodload zsh/zprof
 
-export BAT_THEME="ansi"
-export BAT_PAGER="less -RF"
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-export FZF_DEFAULT_OPTS="
-  --height 80%
-  --layout=reverse
-  --border
-  --preview 'bat --color=always --style=numbers --line-range=:500 {}'
-  --preview-window=right:60%
-  --bind 'ctrl-/:change-preview-window(down|hidden|)'
-  --color=bg+:#161616,bg:#000000,spinner:#08bdba,hl:#3ddbd9,fg:#f2f4f8,header:#3ddbd9,info:#08bdba,pointer:#08bdba,marker:#08bdba,fg+:#f2f4f8,prompt:#08bdba,hl+:#3ddbd9"
+# gh api --method PATCH -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /gists/3beb86f3b33e396654b1cf1799c923f9 -f "files[.zshrc][content]=$(cat ~/.zshrc)"
 
 # Performance tracking
 _start_time=$SECONDS
+
+# Basic shell options
+unsetopt BEEP
+setopt AUTO_CD
+setopt GLOB_DOTS
+setopt NOMATCH
+setopt MENU_COMPLETE
+setopt EXTENDED_GLOB
+setopt INTERACTIVE_COMMENTS
+setopt APPEND_HISTORY
+setopt BANG_HIST              # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS       # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS   # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS      # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE      # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS      # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY            # Don't execute immediately upon history expansion.
+
+# GPG configuration
+export GPG_TTY=$(tty)
 
 typeset -A _cmd_cache
 _cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 _cache_file="$_cache_dir/cmd_cache"
 [[ ! -d "$_cache_dir" ]] && mkdir -p "$_cache_dir"
+
+# Load cached command results
+[[ -f "$_cache_file" ]] && source "$_cache_file"
 
 # Fast command existence check with persistent caching
 _cmd_exists() {
@@ -35,18 +49,6 @@ _cmd_exists() {
     echo "_cmd_cache[$cmd]=${_cmd_cache[$cmd]}" >>"$_cache_file"
   fi
   return $((1 - _cmd_cache[$cmd]))
-}
-
-# Load cached command results
-[[ -f "$_cache_file" ]] && source "$_cache_file"
-
-# Terminal title
-_set_terminal_title() {
-  local git_branch=""
-  if git rev-parse --is-inside-work-tree &>/dev/null; then
-    git_branch=" ($(git branch --show-current 2>/dev/null))"
-  fi
-  print -Pn "\e]0;%~$git_branch\a"
 }
 
 # Terminal detection (only run once)
@@ -77,6 +79,49 @@ _detect_aur_helper() {
   done
 }
 
+# Terminal title
+_set_terminal_title() {
+  local git_branch=""
+  if git rev-parse --is-inside-work-tree &>/dev/null; then
+    git_branch=" ($(git branch --show-current 2>/dev/null))"
+  fi
+
+  # Use printf for cross-shell compatibility
+  if [[ -n "$ZSH_VERSION" ]]; then
+    # zsh: use prompt expansion with trailing slash for home
+    local zsh_path="%~"
+    if [[ "$PWD" == "$HOME" ]]; then
+      zsh_path="~/"
+    fi
+    print -Pn "\e]0;${zsh_path}$git_branch\a"
+  else
+    # bash: use $PWD and manual tilde expansion with trailing slash for home
+    local pwd_display="${PWD/#$HOME/~}"
+    if [[ "$pwd_display" == "~" ]]; then
+      pwd_display="~/"
+    fi
+    printf '\e]0;%s%s\a' "$pwd_display" "$git_branch"
+  fi
+}
+
+# Prompt setup (shell-specific)
+if [[ -n "$ZSH_VERSION" ]]; then
+  # zsh configuration
+  PROMPT=$'\uf0a9 ' # Unicode arrow
+  if [[ ! $(locale charmap) =~ "UTF-8" ]]; then
+    PROMPT="> " # Fallback for non-UTF-8 locales
+  fi
+  precmd() { _set_terminal_title; }
+elif [[ -n "$BASH_VERSION" ]]; then
+  # bash configuration
+  if [[ $(locale charmap) =~ "UTF-8" ]]; then
+    PS1=$'\uf0a9 ' # Unicode arrow
+  else
+    PS1="> " # Fallback for non-UTF-8 locales
+  fi
+  PROMPT_COMMAND="_set_terminal_title"
+fi
+
 # Install tool from AUR
 _install_tool() {
   local tool="$1"
@@ -102,6 +147,12 @@ _setup_vi_mode() {
   bindkey -v
   export KEYTIMEOUT=1
 
+  # Enhanced key bindings for vi mode
+  autoload -U up-line-or-beginning-search
+  autoload -U down-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+
   # Better vi mode cursor
   zle-keymap-select() {
     case $KEYMAP in
@@ -121,7 +172,7 @@ _setup_vi_mode() {
   # Ensure fzf-history-widget is defined
   if [[ -n "$(command -v fzf)" ]]; then
     fzf-history-widget() {
-      local selected=$(fc -rl 1 | fzf --height 40% --layout=reverse --border --preview 'echo {}' --preview-window=up:3:wrap)
+      local selected=$(fc -rl 1 | fzf --height 60% --layout=reverse --border --preview 'echo {}' --preview-window=up:3:wrap)
       if [[ -n "$selected" ]]; then
         BUFFER="$selected"
         CURSOR=${#BUFFER}
@@ -130,10 +181,14 @@ _setup_vi_mode() {
     zle -N fzf-history-widget
     bindkey '^R' fzf-history-widget
   fi
+
+  # Essential key bindings
   bindkey '^P' up-history
   bindkey '^N' down-history
   bindkey '^A' beginning-of-line
   bindkey '^E' end-of-line
+  bindkey -s '^x' 'source $HOME/.zshrc\n' # Ctrl+X to reload zshrc
+  bindkey '^H' backward-kill-word         # Ctrl+Backspace to delete whole word
 }
 
 # Initialize Zinit (lazy loading)
@@ -188,19 +243,19 @@ _init_starship() {
 }
 
 _setup_essential_tools() {
-  local tools=("git" "nvim" "mise" "gh" "docker" "zoxide" "fd" "bat" "rg" "fzf" "eza")
-  local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "zoxide" "fd-find" "bat" "ripgrep" "fzf" "eza")
+  local tools=("git" "nvim" "mise" "gh" "docker" "zoxide" "bat" "rg" "fzf" "fd" "eza")
+  local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "zoxide" "bat" "ripgrep" "fzf" "fd" "eza")
   local completions=(
-    "git"
     "skip"
-    "mise activate zsh"
+    "skip"
+    "mise activate zsh && mise completion zsh"
     "gh completion -s zsh && gh copilot alias zsh"
-    "docker completion zsh"
+    "skip"
     "zoxide init zsh"
-    "fd --gen-completions zsh"
     "bat --completion zsh"
     "rg --generate=complete-zsh"
     "fzf --zsh"
+    "skip"
     "skip"
   )
 
@@ -210,13 +265,14 @@ _setup_essential_tools() {
     local completion_cmd="${completions[$i]}"
 
     if _cmd_exists "$tool"; then
-      _load_completion "$tool" "$completion_cmd" "0"
+      # Load completion with longer delay to ensure system is ready
+      _load_completion "$tool" "$completion_cmd" "2"
     else
       echo "$tool not found. Install it? (y/n)"
       read -r response
       if [[ "$response" == "y" ]]; then
         if _install_tool "$tool" "$package"; then
-          _load_completion "$tool" "$completion_cmd" "2"
+          _load_completion "$tool" "$completion_cmd" "3"
         fi
       fi
     fi
@@ -236,45 +292,90 @@ _setup_optional_tools() {
     local completion_cmd="${completions[$i]}"
 
     if _cmd_exists "$tool"; then
-      _load_completion "$tool" "$completion_cmd" "1"
+      _load_completion "$tool" "$completion_cmd" "3"
     fi
   done
 }
 
+_setup_menuselect_bindings() {
+  # Menu navigation bindings (requires compinit to be loaded first)
+  bindkey -M menuselect '?' history-incremental-search-forward
+  bindkey -M menuselect '/' history-incremental-search-backward
+
+  # Use vim keys in tab complete menu
+  if [[ -o menucomplete ]]; then
+    bindkey -M menuselect '^h' vi-backward-char
+    bindkey -M menuselect '^k' vi-up-line-or-history
+    bindkey -M menuselect '^l' vi-forward-char
+    bindkey -M menuselect '^j' vi-down-line-or-history
+    bindkey -M menuselect '^[[Z' vi-up-line-or-history
+  fi
+}
+
 _init_plugins() {
-  # Core plugins loaded immediately
-  zinit wait lucid light-mode for \
+  # Enhanced completion configuration
+  zstyle ':completion:*' menu yes select
+  zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+  zmodload zsh/complist
+  _comp_options+=(globdots) # Include hidden files
+  zle_highlight=('paste:none')
+
+  # FZF-tab configuration
+  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+  zstyle ':fzf-tab:*' use-fzf-default-opts yes
+  zstyle ':fzf-tab:*' fzf-preview 'bat --color=always --style=numbers --line-range :500 {}'
+
+  # Initialize completion system properly
+  autoload -Uz compinit
+  compinit
+
+  # Core plugins with proper loading order and deferred completions
+  zinit wait lucid for \
     atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
     atload"_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions \
-    blockf atpull'zinit creinstall -q .' \
+    zsh-users/zsh-autosuggestions
+
+  # Load completions plugin with blockf to avoid conflicts
+  zinit wait'1' lucid blockf atpull'zinit creinstall -q .' for \
     zsh-users/zsh-completions
 
-  # Load after 1 second for non-essential plugins
-  zinit wait'1' lucid for \
-    MichaelAquilina/zsh-you-should-use \
+  # Load fzf-tab after completions are set up
+  zinit wait'1' lucid atload"_setup_menuselect_bindings" for \
     Aloxaf/fzf-tab
 
-  # Setup tool completions
+  # Load you-should-use last to avoid conflicts
+  zinit wait'2' lucid for \
+    MichaelAquilina/zsh-you-should-use
+
+  # Setup tool completions after core system is ready
   _setup_essential_tools
   _setup_optional_tools
 }
 
 _load_aliases() {
-  # if zoxide exists replace cd
+  # If zoxide exists replace cd
+  _cmd_exists zoxide && alias cd='z'
 
-  _cmd_exists fzf && alias fzf='fzf --height 40% --layout=reverse --border'
-  _cmd_exists fzf && alias ff='fzf --preview "bat --style=numbers --color=always {}"'
-  _cmd_exists fd && alias find='fd'
-  _cmd_exists fd && alias f='fd --type f --hidden --follow --exclude .git'
+  if _cmd_exists fzf; then
+    alias fzf='fzf --height 40% --layout=reverse --border'
+    alias ff='fzf --preview "bat --style=numbers --color=always {}"'
+  fi
+
+  if _cmd_exists fd; then
+    alias find='fd'
+    alias f='fd --type f --hidden --follow --exclude .git'
+  fi
 
   _cmd_exists rg && alias grep='rg --color=auto --line-number --smart-case  --hidden --glob "!.git"'
 
-  _cmd_exists bat && alias cat='bat --paging=never'
-  _cmd_exists bat && alias less='bat --paging=always --style=plain --color=always'
-
-  _cmd_exists zoxide && alias cd='z'
+  if _cmd_exists bat; then
+    alias cat='bat --style=plain --color=always --paging=never'
+    alias less='bat --style=plain --color=always --paging=always'
+  else
+    alias cat='cat --show-all --show-control-chars --show-tabs --show-nonprinting'
+    alias less='less -R'
+  fi
 
   # Eza aliases (enhanced ls)
   if _cmd_exists eza; then
@@ -293,8 +394,8 @@ _load_aliases() {
     alias in="$aurhelper -S"
     alias un="$aurhelper -Rns"
     alias up="$aurhelper -Syu"
-    alias pl="$aurhelper -Qs"
-    alias pa="$aurhelper -Ss"
+    alias look="$aurhelper -Qs"
+    alias search="$aurhelper -Ss"
     alias pc="$aurhelper -Sc"
     alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
     alias pi="$aurhelper -Si" # Package info
@@ -329,7 +430,7 @@ _define_functions() {
   fcd() {
     local dir
     dir=$(find . -maxdepth 5 \( -name .git -o -name node_modules -o -name .next -o -name dist \) -prune -o -type d -print 2>/dev/null |
-      fzf --height=40% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%) &&
+      fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%) &&
       cd "$dir"
   }
 
@@ -340,23 +441,35 @@ _define_functions() {
       ${EDITOR:-nvim} "$file"
   }
 
-  # Enhanced package install
   in() {
-    _detect_aur_helper
-    local -a arch=() aur=()
+    # If no arguments provided, show usage
+    if [[ $# -eq 0 ]]; then
+      echo "Usage: in <package1> [package2] ..."
+      return 1
+    fi
 
-    for pkg in "$@"; do
-      if pacman -Si "$pkg" &>/dev/null; then
-        arch+=("$pkg")
-      else
-        aur+=("$pkg")
+    # Since yay can handle both official and AUR packages,
+    # we can simplify and just use yay for everything
+    if _cmd_exists "$aurhelper"; then
+      "$aurhelper" -S "$@"
+    else
+      # Final fallback to pacman for official packages only
+      echo "No AUR helper found. Installing official packages only..."
+      local -a official=()
+
+      for pkg in "$@"; do
+        if pacman -Si "$pkg" &>/dev/null; then
+          official+=("$pkg")
+        else
+          echo "⚠️  Skipping AUR package: $pkg (no AUR helper available)"
+        fi
+      done
+
+      if ((${#official[@]})); then
+        sudo pacman -S "${official[@]}"
       fi
-    done
-
-    ((${#arch[@]})) && sudo pacman -S "${arch[@]}"
-    ((${#aur[@]})) && [[ -n "$aurhelper" ]] && "$aurhelper" -S "${aur[@]}"
+    fi
   }
-
   # Quick compression
   compress() {
     case "$1" in
@@ -408,7 +521,6 @@ _define_functions() {
   # Enhanced tmux session management
   tn() {
     local session_name="${1:-$(basename "$PWD")}"
-    # Clean session name (replace dots and special chars with underscores)
     session_name="${session_name//[^a-zA-Z0-9_-]/_}"
     tmux new-session -A -s "$session_name" -c "$PWD"
   }
@@ -443,101 +555,51 @@ _define_functions() {
   }
 }
 
-# Optimized version that checks if plugins are already loaded
+# Optimized mise hook that avoids completion conflicts
 _mise_chpwd_hook_optimized() {
   # Check if mise is available and we have mise config files
-  if _cmd_exists mise && [[ -f .mise.toml || -f .tool-versions || -f mise.toml ]]; then
+  if _cmd_exists mise && [[ -f .mise.toml || -f .tool-versions || -f mise.toml || -f .env || -f .nvmrc || -f .node-version || -f .yarnrc || -f .pnpm-lock.yaml || -f .go.mod || -f .ruby-version || -f .python-version ]]; then
 
-    # Track loaded completions to avoid duplicates
-    local -A loaded_completions
-
-    # # Parse the output of `zinit completions` and build completion status
-    # while IFS= read -r line; do
-    #   # Skip progress and empty lines
-    #   [[ $line =~ ^[0-9]+\.[0-9]+%\ *$ || -z $line ]] && continue
-
-    #   # Split into tools and source
-    #   local source tools_str
-    #   tools_str=$(echo "$line" | awk -F'[[:space:]]+[^[:space:]]+$' '{print $1}')
-    #   source=$(echo "$line" | awk '{print $NF}')
-
-    #   # Process comma-separated tools
-    #   echo "$tools_str" | tr ',' '\n' | while read -r tool; do
-    #     # Clean up tool name
-    #     tool=${tool## }    # Remove leading spaces
-    #     tool=${tool%% }    # Remove trailing spaces
-    #     [[ -z $tool ]] && continue
-
-    #     # Store both the completion status and its source
-    #     loaded_completions[$tool]=$source
-    #   done
-    # done < <(zinit completions)
-
-    # # Debug: Print loaded completions
-    # echo "Loaded completions:"
-    # for tool in ${(k)loaded_completions}; do
-    #   echo "$tool -> ${loaded_completions[$tool]}"
-    # done
-
-    # Load pnpm completion and plugin if not already loaded
+    # Load pnpm completion if available and not already loaded
     if _cmd_exists pnpm; then
-      if [[ -z ${loaded_completions['pnpm']} ]]; then
-        zinit id-as"pnpm-completion" wait lucid for \
-          atload"pnpm completion zsh" \
-          zdharma-continuum/null
-      fi
+      # Use a more conservative approach to avoid completion conflicts
+      zinit wait'5' lucid nocd as"completion" for \
+        atload"eval \"\$(pnpm completions zsh)\" 2>/dev/null || true" \
+        zdharma-continuum/null
 
-      if [[ -z ${loaded_completions['ntnyq/omz-plugin-pnpm']} ]]; then
-        zinit wait lucid for ntnyq/omz-plugin-pnpm
-      fi
+      # Load pnpm plugin separately
+      zinit wait'5' lucid for ntnyq/omz-plugin-pnpm
     fi
 
-    # Load bun completion if not already loaded
+    # Load bun completion if available
     if _cmd_exists bun; then
-      if [[ -z ${loaded_completions['bun']} ]]; then
-        zinit id-as"bun-completion" wait lucid for \
-          atload"bun completions" \
-          zdharma-continuum/null
-      fi
+      zinit wait'5' lucid nocd as"completion" for \
+        atload"eval \"\$(bun completions)\" 2>/dev/null || true" \
+        zdharma-continuum/null
     fi
-
   fi
 }
 
 _load_completion() {
   local tool="$1"
   local completion_cmd="$2"
-  local delay="${3:-2}"
+  local delay="${3:-3}"
 
-  # Skip if tool doesn't exist
-  if ! _cmd_exists "$tool"; then
-    return
-  fi
-  if [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
+  # Skip if tool doesn't exist or no completion command
+  if ! _cmd_exists "$tool" || [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
     return
   fi
 
-  # Use Zinit's built-in completion management
+  # Defer all completions to avoid conflicts with initialization
   case "$tool" in
-  git)
-    zinit ice blockf
-    zinit light zsh-users/zsh-completions
-    ;;
-  docker)
-    zinit ice blockf
-    zinit light zsh-users/zsh-completions
-    ;;
-  bat)
-    # TODO: implement a more robust way to handle bat completions
-    ;;
-  rg)
-    # TODO: implement a more robust way to handle ripgrep completions
+  git | docker)
+    # These are handled by zsh-completions plugin
     ;;
   *)
-    # For other tools, use their native completion if available
+    # For other tools, load completion in a deferred, safe way
     if [[ -n "$completion_cmd" ]]; then
-      zinit wait"$delay" lucid for \
-        atload"eval \"\$($completion_cmd)\"" \
+      zinit wait"$delay" lucid nocd as"completion" for \
+        atload"eval \"\$($completion_cmd)\" 2>/dev/null" \
         zdharma-continuum/null
     fi
     ;;
@@ -550,17 +612,27 @@ _detect_aur_helper
 _setup_vi_mode
 _init_zinit
 _init_starship
+
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title
 add-zsh-hook chpwd _mise_chpwd_hook_optimized
-autoload -Uz compinit && compinit
 
 # Load functions and aliases
 _define_functions
 _load_aliases
+
 _init_plugins
 
 _mise_chpwd_hook_optimized
+
+_save_cmd_cache() {
+  if ((${#_cmd_cache_new_entries[@]} > 0)); then
+    for cmd in "${!_cmd_cache_new_entries[@]}"; do
+      echo "_cmd_cache[$cmd]=${_cmd_cache_new_entries[$cmd]}"
+    done >>"$_cache_file"
+  fi
+}
+add-zsh-hook zshexit _save_cmd_cache
 
 # Performance warning
 _end_time=$SECONDS
@@ -573,4 +645,3 @@ fi
 unset _start_time _end_time _load_time
 
 # zprof
-export PATH

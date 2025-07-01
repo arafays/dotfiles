@@ -7,5 +7,6 @@
   "go.alternateTools": {
     "go": "/home/arafay/.local/share/mise/shims/go",
     "gopls": "/home/arafay/.local/share/mise/shims/gopls"
-  }
+  },
+  "dart.flutterSdkPath": "/home/arafay/.local/share/mise/installs/flutter/3.32.2-stable"
 }

@@ -11,6 +11,5 @@ color_scheme = "prefer-dark"
 monospace_font = "CaskaydiaCove Nerd Font Mono"
 monospace_font_size = 9
 
-
 [waybar]
- scale = 10
+scale = 10
