@@ -627,7 +627,7 @@ _save_cmd_cache() {
 }
 add-zsh-hook zshexit _save_cmd_cache
 
-Performance warning
+# Performance warning
 _end_time=$SECONDS
 _load_time=$((_end_time - _start_time))
 if ((_load_time > 3)); then
