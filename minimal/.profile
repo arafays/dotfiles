@@ -52,10 +52,10 @@ update_path
 # Ensure DISPLAY is properly set for X11 applications
 # Only set if not already properly configured
 if [ -z "$DISPLAY" ] || { [ "$DISPLAY" != ":0" ] && [ "$DISPLAY" != ":0.0" ]; }; then
-  # Check if X11 is running
-  if [ "$XDG_SESSION_TYPE" = "x11" ] || pgrep -x "Xorg" >/dev/null 2>&1; then
-    export DISPLAY=":0"
-  fi
+	# Check if X11 is running
+	if [ "$XDG_SESSION_TYPE" = "x11" ] || pgrep -x "Xorg" >/dev/null 2>&1; then
+		export DISPLAY=":0"
+	fi
 fi
 
 # Environment variables that should be available to all applications
@@ -64,9 +64,9 @@ export STOW_DIR="$HOME/dotfiles"
 
 # Detect AUR wrapper
 if command -v yay &>/dev/null; then
-   export aurhelper="yay"
+	export aurhelper="yay"
 elif command -v paru &>/dev/null; then
-   export aurhelper="paru"
+	export aurhelper="paru"
 fi
 
 # Set editor

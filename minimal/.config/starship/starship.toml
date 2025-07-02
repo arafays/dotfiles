@@ -9,7 +9,6 @@ format = """
 """
 continuation_prompt = '▶▶ '
 
-
 [palettes.oxocarbon]
 black = "#161616"
 red = "#ee5396"

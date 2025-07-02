@@ -168,8 +168,6 @@ _setup_vi_mode() {
   }
   zle -N zle-line-init
 
-  # Better vi mode bindings
-  # Ensure fzf-history-widget is defined
   if [[ -n "$(command -v fzf)" ]]; then
     fzf-history-widget() {
       local selected=$(fc -rl 1 | fzf --height 60% --layout=reverse --border --preview 'echo {}' --preview-window=up:3:wrap)
@@ -182,13 +180,12 @@ _setup_vi_mode() {
     bindkey '^R' fzf-history-widget
   fi
 
-  # Essential key bindings
   bindkey '^P' up-history
   bindkey '^N' down-history
   bindkey '^A' beginning-of-line
   bindkey '^E' end-of-line
-  bindkey -s '^x' 'source $HOME/.zshrc\n'  # Ctrl+X to reload zshrc
-  bindkey '^H' backward-kill-word           # Ctrl+Backspace to delete whole word
+  bindkey -s '^x' 'source $HOME/.zshrc\n' # Ctrl+X to reload zshrc
+  bindkey '^H' backward-kill-word         # Ctrl+Backspace to delete whole word
 }
 
 # Initialize Zinit (lazy loading)
@@ -243,8 +240,8 @@ _init_starship() {
 }
 
 _setup_essential_tools() {
-  local tools=("git" "nvim" "mise" "gh" "docker" "zoxide" "bat" "rg" "fzf" "fd" "eza")
-  local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "zoxide" "bat" "ripgrep" "fzf" "fd" "eza")
+  local tools=("git" "nvim" "mise" "gh" "docker" "zoxide" "bat" "rg" "fzf" "fd" "eza" "lazygit")
+  local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "zoxide" "bat" "ripgrep" "fzf" "fd" "eza" "lazygit")
   local completions=(
     "skip"
     "skip"
@@ -257,6 +254,7 @@ _setup_essential_tools() {
     "fzf --zsh"
     "skip"
     "skip"
+    "skip"
   )
 
   for i in {1..${#tools[@]}}; do
@@ -266,7 +264,7 @@ _setup_essential_tools() {
 
     if _cmd_exists "$tool"; then
       # Load completion with longer delay to ensure system is ready
-      _load_completion "$tool" "$completion_cmd" "2"
+      _load_completion "$tool" "$completion_cmd" "0"
     else
       echo "$tool not found. Install it? (y/n)"
       read -r response
@@ -317,7 +315,7 @@ _init_plugins() {
   zstyle ':completion:*' menu yes select
   zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
   zmodload zsh/complist
-  _comp_options+=(globdots)  # Include hidden files
+  _comp_options+=(globdots) # Include hidden files
   zle_highlight=('paste:none')
 
   # FZF-tab configuration
@@ -430,36 +428,35 @@ _define_functions() {
       ${EDITOR:-nvim} "$file"
   }
 
-
-in() {
-  # If no arguments provided, show usage
-  if [[ $# -eq 0 ]]; then
-    echo "Usage: in <package1> [package2] ..."
-    return 1
-  fi
-
-  # Since yay can handle both official and AUR packages,
-  # we can simplify and just use yay for everything
-  if _cmd_exists "$aurhelper"; then
-    "$aurhelper" -S "$@"
-  else
-    # Final fallback to pacman for official packages only
-    echo "No AUR helper found. Installing official packages only..."
-    local -a official=()
-
-    for pkg in "$@"; do
-      if pacman -Si "$pkg" &>/dev/null; then
-        official+=("$pkg")
-      else
-        echo "⚠️  Skipping AUR package: $pkg (no AUR helper available)"
-      fi
-    done
-
-    if ((${#official[@]})); then
-      sudo pacman -S "${official[@]}"
+  in() {
+    # If no arguments provided, show usage
+    if [[ $# -eq 0 ]]; then
+      echo "Usage: in <package1> [package2] ..."
+      return 1
     fi
-  fi
-}
+
+    # Since yay can handle both official and AUR packages,
+    # we can simplify and just use yay for everything
+    if _cmd_exists "$aurhelper"; then
+      "$aurhelper" -S --needed --noconfirm "$@"
+    else
+      # Final fallback to pacman for official packages only
+      echo "No AUR helper found. Installing official packages only..."
+      local -a official=()
+
+      for pkg in "$@"; do
+        if pacman -Si "$pkg" &>/dev/null; then
+          official+=("$pkg")
+        else
+          echo "⚠️  Skipping AUR package: $pkg (no AUR helper available)"
+        fi
+      done
+
+      if ((${#official[@]})); then
+        sudo pacman -S "${official[@]}"
+      fi
+    fi
+  }
   # Quick compression
   compress() {
     case "$1" in
@@ -575,18 +572,13 @@ _load_completion() {
   local completion_cmd="$2"
   local delay="${3:-3}"
 
-  # Skip if tool doesn't exist or no completion command
   if ! _cmd_exists "$tool" || [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
     return
   fi
 
-  # Defer all completions to avoid conflicts with initialization
   case "$tool" in
-  git|docker)
-    # These are handled by zsh-completions plugin
-    ;;
+  git | docker) ;;
   *)
-    # For other tools, load completion in a deferred, safe way
     if [[ -n "$completion_cmd" ]]; then
       zinit wait"$delay" lucid nocd as"completion" for \
         atload"eval \"\$($completion_cmd)\" 2>/dev/null" \
@@ -638,5 +630,3 @@ fi
 # unset _start_time _end_time _load_time
 
 # zprof
-
-
