@@ -248,7 +248,7 @@ _setup_essential_tools() {
   local completions=(
     "skip"
     "skip"
-    "mise activate zsh && mise completion zsh"
+    "mise completion zsh"
     "gh completion -s zsh && gh copilot alias zsh"
     "skip"
     "zoxide init zsh"
@@ -391,7 +391,6 @@ _load_aliases() {
 
   # Package management
   if [[ -n "$aurhelper" ]]; then
-    alias in="$aurhelper -S"
     alias un="$aurhelper -Rns"
     alias up="$aurhelper -Syu"
     alias look="$aurhelper -Qs"
@@ -448,12 +447,9 @@ _define_functions() {
       return 1
     fi
 
-    # Since yay can handle both official and AUR packages,
-    # we can simplify and just use yay for everything
     if _cmd_exists "$aurhelper"; then
       "$aurhelper" -S "$@"
     else
-      # Final fallback to pacman for official packages only
       echo "No AUR helper found. Installing official packages only..."
       local -a official=()
 
@@ -470,36 +466,161 @@ _define_functions() {
       fi
     fi
   }
-  # Quick compression
+
+  # Enhanced compression function
   compress() {
-    case "$1" in
-    *.tar.gz | *.tgz) tar -czf "$1" "${@:2}" ;;
-    *.tar.bz2 | *.tbz2) tar -cjf "$1" "${@:2}" ;;
-    *.zip) zip -r "$1" "${@:2}" ;;
-    *) echo "Unsupported format. Use .tar.gz, .tar.bz2, or .zip" ;;
+    if [[ $# -lt 2 ]]; then
+      echo "Usage: compress <archive_name> <files_or_directories...>"
+      echo "Supported formats: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z"
+      echo "Examples:"
+      echo "  compress backup.tar.gz ~/Documents ~/Pictures"
+      echo "  compress project.zip src/ README.md"
+      return 1
+    fi
+
+    local archive="$1"
+    shift
+
+    # Validate that source files/directories exist
+    for item in "$@"; do
+      if [[ ! -e "$item" ]]; then
+        echo "Error: '$item' does not exist"
+        return 1
+      fi
+    done
+
+    # Check if archive already exists
+    if [[ -f "$archive" ]]; then
+      echo "Warning: '$archive' already exists. Overwrite? (y/n)"
+      read -r response
+      if [[ "$response" != "y" && "$response" != "Y" ]]; then
+        echo "Compression cancelled"
+        return 1
+      fi
+    fi
+
+    echo "Compressing $# item(s) into '$archive'..."
+
+    case "$archive" in
+    *.tar.gz | *.tgz)
+      tar -czf "$archive" "$@" && echo "✓ Created: $archive"
+      ;;
+    *.tar.bz2 | *.tbz2)
+      tar -cjf "$archive" "$@" && echo "✓ Created: $archive"
+      ;;
+    *.tar.xz | *.txz)
+      tar -cJf "$archive" "$@" && echo "✓ Created: $archive"
+      ;;
+    *.zip)
+      zip -r "$archive" "$@" && echo "✓ Created: $archive"
+      ;;
+    *.7z)
+      if _cmd_exists 7z; then
+        7z a "$archive" "$@" && echo "✓ Created: $archive"
+      else
+        echo "Error: 7z not found. Install p7zip package."
+        return 1
+      fi
+      ;;
+    *)
+      echo "Error: Unsupported format. Supported: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z"
+      echo "Archive name should include the extension (e.g., archive.tar.gz)"
+      return 1
+      ;;
     esac
   }
 
-  # Extract function
+  # Enhanced extraction function
   extract() {
-    if [[ -f "$1" ]]; then
-      case "$1" in
-      *.tar.bz2) tar xjf "$1" ;;
-      *.tar.gz) tar xzf "$1" ;;
-      *.bz2) bunzip2 "$1" ;;
-      *.rar) unrar x "$1" ;;
-      *.gz) gunzip "$1" ;;
-      *.tar) tar xf "$1" ;;
-      *.tbz2) tar xjf "$1" ;;
-      *.tgz) tar xzf "$1" ;;
-      *.zip) unzip "$1" ;;
-      *.Z) uncompress "$1" ;;
-      *.7z) 7z x "$1" ;;
-      *) echo "'$1' cannot be extracted" ;;
-      esac
-    else
-      echo "'$1' is not a valid file"
+    if [[ $# -eq 0 ]]; then
+      echo "Usage: extract <archive_file> [destination_directory]"
+      echo "Supported formats: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z, .rar, .gz, .bz2, .Z"
+      return 1
     fi
+
+    local archive="$1"
+    local dest_dir="${2:-.}"
+
+    if [[ ! -f "$archive" ]]; then
+      echo "Error: '$archive' is not a valid file or does not exist"
+      return 1
+    fi
+
+    # Create destination directory if it doesn't exist
+    if [[ "$dest_dir" != "." && ! -d "$dest_dir" ]]; then
+      echo "Creating destination directory: $dest_dir"
+      mkdir -p "$dest_dir" || {
+        echo "Error: Could not create directory '$dest_dir'"
+        return 1
+      }
+    fi
+
+    # Change to destination directory for extraction
+    local original_dir="$PWD"
+    if [[ "$dest_dir" != "." ]]; then
+      cd "$dest_dir" || {
+        echo "Error: Could not change to directory '$dest_dir'"
+        return 1
+      }
+      # Update archive path to be relative to new location
+      archive="$original_dir/$archive"
+    fi
+
+    echo "Extracting '$archive'..."
+
+    case "$archive" in
+    *.tar.bz2 | *.tbz2)
+      tar -xjf "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *.tar.gz | *.tgz)
+      tar -xzf "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *.tar.xz | *.txz)
+      tar -xJf "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *.tar)
+      tar -xf "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *.bz2)
+      bunzip2 -k "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *.gz)
+      gunzip -k "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *.zip)
+      unzip -q "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *.rar)
+      if _cmd_exists unrar; then
+        unrar x "$archive" && echo "✓ Extracted successfully"
+      else
+        echo "Error: unrar not found. Install unrar package."
+        cd "$original_dir"
+        return 1
+      fi
+      ;;
+    *.7z)
+      if _cmd_exists 7z; then
+        7z x "$archive" && echo "✓ Extracted successfully"
+      else
+        echo "Error: 7z not found. Install p7zip package."
+        cd "$original_dir"
+        return 1
+      fi
+      ;;
+    *.Z)
+      uncompress "$archive" && echo "✓ Extracted successfully"
+      ;;
+    *)
+      echo "Error: Unsupported archive format for '$archive'"
+      echo "Supported: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z, .rar, .gz, .bz2, .Z"
+      cd "$original_dir"
+      return 1
+      ;;
+    esac
+
+    # Return to original directory
+    cd "$original_dir"
   }
 
   # Video conversion

@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 [[ -f ~/.profile ]] && source ~/.profile
 
 # History settings (these affect all shells)

@@ -1,0 +1,18 @@
+* {
+    border: none;
+    border-radius: ${b_radius}px;
+    font-family: "CaskaydiaCove Nerd Font", "Font Awesome 6 Free";
+    font-size: ${s_fontpx}px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(0, 0, 0, 0);
+}
+
+#workspaces {
+    border-radius: ${w_radius}px;
+    margin: ${w_margin}px;
+    background-color: rgba(30, 30, 30, 0.5);
+    margin-left: ${x1g_margin}px;
+}

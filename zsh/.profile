@@ -1,6 +1,7 @@
 # Define an array to manage PATH entries
 path_array=(
 	"$HOME/.local/bin"
+	"$HOME/.pub-cache/bin"
 	"$HOME/Android/Sdk/platform-tools"
 	"$HOME/Android/Sdk/emulator"
 	"$HOME/Android/Sdk/cmdline-tools/latest/bin"
@@ -131,3 +132,5 @@ export CHROME_EXECUTABLE="$(which chromium || which chrome)"
 # Android development environment
 export ANDROID_HOME="$HOME/Android/Sdk/"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
+
+export MEMORY_FILE_PATH="$HOME/.cache/mcp_memory"
