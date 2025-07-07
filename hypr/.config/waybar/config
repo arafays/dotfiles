@@ -1,91 +1,107 @@
 {
-  "output": "DP-1",
-    "layer": "top",
-    "position": "top",
-    "height": 24,
-    "spacing": 5,
+	"output": "DP-1",
+	"layer": "top",
+	"position": "top",
+	"spacing": 5,
 
-    "modules-left": ["hyprland/workspaces", "custom/platform-profile", "temperature"],
-    "modules-center": ["clock"],
-    "modules-right": ["wireplumber", "hyprland/language", "idle_inhibitor", "network",  "tray"],
+	"modules-left": [
+		"hyprland/workspaces",
+		"custom/platform-profile",
+		"cpu",
+		"memory"
+	],
+	"modules-center": ["clock"],
+	"modules-right": ["wireplumber", "hyprland/language", "network", "tray"],
 
-    "hyprland/workspaces": {
-        "format": "<span size='larger'>{icon}</span>",
-        "on-click": "activate",
-        "format-icons": {
-            "active": "\uf444",
-            "default": "\uf4c3"
-        },
-        "icon-size": 10,
-        "sort-by-number": true,
-        "persistent-workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": [],
-            "5": [],
-        }
-    },
-
-    "clock": {
-        "format": "{:%d.%m.%Y | %H:%M}"
-    },
-
-    "wireplumber": {
-        "format": "\udb81\udd7e  {volume}%",
-        "max-volume": 100,
-        "scroll-step": 5
-    },
-
-
-    "memory": {
-        "interval": 30,
-        "format": "\uf4bc  {used:0.1f}G"
-    },
-
-    "temperature": {
-        "format": "{temperatureC}°C"
-    },
-
-    "network": {
-        "format": "",
-        "format-ethernet": "\udb83\udc9d",
-        "format-wifi": "{icon}",
-        "format-disconnected": "\udb83\udc9c",
-        "format-icons": ["\udb82\udd2f", "\udb82\udd1f", "\udb82\udd22", "\udb82\udd25", "\udb82\udd28"],
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-        "tooltip-format-ethernet": "{ifname}",
-        "tooltip-format-disconnected": "Disconnected",
-    },
-
-
-    "hyprland/language": {
-        "format": "{short}"
-    },
-
-    "tray": {
-        "icon-size": 16,
-        "spacing": 16
-    },
-
-    "custom/platform-profile": {
-	"format": "{icon} ",
-	"exec": "~/.config/waybar/platform_profile.sh",
-	"return-type": "json",
-	"restart-interval": 1,
-	"format-icons": {
-	    "quiet": "\udb80\udf2a",
-	    "balanced": "\udb80\ude10",
-	    "performance": "\uf427",
-            "default": "?"
+	"cpu": {
+		"format": "\uf2db  {usage}% ",
+		"interval": 5,
+		"format-icons": {
+			"0-20": "\uf2db",
+			"20-40": "\uf85a",
+			"40-60": "\uf85b",
+			"60-80": "\uf85c",
+			"80-100": "\uf2c7"
+		}
 	},
-    },
 
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "\udb80\udd76",
-            "deactivated": "\udb83\udfaa"
-        }
-    }
+	"memory": {
+		"interval": 30,
+		"format": "\uf538  {used:0.1f}G"
+	},
+
+	"temperature": {
+		"format": "\uf2c9 {temperatureC}°C"
+	},
+
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"on-click": "activate",
+		"format-icons": {
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": "",
+			"5": "",
+			"urgent": "",
+			"active": "",
+			"default": ""
+		},
+		"icon-size": 10,
+		"sort-by-number": true,
+		"persistent-workspaces": {
+			"1": [],
+			"2": [],
+			"3": [],
+			"4": [],
+			"5": []
+		}
+	},
+
+	"clock": {
+		"format": "{:%d.%m.%Y | %H:%M}"
+	},
+
+	"wireplumber": {
+		"format": "\uf028  {volume}%",
+		"max-volume": 100,
+		"scroll-step": 5
+	},
+
+	"network": {
+		"format": "",
+		"format-ethernet": "\uf6ff",
+		"format-wifi": "{icon}",
+		"format-disconnected": "\uf127",
+		"format-icons": ["\uf1eb", "\uf1eb", "\uf1eb", "\uf1eb", "\uf1eb"],
+		"tooltip-format-wifi": "{essid} ({signalStrength}%)",
+		"tooltip-format-ethernet": "{ifname}",
+		"tooltip-format-disconnected": "Disconnected"
+	},
+
+	"tray": {
+		"icon-size": 16,
+		"spacing": 16
+	},
+
+	"custom/platform-profile": {
+		"format": "{icon} ",
+		"exec": "~/.config/waybar/platform_profile.sh",
+		"return-type": "json",
+		"restart-interval": 1,
+		"format-icons": {
+			"quiet": "\uf023",
+			"balanced": "\uf0e7",
+			"performance": "\uf2c7",
+			"default": "\uf059"
+		}
+	},
+
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "\uf186",
+			"deactivated": "\uf185"
+		}
+	}
 }
