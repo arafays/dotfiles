@@ -23,9 +23,16 @@ The repository is organized by application, with each top-level directory corres
 ├───hypr/
 │   └───.config/
 │       ├───hypr/
+│       │   ├───appearance.conf
+│       │   ├───autostart.conf
+│       │   ├───environment.conf
 │       │   ├───hypridle.conf
 │       │   ├───hyprland.conf
+│       │   ├───input.conf
 │       │   ├───keybindings.conf
+│       │   ├───layouts.conf
+│       │   ├───misc.conf
+│       │   ├───monitors.conf
 │       │   └───windowrules.conf
 │       └───waybar/
 │           ├───config
@@ -163,7 +170,7 @@ The following tools and aliases are configured in the shell environment:
 ### Documentation and Further Information
 
 - **Neovim (`nvim/`)**: The Neovim configuration is located in `nvim/`. It uses LazyVim, and the configuration is split into several files under `nvim/.config/nvim/lua/`. The `init.lua` file is the main entry point.
-- **Hyprland (`hypr/`)**: The configuration for the Hyprland window manager is in `hypr/`. This includes settings for `hyprland`, `hypridle`, `waybar`, and keybindings.
+- **Hyprland (`hypr/`)**: The configuration for the Hyprland window manager is in `hypr/`. The configuration is modular, with the main file `hyprland.conf` sourcing other files for different aspects of the configuration like `appearance.conf`, `autostart.conf`, `keybindings.conf`, etc. This also includes settings for `hypridle` and `waybar`.
 - **Scripts (`scripts/`)**: The `scripts/` directory contains various utility scripts. The scripts in `scripts/.local/share/bin/` are added to the `PATH`.
 
 This `GEMINI.md` file should serve as a useful reference for understanding the structure and key components of this dotfiles repository.

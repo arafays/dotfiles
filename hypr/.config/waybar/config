@@ -2,38 +2,32 @@
 	"output": "DP-2",
 	"layer": "top",
 	"position": "top",
+	"padding": 10,
 	"spacing": 5,
-
-	"modules-left": [
-		"hyprland/workspaces",
-		"custom/platform-profile",
-		"cpu",
-		"memory"
-	],
+	"modules-left": ["hyprland/workspaces", "custom/gap", "hyprland/window"],
 	"modules-center": ["clock"],
-	"modules-right": ["wireplumber", "hyprland/language", "network", "tray"],
+	"modules-right": [
+		"tray",
+		"wireplumber",
+		"network",
+		"custom/notifications",
+		"custom/power",
+		"custom/rofi"
+	],
 
-	"cpu": {
-		"format": "\uf2db  {usage}% ",
-		"interval": 5,
-		"format-icons": {
-			"0-20": "\uf2db",
-			"20-40": "\uf85a",
-			"40-60": "\uf85b",
-			"60-80": "\uf85c",
-			"80-100": "\uf2c7"
-		}
+	"custom/gap": {
+		"format": "   ",
+		"tooltip": false
 	},
 
-	"memory": {
-		"interval": 30,
-		"format": "\uf538  {used:0.1f}G"
+	"custom/notifications": {
+		"format": "{} ",
+		"exec": "/home/arafay/dotfiles/scripts/.local/share/bin/notifications.py",
+		"on-click": "dunstctl set-paused toggle",
+		"on-click-right": "dunstctl close-all",
+		"on-click-middle": "dunstctl history-pop",
+		"return-type": "json"
 	},
-
-	"temperature": {
-		"format": "\uf2c9 {temperatureC}°C"
-	},
-
 	"hyprland/workspaces": {
 		"format": "{icon}",
 		"on-click": "activate",
@@ -57,11 +51,6 @@
 			"5": []
 		}
 	},
-
-	"clock": {
-		"format": "{:%d.%m.%Y | %H:%M}"
-	},
-
 	"wireplumber": {
 		"format": "\uf028  {volume}%",
 		"max-volume": 100,
@@ -78,7 +67,10 @@
 		"tooltip-format-ethernet": "{ifname}",
 		"tooltip-format-disconnected": "Disconnected"
 	},
-
+	"clock": {
+		"format": "{:%Y-%m-%d %H:%M:%S}",
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+	},
 	"tray": {
 		"icon-size": 16,
 		"spacing": 16
@@ -95,6 +87,17 @@
 			"performance": "\uf2c7",
 			"default": "\uf059"
 		}
+	},
+
+	"custom/power": {
+		"format": "",
+		"exec": "logoutlaunch.sh",
+		"tooltip": false
+	},
+	"custom/rofi": {
+		"format": "",
+		"exec": "rofilaunch.sh",
+		"tooltip": false
 	},
 
 	"idle_inhibitor": {
