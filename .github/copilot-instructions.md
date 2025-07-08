@@ -172,4 +172,15 @@ The following tools and aliases are configured in the shell environment:
 - **Hyprland (`hypr/`)**: The configuration for the Hyprland window manager is in `hypr/`. The configuration is modular, with the main file `hyprland.conf` sourcing other files for different aspects of the configuration like `appearance.conf`, `autostart.conf`, `keybindings.conf`, etc. This also includes settings for `hypridle` and `waybar`.
 - **Scripts (`scripts/`)**: The `scripts/` directory contains various utility scripts. The scripts in `scripts/.local/share/bin/` are added to the `PATH`.
 
-This `copilot-instructions.md` file should serve as a useful reference for understanding the structure and key components of this dotfiles repository.
+## Guidelines for Future Contributions
+- If you need to add new configurations, first use the terminal and try to check if you can find the relevant files, then in their most common locations if you do move them to the current dotfiles so we can manage it in one place. Follow the existing structure and naming conventions for consistency.
+- If you update this file, please ensure to keep it up-to-date with the latest configurations and tools used in the repository.
+- For any new configurations or tools added, please document them in this file to maintain clarity and consistency.
+- If you have any questions or need further assistance, feel free to ask for help or clarification on specific configurations or tools.
+- Remember to keep the repository organized and clean, following the established structure for new configurations or tools.
+- When making changes, consider the impact on existing configurations and ensure compatibility with the current setup.
+- Regularly review and update this documentation to reflect any changes in the repository or the tools used.
+- If you encounter any issues or need to troubleshoot, refer to the relevant configuration files and scripts for guidance.
+- Use comments in configuration files to explain complex settings or customizations for future reference.
+- Use the terminal so you can find files and directories quickly, and use `stow` to manage your dotfiles effectively.
+- This is a arch based system, with yay as the AUR helper.

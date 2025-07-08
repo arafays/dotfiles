@@ -1,12 +1,12 @@
 {
-  "go.goroot": "/home/arafay/.local/share/mise/installs/go/1.24.2",
-  "debug.javascript.defaultRuntimeExecutable": {
-    "pwa-node": "/home/arafay/.local/share/mise/shims/node"
-  },
-  "python.defaultInterpreterPath": "/home/arafay/.local/share/mise/installs/python/3.13.3/bin/python",
-  "go.alternateTools": {
-    "go": "/home/arafay/.local/share/mise/shims/go",
-    "gopls": "/home/arafay/.local/share/mise/shims/gopls"
-  },
-  "dart.flutterSdkPath": "/home/arafay/.local/share/mise/installs/flutter/3.32.2-stable"
+	"go.goroot": "/home/arafay/.local/share/mise/installs/go/1.24.2",
+	"debug.javascript.defaultRuntimeExecutable": {
+		"pwa-node": "/home/arafay/.local/share/mise/shims/node"
+	},
+	"python.defaultInterpreterPath": "/home/arafay/.local/share/mise/installs/python/3.13.3/bin/python",
+	"go.alternateTools": {
+		"go": "/home/arafay/.local/share/mise/shims/go",
+		"gopls": "/home/arafay/.local/share/mise/shims/gopls"
+	},
+	"dart.flutterSdkPath": "/home/arafay/.local/share/mise/installs/flutter/3.32.2-stable"
 }

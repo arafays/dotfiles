@@ -98,7 +98,6 @@ The repository is organized by application, with each top-level directory corres
 │               ├───notifications.py
 │               ├───polkitkdeauth.sh
 │               ├───quickapps.sh
-│               ├───resetxdgportal.sh
 │               ├───rofilaunch.sh
 │               ├───rofiselect.sh
 │               ├───screenshot.sh
