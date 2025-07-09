@@ -79,7 +79,6 @@ systemctl --user import-environment PATH 2>/dev/null || true
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export VISUAL="nvim"
-export BROWSER="zen-browser"
 
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"

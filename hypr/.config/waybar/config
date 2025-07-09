@@ -2,8 +2,7 @@
 	"output": "DP-2",
 	"layer": "top",
 	"position": "top",
-	"padding": 10,
-	"spacing": 5,
+  "spacing": 5,
 	"modules-left": ["hyprland/workspaces", "custom/gap", "hyprland/window"],
 	"modules-center": ["clock"],
 	"modules-right": [
@@ -16,12 +15,12 @@
 	],
 
 	"custom/gap": {
-		"format": "   ",
+		"format": "  ",
 		"tooltip": false
 	},
 
 	"custom/notifications": {
-		"format": "{} ",
+		"format": "{}   ",
 		"exec": "/home/arafay/dotfiles/scripts/.local/share/bin/notifications.py",
 		"on-click": "dunstctl set-paused toggle",
 		"on-click-right": "dunstctl close-all",

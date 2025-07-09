@@ -1,39 +1,60 @@
-@define-color foreground #eeeeee;
-@define-color foreground-inactive #aaaaaa;
+@define-color foreground  #dde1e6;
+@define-color foreground-inactive #262626;
 @define-color background #000000;
+@define-color magenta  #ff7eb6;
+@define-color green  #42be65;
+@define-color yellow  #ffe97b;
+@define-color blue  #33b1ff;
+@define-color red  #ee5396;
+@define-color cyan  #3ddbd9;
 
 * {
   font-family: JetBrainsMono Nerd Font;
   font-size: 12px;
   padding: 0;
-  margin: 0;
 }
 
 #waybar {
   color: @foreground;
-  background-color: @background;
+}
+
+window#waybar {
+  background: transparent;
 }
 
 #workspaces button {
   color: @foreground;
-  padding-left: 0.7em;
+  padding: 2px;
 }
 
 #workspaces button.empty {
   color: @foreground-inactive;
 }
-
-#memory,
-#custom-platform-profile {
-  padding-left: 1em;
+#workspaces button.active {
+  color: @yellow;
 }
 
-#wireplumber,
-#battery,
-#idle_inhibitor,
-#language,
-#network,
-#bluetooth,
-#tray {
-  padding-right: 1em;
+.modules-left,
+.modules-right,
+.modules-center {
+  margin-top: 2px;
+}
+
+.modules-left {
+  background-color: @background;
+  padding-right: 10px;
+  border-radius: 0 15px 15px 0;
+}
+
+.modules-center {
+  color: @red;
+  background-color: @background;
+  border-radius: 15px;
+  padding: 0 15px;
+}
+
+.modules-right {
+  background-color: @background;
+  padding-left: 10px;
+  border-radius: 15px 0 0 15px;
 }
