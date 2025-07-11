@@ -8,7 +8,7 @@
 # by Stephan Raabe (2024)
 # -----------------------------------------------------
 
-config_file=~/.config/ml4w/scripts/keybindings.conf
+config_file="$(dirname "$0")/../hypr/.config/hypr/keybindings.conf"
 echo "Reading from: $config_file"
 
 keybinds=""
