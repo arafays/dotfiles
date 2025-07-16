@@ -210,22 +210,12 @@ _init_zinit() {
 
 _init_starship() {
   # Show system info only in interactive shells
-  if [[ $- == *i* ]] && [[ -z "$TMUX" ]]; then
-    for cmd in pokego pokemon-colorscripts fastfetch; do
-      if _cmd_exists "$cmd"; then
-        case "$cmd" in
-        pokego | pokemon-colorscripts)
-          "$cmd" --no-title -r 2>/dev/null
-          ;;
-        fastfetch)
-          "$cmd" --logo-type small 2>/dev/null
-          ;;
-        esac
-        break
-      fi
-    done
-  fi
-
+  # if [[ $- == *i* ]] && [[ -z "$TMUX" ]]; then
+  #   if _cmd_exists fastfetch; then
+  #     fastfetch --logo-type small 2>/dev/null
+  #   fi
+  # fi
+  #
   if _cmd_exists starship; then
     eval "$(starship init zsh)"
     export STARSHIP_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/starship"
@@ -766,3 +756,5 @@ fi
 unset _start_time _end_time _load_time
 
 # zprof
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"

@@ -1,18 +1,12 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+scan_timeout = 100
 palette = "oxocarbon"
 add_newline = true
-format = """\
-  󰣇 \
-  $directory\
-  $git_branch$git_commit$git_state $git_status\
-  $fill $all\
-  $character\n
+format = """
+[╭](fg:separator) 󰣇 $directory $git_branch$git_commit$git_state $git_status $cmd_duration$line_break\
+[╰](fg:separator)$character
 """
-
-[fill]
-symbol = '_'
-style = "bold black"
 
 [palettes.oxocarbon]
 black = "#161616"

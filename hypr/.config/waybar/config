@@ -53,7 +53,11 @@
 	"wireplumber": {
 		"format": "\uf028  {volume}%",
 		"max-volume": 100,
-		"scroll-step": 5
+		"scroll-step": 5,
+		"on-click": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -o m",
+		"on-click-right": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -s",
+		"on-scroll-up": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -o i 5",
+		"on-scroll-down": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -o d 5"
 	},
 
 	"network": {
