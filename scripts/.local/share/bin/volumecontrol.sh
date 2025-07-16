@@ -45,16 +45,35 @@ notify_vol() {
     angle=$(( (($vol + 2) / 5) * 5 ))
     ico="${icodir}/vol-${angle}.svg"
     bar=$(seq -s "." $(($vol / 15)) | sed 's/[0-9]//g')
-    notify-send -a "t2" -r 91190 -t 800 -i "${ico}" "${vol}${bar}" "${nsink}"
+    
+    # Check if icon exists, otherwise use default audio icon
+    if [ -f "${ico}" ]; then
+        notify-send -a "t2" -r 91190 -t 800 -i "${ico}" "Volume: ${vol}%${bar}" "${nsink}"
+    else
+        notify-send -a "t2" -r 91190 -t 800 -i "audio-volume-medium" "Volume: ${vol}%${bar}" "${nsink}"
+    fi
 }
 
 notify_mute() {
     mute=$(pamixer "${srce}" --get-mute | cat)
     [ "${srce}" == "--default-source" ] && dvce="mic" || dvce="speaker"
+    
     if [ "${mute}" == "true" ]; then
-        notify-send -a "t2" -r 91190 -t 800 -i "${icodir}/muted-${dvce}.svg" "muted" "${nsink}"
+        if [ -f "${icodir}/muted-${dvce}.svg" ]; then
+            notify-send -a "t2" -r 91190 -t 800 -i "${icodir}/muted-${dvce}.svg" "Muted" "${nsink}"
+        else
+            # Use system icons as fallback
+            [ "${dvce}" == "mic" ] && icon="microphone-sensitivity-muted" || icon="audio-volume-muted"
+            notify-send -a "t2" -r 91190 -t 800 -i "${icon}" "Muted" "${nsink}"
+        fi
     else
-        notify-send -a "t2" -r 91190 -t 800 -i "${icodir}/unmuted-${dvce}.svg" "unmuted" "${nsink}"
+        if [ -f "${icodir}/unmuted-${dvce}.svg" ]; then
+            notify-send -a "t2" -r 91190 -t 800 -i "${icodir}/unmuted-${dvce}.svg" "Unmuted" "${nsink}"
+        else
+            # Use system icons as fallback
+            [ "${dvce}" == "mic" ] && icon="microphone-sensitivity-high" || icon="audio-volume-high"
+            notify-send -a "t2" -r 91190 -t 800 -i "${icon}" "Unmuted" "${nsink}"
+        fi
     fi
 }
 

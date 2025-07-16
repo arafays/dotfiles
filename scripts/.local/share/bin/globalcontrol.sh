@@ -1,13 +1,10 @@
 #!/usr/bin/env sh
 
 
-#// hyde envs
+#// config envs
 
 export confDir="${XDG_CONFIG_HOME:-$HOME/.config}"
-export hydeConfDir="${confDir}/hyde"
-export cacheDir="$HOME/.cache/hyde"
-export thmbDir="${cacheDir}/thumbs"
-export dcolDir="${cacheDir}/dcols"
+export cacheDir="$HOME/.cache"
 export hashMech="sha1sum"
 
 get_hashmap()
@@ -51,56 +48,16 @@ get_hashmap()
     fi
 }
 
-get_themes()
-{
-    unset thmSortS
-    unset thmListS
-    unset thmWallS
-    unset thmSort
-    unset thmList
-    unset thmWall
+# Default theme settings (without Hyde dependency)
+export enableWallDcol=0
+export hydeConfDir="${confDir}/hyde"
+export hydeTheme="default"
+export hydeThemeDir="${confDir}/hyde/themes/default"
+export wallbashDir="${confDir}/wallbash"
 
-    while read thmDir ; do
-        if [ ! -e "$(readlink "${thmDir}/wall.set")" ] ; then
-            get_hashmap "${thmDir}" --skipstrays || continue
-            echo "fixig link :: ${thmDir}/wall.set"
-            ln -fs "${wallList[0]}" "${thmDir}/wall.set"
-        fi
-        [ -f "${thmDir}/.sort" ] && thmSortS+=("$(head -1 "${thmDir}/.sort")") || thmSortS+=("0")
-        thmListS+=("$(basename "${thmDir}")")
-        thmWallS+=("$(readlink "${thmDir}/wall.set")")
-    done < <(find "${hydeConfDir}/themes" -mindepth 1 -maxdepth 1 -type d)
-
-    while IFS='|' read -r sort theme wall ; do
-        thmSort+=("${sort}")
-        thmList+=("${theme}")
-        thmWall+=("${wall}")
-    done < <(parallel --link echo "{1}\|{2}\|{3}" ::: "${thmSortS[@]}" ::: "${thmListS[@]}" ::: "${thmWallS[@]}" | sort -n -k 1 -k 2)
-
-    if [ "${1}" == "--verbose" ] ; then
-        echo "// Theme Control //"
-        for indx in "${!thmList[@]}" ; do
-            echo -e ":: \${thmSort[${indx}]}=\"${thmSort[indx]}\" :: \${thmList[${indx}]}=\"${thmList[indx]}\" :: \${thmWall[${indx}]}=\"${thmWall[indx]}\""
-        done
-    fi
-}
-
-[ -f "${hydeConfDir}/hyde.conf" ] && source "${hydeConfDir}/hyde.conf"
-
-case "${enableWallDcol}" in
-    0|1|2|3) ;;
-    *) enableWallDcol=0 ;;
-esac
-
-if [ -z "${hydeTheme}" ] || [ ! -d "${hydeConfDir}/themes/${hydeTheme}" ] ; then
-    get_themes
-    hydeTheme="${thmList[0]}"
-fi
-
-export hydeTheme
-export hydeThemeDir="${hydeConfDir}/themes/${hydeTheme}"
-export wallbashDir="${hydeConfDir}/wallbash"
-export enableWallDcol
+# Create basic directory structure if it doesn't exist
+mkdir -p "${hydeConfDir}/themes/default"
+mkdir -p "${wallbashDir}"
 
 
 #// hypr vars
@@ -138,16 +95,20 @@ get_aurhlpr()
     fi
 }
 
+# Simple config function for dotfiles
 set_conf()
 {
     local varName="${1}"
     local varData="${2}"
-    touch "${hydeConfDir}/hyde.conf"
+    local confFile="${confDir}/dotfiles.conf"
+    
+    mkdir -p "${confDir}"
+    touch "${confFile}"
 
-    if [ $(grep -c "^${varName}=" "${hydeConfDir}/hyde.conf") -eq 1 ] ; then
-        sed -i "/^${varName}=/c${varName}=\"${varData}\"" "${hydeConfDir}/hyde.conf"
+    if [ $(grep -c "^${varName}=" "${confFile}") -eq 1 ] ; then
+        sed -i "/^${varName}=/c${varName}=\"${varData}\"" "${confFile}"
     else
-        echo "${varName}=\"${varData}\"" >> "${hydeConfDir}/hyde.conf"
+        echo "${varName}=\"${varData}\"" >> "${confFile}"
     fi
 }
 
