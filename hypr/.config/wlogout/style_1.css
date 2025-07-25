@@ -1,34 +1,40 @@
 window {
-    background-color: rgba(30, 30, 46, 0.85);
-    background-size: cover;
-    backdrop-filter: blur(16px) brightness(0.9);
-    border-radius: 32px;
+  background-color: rgba(30, 30, 46, 0.85);
+  background-size: cover;
+  backdrop-filter: blur(16px) brightness(0.9);
+  border-radius: 32px;
 }
+
 button {
-    background-color: rgba(30, 30, 46, 0.85);
-    color: #cdd6f4;
-    border-radius: 16px;
-    border: 2px solid #89b4fa;
-    font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Hack Nerd Font', 'Noto Sans', sans-serif;
-    font-size: 32px;
-    margin: 12px;
-    padding: 32px 40px;
-    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25);
-    transition: all 0.2s cubic-bezier(.4,2,.6,1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  background-color: rgba(30, 30, 46, 0.85);
+  color: #cdd6f4;
+  border-radius: 16px;
+  border: 2px solid #89b4fa;
+  font-family:
+    "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "Hack Nerd Font",
+    "Noto Sans", "JetBrainsMono Nerd Font", sans-serif;
+  font-size: 32px;
+  margin: 12px;
+  padding: 32px 40px;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.4, 2, 0.6, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-button:focus, button:hover {
-    background-color: #89b4fa;
-    color: #1e1e2e;
-    transform: scale(1.08) translateY(-4px);
-    box-shadow: 0 8px 32px 0 #89b4fa55;
-    border-color: #cdd6f4;
+
+button:focus,
+button:hover {
+  background-color: #89b4fa;
+  color: #1e1e2e;
+  transform: scale(1.08) translateY(-4px);
+  box-shadow: 0 8px 32px 0 #89b4fa55;
+  border-color: #cdd6f4;
 }
+
 button span {
-    display: block;
-    font-size: 48px;
-    margin-bottom: 8px;
+  display: block;
+  font-size: 48px;
+  margin-bottom: 8px;
 }

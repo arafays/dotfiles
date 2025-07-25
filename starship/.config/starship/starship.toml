@@ -4,7 +4,7 @@ scan_timeout = 100
 palette = "oxocarbon"
 add_newline = true
 format = """
-[╭](fg:separator) 󰣇 $directory $git_branch$git_commit$git_state $git_status $cmd_duration$line_break\
+[╭](fg:separator) 󰣇 $directory$all$line_break\
 [╰](fg:separator)$character
 """
 
@@ -141,12 +141,11 @@ symbol = " "
 symbol = " "
 detect_files = [
   'package.json',
+  'package-lock.json',
   'yarn.lock',
   'pnpm-lock.yaml',
-  'package-lock.json',
   '.nvmrc',
   '.node-version',
-  'mise.toml',
 ]
 
 [ocaml]

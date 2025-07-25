@@ -26,7 +26,7 @@ update_path() {
 # Function to add a new path
 add_path() {
 	local new_path="$1"
-	if [[ -d "$new_path" && ! " ${path_array[*]} " =~ " $new_path " ]]; then
+	if [[ -d $new_path && ! ${path_array[*]} =~ $new_path ]]; then
 		path_array+=("$new_path")
 		update_path
 	fi
@@ -113,7 +113,9 @@ export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export WGPU_BACKEND=gl
 export BAT_THEME="ansi"
 export BAT_PAGER="less -RF"
-export OS_FIREWALL="$(command -v ufw || command -v firewalld || command -v iptables || command -v nftables || command -v pfctl || echo "none")"
+
+firewall=$(command -v ufw || command -v firewalld || command -v iptables || command -v nftables || command -v pfctl || echo "none")
+export OS_FIREWALL="$firewall"
 
 # FZF configuration
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
@@ -125,11 +127,9 @@ export FZF_DEFAULT_OPTS="--height 80% \
   --preview 'bat --color=always --style=numbers --line-range=:500 {}' \
   --preview-window=right:60% \
   --bind 'ctrl-/:change-preview-window(down|hidden|)' "
-
-export CHROME_EXECUTABLE="$(which chromium || which chrome)"
+chrome_path=$(which chromium || which chrome)
+export CHROME_EXECUTABLE="$chrome_path"
 
 # Android development environment
 export ANDROID_HOME="$HOME/Android/Sdk/"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
-
-export MEMORY_FILE_PATH="$HOME/.cache/mcp_memory"
