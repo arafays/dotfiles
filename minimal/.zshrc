@@ -206,16 +206,17 @@ _init_zinit() {
 }
 
 _init_starship() {
-  # Show system info only in interactive shells
   if [[ $- == *i* ]] && [[ -z "$TMUX" ]]; then
+    echo -e "\n\e[31m⚠️  WARNING: She has taken control... #$@@Mikasaa*#LOve\e[0m\n"
     for cmd in pokego pokemon-colorscripts fastfetch; do
       if _cmd_exists "$cmd"; then
         case "$cmd" in
         pokego | pokemon-colorscripts)
-          "$cmd" --no-title -r 1,3,6 2>/dev/null
+          "$cmd" --no-title -r 1,3,6 | fastfetch --config ~/.config/fastfetch/T_Startup.jsonc --pipe false --file-raw - 2>/dev/null
           ;;
         fastfetch)
-          "$cmd" --logo-type kitty 2>/dev/null
+          echo -e "\n\e[31m⚠️  WARNING: She has taken control... #$@@Mikasaa*#LOve\e[0m\n"
+          "$cmd" --logo-type arch --config ~/.config/fastfetch/T_Startup.jsonc --pipe false 2>/dev/null
           ;;
         esac
         break
@@ -630,3 +631,5 @@ fi
 # unset _start_time _end_time _load_time
 
 # zprof
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"

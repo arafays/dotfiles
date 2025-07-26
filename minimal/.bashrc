@@ -12,3 +12,5 @@ alias grep='rg --color=auto'
 PS1='[\u@\h \W]\$ '
 
 export GPG_TTY=$(tty)
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path bash)"

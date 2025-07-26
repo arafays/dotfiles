@@ -87,8 +87,9 @@ panelOpacity=2
 thickness=44
 
 [PlasmaViews][Panel 92]
-floating=1
+floating=0
 panelOpacity=2
+panelVisibility=2
 
 [PlasmaViews][Panel 92][Defaults]
 maxLength=2160
