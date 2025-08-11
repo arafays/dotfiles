@@ -1,0 +1,59 @@
+{
+	"servers": {
+		"firebase": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-y", "firebase-tools@latest", "experimental:mcp"],
+			"version": "0.0.1"
+		},
+		"sequentialthinking": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-y", "@modelcontextprotocol/server-sequential-thinking@latest"],
+			"gallery": true
+		},
+		"context7": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-y", "@upstash/context7-mcp@latest"],
+			"gallery": true
+		},
+		"memory": {
+			"type": "stdio",
+			"command": "npx",
+			"args": ["-y", "@modelcontextprotocol/server-memory@latest"],
+			"env": {
+				"MEMORY_FILE_PATH": "${input:memory_file_path}"
+			},
+			"gallery": true
+		},
+		"github": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp/",
+			"gallery": true
+		},
+		"deepwiki": {
+			"type": "http",
+			"url": "https://mcp.deepwiki.com/mcp",
+			"auto-start": true
+		},
+		"playwright": {
+			"command": "npx",
+			"args": ["@playwright/mcp@latest"],
+			"type": "stdio"
+		},
+		"markitdown": {
+			"command": "uvx",
+			"args": ["markitdown-mcp"]
+		}
+	},
+	"inputs": [
+		{
+			"id": "memory_file_path",
+			"type": "promptString",
+			"description": "Path to the memory storage file",
+			"default": "${env:HOME}/.config/memory_file",
+			"password": false
+		}
+	]
+}
