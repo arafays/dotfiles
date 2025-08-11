@@ -1,40 +1,104 @@
+* {
+    background-image: none;
+    font-size: ${fntSize}px;
+}
+
+@import "$HOME/.config/waybar/theme.css";
+
 window {
-  background-color: rgba(30, 30, 46, 0.85);
-  background-size: cover;
-  backdrop-filter: blur(16px) brightness(0.9);
-  border-radius: 32px;
+    background-color: transparent;
 }
 
 button {
-  background-color: rgba(30, 30, 46, 0.85);
-  color: #cdd6f4;
-  border-radius: 16px;
-  border: 2px solid #89b4fa;
-  font-family:
-    "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "Hack Nerd Font",
-    "Noto Sans", "JetBrainsMono Nerd Font", sans-serif;
-  font-size: 32px;
-  margin: 12px;
-  padding: 32px 40px;
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.25);
-  transition: all 0.2s cubic-bezier(0.4, 2, 0.6, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    color: ${BtnCol};
+    background-color: @main-bg;
+    outline-style: none;
+    border: none;
+    border-width: 0px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20%;
+    border-radius: 0px;
+    box-shadow: none;
+    text-shadow: none;
+    animation: gradient_f 20s ease-in infinite;
 }
 
-button:focus,
+button:focus {
+    background-color: @wb-act-bg;
+    background-size: 30%;
+}
+
 button:hover {
-  background-color: #89b4fa;
-  color: #1e1e2e;
-  transform: scale(1.08) translateY(-4px);
-  box-shadow: 0 8px 32px 0 #89b4fa55;
-  border-color: #cdd6f4;
+    background-color: @wb-hvr-bg;
+    background-size: 40%;
+    border-radius: ${active_rad}px;
+    animation: gradient_f 20s ease-in infinite;
+    transition: all 0.3s cubic-bezier(.55,0.0,.28,1.682);
 }
 
-button span {
-  display: block;
-  font-size: 48px;
-  margin-bottom: 8px;
+button:hover#lock {
+    border-radius: ${active_rad}px;
+    margin : ${hvr}px 0px ${hvr}px ${mgn}px;
+}
+
+button:hover#logout {
+    border-radius: ${active_rad}px;
+    margin : ${hvr}px 0px ${hvr}px 0px;
+}
+
+button:hover#suspend {
+    border-radius: ${active_rad}px;
+    margin : ${hvr}px 0px ${hvr}px 0px;
+}
+
+button:hover#shutdown {
+    border-radius: ${active_rad}px;
+    margin : ${hvr}px 0px ${hvr}px 0px;
+}
+
+button:hover#hibernate {
+    border-radius: ${active_rad}px;
+    margin : ${hvr}px 0px ${hvr}px 0px;
+}
+
+button:hover#reboot {
+    border-radius: ${active_rad}px;
+    margin : ${hvr}px ${mgn}px ${hvr}px 0px;
+}
+
+#lock {
+    background-image: image(url("$HOME/.config/wlogout/icons/lock_${BtnCol}.png"), url("/usr/share/wlogout/icons/lock.png"), url("/usr/local/share/wlogout/icons/lock.png"));
+    border-radius: ${button_rad}px 0px 0px ${button_rad}px;
+    margin : ${mgn}px 0px ${mgn}px ${mgn}px;
+}
+
+#logout {
+    background-image: image(url("$HOME/.config/wlogout/icons/logout_${BtnCol}.png"), url("/usr/share/wlogout/icons/logout.png"), url("/usr/local/share/wlogout/icons/logout.png"));
+    border-radius: 0px 0px 0px 0px;
+    margin : ${mgn}px 0px ${mgn}px 0px;
+}
+
+#suspend {
+    background-image: image(url("$HOME/.config/wlogout/icons/suspend_${BtnCol}.png"), url("/usr/share/wlogout/icons/suspend.png"), url("/usr/local/share/wlogout/icons/suspend.png"));
+    border-radius: 0px 0px 0px 0px;
+    margin : ${mgn}px 0px ${mgn}px 0px;
+}
+
+#shutdown {
+    background-image: image(url("$HOME/.config/wlogout/icons/shutdown_${BtnCol}.png"), url("/usr/share/wlogout/icons/shutdown.png"), url("/usr/local/share/wlogout/icons/shutdown.png"));
+    border-radius: 0px 0px 0px 0px;
+    margin : ${mgn}px 0px ${mgn}px 0px;
+}
+
+#hibernate {
+    background-image: image(url("$HOME/.config/wlogout/icons/hibernate_${BtnCol}.png"), url("/usr/share/wlogout/icons/hibernate.png"), url("/usr/local/share/wlogout/icons/hibernate.png"));
+    border-radius: 0px 0px 0px 0px;
+    margin : ${mgn}px 0px ${mgn}px 0px;
+}
+
+#reboot {
+    background-image: image(url("$HOME/.config/wlogout/icons/reboot_${BtnCol}.png"), url("/usr/share/wlogout/icons/reboot.png"), url("/usr/local/share/wlogout/icons/reboot.png"));
+    border-radius: 0px ${button_rad}px ${button_rad}px 0px;
+    margin : ${mgn}px ${mgn}px ${mgn}px 0px;
 }

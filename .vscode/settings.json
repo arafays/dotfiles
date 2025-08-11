@@ -1,11 +1,11 @@
 {
-	"go.goroot": "/home/arafay/.local/share/mise/installs/go/1.24.2",
+	"go.goroot": "${workspaceFolder}/.vscode/mise-tools/goRoot",
 	"debug.javascript.defaultRuntimeExecutable": {
-		"pwa-node": "/home/arafay/.local/share/mise/shims/node"
+		"pwa-node": "${workspaceFolder}/.vscode/mise-tools/node"
 	},
 	"python.defaultInterpreterPath": "/home/arafay/.local/share/mise/installs/python/3.13.3/bin/python",
 	"go.alternateTools": {
-		"go": "/home/arafay/.local/share/mise/shims/go",
+		"go": "${workspaceFolder}/.vscode/mise-tools/go",
 		"gopls": "/home/arafay/.local/share/mise/shims/gopls"
 	},
 	"dart.flutterSdkPath": "/home/arafay/.local/share/mise/installs/flutter/3.32.2-stable"

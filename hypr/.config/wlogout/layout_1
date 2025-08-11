@@ -1,7 +1,41 @@
-[layout]
-button-power = 0,0,  Power
-button-reboot = 1,0,  Reboot
-button-logout = 2,0,  Logout
-button-lock = 3,0,  Lock
-button-suspend = 4,0,  Suspend
-button-hibernate = 5,0,  Hibernate
+{
+    "label": "lock",
+    "action": "lockscreen.sh",
+    "text": "Lock",
+    "keybind": "l"
+}
+
+{
+    "label": "logout",
+    "action": "hyprctl dispatch exit 0",
+    "text": "Logout",
+    "keybind": "e"
+}
+
+{
+    "label": "suspend",
+    "action": "lockscreen.sh & disown && systemctl suspend",
+    "text": "Suspend",
+    "keybind": "u"
+}
+
+{
+    "label": "shutdown",
+    "action": "systemctl poweroff",
+    "text": "Shutdown",
+    "keybind": "s"
+}
+
+{
+    "label": "hibernate",
+    "action": "systemctl hibernate",
+    "text": "Hibernate",
+    "keybind": "h"
+}
+
+{
+    "label": "reboot",
+    "action": "systemctl reboot",
+    "text": "Reboot",
+    "keybind": "r"
+}
