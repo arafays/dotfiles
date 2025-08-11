@@ -245,7 +245,7 @@ _setup_essential_tools() {
     "bat --completion zsh"
     "rg --generate=complete-zsh"
     "fzf --zsh"
-    "skip"
+    "fd --gen-completions zsh"
     "skip"
   )
 
@@ -674,18 +674,19 @@ _mise_chpwd_hook_optimized() {
     # Load pnpm completion if available and not already loaded
     if _cmd_exists pnpm; then
       # Use a more conservative approach to avoid completion conflicts
-      zinit wait'5' lucid nocd as"completion" for \
-        atload"eval \"\$(pnpm completions zsh)\" 2>/dev/null || true" \
-        zdharma-continuum/null
+      if _cmd_exists pnpm; then
+        zinit wait'2' lucid nocd as"completion" for \
+          atload"eval \"$(pnpm completion zsh)\"" \
+          zdharma-continuum/null
+      fi
 
       # Load pnpm plugin separately
-      zinit wait'5' lucid for ntnyq/omz-plugin-pnpm
+      zinit wait'2' lucid for ntnyq/omz-plugin-pnpm
     fi
 
-    # Load bun completion if available
     if _cmd_exists bun; then
-      zinit wait'5' lucid nocd as"completion" for \
-        atload"eval \"\$(bun completions)\" 2>/dev/null || true" \
+      zinit wait'2' lucid nocd as"completion" for \
+        atload"eval \"$(bun completions)\"" \
         zdharma-continuum/null
     fi
   fi
