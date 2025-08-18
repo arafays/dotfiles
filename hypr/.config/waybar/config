@@ -1,0 +1,113 @@
+{
+	"output": "DP-2",
+	"layer": "top",
+	"position": "top",
+  "spacing": 5,
+	"modules-left": ["hyprland/workspaces", "custom/gap", "hyprland/window"],
+	"modules-center": ["clock"],
+	"modules-right": [
+		"tray",
+		"wireplumber",
+		"network",
+		"custom/notifications",
+		"custom/power",
+		"custom/rofi"
+	],
+
+	"custom/gap": {
+		"format": "  ",
+		"tooltip": false
+	},
+
+	"custom/notifications": {
+		"format": "{}   ",
+		"exec": "/home/arafay/dotfiles/scripts/.local/share/bin/notifications.py",
+		"on-click": "dunstctl set-paused toggle",
+		"on-click-right": "dunstctl close-all",
+		"on-click-middle": "dunstctl history-pop",
+		"return-type": "json"
+	},
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"on-click": "activate",
+		"format-icons": {
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": "",
+			"5": "",
+			"urgent": "",
+			"active": "",
+			"default": ""
+		},
+		"icon-size": 10,
+		"sort-by-number": true,
+		"persistent-workspaces": {
+			"1": [],
+			"2": [],
+			"3": [],
+			"4": [],
+			"5": []
+		}
+	},
+	"wireplumber": {
+		"format": "\uf028  {volume}%",
+		"max-volume": 100,
+		"scroll-step": 5,
+		"on-click": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -o m",
+		"on-click-right": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -s",
+		"on-scroll-up": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -o i 5",
+		"on-scroll-down": "/home/arafay/dotfiles/scripts/.local/share/bin/volumecontrol.sh -o d 5"
+	},
+
+	"network": {
+		"format": "",
+		"format-ethernet": "\uf6ff",
+		"format-wifi": "{icon}",
+		"format-disconnected": "\uf127",
+		"format-icons": ["\uf1eb", "\uf1eb", "\uf1eb", "\uf1eb", "\uf1eb"],
+		"tooltip-format-wifi": "{essid} ({signalStrength}%)",
+		"tooltip-format-ethernet": "{ifname}",
+		"tooltip-format-disconnected": "Disconnected"
+	},
+	"clock": {
+		"format": "{:%Y-%m-%d %H:%M:%S}",
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+	},
+	"tray": {
+		"icon-size": 16,
+		"spacing": 16
+	},
+
+	"custom/platform-profile": {
+		"format": "{icon} ",
+		"exec": "~/.config/waybar/platform_profile.sh",
+		"return-type": "json",
+		"restart-interval": 1,
+		"format-icons": {
+			"quiet": "\uf023",
+			"balanced": "\uf0e7",
+			"performance": "\uf2c7",
+			"default": "\uf059"
+		}
+	},
+
+	"custom/power": {
+		"format": "",
+		"exec": "logoutlaunch.sh",
+		"tooltip": false
+	},
+	"custom/rofi": {
+		"format": "",
+		"exec": "rofilaunch.sh",
+		"tooltip": false
+	},
+
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "\uf186",
+			"deactivated": "\uf185"
+		}
+	}
+}
