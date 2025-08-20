@@ -718,12 +718,20 @@ _load_completion() {
   esac
 }
 
+# Initialize mise if available
+_init_mise() {
+  if _cmd_exists mise; then
+    eval "$(mise activate zsh)"
+  fi
+}
+
 # Initialize components
 _detect_terminal
 _detect_aur_helper
 _setup_vi_mode
 _init_zinit
 _init_starship
+_init_mise
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title

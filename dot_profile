@@ -133,3 +133,4 @@ export CHROME_EXECUTABLE="$chrome_path"
 # Android development environment
 export ANDROID_HOME="$HOME/Android/Sdk/"
 export ANDROID_SDK_ROOT="$ANDROID_HOME"
+export PATH="$HOME/.local/share/mise/shims:$PATH"
