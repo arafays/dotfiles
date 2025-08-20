@@ -724,6 +724,13 @@ _init_mise() {
     eval "$(mise activate zsh)"
   fi
 }
+# Initialize mise if available
+_init_chezmoi() {
+  if _cmd_exists mise; then
+    eval "($(chezmoi completion zsh))"
+  fi
+}
+
 
 # Initialize components
 _detect_terminal
@@ -732,6 +739,7 @@ _setup_vi_mode
 _init_zinit
 _init_starship
 _init_mise
+_init_chezmoi
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title
