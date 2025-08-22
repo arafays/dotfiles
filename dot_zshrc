@@ -270,10 +270,11 @@ _setup_essential_tools() {
 }
 
 _setup_optional_tools() {
-  local tools=("warp-cli")
-  local packages=("warp-cli")
+  local tools=("warp-cli" "chezmoi")
+  local packages=("warp-cli" "chezmoi")
   local completions=(
     "warp-cli generate-completions zsh"
+    "chezmoi completion zsh"
   )
 
   for i in {1..${#tools[@]}}; do
@@ -724,13 +725,6 @@ _init_mise() {
     eval "$(mise activate zsh)"
   fi
 }
-# Initialize mise if available
-_init_chezmoi() {
-  if _cmd_exists mise; then
-    eval "($(chezmoi completion zsh))"
-  fi
-}
-
 
 # Initialize components
 _detect_terminal
@@ -739,7 +733,6 @@ _setup_vi_mode
 _init_zinit
 _init_starship
 _init_mise
-_init_chezmoi
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title
@@ -770,7 +763,7 @@ if ((_load_time > 3)); then
 fi
 
 # Cleanup
-unset _start_time _end_time _load_time
+# unset _start_time _end_time _load_time
 
 # zprof
 

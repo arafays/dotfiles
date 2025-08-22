@@ -1,7 +1,6 @@
 ---
 description: "Generate an implementation plan for new features or refactoring existing code."
-tools:
-  [
+tools:  [
     "changes",
     "codebase",
     "editFiles",
@@ -14,7 +13,6 @@ tools:
     "problems",
     "runCommands",
     "runTasks",
-    "runTests",
     "search",
     "searchResults",
     "terminalLastCommand",
@@ -22,7 +20,6 @@ tools:
     "testFailure",
     "usages",
     "vscodeAPI",
-    "github",
   ]
 ---
 

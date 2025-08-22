@@ -26,11 +26,11 @@
     "format": "{icon}",
     "format-icons": {
       "default": "",
-			"1": "",
-			"2": "",
-			"3": "",
-			"4": "",
-			"5": "",
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
       "6": "6",
       "7": "7",
       "8": "8",
@@ -69,11 +69,17 @@
     "on-click-right": "omarchy-cmd-tzupdate"
   },
   "network": {
-    "format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"],
-    "format" : "{icon}",
-    "format-wifi" : "{icon}",
-    "format-ethernet" : "󰀂",
-    "format-disconnected" : "󰖪",
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "format": "{icon} ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰖪",
     "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "tooltip-format-disconnected": "Disconnected",
@@ -81,35 +87,53 @@
     "nospacing": 1,
     "on-click": "alacritty --class=Impala -e impala"
   },
-  "battery": {
-    "format": "{capacity}% {icon}",
-    "format-discharging": "{icon}",
-    "format-charging":    "{icon}",
-    "format-plugged":     "",
-    "format-icons": {
-      "charging": [
-        "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"
-      ],
-      "default": [
-        "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"
-      ]
-    },
-    "format-full": "󰂅",
-    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
-    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
-    "interval": 5,
-    "states": {
-      "warning": 20,
-      "critical": 10
-    }
-  },
-  "bluetooth": {
-    "format": "",
-    "format-disabled": "󰂲",
-    "format-connected": "",
-    "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "blueberry"
-  },
+  // "battery": {
+  //   "format": "{capacity}% {icon}",
+  //   "format-discharging": "{icon}",
+  //   "format-charging": "{icon}",
+  //   "format-plugged": "",
+  //   "format-icons": {
+  //     "charging": [
+  //       "󰢜",
+  //       "󰂆",
+  //       "󰂇",
+  //       "󰂈",
+  //       "󰢝",
+  //       "󰂉",
+  //       "󰢞",
+  //       "󰂊",
+  //       "󰂋",
+  //       "󰂅"
+  //     ],
+  //     "default": [
+  //       "󰁺",
+  //       "󰁻",
+  //       "󰁼",
+  //       "󰁽",
+  //       "󰁾",
+  //       "󰁿",
+  //       "󰂀",
+  //       "󰂁",
+  //       "󰂂",
+  //       "󰁹"
+  //     ]
+  //   },
+  //   "format-full": "󰂅",
+  //   "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+  //   "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+  //   "interval": 5,
+  //   "states": {
+  //     "warning": 20,
+  //     "critical": 10
+  //   }
+  // },
+  // "bluetooth": {
+  //   "format": "",
+  //   "format-disabled": "󰂲",
+  //   "format-connected": "",
+  //   "tooltip-format": "Devices connected: {num_connections}",
+  //   "on-click": "blueberry"
+  // },
   "pulseaudio": {
     "format": "{icon}",
     "on-click": "alacritty --class=Wiremix -e wiremix",
@@ -118,7 +142,11 @@
     "scroll-step": 5,
     "format-muted": "󰝟",
     "format-icons": {
-      "default": ["", "", ""]
+      "default": [
+        "",
+        "",
+        ""
+      ]
     }
   },
   "group/tray-expander": {
@@ -129,7 +157,7 @@
     },
     "modules": [
       "custom/expand-icon",
-    "tray"
+      "tray"
     ]
   },
   "custom/expand-icon": {
