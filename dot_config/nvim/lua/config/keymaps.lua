@@ -15,3 +15,6 @@ map("n", "<C-d>", "<C-d>zz", opts)
 --INFO: find and center
 map("n", "n", "nzzzv", opts)
 map("n", "N", "Nzzzv", opts)
+
+-- Git identity switching
+map("n", "<leader>gi", "<cmd>GitIdentity<cr>", { desc = "Switch Git Identity", noremap = true, silent = true })
