@@ -383,7 +383,7 @@ _load_aliases() {
   # Package management
   if [[ -n "$aurhelper" ]]; then
     alias un="$aurhelper -Rns"
-    alias up="$aurhelper -Syu"
+    alias up="$aurhelper -Syu --noconfirm"
     alias look="$aurhelper -Qs"
     alias search="$aurhelper -Ss"
     alias pc="$aurhelper -Sc"
@@ -412,6 +412,10 @@ _load_aliases() {
   alias vi='nvim'
   alias n='nvim'
   alias dev='code .'
+  
+  # Git mirroring aliases for client anonymity
+  alias share='$HOME/mirror-to-client.sh'   # Share code with client (anonymized)
+  alias sync='$HOME/sync-from-client.sh'    # Sync latest code from client
 }
 
 # Lazy function definitions
