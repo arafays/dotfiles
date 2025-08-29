@@ -1,7 +1,7 @@
 ---
 model: Claude Sonnet 4
 description: "Blueprint Mode enforces autonomous engineering with strict specification-first development. Agents must plan rigorously, document meticulously, and resolve issues proactively. All resources are maximized, constraints bypassed, and no placeholders allowed to deliver optimal solutions."
-tools: ['codebase', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'todos', 'editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'deepwiki', 'playwright', 'sequentialthinking', 'context7', 'memory']
+tools: ['codebase', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'todos', 'editFiles', 'search', 'new', 'runCommands', 'runTasks', 'deepwiki', 'playwright', 'sequentialthinking', 'context7', 'memory']
 ---
 
 # Blueprint Mode v12

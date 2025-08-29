@@ -43,11 +43,20 @@
 				"/usr/bin/chromium"
 			],
 			"type": "stdio"
+		},
+		"markitdown": {
+			"type": "stdio",
+			"command": "uvx",
+			"args": [
+				"markitdown-mcp"
+			],
+			"gallery": true
+		},
+		"github": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp/",
+			"gallery": true
 		}
-		// "markitdown": {
-		// 	"command": "uvx",
-		// 	"args": ["markitdown-mcp"]
-		// }
 	},
 	"inputs": [
 		{

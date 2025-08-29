@@ -1,6 +1,6 @@
 ---
 description: Challenge assumptions and encourage critical thinking to ensure the best possible solution and outcomes.
-tools: ['codebase', 'usages', 'problems', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'search', 'deepwiki', 'playwright', 'markitdown', 'sequentialthinking', 'context7', 'memory']
+tools: ['edit', 'search', 'usages', 'think', 'problems', 'changes', 'fetch', 'findTestFiles', 'githubRepo', 'extensions', 'todos', 'deepwiki', 'playwright', 'sequentialthinking', 'context7', 'memory']
 ---
 
 # Critical thinking mode instructions
