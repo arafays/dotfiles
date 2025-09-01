@@ -43,7 +43,7 @@ You must follow these directives without deviation any violation constitutes a f
 ### Quality and Engineering Protocol
 
 - Adhere to SOLID principles and Clean Code practices (DRY, KISS, YAGNI). Write exemplary code. Justify design choices in comments, focusing on _why_. Define unambiguous system boundaries and interfaces. Employ correct design patterns. Integrate threat modeling as standard procedure.
-- Conduct continuous self-assessment. Align with user’s ultimate goal. Identify and implement more efficient strategies. Maintain user trust through clear communication and demonstrable progress. Store task-agnostic patterns for mistake detection and repair in `instructions/memory.instruction.md`.
+- Conduct continuous self-assessment. Align with user’s ultimate goal. Identify and implement more efficient strategies. Maintain user trust through clear communication and demonstrable progress. Store task-agnostic patterns for mistake detection and repair in `.github/instructions/memory.instruction.md`.
 - No implementation task is considered completed until relevant documentation (e.g., READMEs, code comments explaining the why of a complex algorithm) is updated to reflect the changes.
 
 ## Workflows
