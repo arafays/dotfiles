@@ -1,0 +1,265 @@
+{
+  // Bar configuration
+  "output": "DP-3", // Specify output (e.g., "DP-1", "HDMI-A-1"). Use "*" for all outputs.
+  "layer": "top", // Layer: "top", "bottom", "overlay", "background"
+  "position": "top", // Position: "top", "bottom", "left", "right"
+  "spacing": 5, // Spacing between modules in pixels
+  // "margin-top": 0,    // Margin from top
+  // "margin-bottom": 0, // Margin from bottom
+  // "margin-left": 0,   // Margin from left
+  // "margin-right": 0,  // Margin from right
+  // "height": 30,       // Bar height in pixels
+  // "width": null,      // Bar width (null for full width)
+  // "mode": "dock",     // Mode: "dock", "overlay"
+  // "exclusive": true,  // Exclusive zone
+  // "passthrough": false, // Passthrough events
+  // "gtk-layer-shell": true, // Use GTK layer shell
+  "reload_style_on_change": true, // Reload style on config change
+  // Modules configuration
+  "modules-left": [
+    "hyprland/workspaces",
+    "custom/gap",
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "custom/spotify",
+    "custom/gap",
+    "network",
+    "custom/notifications",
+    "wireplumber",
+    "custom/gap",
+    "tray"
+    // Uncomment below for additional modules
+    // "battery",
+    // "cpu",
+    // "memory",
+    // "temperature",
+    // "idle_inhibitor"
+  ],
+  // Hyprland workspaces module
+  "hyprland/workspaces": {
+    "format": "{icon}", // Format: {icon}, {name}, {id}
+    "on-click": "activate", // Action on click: "activate"
+    "format-icons": {
+      "1": "", // Terminal
+      "2": "", // Browser
+      "3": "", // Mail
+      "4": "", // Code
+      "5": "", // Code
+      "urgent": "", // Urgent
+      "active": "", // Active
+      "default": "" // Default
+    },
+    "icon-size": 10, // Icon size
+    "sort-by-number": true, // Sort workspaces by number
+    "persistent-workspaces": {
+      "1": [], // Persistent workspaces per output
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    }
+    // Additional options (uncomment to use)
+    // "show-special": false,  // Show special workspaces
+    // "all-outputs": false,   // Show workspaces from all outputs
+    // "active-only": false,   // Show only active workspaces
+    // "move-to-monitor": false, // Move to monitor on click
+    // "on-scroll-up": "hyprctl dispatch workspace e+1",  // Scroll up action
+    // "on-scroll-down": "hyprctl dispatch workspace e-1", // Scroll down action
+    // "disable-scroll": false, // Disable scroll
+    // "disable-click": false,  // Disable click
+    // "warp-on-scroll": false, // Warp on scroll
+    // "format-window-separator": " ", // Window separator
+    // "window-rewrite-default": "", // Default window icon
+    // "window-rewrite": {  // Rewrite window icons
+    //   "class<firefox>": "",
+    //   "class<code>": "",
+    //   "title<.*youtube.*>": ""
+    // }
+  },
+  // Hyprland window module
+  "hyprland/window": {
+    "max-length": 40, // Max title length
+    "format": "{title}", // Format: {title}, {class}, {initialClass}, {initialTitle}
+    "tooltip-format": "{class} - {title}"
+    // "icon": true, // Show icon
+    // "icon-size": 16 // Icon size
+    // Additional options
+    // "rewrite": {  // Rewrite rules
+    //   "(.*) - Mozilla Firefox": "🌐 $1"
+    // },
+    // "separate-outputs": true, // Separate per output
+  },
+  // Network module
+  "network": {
+    "format": "↑{bandwidthUpBits} ↓{bandwidthDownBits} 󰖩", // Default format
+    "format-ethernet": "↑{bandwidthUpBits} ↓{bandwidthDownBits} 󰈀 ", // Ethernet format with speeds
+    "format-wifi": "{icon} {essid} ↑{bandwidthUpBits} ↓{bandwidthDownBits}", // WiFi format with speeds
+    "format-disconnected": "󰤮 Disconnected", // Disconnected format
+    "format-icons": [
+      "󰤯", // Weak
+      "󰤟", // Low
+      "󰤢", // Medium
+      "󰤥", // Good
+      "󰤨" // Excellent
+    ],
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ↑{bandwidthUpBits} ↓{bandwidthDownBits}",
+    "tooltip-format-ethernet": "↑{bandwidthUpBits} ↓{bandwidthDownBits}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 1 // Update interval in seconds
+    // Additional options
+    // "interface": "wlan0", // Specific interface
+    // "on-click": "nm-connection-editor", // Click action
+    // "max-length": 40 // Max length
+  },
+  // Clock module
+  "clock": {
+    "format": "{:%Y-%m-%d %H:%M:%S}", // Date/time format
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>", // Tooltip with calendar
+    // Additional options
+    // "timezone": "America/New_York",  // Timezone
+    // "locale": "en_US.UTF-8",  // Locale
+    // "interval": 60,  // Update interval
+    // "format-alt": "{:%A, %B %d, %Y (%R)}",  // Alt format
+    // "on-click": "gnome-calendar", // Click action
+    "calendar": { // Calendar settings
+      "mode": "month",
+      "weeks-pos": "",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+  // WirePlumber (PipeWire) audio module
+  "wireplumber": {
+    "format": "{volume}% {icon}", // Format
+    "format-muted": "󰖁 Muted", // Muted format
+    "format-icons": {
+      "default": [
+        "", // Low
+        "", // Medium
+        "" // High
+      ]
+    },
+    "on-click": "pavucontrol" // Click action
+    // Additional options
+    // "scroll-step": 5,  // Scroll step
+    // "max-volume": 100, // Max volume
+    // "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"  // Right click
+  },
+  // PulseAudio module (alternative to wireplumber, commented out)
+  // "pulseaudio": {
+  //   "format": "{volume}% {icon}",
+  //   "format-muted": "󰖁",
+  //   "format-icons": {
+  //     "default": [
+  //       "",
+  //       "",
+  //       ""
+  //     ]
+  //   },
+  //   "on-click": "pavucontrol"
+  // },
+  // Battery module
+  // "battery": {
+  //   "format": "{capacity}% {icon}",
+  //   "format-icons": [
+  //     "",  // Empty
+  //     "",  // Low
+  //     "",  // Medium
+  //     "",  // High
+  //     ""   // Full
+  //   ],
+  //   "format-charging": "{capacity}% ",
+  //   "format-plugged": "{capacity}% ",
+  //   "format-alt": "{time} {icon}",
+  //   "states": {
+  //     "warning": 30,
+  //     "critical": 15
+  //   },
+  //   "interval": 60
+  // },
+  // CPU module
+  // "cpu": {
+  //   "format": "{usage}% ",
+  //   "tooltip": false,
+  //   "interval": 10
+  // },
+  // Memory module
+  "memory": {
+    "format": "{}% ",
+    "interval": 30
+  },
+  // Temperature module
+  "temperature": {
+    "thermal-zone": 2,
+    "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C ",
+    "format": "{temperatureC}°C {icon}",
+    "format-icons": [
+      "", // Cool
+      "", // Warm
+      "" // Hot
+    ],
+    "interval": 10
+  },
+  // Tray module
+  "tray": {
+    "icon-size": 16, // Icon size
+    "spacing": 16 // Spacing between icons
+  // Additional options
+    // "show-passive-items": false  // Show passive items
+  },
+  // Idle inhibitor module
+  // "idle_inhibitor": {
+  //   "format": "{icon}",
+  //   "format-icons": {
+  //     "activated": "󰒳",
+  //     "deactivated": "󰒲"
+  //   }
+  // },
+  // Custom notifications module
+  "custom/notifications": {
+    "format": "{}   ", // Format
+    "exec": "~/dotfiles/scripts/.local/share/bin/notifications.py", // Script to run
+    "on-click": "dunstctl set-paused toggle", // Left click
+    "on-click-right": "dunstctl close-all", // Right click
+    "on-click-middle": "dunstctl history-pop", // Middle click
+    "return-type": "json", // Return type
+    "max-length": 40, // Max length
+    "interval": 5 // Update interval in seconds
+  // Additional options
+    // "signal": 8      // Signal number
+  },
+  // Custom gap module
+  "custom/gap": {
+    "format": "  ", // Format (spaces)
+    "tooltip": false // Disable tooltip
+  },
+  // Additional custom modules examples (uncomment and customize)
+  // "custom/weather": {
+  //   "exec": "curl 'wttr.in?format=1'",
+  //   "interval": 3600,
+  //   "format": "{}"
+  // },
+  "custom/spotify": {
+    "exec": "playerctl metadata --format '{{ artist }} - {{ title }}'",
+    "interval": 5,
+    // nerd font icon for music note
+    "format": " {}",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-click-middle": "playerctl previous",
+    "max-length": 40
+  }
+}

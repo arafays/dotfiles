@@ -1,0 +1,1104 @@
+{
+  "version": 3,
+  "requesterUsername": "arafays",
+  "requesterAvatarIconUri": {
+    "$mid": 1,
+    "path": "/u/6192554",
+    "scheme": "https",
+    "authority": "avatars.githubusercontent.com",
+    "query": "v=4"
+  },
+  "responderUsername": "GitHub Copilot",
+  "responderAvatarIconUri": {
+    "id": "copilot"
+  },
+  "initialLocation": "panel",
+  "requests": [
+    {
+      "requestId": "request_9204061e-5bb6-45a8-875b-6a854eaaecb8",
+      "message": {
+        "text": "explain how these are workin",
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 28
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 29
+            },
+            "text": "explain how these are workin",
+            "kind": "text"
+          }
+        ]
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "id": "vscode.implicit.selection",
+            "name": "file:keybinds.conf",
+            "value": {
+              "uri": {
+                "$mid": 1,
+                "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "scheme": "file"
+              },
+              "range": {
+                "startLineNumber": 1,
+                "startColumn": 1,
+                "endLineNumber": 16,
+                "endColumn": 1,
+                "selectionStartLineNumber": 16,
+                "selectionStartColumn": 1,
+                "positionLineNumber": 1,
+                "positionColumn": 1
+              }
+            },
+            "modelDescription": "User's active selection"
+          }
+        ]
+      },
+      "response": [
+        {
+          "kind": "mcpServersStarting",
+          "didStartServerIds": []
+        },
+        {
+          "value": "These lines in `keybinds.conf` define a Hyprland submap (a modal set of keybindings) for handling a custom launcher called \"Caelestia.\" Here's a breakdown of how they work:\n\n### Submap Setup\n- `exec = hyprctl dispatch submap global`: This command enters the \"global\" submap immediately when the config is loaded or reloaded. Submaps in Hyprland group keybindings that are only active while the submap is engaged, allowing modal behavior (e.g., capturing all input until exited).\n- `submap = global`: Defines the submap named \"global.\" All subsequent bindings in this section are part of this submap.\n\n### Launcher Activation\n- `bindi = Super, Super_L, global, caelestia:launcher`: \n  - `bindi` means \"bind immediately\" – it executes the action and keeps the submap active.\n  - Triggers when the left Super key (`Super_L`) is pressed while holding Super (mod key).\n  - Calls a custom Hyprland dispatcher named `global` with the parameter `caelestia:launcher`. This likely launches the Caelestia launcher (a custom app or script in your setup), making it modal (it captures focus and input).\n\n### Launcher Interruption\nThe remaining `bindin` bindings handle interrupting/exiting the launcher:\n- `bindin` means \"bind in submap\" – these are active only within the \"global\" submap.\n- They bind various keys and mouse events to `global, caelestia:launcherInterrupt`, which probably closes or dismisses the launcher.\n- Specific triggers:\n  - `Super, catchall`: Any key press while holding Super.\n  - `Super, mouse:272` to `mouse:277`: Mouse buttons 1-6 (left, right, middle, etc.) while holding Super.\n  - `Super, mouse_up` and `mouse_down`: Mouse wheel up/down while holding Super.\n- This ensures the launcher stays open until any of these inputs occur, allowing it to \"capture\" the session modally.\n\nIn summary, this setup creates a modal launcher: Press Super + Super_L to open it, and any subsequent key/mouse input (with Super held) closes it. It's a common pattern for app launchers in tiling WMs like Hyprland. If you need more details on Hyprland syntax or the Caelestia launcher, let me know!",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/home/arafays/.local/share/caelestia/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "responseId": "response_a94ad2af-91e3-4184-bcd6-9fda5bb77925",
+      "result": {
+        "timings": {
+          "firstProgress": 23544,
+          "totalElapsed": 28204
+        },
+        "metadata": {
+          "codeBlocks": [],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"file:keybinds.conf\">\nUser's active selection:\nExcerpt from keybinds.conf, lines 1 to 16:\n```properties\nexec = hyprctl dispatch submap global\nsubmap = global\n\n# ## Shell keybinds\n# Launcher\nbindi = Super, Super_L, global, caelestia:launcher\nbindin = Super, catchall, global, caelestia:launcherInterrupt\nbindin = Super, mouse:272, global, caelestia:launcherInterrupt\nbindin = Super, mouse:273, global, caelestia:launcherInterrupt\nbindin = Super, mouse:274, global, caelestia:launcherInterrupt\nbindin = Super, mouse:275, global, caelestia:launcherInterrupt\nbindin = Super, mouse:276, global, caelestia:launcherInterrupt\nbindin = Super, mouse:277, global, caelestia:launcherInterrupt\nbindin = Super, mouse_up, global, caelestia:launcherInterrupt\nbindin = Super, mouse_down, global, caelestia:launcherInterrupt\n```\n</attachment>\n<attachment filePath=\"/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf\">\nUser's active file for additional context:\nexec = hyprctl dispatch submap global\nsubmap = global\n\n# ## Shell keybinds\n# Launcher\nbindi = Super, Super_L, global, caelestia:launcher\nbindin = Super, catchall, global, caelestia:launcherInterrupt\nbindin = Super, mouse:272, global, caelestia:launcherInterrupt\nbindin = Super, mouse:273, global, caelestia:launcherInterrupt\nbindin = Super, mouse:274, global, caelestia:launcherInterrupt\nbindin = Super, mouse:275, global, caelestia:launcherInterrupt\nbindin = Super, mouse:276, global, caelestia:launcherInterrupt\nbindin = Super, mouse:277, global, caelestia:launcherInterrupt\nbindin = Super, mouse_up, global, caelestia:launcherInterrupt\nbindin = Super, mouse_down, global, caelestia:launcherInterrupt\n\n# Misc\nbind = $kbSession, global, caelestia:session\nbindl = $kbClearNotifs, global, caelestia:clearNotifs\nbind = $kbShowPanels, global, caelestia:showall\nbind = $kbLock, global, caelestia:lock\n\n# Restore lock\nbindl = $kbRestoreLock, exec, caelestia shell -d\nbindl = $kbRestoreLock, global, caelestia:lock\n\n# Brightness\nbindl = , XF86MonBrightnessUp, global, caelestia:brightnessUp\nbindl = , XF86MonBrightnessDown, global, caelestia:brightnessDown\n\n# Media\nbindl = Ctrl+Super, Space, global, caelestia:mediaToggle\nbindl = , XF86AudioPlay, global, caelestia:mediaToggle\nbindl = , XF86AudioPause, global, caelestia:mediaToggle\nbindl = Ctrl+Super, Equal, global, caelestia:mediaNext\nbindl = , XF86AudioNext, global, caelestia:mediaNext\nbindl = Ctrl+Super, Minus, global, caelestia:mediaPrev\nbindl = , XF86AudioPrev, global, caelestia:mediaPrev\nbindl = , XF86AudioStop, global, caelestia:mediaStop\n\n# Kill/restart\nbindr = Ctrl+Super+Shift, R, exec, qs -c caelestia kill\nbindr = Ctrl+Super+Alt, R, exec, qs -c caelestia kill; caelestia shell -d\n\n# Go to workspace #\n$wsaction = ~/.config/hypr/scripts/wsaction.fish\nbind = $kbGoToWs, 1, exec, $wsaction workspace 1\nbind = $kbGoToWs, 2, exec, $wsaction workspace 2\nbind = $kbGoToWs, 3, exec, $wsaction workspace 3\nbind = $kbGoToWs, 4, exec, $wsaction workspace 4\nbind = $kbGoToWs, 5, exec, $wsaction workspace 5\nbind = $kbGoToWs, 6, exec, $wsaction workspace 6\nbind = $kbGoToWs, 7, exec, $wsaction workspace 7\nbind = $kbGoToWs, 8, exec, $wsaction workspace 8\nbind = $kbGoToWs, 9, exec, $wsaction workspace 9\nbind = $kbGoToWs, 0, exec, $wsaction workspace 10\n# Go to workspace group #\nbind = $kbGoToWsGroup, 1, exec, $wsaction -g workspace 1\nbind = $kbGoToWsGroup, 2, exec, $wsaction -g workspace 2\nbind = $kbGoToWsGroup, 3, exec, $wsaction -g workspace 3\nbind = $kbGoToWsGroup, 4, exec, $wsaction -g workspace 4\nbind = $kbGoToWsGroup, 5, exec, $wsaction -g workspace 5\nbind = $kbGoToWsGroup, 6, exec, $wsaction -g workspace 6\nbind = $kbGoToWsGroup, 7, exec, $wsaction -g workspace 7\nbind = $kbGoToWsGroup, 8, exec, $wsaction -g workspace 8\nbind = $kbGoToWsGroup, 9, exec, $wsaction -g workspace 9\nbind = $kbGoToWsGroup, 0, exec, $wsaction -g workspace 10\n# Go to workspace -1/+1\nbind = Super, mouse_down, workspace, -1\nbind = Super, mouse_up, workspace, +1\nbinde = $kbPrevWs, workspace, -1\nbinde = $kbNextWs, workspace, +1\nbinde = Super, Page_Up, workspace, -1\nbinde = Super, Page_Down, workspace, +1\n# Go to workspace group -1/+1\nbind = Ctrl+Super, mouse_down, workspace, -10\nbind = Ctrl+Super, mouse_up, workspace, +10\n# Toggle special workspace\nbind = $kbToggleSpecialWs, exec, caelestia toggle specialws\n\n# Move window to workspace #\nbind = $kbMoveWinToWs, 1, exec, $wsaction movetoworkspace 1\nbind = $kbMoveWinToWs, 2, exec, $wsaction movetoworkspace 2\nbind = $kbMoveWinToWs, 3, exec, $wsaction movetoworkspace 3\nbind = $kbMoveWinToWs, 4, exec, $wsaction movetoworkspace 4\nbind = $kbMoveWinToWs, 5, exec, $wsaction movetoworkspace 5\nbind = $kbMoveWinToWs, 6, exec, $wsaction movetoworkspace 6\nbind = $kbMoveWinToWs, 7, exec, $wsaction movetoworkspace 7\nbind = $kbMoveWinToWs, 8, exec, $wsaction movetoworkspace 8\nbind = $kbMoveWinToWs, 9, exec, $wsaction movetoworkspace 9\nbind = $kbMoveWinToWs, 0, exec, $wsaction movetoworkspace 10\n# Move window to workspace group #\nbind = $kbMoveWinToWsGroup, 1, exec, $wsaction -g movetoworkspace 1\nbind = $kbMoveWinToWsGroup, 2, exec, $wsaction -g movetoworkspace 2\nbind = $kbMoveWinToWsGroup, 3, exec, $wsaction -g movetoworkspace 3\nbind = $kbMoveWinToWsGroup, 4, exec, $wsaction -g movetoworkspace 4\nbind = $kbMoveWinToWsGroup, 5, exec, $wsaction -g movetoworkspace 5\nbind = $kbMoveWinToWsGroup, 6, exec, $wsaction -g movetoworkspace 6\nbind = $kbMoveWinToWsGroup, 7, exec, $wsaction -g movetoworkspace 7\nbind = $kbMoveWinToWsGroup, 8, exec, $wsaction -g movetoworkspace 8\nbind = $kbMoveWinToWsGroup, 9, exec, $wsaction -g movetoworkspace 9\nbind = $kbMoveWinToWsGroup, 0, exec, $wsaction -g movetoworkspace 10\n# Move window to workspace -1/+1\nbinde = Super+Alt, Page_Up, movetoworkspace, -1\nbinde = Super+Alt, Page_Down, movetoworkspace, +1\nbind = Super+Alt, mouse_down, movetoworkspace, -1\nbind = Super+Alt, mouse_up, movetoworkspace, +1\nbinde = Ctrl+Super+Shift, right, movetoworkspace, +1\nbinde = Ctrl+Super+Shift, left, movetoworkspace, -1\n# Move window to/from special workspace\nbind = Ctrl+Super+Shift, up, movetoworkspace, special:special\nbind = Ctrl+Super+Shift, down, movetoworkspace, e+0\nbind = Super+Alt, S, movetoworkspace, special:special\n\n# Window groups\nbinde = $kbWindowGroupCycleNext, cyclenext, activewindow\nbinde = $kbWindowGroupCyclePrev, cyclenext, prev, activewindow\nbinde = Ctrl+Alt, Tab, changegroupactive, f\nbinde = Ctrl+Shift+Alt, Tab, changegroupactive, b\nbind = $kbToggleGroup, togglegroup\nbind = $kbUngroup, moveoutofgroup\nbind = Super+Shift, Comma, lockactivegroup, toggle\n\n# Window actions\nbind = Super, left, movefocus, l\nbind = Super, right, movefocus, r\nbind = Super, up, movefocus, u\nbind = Super, down, movefocus, d\nbind = Super+Shift, left, movewindow, l\nbind = Super+Shift, right, movewindow, r\nbind = Super+Shift, up, movewindow, u\nbind = Super+Shift, down, movewindow, d\nbinde = Super, Minus, splitratio, -0.1\nbinde = Super, Equal, splitratio, 0.1\nbindm = Super, mouse:272, movewindow\nbindm = $kbMoveWindow, movewindow\nbindm = Super, mouse:273, resizewindow\nbindm = $kbResizeWindow, resizewindow\nbind = Ctrl+Super, Backslash, centerwindow, 1\nbind = Ctrl+Super+Alt, Backslash, resizeactive, exact 55% 70%\nbind = Ctrl+Super+Alt, Backslash, centerwindow, 1\nbind = $kbWindowPip, exec, caelestia resizer pip  # Move window to picture-in-picture mode\nbind = $kbPinWindow, pin\nbind = $kbWindowFullscreen, fullscreen, 0\nbind = $kbWindowBorderedFullscreen, fullscreen, 1  # Fullscreen with borders\nbind = $kbToggleWindowFloating, togglefloating,\nbind = $kbCloseWindow, killactive,\n\n# Special workspace toggles\nbind = $kbSystemMonitor, exec, caelestia toggle sysmon\nbind = $kbMusic, exec, caelestia toggle music\nbind = $kbCommunication, exec, caelestia toggle communication\nbind = $kbTodo, exec, caelestia toggle todo\n\n# Apps\nbind = $kbTerminal, exec, app2unit -- $terminal\nbind = $kbBrowser, exec, app2unit -- $browser\nbind = $kbEditor, exec, app2unit -- $editor\nbind = Super, G, exec, app2unit -- github-desktop\nbind = $kbFileExplorer, exec, app2unit -- $fileExplorer\nbind = Super+Alt, E, exec, app2unit -- nemo\nbind = Ctrl+Alt, Escape, exec, app2unit -- qps\nbind = Ctrl+Alt, V, exec, app2unit -- pavucontrol\n\n# Utilities\nbindl = , Print, exec, caelestia screenshot  # Full screen capture > clipboard\nbind = Super+Shift, S, global, caelestia:screenshotFreeze  # Capture region (freeze)\nbind = Super+Shift+Alt, S, global, caelestia:screenshot  # Capture region\nbind = Super+Alt, R, exec, caelestia record -s  # Record screen with sound\nbind = Ctrl+Alt, R, exec, caelestia record  # Record screen\nbind = Super+Shift+Alt, R, exec, caelestia record -r  # Record region\nbind = Super+Shift, C, exec, hyprpicker -a  # Colour picker\n\n# Volume\nbindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\nbindl = Super+Shift, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\nbindle = , XF86AudioRaiseVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $volumeStep%+\nbindle = , XF86AudioLowerVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ $volumeStep%-\n\n# Sleep\nbind = Super+Shift, L, exec, systemctl suspend-then-hibernate\n\n# Clipboard and emoji picker\nbind = Super, V, exec, pkill fuzzel || caelestia clipboard\nbind = Super+Alt, V, exec, pkill fuzzel || caelestia clipboard -d\nbind = Super, Period, exec, pkill fuzzel || caelestia emoji -p\nbindl = Ctrl+Shift+Alt, V, exec, sleep 0.5s && ydotool type -d 1 \"$(cliphist list | head -1 | cliphist decode)\"  # Alternate paste\n\n# Testing\nbindl = Super+Alt, f12, exec, notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!\" -a 'Shell' -A \"Test1=I got it!\" -A \"Test2=Another action\"\n</attachment>\n\n</attachments>\n<context>\nThe current date is October 22, 2025.\n</context>\n<editorContext>\nThe user's current file is /home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf. The current selection is from line 1 to line 16.\n</editorContext>\n<repoContext>\nBelow is the information about the current repository. You can use this information when you need to calculate diffs or compare changes with the default branch.\nRepository name: caelestia\nOwner: caelestia-dots\nCurrent branch: main\n\n</repoContext>\n<reminderInstructions>\n\n</reminderInstructions>\n<user_query>\nexplain how these are workin\n</user_query>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "renderedGlobalContext": [
+            {
+              "type": 1,
+              "text": "<environment_info>\nThe user's current OS is: Linux\nThe user's default shell is: \"zsh\". When you generate terminal commands, please generate them correctly for this shell.\n</environment_info>\n<workspace_info>\nI am working in a workspace with the following folders:\n- /home/arafays/.local/share/caelestia \nI am working in a workspace that has the following structure:\n```\ninstall.fish\nPKGBUILD\nREADME.md\nstarship.toml\nbtop/\n\tbtop.conf\n\tthemes/\n\t\tcaelestia.theme\nfastfetch/\n\tconfig.jsonc\nfirefox/\n\tuserChrome.css\nfish/\n\tconfig.fish\n\tfunctions/\n\t\tfish_greeting.fish\nfoot/\n\tfoot.ini\nhypr/\n\thyprland.conf\n\tvariables.conf\n\thyprland/\n\t\tanimations.conf\n\t\tdecoration.conf\n\t\tenv.conf\n\t\texecs.conf\n\t\tgeneral.conf\n\t\tgestures.conf\n\t\tgroup.conf\n\t\tinput.conf\n\t\tkeybinds.conf\n\t\tmisc.conf\n\t\trules.conf\n\tscheme/\n\t\tcurrent.conf\n\t\tdefault.conf\n\tscripts/\n\t\twsaction.fish\nmicro/\n\tsettings.json\nspicetify/\n\tconfig-xpui.ini\n\tCustomApps/\n\tExtensions/\n\tThemes/\n\t\tcaelestia/\n\t\t\tcolor.ini\n\t\t\tuser.css\nsrc/\nthunar/\n\tthunar-volman.xml\n\tuca.xml\nuwsm/\n\tenv\n\tenv-hyprland\nvscode/\n\tflags.conf\n\tkeybindings.json\n\tsettings.json\n\tcaelestia-vscode-integration/\n\t\tpackage.json\n\t\ttsconfig.json\n\t\tsrc/\n\t\t\textension.ts\n\t\t\ttheme.ts\n\t\tthemes/\n\t\t\tcaelestia.json\nzed/\n\tkeymap.json\n\tsettings.json\nzen/\n\tuserChrome.css\n\tcaelestia-firefox-integration/\n\t\tmanifest.json\n\t\tpackage.json\n\t\ttsconfig.json\n\t\tsrc/\n\t\t\textension.ts\n\tnative_app/\n\t\tapp.fish\n\t\tmanifest.json\n```\nThis is the state of the context at this point in the conversation. The view of the workspace structure may be truncated. You can use tools to collect more context if needed.\n</workspace_info>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "cacheKey": "file:///home/arafays/.local/share/caelestia",
+          "toolCallRounds": [
+            {
+              "response": "These lines in `keybinds.conf` define a Hyprland submap (a modal set of keybindings) for handling a custom launcher called \"Caelestia.\" Here's a breakdown of how they work:\n\n### Submap Setup\n- `exec = hyprctl dispatch submap global`: This command enters the \"global\" submap immediately when the config is loaded or reloaded. Submaps in Hyprland group keybindings that are only active while the submap is engaged, allowing modal behavior (e.g., capturing all input until exited).\n- `submap = global`: Defines the submap named \"global.\" All subsequent bindings in this section are part of this submap.\n\n### Launcher Activation\n- `bindi = Super, Super_L, global, caelestia:launcher`: \n  - `bindi` means \"bind immediately\" – it executes the action and keeps the submap active.\n  - Triggers when the left Super key (`Super_L`) is pressed while holding Super (mod key).\n  - Calls a custom Hyprland dispatcher named `global` with the parameter `caelestia:launcher`. This likely launches the Caelestia launcher (a custom app or script in your setup), making it modal (it captures focus and input).\n\n### Launcher Interruption\nThe remaining `bindin` bindings handle interrupting/exiting the launcher:\n- `bindin` means \"bind in submap\" – these are active only within the \"global\" submap.\n- They bind various keys and mouse events to `global, caelestia:launcherInterrupt`, which probably closes or dismisses the launcher.\n- Specific triggers:\n  - `Super, catchall`: Any key press while holding Super.\n  - `Super, mouse:272` to `mouse:277`: Mouse buttons 1-6 (left, right, middle, etc.) while holding Super.\n  - `Super, mouse_up` and `mouse_down`: Mouse wheel up/down while holding Super.\n- This ensures the launcher stays open until any of these inputs occur, allowing it to \"capture\" the session modally.\n\nIn summary, this setup creates a modal launcher: Press Super + Super_L to open it, and any subsequent key/mouse input (with Super held) closes it. It's a common pattern for app launchers in tiling WMs like Hyprland. If you need more details on Hyprland syntax or the Caelestia launcher, let me know!",
+              "toolCalls": [],
+              "toolInputRetry": 0,
+              "id": "bd5041e8-8f0d-4c0f-b9d0-c533e21ad056"
+            }
+          ],
+          "modelMessageId": "9ec40e57-1803-4843-ab6b-56592ad90c55",
+          "responseId": "c9aec7a8-a32d-410d-af33-163c592bb606",
+          "sessionId": "b7ee6d5c-2528-41b5-a11d-1a7019a6aa50",
+          "agentId": "github.copilot.default"
+        },
+        "details": "Grok Code Fast 1 • 0x"
+      },
+      "responseMarkdownInfo": [],
+      "followups": [],
+      "isCanceled": false,
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "extensionVersion": "0.33.2025102201",
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.default",
+        "description": "Ask or edit in context",
+        "metadata": {
+          "themeIcon": {
+            "id": "copilot"
+          },
+          "hasFollowups": false,
+          "helpTextPrefix": "You can ask me general programming questions, or chat with the following participants which have specialized expertise and can perform actions:",
+          "helpTextPostfix": {
+            "value": "To have a great conversation, ask me questions as if I was a real programmer:\n\n* **Show me the code** you want to talk about by having the files open and selecting the most important lines.\n* **Make refinements** by asking me follow-up questions, adding clarifications, providing errors, etc.\n* **Review my suggested code** and tell me about issues or improvements, so I can iterate on it.\n\nYou can also ask me questions about your editor selection by [starting an inline chat session](command:inlineChat.start).\n\nLearn more about [GitHub Copilot](https://docs.github.com/copilot/using-github-copilot/getting-started-with-github-copilot?tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted) in [Visual Studio Code](https://code.visualstudio.com/docs/copilot/overview). Or explore the [Copilot walkthrough](command:github.copilot.open.walkthrough).",
+            "isTrusted": {
+              "enabledCommands": [
+                "inlineChat.start",
+                "github.copilot.open.walkthrough"
+              ]
+            },
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "uris": {
+              "command:inlineChat.start": {
+                "$mid": 1,
+                "path": "inlineChat.start",
+                "scheme": "command"
+              },
+              "https://docs.github.com/copilot/using-github-copilot/getting-started-with-github-copilot?tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted": {
+                "$mid": 1,
+                "path": "/copilot/using-github-copilot/getting-started-with-github-copilot",
+                "scheme": "https",
+                "authority": "docs.github.com",
+                "query": "tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted"
+              },
+              "https://code.visualstudio.com/docs/copilot/overview": {
+                "$mid": 1,
+                "path": "/docs/copilot/overview",
+                "scheme": "https",
+                "authority": "code.visualstudio.com"
+              },
+              "command:github.copilot.open.walkthrough": {
+                "$mid": 1,
+                "path": "github.copilot.open.walkthrough",
+                "scheme": "command"
+              }
+            }
+          },
+          "supportIssueReporting": false,
+          "requester": {
+            "name": "arafays",
+            "icon": {
+              "$mid": 1,
+              "path": "/u/6192554",
+              "scheme": "https",
+              "authority": "avatars.githubusercontent.com",
+              "query": "v=4"
+            }
+          }
+        },
+        "name": "GitHubCopilot",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "ask"
+        ],
+        "slashCommands": [],
+        "disambiguation": [
+          {
+            "category": "generate_code_sample",
+            "description": "The user wants to generate code snippets without referencing the contents of the current workspace. This category does not include generating entire projects.",
+            "examples": [
+              "Write an example of computing a SHA256 hash."
+            ]
+          },
+          {
+            "category": "add_feature_to_file",
+            "description": "The user wants to change code in a file that is provided in their request, without referencing the contents of the current workspace. This category does not include generating entire projects.",
+            "examples": [
+              "Add a refresh button to the table widget."
+            ]
+          },
+          {
+            "category": "question_about_specific_files",
+            "description": "The user has a question about a specific file or code snippet that they have provided as part of their query, and the question does not require additional workspace context to answer.",
+            "examples": [
+              "What does this file do?"
+            ]
+          }
+        ]
+      },
+      "contentReferences": [],
+      "codeCitations": [],
+      "timestamp": 1761116934688,
+      "modelId": "copilot/grok-code-fast-1"
+    },
+    {
+      "requestId": "request_287c061f-dc18-4a67-aaa4-40f448d78181",
+      "message": {
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 59
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 60
+            },
+            "text": "find me where does the only super keybind is in this folder",
+            "kind": "text"
+          }
+        ],
+        "text": "find me where does the only super keybind is in this folder"
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "id": "vscode.implicit.file",
+            "name": "file:keybinds.conf",
+            "value": {
+              "$mid": 1,
+              "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+              "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+              "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+              "scheme": "file"
+            },
+            "modelDescription": "User's active file"
+          }
+        ]
+      },
+      "response": [
+        {
+          "kind": "mcpServersStarting",
+          "didStartServerIds": []
+        },
+        {
+          "kind": "prepareToolInvocation",
+          "toolName": "copilot_findTextInFiles"
+        },
+        {
+          "kind": "toolInvocationSerialized",
+          "invocationMessage": {
+            "value": "Searching text for `Super_L` (`**/hypr/hyprland/*.conf`)",
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "uris": {}
+          },
+          "pastTenseMessage": {
+            "value": "Searched text for `Super_L` (`**/hypr/hyprland/*.conf`), 2 results",
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "uris": {}
+          },
+          "isConfirmed": {
+            "type": 1
+          },
+          "isComplete": true,
+          "source": {
+            "type": "internal",
+            "label": "Built-In"
+          },
+          "resultDetails": [
+            {
+              "uri": {
+                "$mid": 1,
+                "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "scheme": "file"
+              },
+              "range": {
+                "startLineNumber": 6,
+                "startColumn": 16,
+                "endLineNumber": 6,
+                "endColumn": 23
+              }
+            },
+            {
+              "uri": {
+                "$mid": 1,
+                "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "scheme": "file"
+              },
+              "range": {
+                "startLineNumber": 6,
+                "startColumn": 16,
+                "endLineNumber": 6,
+                "endColumn": 23
+              }
+            }
+          ],
+          "toolCallId": "9b05fb2c-0eee-4cff-a04d-13baf5db264b",
+          "toolId": "copilot_findTextInFiles"
+        },
+        {
+          "value": "The only keybind in the ",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/home/arafays/.local/share/caelestia/",
+            "scheme": "file"
+          }
+        },
+        {
+          "kind": "inlineReference",
+          "inlineReference": {
+            "$mid": 1,
+            "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/",
+            "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/",
+            "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/",
+            "scheme": "file"
+          }
+        },
+        {
+          "value": " folder that uses `Super_L` (the left Super key) as the key (rather than just a modifier) is in ",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/home/arafays/.local/share/caelestia/",
+            "scheme": "file"
+          }
+        },
+        {
+          "kind": "inlineReference",
+          "inlineReference": {
+            "name": "keybinds.conf",
+            "kind": 12,
+            "containerName": "",
+            "location": {
+              "range": {
+                "startLineNumber": 1,
+                "startColumn": 1,
+                "endLineNumber": 1,
+                "endColumn": 1
+              },
+              "uri": {
+                "$mid": 1,
+                "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "scheme": "file"
+              }
+            }
+          },
+          "resolveId": "826a29c3-ac9b-444e-933c-0d457ee6ec5a"
+        },
+        {
+          "value": " at line 6:\n\n```\nbindi = Super, Super_L, global, caelestia:launcher\n```\n\nThis binding triggers the Caelestia launcher when you hold the Super key and press the left Super key. No other files in that folder contain `Super_L`. If you meant something else by \"super keybind,\" provide more details!",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/home/arafays/.local/share/caelestia/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "responseId": "response_8b6cc73d-2043-4c21-84b0-5ece56fb6386",
+      "result": {
+        "timings": {
+          "firstProgress": 17493,
+          "totalElapsed": 22375
+        },
+        "metadata": {
+          "codeBlocks": [
+            {
+              "code": "bindi = Super, Super_L, global, caelestia:launcher\n",
+              "language": "",
+              "markdownBeforeBlock": "The only keybind in the  folder that uses `Super_L` (the left Super key) as the key (rather than just a modifier) is in  at line 6:\n\n"
+            }
+          ],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"file:keybinds.conf\" filePath=\"/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf\">\nUser's active file:\nexec = hyprctl dispatch submap global\nsubmap = global\n\n# ## Shell keybinds\n# Launcher\nbindi = Super, Super_L, global, caelestia:launcher\nbindin = Super, catchall, global, caelestia:launcherInterrupt\nbindin = Super, mouse:272, global, caelestia:launcherInterrupt\nbindin = Super, mouse:273, global, caelestia:launcherInterrupt\nbindin = Super, mouse:274, global, caelestia:launcherInterrupt\nbindin = Super, mouse:275, global, caelestia:launcherInterrupt\nbindin = Super, mouse:276, global, caelestia:launcherInterrupt\nbindin = Super, mouse:277, global, caelestia:launcherInterrupt\nbindin = Super, mouse_up, global, caelestia:launcherInterrupt\nbindin = Super, mouse_down, global, caelestia:launcherInterrupt\n\n# Misc\nbind = $kbSession, global, caelestia:session\nbindl = $kbClearNotifs, global, caelestia:clearNotifs\nbind = $kbShowPanels, global, caelestia:showall\nbind = $kbLock, global, caelestia:lock\n\n# Restore lock\nbindl = $kbRestoreLock, exec, caelestia shell -d\nbindl = $kbRestoreLock, global, caelestia:lock\n\n# Brightness\nbindl = , XF86MonBrightnessUp, global, caelestia:brightnessUp\nbindl = , XF86MonBrightnessDown, global, caelestia:brightnessDown\n\n# Media\nbindl = Ctrl+Super, Space, global, caelestia:mediaToggle\nbindl = , XF86AudioPlay, global, caelestia:mediaToggle\nbindl = , XF86AudioPause, global, caelestia:mediaToggle\nbindl = Ctrl+Super, Equal, global, caelestia:mediaNext\nbindl = , XF86AudioNext, global, caelestia:mediaNext\nbindl = Ctrl+Super, Minus, global, caelestia:mediaPrev\nbindl = , XF86AudioPrev, global, caelestia:mediaPrev\nbindl = , XF86AudioStop, global, caelestia:mediaStop\n\n# Kill/restart\nbindr = Ctrl+Super+Shift, R, exec, qs -c caelestia kill\nbindr = Ctrl+Super+Alt, R, exec, qs -c caelestia kill; caelestia shell -d\n\n# Go to workspace #\n$wsaction = ~/.config/hypr/scripts/wsaction.fish\nbind = $kbGoToWs, 1, exec, $wsaction workspace 1\nbind = $kbGoToWs, 2, exec, $wsaction workspace 2\nbind = $kbGoToWs, 3, exec, $wsaction workspace 3\nbind = $kbGoToWs, 4, exec, $wsaction workspace 4\nbind = $kbGoToWs, 5, exec, $wsaction workspace 5\nbind = $kbGoToWs, 6, exec, $wsaction workspace 6\nbind = $kbGoToWs, 7, exec, $wsaction workspace 7\nbind = $kbGoToWs, 8, exec, $wsaction workspace 8\nbind = $kbGoToWs, 9, exec, $wsaction workspace 9\nbind = $kbGoToWs, 0, exec, $wsaction workspace 10\n# Go to workspace group #\nbind = $kbGoToWsGroup, 1, exec, $wsaction -g workspace 1\nbind = $kbGoToWsGroup, 2, exec, $wsaction -g workspace 2\nbind = $kbGoToWsGroup, 3, exec, $wsaction -g workspace 3\nbind = $kbGoToWsGroup, 4, exec, $wsaction -g workspace 4\nbind = $kbGoToWsGroup, 5, exec, $wsaction -g workspace 5\nbind = $kbGoToWsGroup, 6, exec, $wsaction -g workspace 6\nbind = $kbGoToWsGroup, 7, exec, $wsaction -g workspace 7\nbind = $kbGoToWsGroup, 8, exec, $wsaction -g workspace 8\nbind = $kbGoToWsGroup, 9, exec, $wsaction -g workspace 9\nbind = $kbGoToWsGroup, 0, exec, $wsaction -g workspace 10\n# Go to workspace -1/+1\nbind = Super, mouse_down, workspace, -1\nbind = Super, mouse_up, workspace, +1\nbinde = $kbPrevWs, workspace, -1\nbinde = $kbNextWs, workspace, +1\nbinde = Super, Page_Up, workspace, -1\nbinde = Super, Page_Down, workspace, +1\n# Go to workspace group -1/+1\nbind = Ctrl+Super, mouse_down, workspace, -10\nbind = Ctrl+Super, mouse_up, workspace, +10\n# Toggle special workspace\nbind = $kbToggleSpecialWs, exec, caelestia toggle specialws\n\n# Move window to workspace #\nbind = $kbMoveWinToWs, 1, exec, $wsaction movetoworkspace 1\nbind = $kbMoveWinToWs, 2, exec, $wsaction movetoworkspace 2\nbind = $kbMoveWinToWs, 3, exec, $wsaction movetoworkspace 3\nbind = $kbMoveWinToWs, 4, exec, $wsaction movetoworkspace 4\nbind = $kbMoveWinToWs, 5, exec, $wsaction movetoworkspace 5\nbind = $kbMoveWinToWs, 6, exec, $wsaction movetoworkspace 6\nbind = $kbMoveWinToWs, 7, exec, $wsaction movetoworkspace 7\nbind = $kbMoveWinToWs, 8, exec, $wsaction movetoworkspace 8\nbind = $kbMoveWinToWs, 9, exec, $wsaction movetoworkspace 9\nbind = $kbMoveWinToWs, 0, exec, $wsaction movetoworkspace 10\n# Move window to workspace group #\nbind = $kbMoveWinToWsGroup, 1, exec, $wsaction -g movetoworkspace 1\nbind = $kbMoveWinToWsGroup, 2, exec, $wsaction -g movetoworkspace 2\nbind = $kbMoveWinToWsGroup, 3, exec, $wsaction -g movetoworkspace 3\nbind = $kbMoveWinToWsGroup, 4, exec, $wsaction -g movetoworkspace 4\nbind = $kbMoveWinToWsGroup, 5, exec, $wsaction -g movetoworkspace 5\nbind = $kbMoveWinToWsGroup, 6, exec, $wsaction -g movetoworkspace 6\nbind = $kbMoveWinToWsGroup, 7, exec, $wsaction -g movetoworkspace 7\nbind = $kbMoveWinToWsGroup, 8, exec, $wsaction -g movetoworkspace 8\nbind = $kbMoveWinToWsGroup, 9, exec, $wsaction -g movetoworkspace 9\nbind = $kbMoveWinToWsGroup, 0, exec, $wsaction -g movetoworkspace 10\n# Move window to workspace -1/+1\nbinde = Super+Alt, Page_Up, movetoworkspace, -1\nbinde = Super+Alt, Page_Down, movetoworkspace, +1\nbind = Super+Alt, mouse_down, movetoworkspace, -1\nbind = Super+Alt, mouse_up, movetoworkspace, +1\nbinde = Ctrl+Super+Shift, right, movetoworkspace, +1\nbinde = Ctrl+Super+Shift, left, movetoworkspace, -1\n# Move window to/from special workspace\nbind = Ctrl+Super+Shift, up, movetoworkspace, special:special\nbind = Ctrl+Super+Shift, down, movetoworkspace, e+0\nbind = Super+Alt, S, movetoworkspace, special:special\n\n# Window groups\nbinde = $kbWindowGroupCycleNext, cyclenext, activewindow\nbinde = $kbWindowGroupCyclePrev, cyclenext, prev, activewindow\nbinde = Ctrl+Alt, Tab, changegroupactive, f\nbinde = Ctrl+Shift+Alt, Tab, changegroupactive, b\nbind = $kbToggleGroup, togglegroup\nbind = $kbUngroup, moveoutofgroup\nbind = Super+Shift, Comma, lockactivegroup, toggle\n\n# Window actions\nbind = Super, left, movefocus, l\nbind = Super, right, movefocus, r\nbind = Super, up, movefocus, u\nbind = Super, down, movefocus, d\nbind = Super+Shift, left, movewindow, l\nbind = Super+Shift, right, movewindow, r\nbind = Super+Shift, up, movewindow, u\nbind = Super+Shift, down, movewindow, d\nbinde = Super, Minus, splitratio, -0.1\nbinde = Super, Equal, splitratio, 0.1\nbindm = Super, mouse:272, movewindow\nbindm = $kbMoveWindow, movewindow\nbindm = Super, mouse:273, resizewindow\nbindm = $kbResizeWindow, resizewindow\nbind = Ctrl+Super, Backslash, centerwindow, 1\nbind = Ctrl+Super+Alt, Backslash, resizeactive, exact 55% 70%\nbind = Ctrl+Super+Alt, Backslash, centerwindow, 1\nbind = $kbWindowPip, exec, caelestia resizer pip  # Move window to picture-in-picture mode\nbind = $kbPinWindow, pin\nbind = $kbWindowFullscreen, fullscreen, 0\nbind = $kbWindowBorderedFullscreen, fullscreen, 1  # Fullscreen with borders\nbind = $kbToggleWindowFloating, togglefloating,\nbind = $kbCloseWindow, killactive,\n\n# Special workspace toggles\nbind = $kbSystemMonitor, exec, caelestia toggle sysmon\nbind = $kbMusic, exec, caelestia toggle music\nbind = $kbCommunication, exec, caelestia toggle communication\nbind = $kbTodo, exec, caelestia toggle todo\n\n# Apps\nbind = $kbTerminal, exec, app2unit -- $terminal\nbind = $kbBrowser, exec, app2unit -- $browser\nbind = $kbEditor, exec, app2unit -- $editor\nbind = Super, G, exec, app2unit -- github-desktop\nbind = $kbFileExplorer, exec, app2unit -- $fileExplorer\nbind = Super+Alt, E, exec, app2unit -- nemo\nbind = Ctrl+Alt, Escape, exec, app2unit -- qps\nbind = Ctrl+Alt, V, exec, app2unit -- pavucontrol\n\n# Utilities\nbindl = , Print, exec, caelestia screenshot  # Full screen capture > clipboard\nbind = Super+Shift, S, global, caelestia:screenshotFreeze  # Capture region (freeze)\nbind = Super+Shift+Alt, S, global, caelestia:screenshot  # Capture region\nbind = Super+Alt, R, exec, caelestia record -s  # Record screen with sound\nbind = Ctrl+Alt, R, exec, caelestia record  # Record screen\nbind = Super+Shift+Alt, R, exec, caelestia record -r  # Record region\nbind = Super+Shift, C, exec, hyprpicker -a  # Colour picker\n\n# Volume\nbindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\nbindl = Super+Shift, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\nbindle = , XF86AudioRaiseVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $volumeStep%+\nbindle = , XF86AudioLowerVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ $volumeStep%-\n\n# Sleep\nbind = Super+Shift, L, exec, systemctl suspend-then-hibernate\n\n# Clipboard and emoji picker\nbind = Super, V, exec, pkill fuzzel || caelestia clipboard\nbind = Super+Alt, V, exec, pkill fuzzel || caelestia clipboard -d\nbind = Super, Period, exec, pkill fuzzel || caelestia emoji -p\nbindl = Ctrl+Shift+Alt, V, exec, sleep 0.5s && ydotool type -d 1 \"$(cliphist list | head -1 | cliphist decode)\"  # Alternate paste\n\n# Testing\nbindl = Super+Alt, f12, exec, notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!\" -a 'Shell' -A \"Test1=I got it!\" -A \"Test2=Another action\"\n</attachment>\n\n</attachments>\n<context>\nThe current date is October 22, 2025.\n</context>\n<editorContext>\nThe user's current file is /home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf. \n</editorContext>\n<repoContext>\nBelow is the information about the current repository. You can use this information when you need to calculate diffs or compare changes with the default branch.\nRepository name: caelestia\nOwner: caelestia-dots\nCurrent branch: main\n\n</repoContext>\n<reminderInstructions>\n\n</reminderInstructions>\n<user_query>\nfind me where does the only super keybind is in this folder\n</user_query>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "toolCallRounds": [
+            {
+              "response": "",
+              "toolCalls": [
+                {
+                  "name": "grep_search",
+                  "arguments": "{\"includePattern\":\"hypr/hyprland/*.conf\",\"isRegexp\":false,\"query\":\"Super_L\"}",
+                  "id": "call_25387909__vscode-1761117599293"
+                }
+              ],
+              "toolInputRetry": 0,
+              "id": "b236fdf7-0e2f-4899-9f80-574fcdcfe2dc"
+            },
+            {
+              "response": "The only keybind in the `hypr/hyprland/` folder that uses `Super_L` (the left Super key) as the key (rather than just a modifier) is in [`keybinds.conf`](hypr/hyprland/keybinds.conf) at line 6:\n\n```\nbindi = Super, Super_L, global, caelestia:launcher\n```\n\nThis binding triggers the Caelestia launcher when you hold the Super key and press the left Super key. No other files in that folder contain `Super_L`. If you meant something else by \"super keybind,\" provide more details!",
+              "toolCalls": [],
+              "toolInputRetry": 0,
+              "id": "6363e50c-f6fa-4474-97ce-100fddc24ed9"
+            }
+          ],
+          "toolCallResults": {
+            "call_25387909__vscode-1761117599293": {
+              "$mid": 20,
+              "content": [
+                {
+                  "$mid": 23,
+                  "value": {
+                    "node": {
+                      "type": 1,
+                      "ctor": 2,
+                      "ctorName": "Yat",
+                      "children": [
+                        {
+                          "type": 1,
+                          "ctor": 2,
+                          "ctorName": "zpe",
+                          "children": [
+                            {
+                              "type": 2,
+                              "priority": 20,
+                              "text": "2 matches",
+                              "references": [],
+                              "lineBreakBefore": true
+                            }
+                          ],
+                          "props": {
+                            "priority": 20
+                          },
+                          "references": []
+                        },
+                        {
+                          "type": 1,
+                          "ctor": 2,
+                          "ctorName": "wae",
+                          "children": [
+                            {
+                              "type": 1,
+                              "ctor": 2,
+                              "ctorName": "r",
+                              "children": [
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 2,
+                                      "priority": 9007199254740991,
+                                      "text": "<match path=\"/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf\" line=6>\n",
+                                      "lineBreakBefore": false
+                                    }
+                                  ],
+                                  "props": {},
+                                  "references": [],
+                                  "keepWithId": 27
+                                },
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "C8e",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "zpe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 1000,
+                                          "text": "bindi = Super, Super_L, global, caelestia:launcher",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 1000
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 2,
+                                      "priority": 1,
+                                      "text": "\n",
+                                      "lineBreakBefore": false
+                                    }
+                                  ],
+                                  "props": {
+                                    "flexGrow": 1,
+                                    "priority": 1
+                                  },
+                                  "references": [
+                                    {
+                                      "anchor": {
+                                        "uri": {
+                                          "$mid": 1,
+                                          "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                                          "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                                          "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                                          "scheme": "file"
+                                        },
+                                        "range": [
+                                          {
+                                            "line": 5,
+                                            "character": 15
+                                          },
+                                          {
+                                            "line": 5,
+                                            "character": 22
+                                          }
+                                        ]
+                                      },
+                                      "options": {
+                                        "isFromTool": true
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 2,
+                                      "priority": 9007199254740991,
+                                      "text": "</match>",
+                                      "lineBreakBefore": false
+                                    }
+                                  ],
+                                  "props": {},
+                                  "references": [],
+                                  "keepWithId": 27
+                                },
+                                {
+                                  "type": 2,
+                                  "priority": 9007199254740991,
+                                  "text": "\n",
+                                  "lineBreakBefore": false
+                                }
+                              ],
+                              "props": {},
+                              "references": []
+                            }
+                          ],
+                          "props": {
+                            "passPriority": true
+                          },
+                          "references": [],
+                          "flags": 4
+                        },
+                        {
+                          "type": 1,
+                          "ctor": 2,
+                          "ctorName": "wae",
+                          "children": [
+                            {
+                              "type": 1,
+                              "ctor": 2,
+                              "ctorName": "r",
+                              "children": [
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 2,
+                                      "priority": 9007199254740991,
+                                      "text": "<match path=\"/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf\" line=6>\n",
+                                      "lineBreakBefore": false
+                                    }
+                                  ],
+                                  "props": {},
+                                  "references": [],
+                                  "keepWithId": 28
+                                },
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "C8e",
+                                  "children": [
+                                    {
+                                      "type": 1,
+                                      "ctor": 2,
+                                      "ctorName": "zpe",
+                                      "children": [
+                                        {
+                                          "type": 2,
+                                          "priority": 1000,
+                                          "text": "bindi = Super, Super_L, global, caelestia:launcher",
+                                          "references": [],
+                                          "lineBreakBefore": true
+                                        }
+                                      ],
+                                      "props": {
+                                        "priority": 1000
+                                      },
+                                      "references": []
+                                    },
+                                    {
+                                      "type": 2,
+                                      "priority": 1,
+                                      "text": "\n",
+                                      "lineBreakBefore": false
+                                    }
+                                  ],
+                                  "props": {
+                                    "flexGrow": 1,
+                                    "priority": 1
+                                  },
+                                  "references": [
+                                    {
+                                      "anchor": {
+                                        "uri": {
+                                          "$mid": 1,
+                                          "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                                          "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                                          "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                                          "scheme": "file"
+                                        },
+                                        "range": [
+                                          {
+                                            "line": 5,
+                                            "character": 15
+                                          },
+                                          {
+                                            "line": 5,
+                                            "character": 22
+                                          }
+                                        ]
+                                      },
+                                      "options": {
+                                        "isFromTool": true
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": 1,
+                                  "ctor": 2,
+                                  "ctorName": "",
+                                  "children": [
+                                    {
+                                      "type": 2,
+                                      "priority": 9007199254740991,
+                                      "text": "</match>",
+                                      "lineBreakBefore": false
+                                    }
+                                  ],
+                                  "props": {},
+                                  "references": [],
+                                  "keepWithId": 28
+                                },
+                                {
+                                  "type": 2,
+                                  "priority": 9007199254740991,
+                                  "text": "\n",
+                                  "lineBreakBefore": false
+                                }
+                              ],
+                              "props": {},
+                              "references": []
+                            }
+                          ],
+                          "props": {
+                            "passPriority": true
+                          },
+                          "references": [],
+                          "flags": 4
+                        }
+                      ],
+                      "props": {},
+                      "references": []
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "modelMessageId": "9ada2d40-b8b3-484a-9139-7b3dcf2216c5",
+          "responseId": "7efbcab4-aed7-4150-a8fd-011597d2d423",
+          "sessionId": "b7ee6d5c-2528-41b5-a11d-1a7019a6aa50",
+          "agentId": "github.copilot.default"
+        },
+        "details": "Grok Code Fast 1 • 0x"
+      },
+      "responseMarkdownInfo": [
+        {
+          "suggestionId": "sgt-d43255c2-b436-42ab-8471-b3660c898b6b"
+        }
+      ],
+      "followups": [],
+      "isCanceled": false,
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "extensionVersion": "0.33.2025102201",
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.default",
+        "description": "Ask or edit in context",
+        "metadata": {
+          "themeIcon": {
+            "id": "copilot"
+          },
+          "hasFollowups": false,
+          "helpTextPrefix": "You can ask me general programming questions, or chat with the following participants which have specialized expertise and can perform actions:",
+          "helpTextPostfix": {
+            "value": "To have a great conversation, ask me questions as if I was a real programmer:\n\n* **Show me the code** you want to talk about by having the files open and selecting the most important lines.\n* **Make refinements** by asking me follow-up questions, adding clarifications, providing errors, etc.\n* **Review my suggested code** and tell me about issues or improvements, so I can iterate on it.\n\nYou can also ask me questions about your editor selection by [starting an inline chat session](command:inlineChat.start).\n\nLearn more about [GitHub Copilot](https://docs.github.com/copilot/using-github-copilot/getting-started-with-github-copilot?tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted) in [Visual Studio Code](https://code.visualstudio.com/docs/copilot/overview). Or explore the [Copilot walkthrough](command:github.copilot.open.walkthrough).",
+            "isTrusted": {
+              "enabledCommands": [
+                "inlineChat.start",
+                "github.copilot.open.walkthrough"
+              ]
+            },
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "uris": {
+              "command:inlineChat.start": {
+                "$mid": 1,
+                "path": "inlineChat.start",
+                "scheme": "command"
+              },
+              "https://docs.github.com/copilot/using-github-copilot/getting-started-with-github-copilot?tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted": {
+                "$mid": 1,
+                "path": "/copilot/using-github-copilot/getting-started-with-github-copilot",
+                "scheme": "https",
+                "authority": "docs.github.com",
+                "query": "tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted"
+              },
+              "https://code.visualstudio.com/docs/copilot/overview": {
+                "$mid": 1,
+                "path": "/docs/copilot/overview",
+                "scheme": "https",
+                "authority": "code.visualstudio.com"
+              },
+              "command:github.copilot.open.walkthrough": {
+                "$mid": 1,
+                "path": "github.copilot.open.walkthrough",
+                "scheme": "command"
+              }
+            }
+          },
+          "supportIssueReporting": false,
+          "requester": {
+            "name": "arafays",
+            "icon": {
+              "$mid": 1,
+              "path": "/u/6192554",
+              "scheme": "https",
+              "authority": "avatars.githubusercontent.com",
+              "query": "v=4"
+            }
+          }
+        },
+        "name": "GitHubCopilot",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "ask"
+        ],
+        "slashCommands": [],
+        "disambiguation": [
+          {
+            "category": "generate_code_sample",
+            "description": "The user wants to generate code snippets without referencing the contents of the current workspace. This category does not include generating entire projects.",
+            "examples": [
+              "Write an example of computing a SHA256 hash."
+            ]
+          },
+          {
+            "category": "add_feature_to_file",
+            "description": "The user wants to change code in a file that is provided in their request, without referencing the contents of the current workspace. This category does not include generating entire projects.",
+            "examples": [
+              "Add a refresh button to the table widget."
+            ]
+          },
+          {
+            "category": "question_about_specific_files",
+            "description": "The user has a question about a specific file or code snippet that they have provided as part of their query, and the question does not require additional workspace context to answer.",
+            "examples": [
+              "What does this file do?"
+            ]
+          }
+        ]
+      },
+      "contentReferences": [],
+      "codeCitations": [],
+      "timestamp": 1761119110106,
+      "modelId": "copilot/grok-code-fast-1"
+    },
+    {
+      "requestId": "request_70fc4c03-7300-4031-9a84-903221c2b03f",
+      "message": {
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 61
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 62
+            },
+            "text": "no just the superl keybind check again not super_l just super",
+            "kind": "text"
+          }
+        ],
+        "text": "no just the superl keybind check again not super_l just super"
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "id": "vscode.implicit.file",
+            "name": "file:keybinds.conf",
+            "value": {
+              "$mid": 1,
+              "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+              "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+              "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+              "scheme": "file"
+            },
+            "modelDescription": "User's active file"
+          }
+        ]
+      },
+      "response": [
+        {
+          "kind": "mcpServersStarting",
+          "didStartServerIds": []
+        },
+        {
+          "value": "There is no keybind in the ",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/home/arafays/.local/share/caelestia/",
+            "scheme": "file"
+          }
+        },
+        {
+          "kind": "inlineReference",
+          "inlineReference": {
+            "$mid": 1,
+            "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/",
+            "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/",
+            "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/",
+            "scheme": "file"
+          }
+        },
+        {
+          "value": " folder that uses `Super` (alone) as the key. The only binding with `Super` in the key position is the one using `Super_L` (the left Super key) in ",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/home/arafays/.local/share/caelestia/",
+            "scheme": "file"
+          }
+        },
+        {
+          "kind": "inlineReference",
+          "inlineReference": {
+            "name": "keybinds.conf",
+            "kind": 12,
+            "containerName": "",
+            "location": {
+              "range": {
+                "startLineNumber": 1,
+                "startColumn": 1,
+                "endLineNumber": 1,
+                "endColumn": 1
+              },
+              "uri": {
+                "$mid": 1,
+                "fsPath": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "external": "file:///home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "path": "/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf",
+                "scheme": "file"
+              }
+            }
+          },
+          "resolveId": "17e5a40f-117a-405a-96a7-8c20d3f486fe"
+        },
+        {
+          "value": " at line 6:\n\n```\nbindi = Super, Super_L, global, caelestia:launcher\n```\n\nIf you meant something else (e.g., a binding with `Super` as the only modifier), clarify and I'll search again!",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/home/arafays/.local/share/caelestia/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "responseId": "response_086d7290-1e75-4796-893c-f0787a835df1",
+      "result": {
+        "timings": {
+          "firstProgress": 9508,
+          "totalElapsed": 10338
+        },
+        "metadata": {
+          "codeBlocks": [
+            {
+              "code": "bindi = Super, Super_L, global, caelestia:launcher\n",
+              "language": "",
+              "markdownBeforeBlock": "There is no keybind in the  folder that uses `Super` (alone) as the key. The only binding with `Super` in the key position is the one using `Super_L` (the left Super key) in  at line 6:\n\n"
+            }
+          ],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"file:keybinds.conf\" filePath=\"/home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf\">\nUser's active file:\nexec = hyprctl dispatch submap global\nsubmap = global\n\n# ## Shell keybinds\n# Launcher\nbindi = Super, Super_L, global, caelestia:launcher\nbindin = Super, catchall, global, caelestia:launcherInterrupt\nbindin = Super, mouse:272, global, caelestia:launcherInterrupt\nbindin = Super, mouse:273, global, caelestia:launcherInterrupt\nbindin = Super, mouse:274, global, caelestia:launcherInterrupt\nbindin = Super, mouse:275, global, caelestia:launcherInterrupt\nbindin = Super, mouse:276, global, caelestia:launcherInterrupt\nbindin = Super, mouse:277, global, caelestia:launcherInterrupt\nbindin = Super, mouse_up, global, caelestia:launcherInterrupt\nbindin = Super, mouse_down, global, caelestia:launcherInterrupt\n\n# Misc\nbind = $kbSession, global, caelestia:session\nbindl = $kbClearNotifs, global, caelestia:clearNotifs\nbind = $kbShowPanels, global, caelestia:showall\nbind = $kbLock, global, caelestia:lock\n\n# Restore lock\nbindl = $kbRestoreLock, exec, caelestia shell -d\nbindl = $kbRestoreLock, global, caelestia:lock\n\n# Brightness\nbindl = , XF86MonBrightnessUp, global, caelestia:brightnessUp\nbindl = , XF86MonBrightnessDown, global, caelestia:brightnessDown\n\n# Media\nbindl = Ctrl+Super, Space, global, caelestia:mediaToggle\nbindl = , XF86AudioPlay, global, caelestia:mediaToggle\nbindl = , XF86AudioPause, global, caelestia:mediaToggle\nbindl = Ctrl+Super, Equal, global, caelestia:mediaNext\nbindl = , XF86AudioNext, global, caelestia:mediaNext\nbindl = Ctrl+Super, Minus, global, caelestia:mediaPrev\nbindl = , XF86AudioPrev, global, caelestia:mediaPrev\nbindl = , XF86AudioStop, global, caelestia:mediaStop\n\n# Kill/restart\nbindr = Ctrl+Super+Shift, R, exec, qs -c caelestia kill\nbindr = Ctrl+Super+Alt, R, exec, qs -c caelestia kill; caelestia shell -d\n\n# Go to workspace #\n$wsaction = ~/.config/hypr/scripts/wsaction.fish\nbind = $kbGoToWs, 1, exec, $wsaction workspace 1\nbind = $kbGoToWs, 2, exec, $wsaction workspace 2\nbind = $kbGoToWs, 3, exec, $wsaction workspace 3\nbind = $kbGoToWs, 4, exec, $wsaction workspace 4\nbind = $kbGoToWs, 5, exec, $wsaction workspace 5\nbind = $kbGoToWs, 6, exec, $wsaction workspace 6\nbind = $kbGoToWs, 7, exec, $wsaction workspace 7\nbind = $kbGoToWs, 8, exec, $wsaction workspace 8\nbind = $kbGoToWs, 9, exec, $wsaction workspace 9\nbind = $kbGoToWs, 0, exec, $wsaction workspace 10\n# Go to workspace group #\nbind = $kbGoToWsGroup, 1, exec, $wsaction -g workspace 1\nbind = $kbGoToWsGroup, 2, exec, $wsaction -g workspace 2\nbind = $kbGoToWsGroup, 3, exec, $wsaction -g workspace 3\nbind = $kbGoToWsGroup, 4, exec, $wsaction -g workspace 4\nbind = $kbGoToWsGroup, 5, exec, $wsaction -g workspace 5\nbind = $kbGoToWsGroup, 6, exec, $wsaction -g workspace 6\nbind = $kbGoToWsGroup, 7, exec, $wsaction -g workspace 7\nbind = $kbGoToWsGroup, 8, exec, $wsaction -g workspace 8\nbind = $kbGoToWsGroup, 9, exec, $wsaction -g workspace 9\nbind = $kbGoToWsGroup, 0, exec, $wsaction -g workspace 10\n# Go to workspace -1/+1\nbind = Super, mouse_down, workspace, -1\nbind = Super, mouse_up, workspace, +1\nbinde = $kbPrevWs, workspace, -1\nbinde = $kbNextWs, workspace, +1\nbinde = Super, Page_Up, workspace, -1\nbinde = Super, Page_Down, workspace, +1\n# Go to workspace group -1/+1\nbind = Ctrl+Super, mouse_down, workspace, -10\nbind = Ctrl+Super, mouse_up, workspace, +10\n# Toggle special workspace\nbind = $kbToggleSpecialWs, exec, caelestia toggle specialws\n\n# Move window to workspace #\nbind = $kbMoveWinToWs, 1, exec, $wsaction movetoworkspace 1\nbind = $kbMoveWinToWs, 2, exec, $wsaction movetoworkspace 2\nbind = $kbMoveWinToWs, 3, exec, $wsaction movetoworkspace 3\nbind = $kbMoveWinToWs, 4, exec, $wsaction movetoworkspace 4\nbind = $kbMoveWinToWs, 5, exec, $wsaction movetoworkspace 5\nbind = $kbMoveWinToWs, 6, exec, $wsaction movetoworkspace 6\nbind = $kbMoveWinToWs, 7, exec, $wsaction movetoworkspace 7\nbind = $kbMoveWinToWs, 8, exec, $wsaction movetoworkspace 8\nbind = $kbMoveWinToWs, 9, exec, $wsaction movetoworkspace 9\nbind = $kbMoveWinToWs, 0, exec, $wsaction movetoworkspace 10\n# Move window to workspace group #\nbind = $kbMoveWinToWsGroup, 1, exec, $wsaction -g movetoworkspace 1\nbind = $kbMoveWinToWsGroup, 2, exec, $wsaction -g movetoworkspace 2\nbind = $kbMoveWinToWsGroup, 3, exec, $wsaction -g movetoworkspace 3\nbind = $kbMoveWinToWsGroup, 4, exec, $wsaction -g movetoworkspace 4\nbind = $kbMoveWinToWsGroup, 5, exec, $wsaction -g movetoworkspace 5\nbind = $kbMoveWinToWsGroup, 6, exec, $wsaction -g movetoworkspace 6\nbind = $kbMoveWinToWsGroup, 7, exec, $wsaction -g movetoworkspace 7\nbind = $kbMoveWinToWsGroup, 8, exec, $wsaction -g movetoworkspace 8\nbind = $kbMoveWinToWsGroup, 9, exec, $wsaction -g movetoworkspace 9\nbind = $kbMoveWinToWsGroup, 0, exec, $wsaction -g movetoworkspace 10\n# Move window to workspace -1/+1\nbinde = Super+Alt, Page_Up, movetoworkspace, -1\nbinde = Super+Alt, Page_Down, movetoworkspace, +1\nbind = Super+Alt, mouse_down, movetoworkspace, -1\nbind = Super+Alt, mouse_up, movetoworkspace, +1\nbinde = Ctrl+Super+Shift, right, movetoworkspace, +1\nbinde = Ctrl+Super+Shift, left, movetoworkspace, -1\n# Move window to/from special workspace\nbind = Ctrl+Super+Shift, up, movetoworkspace, special:special\nbind = Ctrl+Super+Shift, down, movetoworkspace, e+0\nbind = Super+Alt, S, movetoworkspace, special:special\n\n# Window groups\nbinde = $kbWindowGroupCycleNext, cyclenext, activewindow\nbinde = $kbWindowGroupCyclePrev, cyclenext, prev, activewindow\nbinde = Ctrl+Alt, Tab, changegroupactive, f\nbinde = Ctrl+Shift+Alt, Tab, changegroupactive, b\nbind = $kbToggleGroup, togglegroup\nbind = $kbUngroup, moveoutofgroup\nbind = Super+Shift, Comma, lockactivegroup, toggle\n\n# Window actions\nbind = Super, left, movefocus, l\nbind = Super, right, movefocus, r\nbind = Super, up, movefocus, u\nbind = Super, down, movefocus, d\nbind = Super+Shift, left, movewindow, l\nbind = Super+Shift, right, movewindow, r\nbind = Super+Shift, up, movewindow, u\nbind = Super+Shift, down, movewindow, d\nbinde = Super, Minus, splitratio, -0.1\nbinde = Super, Equal, splitratio, 0.1\nbindm = Super, mouse:272, movewindow\nbindm = $kbMoveWindow, movewindow\nbindm = Super, mouse:273, resizewindow\nbindm = $kbResizeWindow, resizewindow\nbind = Ctrl+Super, Backslash, centerwindow, 1\nbind = Ctrl+Super+Alt, Backslash, resizeactive, exact 55% 70%\nbind = Ctrl+Super+Alt, Backslash, centerwindow, 1\nbind = $kbWindowPip, exec, caelestia resizer pip  # Move window to picture-in-picture mode\nbind = $kbPinWindow, pin\nbind = $kbWindowFullscreen, fullscreen, 0\nbind = $kbWindowBorderedFullscreen, fullscreen, 1  # Fullscreen with borders\nbind = $kbToggleWindowFloating, togglefloating,\nbind = $kbCloseWindow, killactive,\n\n# Special workspace toggles\nbind = $kbSystemMonitor, exec, caelestia toggle sysmon\nbind = $kbMusic, exec, caelestia toggle music\nbind = $kbCommunication, exec, caelestia toggle communication\nbind = $kbTodo, exec, caelestia toggle todo\n\n# Apps\nbind = $kbTerminal, exec, app2unit -- $terminal\nbind = $kbBrowser, exec, app2unit -- $browser\nbind = $kbEditor, exec, app2unit -- $editor\nbind = Super, G, exec, app2unit -- github-desktop\nbind = $kbFileExplorer, exec, app2unit -- $fileExplorer\nbind = Super+Alt, E, exec, app2unit -- nemo\nbind = Ctrl+Alt, Escape, exec, app2unit -- qps\nbind = Ctrl+Alt, V, exec, app2unit -- pavucontrol\n\n# Utilities\nbindl = , Print, exec, caelestia screenshot  # Full screen capture > clipboard\nbind = Super+Shift, S, global, caelestia:screenshotFreeze  # Capture region (freeze)\nbind = Super+Shift+Alt, S, global, caelestia:screenshot  # Capture region\nbind = Super+Alt, R, exec, caelestia record -s  # Record screen with sound\nbind = Ctrl+Alt, R, exec, caelestia record  # Record screen\nbind = Super+Shift+Alt, R, exec, caelestia record -r  # Record region\nbind = Super+Shift, C, exec, hyprpicker -a  # Colour picker\n\n# Volume\nbindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\nbindl = Super+Shift, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\nbindle = , XF86AudioRaiseVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $volumeStep%+\nbindle = , XF86AudioLowerVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ $volumeStep%-\n\n# Sleep\nbind = Super+Shift, L, exec, systemctl suspend-then-hibernate\n\n# Clipboard and emoji picker\nbind = Super, V, exec, pkill fuzzel || caelestia clipboard\nbind = Super+Alt, V, exec, pkill fuzzel || caelestia clipboard -d\nbind = Super, Period, exec, pkill fuzzel || caelestia emoji -p\nbindl = Ctrl+Shift+Alt, V, exec, sleep 0.5s && ydotool type -d 1 \"$(cliphist list | head -1 | cliphist decode)\"  # Alternate paste\n\n# Testing\nbindl = Super+Alt, f12, exec, notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!\" -a 'Shell' -A \"Test1=I got it!\" -A \"Test2=Another action\"\n</attachment>\n\n</attachments>\n<context>\nThe current date is October 22, 2025.\n</context>\n<editorContext>\nThe user's current file is /home/arafays/.local/share/caelestia/hypr/hyprland/keybinds.conf. \n</editorContext>\n<repoContext>\nBelow is the information about the current repository. You can use this information when you need to calculate diffs or compare changes with the default branch.\nRepository name: caelestia\nOwner: caelestia-dots\nCurrent branch: main\n\n</repoContext>\n<reminderInstructions>\n\n</reminderInstructions>\n<user_query>\nno just the superl keybind check again not super_l just super\n</user_query>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "toolCallRounds": [
+            {
+              "response": "There is no keybind in the `hypr/hyprland/` folder that uses `Super` (alone) as the key. The only binding with `Super` in the key position is the one using `Super_L` (the left Super key) in [`keybinds.conf`](hypr/hyprland/keybinds.conf) at line 6:\n\n```\nbindi = Super, Super_L, global, caelestia:launcher\n```\n\nIf you meant something else (e.g., a binding with `Super` as the only modifier), clarify and I'll search again!",
+              "toolCalls": [],
+              "toolInputRetry": 0,
+              "id": "ab7669b2-df6b-41a5-8452-7932943338fd"
+            }
+          ],
+          "modelMessageId": "f0271462-6d42-4500-bcaa-dfc2e3b47ce4",
+          "responseId": "86b2eebb-e118-4353-8ffa-de945187e9b8",
+          "sessionId": "b7ee6d5c-2528-41b5-a11d-1a7019a6aa50",
+          "agentId": "github.copilot.default"
+        },
+        "details": "Grok Code Fast 1 • 0x"
+      },
+      "responseMarkdownInfo": [],
+      "followups": [],
+      "isCanceled": false,
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "extensionVersion": "0.33.2025102201",
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.default",
+        "description": "Ask or edit in context",
+        "metadata": {
+          "themeIcon": {
+            "id": "copilot"
+          },
+          "hasFollowups": false,
+          "helpTextPrefix": "You can ask me general programming questions, or chat with the following participants which have specialized expertise and can perform actions:",
+          "helpTextPostfix": {
+            "value": "To have a great conversation, ask me questions as if I was a real programmer:\n\n* **Show me the code** you want to talk about by having the files open and selecting the most important lines.\n* **Make refinements** by asking me follow-up questions, adding clarifications, providing errors, etc.\n* **Review my suggested code** and tell me about issues or improvements, so I can iterate on it.\n\nYou can also ask me questions about your editor selection by [starting an inline chat session](command:inlineChat.start).\n\nLearn more about [GitHub Copilot](https://docs.github.com/copilot/using-github-copilot/getting-started-with-github-copilot?tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted) in [Visual Studio Code](https://code.visualstudio.com/docs/copilot/overview). Or explore the [Copilot walkthrough](command:github.copilot.open.walkthrough).",
+            "isTrusted": {
+              "enabledCommands": [
+                "inlineChat.start",
+                "github.copilot.open.walkthrough"
+              ]
+            },
+            "supportThemeIcons": false,
+            "supportHtml": false,
+            "uris": {
+              "command:inlineChat.start": {
+                "$mid": 1,
+                "path": "inlineChat.start",
+                "scheme": "command"
+              },
+              "https://docs.github.com/copilot/using-github-copilot/getting-started-with-github-copilot?tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted": {
+                "$mid": 1,
+                "path": "/copilot/using-github-copilot/getting-started-with-github-copilot",
+                "scheme": "https",
+                "authority": "docs.github.com",
+                "query": "tool=vscode&utm_source=editor&utm_medium=chat-panel&utm_campaign=2024q3-em-MSFT-getstarted"
+              },
+              "https://code.visualstudio.com/docs/copilot/overview": {
+                "$mid": 1,
+                "path": "/docs/copilot/overview",
+                "scheme": "https",
+                "authority": "code.visualstudio.com"
+              },
+              "command:github.copilot.open.walkthrough": {
+                "$mid": 1,
+                "path": "github.copilot.open.walkthrough",
+                "scheme": "command"
+              }
+            }
+          },
+          "supportIssueReporting": false,
+          "requester": {
+            "name": "arafays",
+            "icon": {
+              "$mid": 1,
+              "path": "/u/6192554",
+              "scheme": "https",
+              "authority": "avatars.githubusercontent.com",
+              "query": "v=4"
+            }
+          }
+        },
+        "name": "GitHubCopilot",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "ask"
+        ],
+        "slashCommands": [],
+        "disambiguation": [
+          {
+            "category": "generate_code_sample",
+            "description": "The user wants to generate code snippets without referencing the contents of the current workspace. This category does not include generating entire projects.",
+            "examples": [
+              "Write an example of computing a SHA256 hash."
+            ]
+          },
+          {
+            "category": "add_feature_to_file",
+            "description": "The user wants to change code in a file that is provided in their request, without referencing the contents of the current workspace. This category does not include generating entire projects.",
+            "examples": [
+              "Add a refresh button to the table widget."
+            ]
+          },
+          {
+            "category": "question_about_specific_files",
+            "description": "The user has a question about a specific file or code snippet that they have provided as part of their query, and the question does not require additional workspace context to answer.",
+            "examples": [
+              "What does this file do?"
+            ]
+          }
+        ]
+      },
+      "contentReferences": [],
+      "codeCitations": [],
+      "timestamp": 1761119190068,
+      "modelId": "copilot/grok-code-fast-1"
+    }
+  ],
+  "sessionId": "60de29f5-b512-4e29-967f-95b9be30ef79",
+  "creationDate": 1761115096365,
+  "isImported": false,
+  "lastMessageDate": 1761119190068,
+  "customTitle": "Understanding keybindings in Hyprland configuration"
+}

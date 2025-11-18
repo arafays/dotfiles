@@ -1,0 +1,273 @@
+/* Color definitions */
+@define-color foreground #dde1e6;
+@define-color foreground-inactive #262626;
+@define-color background #393E41;
+@define-color magenta #ff7eb6;
+@define-color green #42be65;
+@define-color yellow #ffe97b;
+@define-color blue #33b1ff;
+@define-color red #ee5396;
+@define-color cyan #3ddbd9;
+
+/* Global styles */
+* {
+  font-family: "CaskaydiaCove Nerd Font Mono", "Noto Sans", sans-serif;  /* Ensure Nerd Fonts are included for icons */
+  font-size: 14px;
+  padding: 2px;  /* Adjusted padding for better spacing */
+  margin: 0;     /* Reset margins */
+  border: none;  /* Reset borders */
+}
+
+/* Waybar window */
+#waybar {
+  color: @foreground;
+  background: transparent;
+  transition: none;  /* Disable transitions for performance */
+}
+
+window#waybar {
+  background: transparent;
+  border-radius: 0;  /* No border radius for full bar */
+}
+
+/* Workspaces module */
+#workspaces {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+#workspaces button {
+  color: @foreground;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 2px 5px;  /* Added horizontal padding for spacing */
+  margin: 0 1px;     /* Margin between buttons */
+  font-size: 14px;   /* Larger font for icons */
+  transition: none;
+  /* min-width: 24px;   Ensure uniform button width for consistent icon spacing */
+}
+
+#workspaces button.empty {
+  color: @foreground-inactive;
+}
+
+#workspaces button.active {
+  color: @yellow;
+  background: rgba(255, 233, 123, 0.1);  /* Subtle background for active */
+}
+
+#workspaces button.urgent {
+  color: @red;
+  /* Animation not supported in Waybar */
+}
+
+/* @keyframes blink not supported */
+
+/* Hyprland window module */
+#window {
+  color: @foreground;
+  background: transparent;
+  padding: 0 10px;
+}
+
+/* Clock module */
+#clock {
+  color: @foreground;
+  background: transparent;
+  padding: 0 10px;
+}
+
+/* Network module */
+#network {
+  color: @foreground;
+  background: transparent;
+  padding: 0 5px;
+  min-width: 40px;  /* Fixed width for consistent spacing */
+}
+
+#network.disconnected {
+  color: @red;
+}
+
+/* WirePlumber module */
+#wireplumber {
+  color: @foreground;
+  background: transparent;
+  padding: 0 5px;
+  min-width: 50px;  /* Fixed width for consistent spacing */
+}
+
+#wireplumber.muted {
+  color: @foreground-inactive;
+}
+
+/* Tray module */
+#tray {
+  background: transparent;
+  padding: 0 5px;
+  min-width: 30px;  /* Fixed width for consistent spacing */
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: @red;
+}
+
+/* Custom notifications module */
+#custom-notifications {
+  color: @foreground;
+  background: rgba(255, 255, 255, 0.1);  /* Subtle background */
+  border-radius: 5px;  /* Rounded corners */
+  padding: 0 8px;  /* Padding for better spacing */
+  margin: 0 2px;  /* Margin from other modules */
+  min-width: 40px;  /* Fixed width for consistent spacing */
+  transition: background 0.3s ease;  /* Smooth transition */
+}
+
+#custom-notifications:hover {
+  background: rgba(255, 255, 255, 0.2);  /* Lighter on hover */
+}
+
+#custom-notifications.notification {
+  color: @yellow;  /* Yellow when there are notifications */
+}
+
+#custom-notifications.dnd {
+  color: @red;  /* Red when DND is active */
+  background: rgba(255, 0, 0, 0.1);  /* Red tint for DND */
+}
+
+/* Module groups */
+.modules-left,
+.modules-right,
+.modules-center {
+  margin-top: 2px;
+  background: @background;
+  border-radius: 15px;
+  padding: 0 10px;
+}
+
+.modules-left {
+  background-color: @background;
+  padding-right: 10px;
+  border-radius: 0 15px 15px 0;
+  margin-left: 0;
+}
+
+.modules-center {
+  color: @red;
+  background-color: @background;
+  border-radius: 15px;
+  padding: 0 15px;
+  margin: 2px 0;
+}
+
+.modules-right {
+  background-color: @background;
+  padding-left: 10px;
+  border-radius: 15px 0 0 15px;
+  margin-right: 0;
+}
+
+/* Additional module styles (uncomment and customize as needed) */
+/*
+#battery {
+  color: @foreground;
+  background: transparent;
+  padding: 0 5px;
+}
+
+#battery.charging {
+  color: @green;
+}
+
+#battery.warning {
+  color: @yellow;
+}
+
+#battery.critical {
+  color: @red;
+}
+
+#cpu {
+  color: @foreground;
+  background: transparent;
+  padding: 0 5px;
+}
+
+#memory {
+  color: @foreground;
+  background: transparent;
+  padding: 0 5px;
+}
+
+#temperature {
+  color: @foreground;
+  background: transparent;
+  padding: 0 5px;
+}
+
+#temperature.critical {
+  color: @red;
+}
+
+#idle_inhibitor {
+  color: @foreground;
+  background: transparent;
+  padding: 0 5px;
+}
+
+#idle_inhibitor.activated {
+  color: @green;
+}
+*/
+
+/* Hover and focus effects */
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.modules-left button:hover,
+.modules-right button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Tooltip styles */
+tooltip {
+  background: @background;
+  color: @foreground;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+/* Per-output styling (if using multiple outputs) */
+/*
+window#waybar.DP-1 {
+}
+
+window#waybar.HDMI-A-1 {
+}
+
+window#waybar.HDMI-A-1 {
+  // Styles specific to HDMI-A-1
+}
+*/
+
+/* Custom animations or effects (note: animations not supported in Waybar) */
+/*
+@keyframes fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#workspaces button {
+  animation: fade 0.5s ease-in-out;
+}
+*/
