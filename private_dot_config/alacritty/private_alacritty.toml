@@ -32,7 +32,7 @@ size = 12.0
 # Adjust line height (similar to Kitty's cell_height 120%)
 offset.y = 2
 
-[shell]
+[terminal.shell]
 # Shell
 program = "/usr/bin/zsh"
 

@@ -1,138 +1,138 @@
 {
-	"servers": {
-		"sequentialthinking": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"-y",
-				"@modelcontextprotocol/server-sequential-thinking@latest"
-			],
-			"gallery": true,
-			"autostart": true
-		},
-		"memory": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"-y",
-				"@modelcontextprotocol/server-memory@latest"
-			],
-			"env": {
-				"MEMORY_FILE_PATH": "${input:memory_file_path}"
-			},
-			"gallery": true,
-			"autostart": true
-		},
-		"github/github-mcp-server": {
-			"type": "http",
-			"url": "https://api.githubcopilot.com/mcp/",
-			"gallery": "https://api.mcp.github.com",
-			"version": "0.13.0"
-		},
-		"upstash/context7": {
-			"type": "http",
-			"url": "https://mcp.context7.com/mcp",
-			"headers": {
-				"CONTEXT7_API_KEY": "${input:context7_api_key}"
-			},
-			"gallery": "https://api.mcp.github.com",
-			"version": "1.0.0"
-		},
-		"microsoft/playwright-mcp": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"@playwright/mcp@latest",
-				"--executable-path",
-				"${input:executable_path}"
-			],
-			"gallery": "https://api.mcp.github.com",
-			"version": "0.0.1-seed"
-		},
-		"chromedevtools/chrome-devtools-mcp": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"chrome-devtools-mcp@latest",
-				"--browserUrl",
-				"${input:browser_url}",
-				"--headless",
-				"${input:headless}",
-				"--isolated",
-				"${input:isolated}",
-				"--executablePath",
-				"${input:executable_path}"
-			],
-			"gallery": "https://api.mcp.github.com",
-			"version": "0.0.1-seed"
-		},
-		"microsoft/markitdown": {
-			"type": "stdio",
-			"command": "uvx",
-			"args": [
-				"markitdown-mcp==0.0.1a4"
-			],
-			"gallery": "https://api.mcp.github.com",
-			"version": "1.0.0"
-		},
-		"cognitionai/deepwiki": {
-			"type": "http",
-			"url": "https://mcp.deepwiki.com/sse",
-			"gallery": "https://api.mcp.github.com",
-			"version": "1.0.0",
-			"autostart": true
-		},
-		"Figma": {
-			"url": "https://mcp.figma.com/mcp",
-			"type": "http"
-		}
-	},
-	"inputs": [
-		{
-			"id": "memory_file_path",
-			"type": "promptString",
-			"description": "Path to the memory storage file",
-			"default": "${env:HOME}/.config/memory_file",
-			"password": false
-		},
-		{
-			"id": "context7_api_key",
-			"type": "promptString",
-			"description": "Context7 API key (optional; increases rate limits). Get one at https://context7.com/dashboard",
-			"password": true
-		},
-		{
-			"id": "browser_url",
-			"type": "promptString",
-			"description": "Optional: connect to an already-running Chrome (remote debugging / port-forward). Example: http://127.0.0.1:9222",
-			"password": false
-		},
-		{
-			"id": "headless",
-			"type": "promptString",
-			"description": "Run Chrome headless (true/false). Default: false",
-			"password": false,
-			"default": "false"
-		},
-		{
-			"id": "isolated",
-			"type": "promptString",
-			"description": "Use a temporary user-data-dir (true/false). Default: false",
-			"password": false,
-			"default": "false"
-		},
-		{
-			"id": "chrome_channel",
-			"type": "promptString",
-			"description": "Chrome channel: stable | canary | beta | dev (default: stable).",
-			"password": false,
-			"default": "stable"
-		},
-		{
-			"id": "executable_path",
-			"type": "promptString",
-			"description": "Optional: Path to Chrome/Chromium executable.",
-			"password": false
-		}
-	]
+  "servers": {
+    "sequentialthinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking@latest"
+      ],
+      "gallery": true,
+      "autostart": true
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory@latest"
+      ],
+      "env": {
+        "MEMORY_FILE_PATH": "${input:memory_file_path}"
+      },
+      "gallery": true,
+      "autostart": true
+    },
+    "github/github-mcp-server": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "gallery": "https://api.mcp.github.com",
+      "version": "0.13.0"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${input:context7_api_key}"
+      },
+      "gallery": "https://api.mcp.github.com",
+      "version": "1.0.0"
+    },
+    "microsoft/playwright-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "${input:executable_path}"
+      ],
+      "gallery": "https://api.mcp.github.com",
+      "version": "0.0.1-seed"
+    },
+    "chromedevtools/chrome-devtools-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest",
+        "--browserUrl",
+        "${input:browser_url}",
+        "--headless",
+        "${input:headless}",
+        "--isolated",
+        "${input:isolated}",
+        "--executablePath",
+        "${input:executable_path}"
+      ],
+      "gallery": "https://api.mcp.github.com",
+      "version": "0.0.1-seed"
+    },
+    "microsoft/markitdown": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "markitdown-mcp==0.0.1a4"
+      ],
+      "gallery": "https://api.mcp.github.com",
+      "version": "1.0.0"
+    },
+    "cognitionai/deepwiki": {
+      "type": "http",
+      "url": "https://mcp.deepwiki.com/sse",
+      "gallery": "https://api.mcp.github.com",
+      "version": "1.0.0",
+      "autostart": true
+    },
+    "Figma": {
+      "url": "https://mcp.figma.com/mcp",
+      "type": "http"
+    }
+  },
+  "inputs": [
+    {
+      "id": "memory_file_path",
+      "type": "promptString",
+      "description": "Path to the memory storage file",
+      "default": "${env:HOME}/.config/memory_file",
+      "password": false
+    },
+    {
+      "id": "context7_api_key",
+      "type": "promptString",
+      "description": "Context7 API key (optional; increases rate limits). Get one at https://context7.com/dashboard",
+      "password": true
+    },
+    {
+      "id": "browser_url",
+      "type": "promptString",
+      "description": "Optional: connect to an already-running Chrome (remote debugging / port-forward). Example: http://127.0.0.1:9222",
+      "password": false
+    },
+    {
+      "id": "headless",
+      "type": "promptString",
+      "description": "Run Chrome headless (true/false). Default: false",
+      "password": false,
+      "default": "false"
+    },
+    {
+      "id": "isolated",
+      "type": "promptString",
+      "description": "Use a temporary user-data-dir (true/false). Default: false",
+      "password": false,
+      "default": "false"
+    },
+    {
+      "id": "chrome_channel",
+      "type": "promptString",
+      "description": "Chrome channel: stable | canary | beta | dev (default: stable).",
+      "password": false,
+      "default": "stable"
+    },
+    {
+      "id": "executable_path",
+      "type": "promptString",
+      "description": "Optional: Path to Chrome/Chromium executable.",
+      "password": false
+    }
+  ]
 }
