@@ -85,6 +85,17 @@
     "Figma": {
       "url": "https://mcp.figma.com/mcp",
       "type": "http"
+    },
+    "exa": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "exa-mcp-server"
+      ],
+      "env": {
+        "EXA_API_KEY": "${env:EXA_API_KEY}"
+      }
     }
   },
   "inputs": [

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Get list of available AVDs
+AVDS=$(emulator -list-avds)
+
+if [ -z "$AVDS" ]; then
+    notify-send "Android Emulator" "No AVDs found"
+    exit 1
+fi
+
+# Show wofi menu to select AVD
+SELECTED_AVD=$(echo "$AVDS" | wofi --dmenu --prompt "Select Android AVD:")
+
+if [ -n "$SELECTED_AVD" ]; then
+    notify-send "Android Emulator" "Starting $SELECTED_AVD..."
+    env QT_QPA_PLATFORM=xcb GDK_BACKEND=x11 emulator -avd "$SELECTED_AVD" &
+else
+    notify-send "Android Emulator" "No AVD selected"
+fi

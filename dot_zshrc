@@ -33,6 +33,9 @@ export SAVEHIST=10000            # Don't execute immediately upon history expans
 # GPG configuration
 export GPG_TTY=$(tty)
 
+# Source ~/.profile if it exists
+[[ -f ~/.profile ]] && source ~/.profile
+
 typeset -A _cmd_cache
 _cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 _cache_file="$_cache_dir/cmd_cache"

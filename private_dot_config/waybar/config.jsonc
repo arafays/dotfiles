@@ -25,17 +25,18 @@
     "clock"
   ],
   "modules-right": [
-    "custom/spotify",
+    "custom/media",
     "custom/gap",
+    "cpu",
+    "memory",
     "network",
+    "custom/gap",
     "custom/notifications",
     "wireplumber",
     "custom/gap",
     "tray"
     // Uncomment below for additional modules
     // "battery",
-    // "cpu",
-    // "memory",
     // "temperature",
     // "idle_inhibitor"
   ],
@@ -189,11 +190,11 @@
   //   "interval": 60
   // },
   // CPU module
-  // "cpu": {
-  //   "format": "{usage}% ",
-  //   "tooltip": false,
-  //   "interval": 10
-  // },
+  "cpu": {
+    "format": "{usage}% ",
+    "tooltip": false,
+    "interval": 10
+  },
   // Memory module
   "memory": {
     "format": "{}% ",
@@ -252,7 +253,7 @@
   //   "interval": 3600,
   //   "format": "{}"
   // },
-  "custom/spotify": {
+  "custom/media": {
     "exec": "playerctl metadata --format '{{ artist }} - {{ title }}'",
     "interval": 5,
     // nerd font icon for music note
