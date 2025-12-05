@@ -7,7 +7,7 @@ lock)
   hyprlock
   ;;
 logout)
-  hyprctl dispatch exit
+  uwsm stop
   ;;
 sleep)
   systemctl suspend
@@ -19,4 +19,3 @@ reboot)
   systemctl reboot
   ;;
 esac
-
