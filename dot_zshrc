@@ -680,22 +680,22 @@ _define_functions() {
 # Optimized mise hook that avoids completion conflicts
 _mise_chpwd_hook_optimized() {
   # Check if mise is available and we have mise config files
-  if _cmd_exists mise && [[ -f .mise.toml || -f .tool-versions || -f mise.toml || -f .env || -f .nvmrc || -f .node-version || -f .go.mod || -f .ruby-version || -f .python-version ]]; then
+  if _cmd_exists mise && [[ -f .mise.toml || -f .tool-versions || -f mise.toml || -f .env || -f .nvmrc || -f .node-version || -f go.mod || -f .ruby-version || -f .python-version || -f Cargo.toml || -f pyproject.toml || -f Gemfile || -f deno.json || -f deno.jsonc ]]; then
 
-    # nodejs // npm completion by default
-    if _cmd_exists npm && [[ -f package.json ]]; then
+    # Node.js package managers
+    if _cmd_exists npm && [[ -f package-lock.json ]]; then
         zinit wait'2' lucid nocd as"completion" for \
           atload"eval \"$(npm completion)\"" \
           zdharma-continuum/null
     fi
 
-    if _cmd_exists yarn && [[ -f yarn.lock || -f package.json ]]; then
+    if _cmd_exists yarn && [[ -f yarn.lock ]]; then
         zinit wait'2' lucid nocd as"completion" for \
           atload"eval \"$(yarn completion zsh)\"" \
           zdharma-continuum/null
     fi
 
-    if _cmd_exists pnpm && [[ -f .pnpm-lock.yaml ]]; then
+    if _cmd_exists pnpm && [[ -f pnpm-lock.yaml ]]; then
         zinit wait'2' lucid nocd as"completion" for \
           atload"eval \"$(pnpm completion zsh)\"" \
           zdharma-continuum/null
@@ -704,6 +704,47 @@ _mise_chpwd_hook_optimized() {
     if _cmd_exists bun && [[ -f .bunfig.toml || -f bun.lock || -f bun.lockb ]]; then
         zinit wait'2' lucid nocd as"completion" for \
           atload"eval \"$(bun completions)\"" \
+          zdharma-continuum/null
+    fi
+
+    # Python package managers (prefer uv as per guidelines)
+    if _cmd_exists uv && [[ -f pyproject.toml || -f requirements.txt || -f uv.lock ]]; then
+        zinit wait'2' lucid nocd as"completion" for \
+          atload"eval \"$(uv generate-shell-completion zsh)\"" \
+          zdharma-continuum/null
+    fi
+
+    if _cmd_exists poetry && [[ -f pyproject.toml ]]; then
+        zinit wait'2' lucid nocd as"completion" for \
+          atload"eval \"$(poetry completions zsh)\"" \
+          zdharma-continuum/null
+    fi
+
+    # Go
+    if _cmd_exists go && [[ -f go.mod ]]; then
+        zinit wait'2' lucid nocd as"completion" for \
+          atload"eval \"$(go env GOROOT)/misc/zsh/go\"" \
+          zdharma-continuum/null
+    fi
+
+    # Rust
+    if _cmd_exists cargo && [[ -f Cargo.toml ]]; then
+        zinit wait'2' lucid nocd as"completion" for \
+          atload"eval \"$(rustup completions zsh cargo)\"" \
+          zdharma-continuum/null
+    fi
+
+    # Ruby
+    if _cmd_exists bundle && [[ -f Gemfile ]]; then
+        zinit wait'2' lucid nocd as"completion" for \
+          atload"eval \"$(bundle completion zsh)\"" \
+          zdharma-continuum/null
+    fi
+
+    # Deno
+    if _cmd_exists deno && [[ -f deno.json || -f deno.jsonc ]]; then
+        zinit wait'2' lucid nocd as"completion" for \
+          atload"eval \"$(deno completions zsh)\"" \
           zdharma-continuum/null
     fi
   fi

@@ -21,6 +21,7 @@ export MOZ_ENABLE_WAYLAND=1
 export COREPACK_ENABLE_AUTO_PIN=0
 
 export CHROMIUM_PATH=/usr/bin/chromium
+export CHROME_BIN=/usr/bin/chromium
 
 export QT_QPA_PLATFORMTHEME=qt6ct
 

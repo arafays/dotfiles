@@ -1,0 +1,9 @@
+export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+export ANDROID_AVD_HOME=$HOME/.config/.android/avd
+
+export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools/36.1.0:$ANDROID_HOME/build-tools/35.0.0:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+
+export CONTEXT7_API_KEY={{ (bitwarden "item" "Context7 API Key").notes | trim }}
+export EXA_API_KEY={{ (bitwarden "item" "EXA API Key").notes | trim }}
