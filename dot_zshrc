@@ -89,11 +89,6 @@ _detect_aur_helper() {
 
 # Terminal title
 _set_terminal_title() {
-  local git_branch=""
-  if git rev-parse --is-inside-work-tree &>/dev/null; then
-    git_branch=" ($(git branch --show-current 2>/dev/null))"
-  fi
-
   # Use printf for cross-shell compatibility
   if [[ -n "$ZSH_VERSION" ]]; then
     # zsh: use prompt expansion with trailing slash for home
@@ -101,14 +96,14 @@ _set_terminal_title() {
     if [[ "$PWD" == "$HOME" ]]; then
       zsh_path="~/"
     fi
-    print -Pn "\e]0;${zsh_path}$git_branch\a"
+    print -Pn "\e]0;${zsh_path}\a"
   else
     # bash: use $PWD and manual tilde expansion with trailing slash for home
     local pwd_display="${PWD/#$HOME/~}"
     if [[ "$pwd_display" == "~" ]]; then
       pwd_display="~/"
     fi
-    printf '\e]0;%s%s\a' "$pwd_display" "$git_branch"
+    printf '\e]0;%s\a' "$pwd_display"
   fi
 }
 
@@ -852,7 +847,7 @@ add-zsh-hook zshexit _save_cmd_cache
 _end_time=$SECONDS
 _load_time=$((_end_time - _start_time))
 if ((_load_time > 3)); then
-  echo "⚠️  Shell startup took ${_load_time}s. Consider optimizing further."
+  echo "⚠️ Shell startup took ${_load_time}s. Consider optimizing further."
 fi
 
 alias ua-drop-caches='sudo paccache -rk3; yay -Sc --aur --noconfirm'

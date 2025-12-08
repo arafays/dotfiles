@@ -1,0 +1,15 @@
+{
+  "workbench.colorTheme": "Tokyo Night",
+  "git.autofetch": true,
+  "json.schemaDownload.enable": true,
+  "editor.defaultFormatter": "prettier.prettier-vscode",
+  "[typescriptreact,typescript]": {
+    "editor.defaultFormatter": "prettier.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+  },
+  "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font Mono, 'Droid Sans Mono', 'monospace', monospace",
+  "editor.fontFamily": "CaskaydiaCove Nerd Font , 'Droid Sans Mono', 'monospace', monospace",
+  "workbench.sideBar.location": "right",
+}
