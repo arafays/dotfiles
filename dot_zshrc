@@ -428,7 +428,7 @@ _load_aliases() {
   # Git mirroring aliases for client anonymity
   alias share='$HOME/scripts/mirror-to-client.sh'   # Share code with client (anonymized)
   alias sync='$HOME/scripts/sync-from-client.sh'    # Sync latest code from client
-  
+
   # Cache management
   alias clearcmdcache='rm "$_cache_file" && echo "Command cache cleared."'
 }
@@ -686,90 +686,73 @@ _define_functions() {
   }
 }
 
-# Optimized mise hook that avoids completion conflicts and redundant loading
-_mise_chpwd_hook_optimized() {
-  # Initialize state tracker if needed
-  typeset -gA _mise_loaded_completions
+# Simplified mise hook for completion loading
+_mise_chpwd_hook() {
+  # Only proceed if mise is available
+  _cmd_exists mise || return
 
-  # Check if mise is available and we have mise config files
-  if _cmd_exists mise && [[ -f .mise.toml || -f .tool-versions || -f mise.toml || -f .env || -f .nvmrc || -f .node-version || -f go.mod || -f .ruby-version || -f .python-version || -f Cargo.toml || -f pyproject.toml || -f Gemfile || -f deno.json || -f deno.jsonc ]]; then
+  # Get currently activated tools
+  local tools=($(mise list --current 2>/dev/null | awk '{print $1}' | sort -u))
 
-    # Node.js package managers
-    if [[ -z ${_mise_loaded_completions[npm]} ]] && _cmd_exists npm && [[ -f package-lock.json ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(npm completion)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[npm]=1
-    fi
+  [[ ${#tools[@]} -eq 0 ]] && return
 
-    if [[ -z ${_mise_loaded_completions[yarn]} ]] && _cmd_exists yarn && [[ -f yarn.lock ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(yarn completion zsh)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[yarn]=1
-    fi
+  # Initialize completion state tracker
+  typeset -gA _mise_completion_loaded
 
-    if [[ -z ${_mise_loaded_completions[pnpm]} ]] && _cmd_exists pnpm && [[ -f pnpm-lock.yaml ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(pnpm completion zsh)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[pnpm]=1
-    fi
+  for tool in $tools; do
+    # Skip if already loaded for this tool
+    [[ -n "${_mise_completion_loaded[$tool]}" ]] && continue
 
-    if [[ -z ${_mise_loaded_completions[bun]} ]] && _cmd_exists bun && [[ -f .bunfig.toml || -f bun.lock || -f bun.lockb ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(bun completions)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[bun]=1
-    fi
-
-    # Python package managers (prefer uv as per guidelines)
-    if [[ -z ${_mise_loaded_completions[uv]} ]] && _cmd_exists uv && [[ -f pyproject.toml || -f requirements.txt || -f uv.lock ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(uv generate-shell-completion zsh)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[uv]=1
-    fi
-
-    if [[ -z ${_mise_loaded_completions[poetry]} ]] && _cmd_exists poetry && [[ -f pyproject.toml ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(poetry completions zsh)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[poetry]=1
-    fi
-
-    # Go
-    if [[ -z ${_mise_loaded_completions[go]} ]] && _cmd_exists go && [[ -f go.mod ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(go env GOROOT)/misc/zsh/go\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[go]=1
-    fi
-
-    # Rust
-    if [[ -z ${_mise_loaded_completions[cargo]} ]] && _cmd_exists cargo && [[ -f Cargo.toml ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(rustup completions zsh cargo)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[cargo]=1
-    fi
-
-    # Ruby
-    if [[ -z ${_mise_loaded_completions[bundle]} ]] && _cmd_exists bundle && [[ -f Gemfile ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(bundle completion zsh)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[bundle]=1
-    fi
-
-    # Deno
-    if [[ -z ${_mise_loaded_completions[deno]} ]] && _cmd_exists deno && [[ -f deno.json || -f deno.jsonc ]]; then
-        zinit wait'2' lucid nocd as"completion" for \
-          atload"eval \"$(deno completions zsh)\"" \
-          zdharma-continuum/null
-        _mise_loaded_completions[deno]=1
-    fi
-  fi
+    case "$tool" in
+      node)
+        # Load npm completion
+        if _cmd_exists npm; then
+          zinit wait'1' lucid nocd as"completion" for \
+            atload"eval \"\$(npm completion)\" 2>/dev/null" \
+            zdharma-continuum/null
+          _mise_completion_loaded[npm]=1
+        fi
+        # Load pnpm completion
+        if _cmd_exists pnpm; then
+          zinit wait'1' lucid nocd as"completion" for \
+            atload"eval \"\$(pnpm completion zsh)\" 2>/dev/null" \
+            zdharma-continuum/null
+          _mise_completion_loaded[pnpm]=1
+        fi
+        # Load yarn completion
+        if _cmd_exists yarn; then
+          zinit wait'1' lucid nocd as"completion" for \
+            atload"eval \"\$(yarn completions)\" 2>/dev/null" \
+            zdharma-continuum/null
+          _mise_completion_loaded[yarn]=1
+        fi
+        ;;
+      bun)
+        if _cmd_exists bun; then
+          zinit wait'1' lucid nocd as"completion" for \
+            atload"eval \"\$(bun completions)\" 2>/dev/null" \
+            zdharma-continuum/null
+          _mise_completion_loaded[bun]=1
+        fi
+        ;;
+      python)
+        if _cmd_exists uv; then
+          zinit wait'1' lucid nocd as"completion" for \
+            atload"eval \"\$(uv generate-shell-completion zsh)\" 2>/dev/null" \
+            zdharma-continuum/null
+          _mise_completion_loaded[uv]=1
+        fi
+        ;;
+      rust)
+        if _cmd_exists cargo; then
+          zinit wait'1' lucid nocd as"completion" for \
+            atload"eval \"\$(rustup completions zsh cargo)\" 2>/dev/null" \
+            zdharma-continuum/null
+          _mise_completion_loaded[cargo]=1
+        fi
+        ;;
+    esac
+  done
 }
 
 _load_completion() {
@@ -824,7 +807,7 @@ fi
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd _set_terminal_title
-add-zsh-hook chpwd _mise_chpwd_hook_optimized
+add-zsh-hook chpwd _mise_chpwd_hook
 
 # Load functions and aliases
 _define_functions
@@ -832,7 +815,7 @@ _load_aliases
 
 _init_plugins
 
-_mise_chpwd_hook_optimized
+_mise_chpwd_hook
 
 _save_cmd_cache() {
   if ((${#_cmd_cache_new_entries[@]} > 0)); then
@@ -867,7 +850,11 @@ alias ua-update-chaotic='export TMPFILE="$(mktemp)"; \
 # Cleanup
 # unset _start_time _end_time _load_time
 
+alias cn="warp-cli connect"
+alias dc="warp-cli disconnect"
+alias renew="warp-cli registration delete && warp-cli registration new && warp-cli connect"
 # zprof
+
 
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code-insiders --locate-shell-integration-path zsh)"
