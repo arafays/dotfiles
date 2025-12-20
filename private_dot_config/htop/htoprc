@@ -1,0 +1,95 @@
+# HTOP Color Configuration Template
+# This template generates a custom htoprc configuration with themed colors
+# Colors are defined using terminal color codes (0-255) or RGB hex values
+
+# htoprc configuration with custom colors
+fields=0 48 17 18 38 39 40 2 46 47 49 1
+sort_key=46
+sort_direction=-1
+tree_sort_key=0
+tree_sort_direction=1
+hide_kernel_threads=1
+hide_userland_threads=0
+shadow_other_users=0
+show_thread_names=0
+show_program_path=1
+highlight_base_name=0
+highlight_deleted_exe=1
+highlight_megabytes=1
+highlight_threads=1
+highlight_changes=0
+highlight_changes_delay_secs=5
+find_comm_in_cmdline=1
+strip_exe_from_cmdline=1
+show_merged_command=0
+tree_view=0
+tree_view_always_by_pid=0
+all_branches_collapsed=0
+header_margin=1
+detailed_cpu_time=0
+cpu_count_from_one=0
+show_cpu_usage=1
+show_cpu_frequency=0
+show_cpu_temperature=0
+degree_fahrenheit=0
+update_process_names=0
+account_guest_in_cpu_meter=0
+color_scheme=6
+
+# Custom color definitions using template variables
+# Main interface colors
+color_background=#fff8f0
+color_text=#1e1b15
+color_highlight=#897324
+color_selected=#f4ede3
+
+# CPU meter colors (gradient)
+color_cpu_low=#7b7000
+color_cpu_med=#9d7900
+color_cpu_high=#714d00
+
+# Memory meter colors
+color_mem_used=#00664e
+color_mem_buffers=#666d19
+color_mem_cache=#6d791e
+color_mem_available=#7b7000
+
+# Process list colors
+color_process_normal=#1e1b15
+color_process_running=#7b7000
+color_process_sleeping=#7b7464
+color_process_zombie=#714d00
+color_process_stopped=#9d7900
+
+# Header and border colors
+color_header=#4c4638
+color_border=#7b7464
+color_separator=#cec6b3
+
+# Function key colors
+color_function_key=#647d3e
+color_function_desc=#1e1b15
+
+# Tree view colors
+color_tree_line=#7b7464
+color_tree_collapsed=#897324
+color_tree_expanded=#695e3b
+
+# Load average colors
+color_load_low=#7b7000
+color_load_med=#9d7900
+color_load_high=#714d00
+
+# Priority colors
+color_priority_high=#714d00
+color_priority_normal=#1e1b15
+color_priority_low=#7b7464
+
+# Swap meter colors
+color_swap_used=#885e00
+color_swap_cache=#986f00
+
+# Temperature colors (if enabled)
+color_temp_cool=#7b7000
+color_temp_warm=#9d7900
+color_temp_hot=#714d00

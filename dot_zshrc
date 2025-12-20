@@ -735,22 +735,22 @@ _mise_chpwd_hook() {
           _mise_completion_loaded[bun]=1
         fi
         ;;
-      python)
-        if _cmd_exists uv; then
-          zinit wait'1' lucid nocd as"completion" for \
-            atload"eval \"\$(uv generate-shell-completion zsh)\" 2>/dev/null" \
-            zdharma-continuum/null
-          _mise_completion_loaded[uv]=1
-        fi
-        ;;
-      rust)
-        if _cmd_exists cargo; then
-          zinit wait'1' lucid nocd as"completion" for \
-            atload"eval \"\$(rustup completions zsh cargo)\" 2>/dev/null" \
-            zdharma-continuum/null
-          _mise_completion_loaded[cargo]=1
-        fi
-        ;;
+    python)
+      if _cmd_exists uv; then
+        zinit wait'1' lucid nocd as"completion" for \
+          atload"eval \"\$(uv generate-shell-completion zsh)\" 2>/dev/null" \
+          zdharma-continuum/null
+        _mise_completion_loaded[uv]=1
+      fi
+      ;;
+    rust)
+      if _cmd_exists cargo; then
+        zinit wait'1' lucid nocd as"completion" for \
+          atload"eval \"\$(rustup completions zsh cargo)\" 2>/dev/null" \
+          zdharma-continuum/null
+        _mise_completion_loaded[cargo]=1
+      fi
+      ;;
     esac
   done
 }
@@ -758,7 +758,7 @@ _mise_chpwd_hook() {
 _load_completion() {
   local tool="$1"
   local completion_cmd="$2"
-  local delay="${3:-3}"
+        local delay="${3:-3}"
 
   # Skip if tool doesn't exist or no completion command
   if ! _cmd_exists "$tool" || [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
