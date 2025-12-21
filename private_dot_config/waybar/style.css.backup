@@ -72,6 +72,44 @@ window#waybar {
   padding: 0 10px;
 }
 
+/* WLR Taskbar module */
+#taskbar {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+#taskbar button {
+  color: @foreground;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin: 0 1px;
+  font-size: 14px;
+  transition: none;
+  min-width: 20px;
+}
+
+#taskbar button.active {
+  color: @blue;
+  background: rgba(51, 177, 255, 0.1);
+}
+
+#taskbar button.minimized {
+  color: @foreground-inactive;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#taskbar button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#taskbar button.urgent {
+  color: @red;
+  background: rgba(238, 83, 150, 0.1);
+}
+
 /* Clock module */
 #clock {
   color: @foreground;
@@ -111,19 +149,12 @@ window#waybar {
 }
 
 #tray > .passive {
-  -gtk-icon-effect: none; /* Remove dimming effect */
-  opacity: 1.0; /* Ensure full opacity */
+  -gtk-icon-effect: dim;
 }
 
 #tray > .needs-attention {
   -gtk-icon-effect: highlight;
   background-color: @red;
-}
-
-/* Make all tray icons visible */
-#tray menu {
-  background: @background;
-  color: @foreground;
 }
 
 /* Custom notifications module */

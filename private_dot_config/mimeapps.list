@@ -49,6 +49,7 @@ video/x-theora+ogg=vlc.desktop
 x-scheme-handler/chrome=userapp-Zen-CPN7G3.desktop;
 x-scheme-handler/http=userapp-Zen-CPN7G3.desktop;
 x-scheme-handler/https=userapp-Zen-CPN7G3.desktop;
+x-scheme-handler/discord=vesktop.desktop;
 
 [Default Applications]
 application/x-extension-htm=userapp-Zen-CPN7G3.desktop
