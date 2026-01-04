@@ -1,7 +1,6 @@
 export EDITOR=nvim
 export SUDO_EDITOR=nvim
 export VISUAL=nvim
-export TERMINAL=kitty
 
 export BAT_THEME=ansi
 export BAT_PAGER=less -RF
@@ -9,7 +8,6 @@ export BAT_PAGER=less -RF
 export MANPAGER=sh -c 'col -bx | bat -l man -p --color always'
 
 export XDG_SESSION_TYPE=wayland
-export XDG_SESSION_DESKTOP=hyprland
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CONFIG_DIRS=/etc/xdg:$HOME/.config
 export XDG_CURRENT_DESKTOP=Hyprland
@@ -20,16 +18,13 @@ export XDG_DATA_DIRS=/usr/local/share:/usr/share:$HOME/.local/share
 export XDG_MENU_PREFIX=arch-
 
 export QT_QPA_PLATFORMTHEME=qt6ct
-export QT_QPA_PLATFORM=wayland;xcb
+export QT_QPA_PLATFORM=wayland
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
 export SDL_VIDEODRIVER=wayland
 
-export COREPACK_ENABLE_AUTO_PIN=0
-
 export CHROMIUM_PATH=/usr/bin/chromium
 export CHROME_BIN=/usr/bin/chromium
-
 
 export MOZ_ENABLE_WAYLAND=1
 

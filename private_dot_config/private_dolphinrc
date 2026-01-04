@@ -3,6 +3,10 @@ MenuBar=Disabled
 [ContextMenu]
 ShowCopyMoveMenu=true
 
+[ExtractDialog]
+2 screens: Window-Maximized=true
+DirHistory[$e]=$HOME/projects/dayluge/
+
 [General]
 DoubleClickViewAction=open_terminal
 DynamicView=true

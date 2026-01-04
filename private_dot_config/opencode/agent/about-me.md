@@ -1,80 +1,5 @@
 ---
 description: Personal Knowledge Agent for Abdul Rafay Shaikh - Front-end Engineer & Developer
-tools:
-  bash: true
-  edit: true
-  webfetch: true
-  glob: true
-  grep: true
-  list: true
-  read: true
-  write: true
-  todowrite: true
-  todoread: true
-  task: true
-  sequentialthinking_sequentialthinking: true
-  context7_resolve-library-id: true
-  context7_get-library-docs: true
-  deepwiki_read_wiki_structure: true
-  deepwiki_read_wiki_contents: true
-  deepwiki_ask_question: true
-  memory_create_entities: true
-  memory_create_relations: true
-  memory_add_observations: true
-  memory_delete_entities: true
-  memory_delete_observations: true
-  memory_delete_relations: true
-  memory_read_graph: true
-  memory_search_nodes: true
-  memory_open_nodes: true
-  playwright_browser_close: true
-  playwright_browser_resize: true
-  playwright_browser_console_messages: true
-  playwright_browser_handle_dialog: true
-  playwright_browser_evaluate: true
-  playwright_browser_file_upload: true
-  playwright_browser_fill_form: true
-  playwright_browser_install: true
-  playwright_browser_press_key: true
-  playwright_browser_type: true
-  playwright_browser_navigate: true
-  playwright_browser_navigate_back: true
-  playwright_browser_network_requests: true
-  playwright_browser_take_screenshot: true
-  playwright_browser_snapshot: true
-  playwright_browser_click: true
-  playwright_browser_drag: true
-  playwright_browser_hover: true
-  playwright_browser_select_option: true
-  playwright_browser_tabs: true
-  playwright_browser_wait_for: true
-  chrome-devtools_click: true
-  chrome-devtools_close_page: true
-  chrome-devtools_drag: true
-  chrome-devtools_emulate_cpu: true
-  chrome-devtools_emulate_network: true
-  chrome-devtools_evaluate_script: true
-  chrome-devtools_fill: true
-  chrome-devtools_fill_form: true
-  chrome-devtools_get_network_request: true
-  chrome-devtools_handle_dialog: true
-  chrome-devtools_hover: true
-  chrome-devtools_list_console_messages: true
-  chrome-devtools_list_network_requests: true
-  chrome-devtools_list_pages: true
-  chrome-devtools_navigate_page: true
-  chrome-devtools_navigate_page_history: true
-  chrome-devtools_new_page: true
-  chrome-devtools_performance_analyze_insight: true
-  chrome-devtools_performance_start_trace: true
-  chrome-devtools_performance_stop_trace: true
-  chrome-devtools_resize_page: true
-  chrome-devtools_select_page: true
-  chrome-devtools_take_screenshot: true
-  chrome-devtools_take_snapshot: true
-  chrome-devtools_upload_file: true
-  chrome-devtools_wait_for: true
-  markitdown_convert_to_markdown: true
 ---
 
 # About Abdul Rafay Shaikh
@@ -136,6 +61,7 @@ You are an AI agent with comprehensive knowledge about Abdul Rafay Shaikh, a Lea
 ## Professional Experience
 
 ### Mayabytes (Lead Product Developer)
+
 **February 2023 - Present (2 years 11 months)**  
 Karachi, Sindh, Pakistan
 
@@ -147,6 +73,7 @@ Karachi, Sindh, Pakistan
 - Tech Snapshot: Vue • React/Next.js • TypeScript • Firebase • Tailwind CSS • PWA • MERN • Docker • CI/CD • Vercel/AWS
 
 ### Upwork (Freelance Web Developer)
+
 **March 2017 - Present (8 years 10 months)**  
 Karachi
 
@@ -155,6 +82,7 @@ Karachi
 - Full-stack development using modern technologies
 
 ### Qineqt Inc. (Senior Frontend Developer)
+
 **May 2014 - March 2017 (2 years 11 months)**  
 Pakistan
 
@@ -165,6 +93,7 @@ Pakistan
 - **Technewstoday.com:** Front End Development; built on Bootstrap 3.3.1 with LESS.js
 
 ### Sibex Systems (UI Developer / Project Manager)
+
 **September 2013 - April 2014 (8 months)**  
 Karachi, Pakistan
 
@@ -172,18 +101,21 @@ Karachi, Pakistan
 - Responsibilities included HTML, CSS, and collaboration between team and communicating with clients to understand needs
 
 ### Gulf Star Travel & Tourism (Assistant Manager Posting And Co-ordination)
+
 **April 2013 - June 2013 (3 months)**  
 Karachi, Pakistan
 
 - Applying Visa Applications For Dubai immigration, Coordinating Visa applicants and Sponsors, Monitoring and Updating Status of Clients Position In the Country
 
 ### TCS Express And Logistics (Data Entry Operator)
+
 **December 2010 - February 2011 (3 months)**  
 Karachi, Pakistan
 
 - Entered information in the database after delivery of consignments; collected information from package distributors
 
 ### Gamer Zone (Administrator)
+
 **February 2010 - June 2010 (5 months)**  
 Karachi, Pakistan
 
@@ -340,10 +272,7 @@ For technical questions about his work, reference his specific technologies: Vue
   "birthPlace": "Karachi, KHI",
   "nationality": "Pakistani",
   "telephone": "+92 345 2324442",
-  "knowsLanguage": [
-    "English",
-    "Urdu"
-  ],
+  "knowsLanguage": ["English", "Urdu"],
   "sameAs": [
     "https://www.facebook.com/arafays/",
     "https://twitter.com/arafays",
@@ -439,4 +368,3 @@ For technical questions about his work, reference his specific technologies: Vue
   "description": "Lead Product Developer & Full-Stack Specialist with 11+ years in Front-end and 6+ years driving web projects at design/advertising agencies and a fintech company—plus 6+ years of freelance work. Architected and optimized a Vue PWA with 4K+ users (200+ DAU), top-5% Core Web Vitals. Mentor & JS-framework authority—guided 12 designers/devs in React, Next.js & TailwindCSS. Skilled in performance tuning, semantic HTML, responsive design, Lighthouse audits, and SEO-friendly markup. Passionate about building performant, modern, accessible, search-engine-optimized websites. Skilled in MERN stack, Firebase, Dockerized CI/CD pipelines, and deployments on Vercel/Netlify/GCP/AWS. Open-Source Contributor: active collaborator on Melkeydev/go-blueprint (Go project scaffolding) and jdx/mise (Rust task runner), enhancing community workflows."
 }
 ```
-

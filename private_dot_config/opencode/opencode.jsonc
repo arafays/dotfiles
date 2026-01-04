@@ -14,7 +14,6 @@
     "exa": {
       "type": "remote",
       "url": "https://mcp.exa.ai/mcp?exaApiKey={env:EXA_API_KEY}",
-      "headers": {},
     },
     "context7": {
       "type": "local",

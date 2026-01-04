@@ -6,3 +6,4 @@ export XCURSOR_SIZE=24
 export HYPRCURSOR_SIZE=24
 export GDK_BACKEND=wayland
 
+export XDG_SESSION_DESKTOP=hyprland
