@@ -1,0 +1,43 @@
+{
+  "name": "azv232",
+  "created_at": "2025-10-15T19:40:28.140420410+00:00",
+  "modified_at": "2025-10-15T19:40:28.140420410+00:00",
+  "apps": {
+    "alacritty": {},
+    "btop": {},
+    "chromium": {
+      "theme_color": "#181824"
+    },
+    "ghostty": {},
+    "hyprland": {},
+    "hyprlock": {},
+    "icons": {
+      "theme_name": "Yaru-purple"
+    },
+    "kitty": {},
+    "mako": {},
+    "neovim": {
+      "raw_config": "return {\n\t{\n\t\t\"LazyVim/LazyVim\",\n\t\topts = {\n\t\t\tcolorscheme = \"catppuccin\",\n\t\t},\n\t},\n}"
+    },
+    "swayosd": {},
+    "vscode": {
+      "raw_config": "{\n  \"name\": \"Catppuccin Macchiato\",\n  \"extension\": \"catppuccin.catppuccin-vsc\"\n}"
+    },
+    "walker": {},
+    "waybar": {}
+  },
+  "colors": {
+    "primary": {
+      "background": "#1a1a1a",
+      "foreground": "#ffffff"
+    },
+    "terminal": {
+      "red": "#ff5555",
+      "green": "#50fa7b",
+      "yellow": "#f1fa8c",
+      "blue": "#8be9fd",
+      "magenta": "#ff79c6",
+      "cyan": "#8be9fd"
+    }
+  }
+}

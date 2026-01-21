@@ -1,1 +1,10 @@
-AGENTS.md
+**/.git
+node_modules
+**/.cache
+**/*.log
+**/chromium
+**/configstore
+**/.DS_Store
+**/tmp
+**/temp
+

@@ -1,0 +1,51 @@
+system:
+  os: linux
+  distro: arch
+  session: uwsm
+  window_manager: hyprland
+  package_managers: ["yay", "pacman"]
+  current_year: 2026
+shell:
+  default: zsh
+  aliases:
+    grep: rg  # grep is aliased to ripgrep
+editors:
+  primary: "vscode-insiders"
+  secondary: "nvim"
+tools:
+  search: rg
+  formatter: biome
+  linter: biome
+  version_manager: mise
+  docs:
+    mise: "https://mise.jdx.dev/getting-started.html"
+preferences:
+  enforce_rg_over_grep: true
+  prefer_biome_over_prettier_eslint: true
+  respect_user_aliases: true
+paths:
+  vscode_settings: "~/.config/Code - Insiders/User/settings.json"
+  vscode_keybindings: "~/.config/Code - Insiders/User/keybindings.json"
+  zshrc: "~/.zshrc"
+  tmux_conf: "~/.tmux.conf"
+  nvim_config_dir: "~/.config/nvim"
+  chezmoi_config_dir: "~/.config/chezmoi"
+  ripgreprc: "~/.ripgreprc"
+expertise:
+  languages: ["TypeScript", "JavaScript"]
+  frameworks: ["Vue.js", "React", "Next.js", "Svelte"]
+  domains: ["Frontend"]
+commands:
+  search_code: "rg -n --line-number --color=never <pattern> <path>"
+notes:
+  - "Agents must use rg instead of grep."
+  - "Prefer Biome for JS/TS lint/format over ESLint/Prettier."
+  - "Use mise for managing tools and installing globals npm packages"
+  - "VS Code Insiders and Neovim are primary editors; tmux used for sessions."
+  - "Node: prefer bun then pnpm (or npm/yarn); enable corepack if possible."
+  - "Python: use uv instead of pip."
+  - "Naming: camelCase vars/functions; PascalCase types/classes; UPPER_SNAKE_CASE constants; files kebab-case (TS/JS) or snake_case (py)."
+  - "Errors: typed Result or custom Error at boundaries; never swallow; log context; validate inputs early."
+  - "Async: no floating promises; await/return; try/catch awaited calls; timeouts/cancellation for I/O."
+  - "Commits/PRs: small, focused; conventional commits if used; explain why."
+  - "Project Conventions: Add scripts: build, lint, test, format (or Make targets). Keep commands env-agnostic; avoid machine-specific paths. Prefer .editorconfig, and biome.jsonc for formatting and linting."

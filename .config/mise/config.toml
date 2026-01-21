@@ -1,0 +1,21 @@
+[settings]
+idiomatic_version_file_enable_tools = ["ruby", "node"]
+
+[settings.ruby]
+
+[tools]
+bun = "latest"
+deno = "latest"
+flutter = "3.35.6"
+go = "latest"
+java = "17"
+node = "24"
+"npm:@biomejs/biome" = "latest"
+"npm:eas-cli" = "latest"
+"npm:firebase-tools" = "latest"
+"npm:vercel" = "latest"
+pnpm = "latest"
+rust = "latest"
+usage = "latest"
+uv = "latest"
+yq = "latest"
