@@ -65,56 +65,29 @@ window#waybar.solo {
     font-weight: bold;
 }
 
-#battery {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-#battery.charging, #battery.plugged {
-    color: #ffffff;
-    background-color: #26A65B;
-}
-
-@keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: #000000;
-    }
-}
-
-#battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
 label:focus {
     background-color: #000000;
 }
 
 #cpu {
-    background-color: #2ecc71;
-    color: #000000;
+    /* background-color: #2ecc71; */
+    /* color: #000000; */
 }
 
 #memory {
-    background-color: #9b59b6;
+    /* background-color: #9b59b6; */
 }
 
 #disk {
-    background-color: #964B00;
+    /* background-color: #964B00; */
 }
 
 #backlight {
-    background-color: #90b1b1;
+    /* background-color: #90b1b1; */
 }
 
 #network {
-    background-color: #2980b9;
+    /* background-color: #2980b9; */
 }
 
 #network.disconnected {
@@ -163,7 +136,7 @@ label:focus {
 }
 
 #tray {
-    background-color: #2980b9;
+    /* background-color: #2980b9; */
 }
 
 #tray > .passive {

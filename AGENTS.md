@@ -62,6 +62,25 @@ cd ~  # Works in normal shell
 chezmoi cd  # Change to chezmoi source directory
 ```
 
+### Validation Commands
+
+```bash
+# Validate chezmoi templates syntax
+chezmoi verify
+
+# Check for missing template variables
+chezmoi data | grep -E "^\s*[a-zA-Z_]" | cut -d: -f1
+
+# Test shell configuration syntax
+zsh -n ~/.zshrc
+
+# Validate TOML files (if toml-cli is available)
+toml lint file.toml
+
+# Validate JSON files
+jq . file.json
+```
+
 ## Code Style Guidelines
 
 ### Naming Conventions
@@ -78,16 +97,28 @@ chezmoi cd  # Change to chezmoi source directory
 
 ### Formatting
 
-- **Lua**: 2-space indentation, 120 column width
+- **Lua**: 2-space indentation, 120 column width (see `stylua.toml`)
 - **Shell**: Follow existing patterns in `.zshrc`
 - **TOML/YAML**: 2-space indentation
 - **JSON**: Use JSONC format with comments when supported
+
+### Error Handling
+
+- **Shell**: Use proper return codes, check command existence with `_cmd_exists()`
+- **Lua**: Use `pcall()` for error handling in critical sections
+- **Templates**: Validate template variables before use, provide defaults
 
 ### Import/Include Patterns
 
 - **Lua**: Use `require()` for modules, keep imports at file top
 - **Shell**: Source files with `source` or `.`
 - **Config files**: Use standard inclusion syntax for each format
+
+### Type Safety
+
+- **Shell**: Use `[[ ]]` for conditional tests, quote variables properly
+- **Lua**: Use type annotations where supported, leverage LazyVim type system
+- **Templates**: Use `{{ .variable | default "defaultValue" }}` for optional variables
 
 ## File Organization
 
@@ -97,6 +128,19 @@ chezmoi cd  # Change to chezmoi source directory
 - **Template files**: End with `.tmpl` (chezmoi templates)
 - **Dotfiles**: Prefix with `dot_` for files that become `.hidden`
 - **Config directories**: Follow XDG Base Directory specification
+
+### Directory Structure
+
+```
+private_dot_config/
+├── environment.d/          # Environment variables (01-99 ordering)
+├── nvim/                   # Neovim configuration
+│   ├── lua/config/         # Core configuration
+│   ├── lua/plugins/        # Plugin specifications
+│   └── stylua.toml         # Lua formatting config
+├── starship/starship.toml  # Prompt configuration
+└── opencode/               # AI assistant configuration
+```
 
 ## Working with This Repository
 
@@ -117,7 +161,8 @@ chezmoi cd  # Change to chezmoi source directory
 
 - Use `.tmpl` extension for files with chezmoi templating
 - Access template data with `{{ .variable }}` syntax
-- Common template variables: hostname, username, etc.
+- Use `promptStringOnce` for interactive variable collection
+- Provide sensible defaults for optional variables
 
 ## Tool-Specific Guidelines
 
@@ -125,8 +170,9 @@ chezmoi cd  # Change to chezmoi source directory
 
 - Uses LazyVim as base configuration
 - Lua files in `lua/config/` and `lua/plugins/`
-- 2-space indentation, 120-char line limit
-- Follow LazyVim plugin structure
+- 2-space indentation, 120-char line limit (stylua.toml)
+- Follow LazyVim plugin structure and naming conventions
+- Use `vim.opt` for options, `vim.keymap.set` for keymaps
 
 ### Shell Configuration
 
@@ -134,12 +180,20 @@ chezmoi cd  # Change to chezmoi source directory
 - Use `_` prefix for private/internal functions
 - Error handling with proper return codes
 - Use `_cmd_exists()` helper for command availability
+- Load environment.d files in numerical order
 
 ### Environment Configuration
 
 - Split environment variables into logical files in `environment.d/`
 - Use `01-` to `99-` prefix for loading order
 - Follow XDG Base Directory specification
+- Set `STARSHIP_CONFIG` and `STARSHIP_CACHE` explicitly
+
+### Git Configuration
+
+- Use `.gitconfig.tmpl` for user-specific git settings
+- Include name, email, and GitHub username from chezmoi data
+- Support for multiple git identities via `git_identities.lua`
 
 ## Security Considerations
 
@@ -166,12 +220,27 @@ chezmoi cd  # Change to chezmoi source directory
 4. Verify application/service functionality
 5. Check logs for errors if applicable
 
+### Single Config Testing
+
+```bash
+# Test specific config without applying
+chezmoi apply --dry-run ~/.config/nvim
+
+# Validate shell syntax
+zsh -n $(chezmoi source-path ~/.zshrc)
+
+# Check template expansion
+chezmoi dump-template ~/.config/some-template.tmpl
+```
+
 ### Common Pitfalls
 
 - Editing live configs instead of chezmoi source files
 - Forgetting to commit `private_` prefixed files
 - Breaking environment variable loading order
 - Missing template variable definitions
+- Using `grep` instead of `rg` for searches
+- Using `pip` instead of `uv` for Python packages
 
 ## Preferred Tools and Aliases
 
@@ -183,6 +252,7 @@ From the shell configuration:
 - `nvim` as primary editor (alias `n`, `vim`, `vi`)
 - `mise` for development tool management
 - `paru` as AUR helper
+- `uv` for Python package management (not `pip`)
 
 ## Environment Context
 
@@ -191,5 +261,6 @@ From the shell configuration:
 - **Terminal**: Usually within tmux
 - **Shell**: Zsh with extensive customizations
 - **Year**: 2026 (for context in generated files)
+- **Editor**: Follow profile.yaml naming conventions and style guidelines
 
 Remember: This repository manages personal system configuration. Always test changes in a safe manner and maintain backup of working configurations.
