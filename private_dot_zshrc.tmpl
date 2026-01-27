@@ -1,3 +1,8 @@
+export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+export HISTSIZE=50000
+export SAVEHIST=50000
+
+
 _start_time=$SECONDS
 unsetopt BEEP
 setopt AUTO_CD
@@ -22,6 +27,11 @@ export HISTSIZE=10000
 export SAVEHIST=10000            
 export GPG_TTY=$(tty)
 [[ -f ~/.profile ]] && source ~/.profile
+
+# Load environment.d files
+for env_file in ~/.config/environment.d/*.conf; do
+  [[ -f "$env_file" ]] && source "$env_file"
+done
 _cmd_exists() { ~/.local/bin/cmd_exists "$1"; }
 _init_starship() {
   # Show system info only in interactive shells

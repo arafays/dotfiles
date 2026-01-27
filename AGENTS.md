@@ -103,9 +103,8 @@ chezmoi cd  # Change to chezmoi source directory
 ### Making Changes
 
 1. **Always edit chezmoi source files**, not live configs
-2. Use `chezmoi edit <target>` to edit source files directly
-3. Test changes with `chezmoi diff` before applying
-4. Apply with `chezmoi apply` when ready
+2. Test changes with `chezmoi diff` before applying
+3. Apply with `chezmoi apply` when ready
 
 ### Adding New Configs
 
