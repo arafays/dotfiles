@@ -1,0 +1,77 @@
+[general]
+live_config_reload = true
+
+[env]
+TERM = "alacritty"
+
+[window]
+decorations = "none"
+dynamic_title = true
+opacity = 0.95
+title = "Alacritty"
+
+[window.padding]
+x = 10
+y = 10
+
+[font]
+normal.family = "CaskaydiaCove Nerd Font Mono"
+normal.style = "Regular"
+bold.family = "CaskaydiaCove Nerd Font Mono"
+bold.style = "Bold"
+italic.family = "CaskaydiaCove Nerd Font Mono"
+italic.style = "Italic"
+bold_italic.family = "CaskaydiaCove Nerd Font Mono"
+bold_italic.style = "Bold Italic"
+
+size = 12.0
+
+
+[terminal.shell]
+# Shell
+program = "/usr/bin/fish"
+
+[cursor]
+# Cursor settings
+style.shape = "Beam"
+style.blinking = "Off"
+
+[keyboard]
+# Keybindings (basic)
+bindings = [
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+  { key = "Plus", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
+  { key = "Key0", mods = "Control", action = "ResetFontSize" },
+]
+
+
+# Colors (Oxocarbon theme to match Starship)
+[colors.primary]
+background = "#161616"
+foreground = "#dde1e6"
+
+[colors.cursor]
+text = "#161616"
+cursor = "#dde1e6"
+
+[colors.normal]
+black = "#161616"
+red = "#ee5396"
+green = "#42be65"
+yellow = "#ffe97b"
+blue = "#33b1ff"
+magenta = "#be95ff"
+cyan = "#3ddbd9"
+white = "#dde1e6"
+
+[colors.bright]
+black = "#262626"
+red = "#ee5396"
+green = "#42be65"
+yellow = "#ffe97b"
+blue = "#78a9ff"
+magenta = "#be95ff"
+cyan = "#3ddbd9"
+white = "#ffffff"

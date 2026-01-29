@@ -1,38 +1,33 @@
+[[ -f ~/.profile ]] && source ~/.profile
+
 export HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 export HISTSIZE=50000
 export SAVEHIST=50000
-
-
-_start_time=$SECONDS
-unsetopt BEEP
-setopt AUTO_CD
-setopt GLOB_DOTS
-setopt NOMATCH
-setopt MENU_COMPLETE
-setopt EXTENDED_GLOB
-setopt INTERACTIVE_COMMENTS
-setopt INC_APPEND_HISTORY
-setopt BANG_HIST              
-setopt EXTENDED_HISTORY       
-setopt HIST_EXPIRE_DUPS_FIRST 
-setopt HIST_IGNORE_DUPS       
-setopt HIST_IGNORE_ALL_DUPS   
-setopt HIST_FIND_NO_DUPS      
-setopt HIST_IGNORE_SPACE      
-setopt HIST_SAVE_NO_DUPS      
-setopt HIST_REDUCE_BLANKS     
-setopt HIST_VERIFY
-export HISTFILE=~/.zsh_history
-export HISTSIZE=10000
-export SAVEHIST=10000            
 export GPG_TTY=$(tty)
-[[ -f ~/.profile ]] && source ~/.profile
+export EDITOR="nvim"
 
-# Load environment.d files
+unsetopt BEEP
+setopt AUTO_CD GLOB_DOTS NOMATCH MENU_COMPLETE EXTENDED_GLOB
+setopt INTERACTIVE_COMMENTS INC_APPEND_HISTORY EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_VERIFY
+setopt HIST_IGNORE_SPACE HIST_FIND_NO_DUPS BANG_HIST
+
 for env_file in ~/.config/environment.d/*.conf; do
   [[ -f "$env_file" ]] && source "$env_file"
 done
-_cmd_exists() { ~/.local/bin/cmd_exists "$1"; }
+
+_cmd_exists() {
+  (( ${+commands[$1]} ))
+}
+
+[[ -n "$aurhelper" ]] && return
+for helper in yay paru; do
+  if _cmd_exists "$helper"; then
+    export aurhelper="$helper"
+    break
+  fi
+done
+
 _init_starship() {
   # Show system info only in interactive shells
   # if [[ $- == *i* ]] && [[ -z "$TMUX" ]]; then
@@ -41,9 +36,9 @@ _init_starship() {
   #   fi
   # fi
   #
-   if _cmd_exists starship; then
-     eval "$(starship init zsh)"
-   else
+  if _cmd_exists starship; then
+    eval "$(starship init zsh)"
+  else
     echo "Starship not found. Install it? (y/n)"
     read -r response
     if [[ "$response" == "y" ]]; then
@@ -54,15 +49,7 @@ _init_starship() {
     fi
   fi
 }
-_detect_aur_helper() {
-  [[ -n "$aurhelper" ]] && return
-  for helper in yay paru; do
-    if _cmd_exists "$helper"; then
-      export aurhelper="$helper"
-      break
-    fi
-  done
-}
+
 _install_tool() {
   local tool="$1"
   local aur_package="$2"
@@ -72,110 +59,57 @@ _install_tool() {
   fi
   echo "Installing $tool using $aurhelper..."
   if $aurhelper -S "$aur_package"; then
-    # Tool installed successfully
     return 0
   else
     echo "Failed to install $tool"
     return 1
   fi
 }
+
 _load_completion() {
   local tool="$1"
   local completion_cmd="$2"
   local delay="${3:-3}"
-  
   if ! _cmd_exists "$tool" || [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
     return
   fi
-  
   case "$tool" in
-  git | docker)
-    ;;
-  *)
-    if [[ -n "$completion_cmd" ]]; then
+    git | docker) ;;
+    *)
       zinit wait"$delay" lucid nocd as"completion" for \
         atload"eval \"\$($completion_cmd)\" 2>/dev/null" \
         zdharma-continuum/null
-    fi
-    ;;
+      ;;
   esac
 }
+
 _setup_vi_mode() {
   bindkey -v
   export KEYTIMEOUT=1
-  
-  autoload -U up-line-or-beginning-search
-  autoload -U down-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-  
+  bindkey '^H' backward-delete-char
+  bindkey '^?' backward-delete-char
   zle-keymap-select() {
-    case $KEYMAP in
-    vicmd) echo -ne '\e[1 q' ;;        # Block cursor
-    viins | main) echo -ne '\e[5 q' ;; # Beam cursor
-    esac
+    if [[ ${KEYMAP} == vicmd ]]; then echo -ne '\e[1 q'
+    else echo -ne '\e[5 q'
+    fi
   }
   zle -N zle-keymap-select
-  zle-line-init() {
-    zle -K viins
-    echo -ne "\e[5 q"
-  }
-  zle -N zle-line-init
-  
-  if [[ -n "$(command -v fzf)" ]]; then
-    fzf-history-widget() {
-      local selected=$(fc -rl 1 | fzf --height 60% --layout=reverse --border --preview 'echo {}' --preview-window=up:3:wrap)
-      if [[ -n "$selected" ]]; then
-        BUFFER="$selected"
-        CURSOR=${#BUFFER}
-      fi
-    }
-    zle -N fzf-history-widget
-    bindkey '^R' fzf-history-widget
-  fi
-  
-  bindkey '^P' up-history
-  bindkey '^N' down-history
-  
-  bindkey '^[[A' up-line-or-beginning-search
-  bindkey '^[[B' down-line-or-beginning-search
-  bindkey -M vicmd 'k' up-line-or-beginning-search
-  bindkey -M vicmd 'j' down-line-or-beginning-search
-  
-  autoload -Uz edit-command-line
-  zle -N edit-command-line
-  bindkey -M vicmd 'v' edit-command-line
-  bindkey '^A' beginning-of-line
-  bindkey '^E' end-of-line
-  bindkey -s '^x' 'source $HOME/.zshrc\n' 
-  bindkey '^H' backward-kill-word         
 }
+
 _init_zinit() {
   local zinit_dir="$HOME/.local/share/zinit/zinit.git"
   if [[ ! -f "$zinit_dir/zinit.zsh" ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager…%f"
     command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" &&
-      print -P "%F{33} %F{34}Installation successful.%f%b" ||
-      print -P "%F{160} The clone has failed.%f%b"
+    command git clone https://github.com/zdharma-continuum/zinit "$zinit_dir"
   fi
-  source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-  autoload -Uz _zinit
-  ((${#_comps[@]} > 0)) && _comps[zinit]=_zinit
+  source "$zinit_dir/zinit.zsh"
 }
+
 _setup_essential_tools() {
   local tools=("git" "nvim" "gh" "docker" "bat" "rg" "fzf" "eza")
   local packages=("git" "neovim" "github-cli" "docker" "bat" "ripgrep" "fzf" "eza")
-  local completions=(
-    "skip"
-    "skip"
-    "gh completion -s zsh"
-    "skip"
-    "bat --completion zsh"
-    "rg --generate=complete-zsh"
-    "fzf --zsh"
-    "skip"
-  )
+  local completions=("skip" "skip" "gh completion -s zsh" "skip" "bat --completion zsh" "rg --generate=complete-zsh" "fzf --zsh" "skip")
   for i in {1..${#tools[@]}}; do
     local tool="${tools[$i]}"
     local package="${packages[$i]}"
@@ -186,34 +120,23 @@ _setup_essential_tools() {
       echo "$tool not found. Install it? (y/n)"
       read -r response
       if [[ "$response" == "y" ]]; then
-        if _install_tool "$tool" "$package"; then
-          _load_completion "$tool" "$completion_cmd" "3"
-        fi
+        _install_tool "$tool" "$package" && _load_completion "$tool" "$completion_cmd" "3"
       fi
     fi
   done
-  
-  # Handle mise separately - don't install, just load completions if exists
-  if _cmd_exists mise; then
-    _load_completion "mise" "mise completion zsh" "2"
-  fi
 }
+
 _setup_optional_tools() {
   local tools=("warp-cli" "chezmoi")
   local packages=("warp-cli" "chezmoi")
-  local completions=(
-    "warp-cli generate-completions zsh"
-    "chezmoi completion zsh"
-  )
+  local completions=("warp-cli generate-completions zsh" "chezmoi completion zsh")
   for i in {1..${#tools[@]}}; do
-    local tool="${tools[$i]}"
-    local package="${packages[$i]}"
-    local completion_cmd="${completions[$i]}"
-    if _cmd_exists "$tool"; then
-      _load_completion "$tool" "$completion_cmd" "3"
+    if _cmd_exists "${tools[$i]}"; then
+      _load_completion "${tools[$i]}" "${completions[$i]}" "3"
     fi
   done
 }
+
 _setup_menuselect_bindings() {
   bindkey -M menuselect '?' history-incremental-search-forward
   bindkey -M menuselect '/' history-incremental-search-backward
@@ -225,45 +148,37 @@ _setup_menuselect_bindings() {
     bindkey -M menuselect '^[[Z' vi-up-line-or-history
   fi
 }
+
 _init_plugins() {
   zstyle ':completion:*' menu yes select
   zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
   zmodload zsh/complist
-  _comp_options+=(globdots) 
+  _comp_options+=(globdots)
   zle_highlight=('paste:none')
   zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
   zstyle ':fzf-tab:*' use-fzf-default-opts yes
   zstyle ':fzf-tab:*' fzf-preview 'bat --color=always --style=numbers --line-range :500 {}'
-  autoload -Uz compinit
-  compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-$ZSH_VERSION"
+  autoload -Uz compinit && compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-$ZSH_VERSION"
   zinit wait lucid for \
     atinit"zicompinit; zicdreplay" \
     zdharma-continuum/fast-syntax-highlighting \
     atload"_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
-  zinit wait'1' lucid blockf atpull'zinit creinstall -q .' for \
-    zsh-users/zsh-completions
-  zinit wait'1' lucid atload"_setup_menuselect_bindings" for \
-    Aloxaf/fzf-tab
-  zinit wait'2' lucid for \
-    MichaelAquilina/zsh-you-should-use
+  zinit wait'1' lucid blockf atpull'zinit creinstall -q .' for zsh-users/zsh-completions
+  zinit wait'1' lucid atload"_setup_menuselect_bindings" for Aloxaf/fzf-tab
+  zinit wait'2' lucid for MichaelAquilina/zsh-you-should-use
   _setup_essential_tools
   _setup_optional_tools
 }
+
 _load_aliases() {
   _cmd_exists zoxide && alias cd='z'
   if _cmd_exists fzf; then
-    alias fzf='fzf --height 40% --layout=reverse --border'
+    source <(fzf --zsh)
     alias ff='fzf --preview "bat --style=numbers --color=always {}"'
   fi
-
-  if _cmd_exists fd; then
-    alias find='fd'
-    alias f='fd --type f --hidden --follow --exclude .git'
-  fi
-
-  _cmd_exists rg && alias grep='rg --color=auto --line-number --smart-case  --hidden --glob "!.git"'
-
+  _cmd_exists fd && alias find='fd' && alias f='fd --type f --hidden --follow --exclude .git'
+  _cmd_exists rg && alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
   if _cmd_exists bat; then
     alias cat='bat --style=plain --color=always --paging=never'
     alias less='bat --style=plain --color=always --paging=always'
@@ -271,7 +186,6 @@ _load_aliases() {
     alias cat='cat --show-all --show-control-chars --show-tabs --show-nonprinting'
     alias less='less -R'
   fi
-
   if _cmd_exists eza; then
     alias ls='eza -lh --icons=auto --group-directories-first'
     alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
@@ -282,7 +196,6 @@ _load_aliases() {
     alias lta='eza --icons=auto --tree --level=3 --all'
     export EZA_COLORS="da=36:di=34:ex=32:fi=0:ln=35:pi=33:so=31"
   fi
-
   if [[ -n "$aurhelper" ]]; then
     alias un="$aurhelper -Rns"
     alias up="$aurhelper -Syu --noconfirm"
@@ -290,422 +203,146 @@ _load_aliases() {
     alias search="$aurhelper -Ss"
     alias pc="$aurhelper -Sc"
     alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
-    alias pi="$aurhelper -Si" # Package info
+    alias pi="$aurhelper -Si"
     alias orphans="$aurhelper -Qtdq"
   fi
-  
   alias ..='cd ..'
   alias ...='cd ../..'
-  alias .3='cd ../../..'
-  alias .4='cd ../../../..'
-  alias .5='cd ../../../../..'
   alias -- -='cd -'
-  
   alias mkdir='mkdir -p'
   alias cp='cp -i'
   alias mv='mv -i'
   alias rm='rm -i'
-  alias df='df -h'
-  alias du='du -h'
-  alias free='free -h'
   alias vim='nvim'
-  alias vi='nvim'
   alias n='nvim'
-  alias dev='code .'
-  
-  alias share='$HOME/scripts/mirror-to-client.sh'   
-  alias sync='$HOME/scripts/sync-from-client.sh'    
-  
-  alias clearcmdcache='rm "$_cache_file" && echo "Command cache cleared."'
+  alias dev='code-insiders .'
 }
+
 _define_functions() {
   fcd() {
     local dir
     dir=$(find . -maxdepth 5 \( -name .git -o -name node_modules -o -name .next -o -name dist \) -prune -o -type d -print 2>/dev/null |
-      fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%) &&
-      cd "$dir"
+      fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%) && cd "$dir"
   }
-  
   fe() {
     local file
-    file=$(fzf --preview='bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%) &&
-      ${EDITOR:-nvim} "$file"
+    file=$(fzf --preview='bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%) && ${EDITOR:-nvim} "$file"
   }
   in() {
-    if [[ $# -eq 0 ]]; then
-      echo "Usage: in <package1> [package2] ..."
-      return 1
-    fi
-    if _cmd_exists "$aurhelper"; then
-      "$aurhelper" -S "$@"
-    else
-      echo "No AUR helper found. Installing official packages only..."
-      local -a official=()
-      for pkg in "$@"; do
-        if pacman -Si "$pkg" &>/dev/null; then
-          official+=("$pkg")
-        else
-          echo "⚠️  Skipping AUR package: $pkg (no AUR helper available)"
-        fi
-      done
-      if ((${#official[@]})); then
-        sudo pacman -S "${official[@]}"
-      fi
+    [[ $# -eq 0 ]] && return 1
+    if _cmd_exists "$aurhelper"; then $aurhelper -S "$@"
+    else sudo pacman -S "$@"
     fi
   }
-  
   compress() {
-    if [[ $# -lt 2 ]]; then
-      echo "Usage: compress <archive_name> <files_or_directories...>"
-      echo "Supported formats: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z"
-      echo "Examples:"
-      echo "  compress backup.tar.gz ~/Documents ~/Pictures"
-      echo "  compress project.zip src/ README.md"
-      return 1
-    fi
-    local archive="$1"
-    shift
-    for item in "$@"; do
-      if [[ ! -e "$item" ]]; then
-        echo "Error: '$item' does not exist"
-        return 1
-      fi
-    done
-  
-    if [[ -f "$archive" ]]; then
-      echo "Warning: '$archive' already exists. Overwrite? (y/n)"
-      read -r response
-      if [[ "$response" != "y" && "$response" != "Y" ]]; then
-        echo "Compression cancelled"
-        return 1
-      fi
-    fi
-    echo "Compressing $# item(s) into '$archive'..."
+    local archive="$1"; shift
     case "$archive" in
-    *.tar.gz | *.tgz)
-      tar -czf "$archive" "$@" && echo "✓ Created: $archive"
-      ;;
-    *.tar.bz2 | *.tbz2)
-      tar -cjf "$archive" "$@" && echo "✓ Created: $archive"
-      ;;
-    *.tar.xz | *.txz)
-      tar -cJf "$archive" "$@" && echo "✓ Created: $archive"
-      ;;
-    *.zip)
-      zip -r "$archive" "$@" && echo "✓ Created: $archive"
-      ;;
-    *.7z)
-      if _cmd_exists 7z; then
-        7z a "$archive" "$@" && echo "✓ Created: $archive"
-      else
-        echo "Error: 7z not found. Install p7zip package."
-        return 1
-      fi
-      ;;
-    *)
-      echo "Error: Unsupported format. Supported: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z"
-      echo "Archive name should include the extension (e.g., archive.tar.gz)"
-      return 1
-      ;;
+      *.tar.gz) tar -czf "$archive" "$@" ;;
+      *.zip) zip -r "$archive" "$@" ;;
+      *.7z) 7z a "$archive" "$@" ;;
+      *) echo "Unsupported format" ;;
     esac
   }
-  
   extract() {
-    if [[ $# -eq 0 ]]; then
-      echo "Usage: extract <archive_file> [destination_directory]"
-      echo "Supported formats: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z, .rar, .gz, .bz2, .Z"
-      return 1
-    fi
     local archive="$1"
-    local dest_dir="${2:-.}"
-    if [[ ! -f "$archive" ]]; then
-      echo "Error: '$archive' is not a valid file or does not exist"
-      return 1
-    fi
-    
-    if [[ "$dest_dir" != "." && ! -d "$dest_dir" ]]; then
-      echo "Creating destination directory: $dest_dir"
-      mkdir -p "$dest_dir" || {
-        echo "Error: Could not create directory '$dest_dir'"
-        return 1
-      }
-    fi
-    
-    local original_dir="$PWD"
-    if [[ "$dest_dir" != "." ]]; then
-      cd "$dest_dir" || {
-        echo "Error: Could not change to directory '$dest_dir'"
-        return 1
-      }
-      
-      archive="$original_dir/$archive"
-    fi
-    echo "Extracting '$archive'..."
     case "$archive" in
-    *.tar.bz2 | *.tbz2)
-      tar -xjf "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *.tar.gz | *.tgz)
-      tar -xzf "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *.tar.xz | *.txz)
-      tar -xJf "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *.tar)
-      tar -xf "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *.bz2)
-      bunzip2 -k "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *.gz)
-      gunzip -k "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *.zip)
-      unzip -q "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *.rar)
-      if _cmd_exists unrar; then
-        unrar x "$archive" && echo "✓ Extracted successfully"
-      else
-        echo "Error: unrar not found. Install unrar package."
-        cd "$original_dir"
-        return 1
-      fi
-      ;;
-    *.7z)
-      if _cmd_exists 7z; then
-        7z x "$archive" && echo "✓ Extracted successfully"
-      else
-        echo "Error: 7z not found. Install p7zip package."
-        cd "$original_dir"
-        return 1
-      fi
-      ;;
-    *.Z)
-      uncompress "$archive" && echo "✓ Extracted successfully"
-      ;;
-    *)
-      echo "Error: Unsupported archive format for '$archive'"
-      echo "Supported: .tar.gz, .tar.bz2, .tar.xz, .zip, .7z, .rar, .gz, .bz2, .Z"
-      cd "$original_dir"
-      return 1
-      ;;
+      *.tar.gz|*.tgz) tar -xzf "$archive" ;;
+      *.zip) unzip "$archive" ;;
+      *.7z) 7z x "$archive" ;;
+      *) echo "Unsupported format" ;;
     esac
-    
-    cd "$original_dir"
   }
-  
-  webm2mp4() {
-    local input="$1" output="${1%.webm}.mp4"
-    ffmpeg -i "$input" -c:v libx264 -preset medium -crf 23 -c:a aac -b:a 192k "$output"
-  }
-  
-  mkcd() {
-    mkdir -p "$1" && cd "$1"
-  }
-  
-  ps_grep() {
-    ps aux | grep -v grep | grep -i "$1"
-  }
-  
-  tn() {
-    local session_name="${1:-$(basename "$PWD")}"
-    session_name="${session_name//[^a-zA-Z0-9_-]/_}"
-    tmux new-session -A -s "$session_name" -c "$PWD"
-  }
-  
+  tn() { tmux new-session -A -s "${${$(basename "$PWD")}//[^a-zA-Z0-9_-]/_}" -c "$PWD"; }
   ts() {
-    if _cmd_exists fzf; then
-      local session
-      session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --height=60% --layout=reverse --prompt="Switch to session: ") &&
-        tmux switch-client -t "$session" 2>/dev/null || tmux attach-session -t "$session"
-    else
-      tmux list-sessions
-    fi
+    local ses=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --layout=reverse)
+    [[ -n "$ses" ]] && (tmux switch-client -t "$ses" 2>/dev/null || tmux attach-session -t "$ses")
   }
-  
   tk() {
-    if [[ -n "$1" ]]; then
-      tmux kill-session -t "$1"
-    elif _cmd_exists fzf; then
-      local session
-      session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --height=60% --layout=reverse --prompt="Kill session: ") &&
-        tmux kill-session -t "$session"
-    else
-      echo "Usage: tk <session_name>"
-    fi
+    [[ -n "$1" ]] && tmux kill-session -t "$1" || {
+      local ses=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --layout=reverse)
+      [[ -n "$ses" ]] && tmux kill-session -t "$ses"
+    }
   }
-  
-  tl() {
-    tmux list-sessions
-  }
-
-  # Android Emulator wrapper - forces XCB backend for XWayland compatibility
-  # Emulator's bundled Qt lacks Wayland plugins, requires X11/XCB
+  tl() { tmux list-sessions; }
   emulator() {
-    local emu_path="${ANDROID_HOME:-$HOME/Android/Sdk}/emulator/emulator"
-    if [[ ! -x "$emu_path" ]]; then
-      echo "Error: Android Emulator not found at $emu_path"
-      return 1
-    fi
-    # Unset Wayland env vars and set X11/XCB for emulator's bundled Qt
-    env -u QT_QPA_PLATFORM -u GDK_BACKEND -u SDL_VIDEODRIVER \
-        QT_QPA_PLATFORM=xcb \
-        "$emu_path" "$@"
+    env -u QT_QPA_PLATFORM -u GDK_BACKEND -u SDL_VIDEODRIVER QT_QPA_PLATFORM=xcb "${ANDROID_HOME:-$HOME/Android/Sdk}/emulator/emulator" "$@"
+  }
+  _mise_chpwd_hook() {
+    _cmd_exists mise || return
+    local tools=($(mise list --current 2>/dev/null | awk '{print $1}' | sort -u))
+    [[ ${#tools[@]} -eq 0 ]] && return
+    typeset -gA _mcl
+    for t in $tools; do
+      [[ -n "${_mcl[$t]}" ]] && continue
+      case "$t" in
+        node)
+          _cmd_exists npm && zinit wait'1' lucid nocd as"completion" for atload"eval \"\$(npm completion)\" 2>/dev/null" zdharma-continuum/null && _mcl[npm]=1
+          _cmd_exists pnpm && zinit wait'1' lucid nocd as"completion" for atload"eval \"\$(pnpm completion zsh)\" 2>/dev/null" zdharma-continuum/null && _mcl[pnpm]=1
+          ;;
+        python) _cmd_exists uv && zinit wait'1' lucid nocd as"completion" for atload"eval \"\$(uv generate-shell-completion zsh)\" 2>/dev/null" zdharma-continuum/null && _mcl[uv]=1 ;;
+        rust) _cmd_exists cargo && zinit wait'1' lucid nocd as"completion" for atload"eval \"\$(rustup completions zsh cargo)\" 2>/dev/null" zdharma-continuum/null && _mcl[cargo]=1 ;;
+      esac
+    done
   }
 }
-_mise_chpwd_hook() {
-  
-  _cmd_exists mise || return
-  
-  local tools=($(mise list --current 2>/dev/null | awk '{print $1}' | sort -u))
-  [[ ${#tools[@]} -eq 0 ]] && return
-  
-  typeset -gA _mise_completion_loaded
-  for tool in $tools; do
-  
-    [[ -n "${_mise_completion_loaded[$tool]}" ]] && continue
-    case "$tool" in
-      node)
-  
-        if _cmd_exists npm; then
-          zinit wait'1' lucid nocd as"completion" for \
-            atload"eval \"\$(npm completion)\" 2>/dev/null" \
-            zdharma-continuum/null
-          _mise_completion_loaded[npm]=1
-        fi
-  
-        if _cmd_exists pnpm; then
-          zinit wait'1' lucid nocd as"completion" for \
-            atload"eval \"\$(pnpm completion zsh)\" 2>/dev/null" \
-            zdharma-continuum/null
-          _mise_completion_loaded[pnpm]=1
-        fi
-  
-        if _cmd_exists yarn; then
-          zinit wait'1' lucid nocd as"completion" for \
-            atload"eval \"\$(yarn completions)\" 2>/dev/null" \
-            zdharma-continuum/null
-          _mise_completion_loaded[yarn]=1
-        fi
-        ;;
-      bun)
-        if _cmd_exists bun; then
-          zinit wait'1' lucid nocd as"completion" for \
-            atload"eval \"\$(bun completions)\" 2>/dev/null" \
-            zdharma-continuum/null
-          _mise_completion_loaded[bun]=1
-        fi
-        ;;
-    python)
-      if _cmd_exists uv; then
-        zinit wait'1' lucid nocd as"completion" for \
-          atload"eval \"\$(uv generate-shell-completion zsh)\" 2>/dev/null" \
-          zdharma-continuum/null
-        _mise_completion_loaded[uv]=1
-      fi
-      ;;
-    rust)
-      if _cmd_exists cargo; then
-        zinit wait'1' lucid nocd as"completion" for \
-          atload"eval \"\$(rustup completions zsh cargo)\" 2>/dev/null" \
-          zdharma-continuum/null
-        _mise_completion_loaded[cargo]=1
-      fi
-      ;;
-    esac
-  done
-}
-
 parufind() {
-    local search_term="$1"
-    
-    if [[ -z "$search_term" ]]; then
-        echo "Usage: parufind <search-term>"
-        return 1
-    fi
-    
-    paru -Ss "${search_term}" 2>/dev/null | \
-    awk '
-        /^[a-z]/ {
-            if (pkg != "") {
-                print pkg " | " desc
-            }
-            pkg = $1
-            desc = ""
-        }
-        /^    / {
-            sub(/^    /, "")
-            desc = $0
-        }
-        END {
-            if (pkg != "") {
-                print pkg " | " desc
-            }
-        }
-    ' | \
-    FZF_DEFAULT_OPTS="" fzf \
-        --ansi \
-        --height=80% \
-        --layout=reverse \
-        --border=rounded \
-        --prompt="📦 Select package to install: " \
-        --header="Press ENTER to install | ESC to cancel" \
-        --preview='echo {} | cut -d "|" -f1 | tr -d " " | xargs -I{} sh -c "paru -Si {} 2>/dev/null"' \
-        --preview-window=right:60%:wrap \
-        --delimiter='|' \
-        --with-nth=1,2 \
-        --color='header:italic:underline' | \
-    cut -d '|' -f1 | \
-    tr -d ' ' | \
-    xargs -ro paru -S
+  local search_term="$1"
+  [[ -z "$search_term" ]] && { echo "Usage: parufind <search-term>"; return 1; }
+
+  paru -Ss "$search_term" 2>/dev/null | awk '
+    /^[a-z]/ { if (pkg) print pkg " | " desc; pkg=$1; desc="" }
+    /^    / { sub(/^    /, ""); desc=$0 }
+    END { if (pkg) print pkg " | " desc }
+  ' | fzf \
+    --ansi \
+    --height=80% \
+    --layout=reverse \
+    --border=rounded \
+    --prompt="📦 Select package: " \
+    --header="ENTER: Install | ESC: Cancel" \
+    --preview='paru -Si {1}' \
+    --preview-window=right:60%:wrap \
+    --delimiter='\|' \
+    --with-nth=1,2 | \
+    cut -d '|' -f1 | tr -d ' ' | xargs -ro paru -S
 }
 
-[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
-[[ "$TERM_PROGRAM" == "vscode-insiders" ]] && . "$(code-insiders --locate-shell-integration-path zsh)"
+parufind-widget() {
+  # Use the current buffer as the search term; if empty, don't run.
+  [[ -n "$BUFFER" ]] && parufind "$BUFFER"
+  zle reset-prompt
+}
+zle -N parufind-widget
+bindkey '^[p' parufind-widget
 
-_load_aliases
-_define_functions
-_detect_aur_helper
-_setup_vi_mode
-_init_zinit
-_init_plugins
-_init_starship
-
-if _cmd_exists zoxide; then
-  eval "$(zoxide init zsh)"
+if [[ "$TERM_PROGRAM" == "vscode"* ]]; then
+  _vccmd=$(command -v code-insiders || command -v code)
+  [[ -n "$_vccmd" ]] && . "$($_vccmd --locate-shell-integration-path zsh)"
 fi
 
-if _cmd_exists gpg-agent; then
-  gpg-agent --daemon >/dev/null 2>&1
-fi
+_cmd_exists zoxide && eval "$(zoxide init zsh)"
+_cmd_exists gpg-agent && gpg-agent --daemon >/dev/null 2>&1
 
-zinit as="command" lucid from="gh-r" for \
-    id-as="usage" \
-    jdx/usage
 
-zinit as="command" lucid from="gh-r" for \
-    if='! (( $+commands[mise] ))' \
-    id-as="mise" mv="mise* -> mise" \
-    atclone="./mise* completion zsh > _mise" \
-    atpull="%atclone" \
-    jdx/mise
+_init_mise(){
+  zinit as="command" lucid from="gh-r" for id-as="usage" jdx/usage
+  zinit as="command" lucid from="gh-r" for if='! (( $+commands[mise] ))' id-as="mise" mv="mise* -> mise" atclone="./mise* completion zsh > _mise" atpull="%atclone" jdx/mise
 
-if (( $+commands[mise] )); then
+  if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
-fi
+  _load_completion "mise" "mise completion zsh" "1"
+  fi
+}
 
 alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
-alias ua-update-all="export TMPFILE='$(mktemp)'; \
-    sudo true; \
-    rate-mirrors --save=$TMPFILE arch --max-delay=21600 \
-      && sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup \
-      && sudo mv $TMPFILE /etc/pacman.d/mirrorlist \
-      && ua-drop-caches \
-      && $aurhelper -Syyu --noconfirm"
-alias ua-update-chaotic="export TMPFILE='$(mktemp)'; \
-    sudo true; \
-    rate-mirrors --save=$TMPFILE chaotic-aur \
-      && sudo cp /etc/pacman.d/chaotic-mirrorlist /etc/pacman.d/chaotic-mirrorlist-backup \
-      && sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist \
-      && $aurhelper -Syyu --noconfirm"
+alias ua-update-all="export TMPFILE='$(mktemp)'; sudo true; rate-mirrors --save=$TMPFILE arch --max-delay=21600 && sudo mv $TMPFILE /etc/pacman.d/mirrorlist && ua-drop-caches && $aurhelper -Syyu --noconfirm"
+
+_setup_vi_mode
+_init_zinit
+_init_mise
+_init_plugins
+_load_aliases
+_define_functions
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd _mise_chpwd_hook
+_init_starship
