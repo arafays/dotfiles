@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Android Studio
+Exec=env -u QT_QPA_PLATFORM -u GDK_BACKEND -u SDL_VIDEODRIVER QT_QPA_PLATFORM=xcb android-studio %f
+Icon=android-studio
+Comment=The official Android IDE (with emulator XWayland support)
+Categories=Development;IDE;
+Terminal=false
+StartupNotify=true
+StartupWMClass=jetbrains-studio
+MimeType=application/x-extension-iml;

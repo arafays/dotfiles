@@ -164,12 +164,11 @@ _init_zinit() {
   ((${#_comps[@]} > 0)) && _comps[zinit]=_zinit
 }
 _setup_essential_tools() {
-  local tools=("git" "nvim" "mise" "gh" "docker" "bat" "rg" "fzf" "eza")
-  local packages=("git" "neovim" "mise-bin" "github-cli" "docker" "bat" "ripgrep" "fzf" "eza")
+  local tools=("git" "nvim" "gh" "docker" "bat" "rg" "fzf" "eza")
+  local packages=("git" "neovim" "github-cli" "docker" "bat" "ripgrep" "fzf" "eza")
   local completions=(
     "skip"
     "skip"
-    "mise completion zsh"
     "gh completion -s zsh"
     "skip"
     "bat --completion zsh"
@@ -193,6 +192,11 @@ _setup_essential_tools() {
       fi
     fi
   done
+  
+  # Handle mise separately - don't install, just load completions if exists
+  if _cmd_exists mise; then
+    _load_completion "mise" "mise completion zsh" "2"
+  fi
 }
 _setup_optional_tools() {
   local tools=("warp-cli" "chezmoi")
@@ -535,6 +539,20 @@ _define_functions() {
   tl() {
     tmux list-sessions
   }
+
+  # Android Emulator wrapper - forces XCB backend for XWayland compatibility
+  # Emulator's bundled Qt lacks Wayland plugins, requires X11/XCB
+  emulator() {
+    local emu_path="${ANDROID_HOME:-$HOME/Android/Sdk}/emulator/emulator"
+    if [[ ! -x "$emu_path" ]]; then
+      echo "Error: Android Emulator not found at $emu_path"
+      return 1
+    fi
+    # Unset Wayland env vars and set X11/XCB for emulator's bundled Qt
+    env -u QT_QPA_PLATFORM -u GDK_BACKEND -u SDL_VIDEODRIVER \
+        QT_QPA_PLATFORM=xcb \
+        "$emu_path" "$@"
+  }
 }
 _mise_chpwd_hook() {
   
@@ -661,22 +679,33 @@ fi
 if _cmd_exists gpg-agent; then
   gpg-agent --daemon >/dev/null 2>&1
 fi
-zinit as="command" lucid from="gh-r" for \
-    id-as="usage" \
-    atpull="%atclone" \
-    jdx/usage
-    #atload='eval "$(mise activate zsh)"' \
 
 zinit as="command" lucid from="gh-r" for \
+    id-as="usage" \
+    jdx/usage
+
+zinit as="command" lucid from="gh-r" for \
+    if='! (( $+commands[mise] ))' \
     id-as="mise" mv="mise* -> mise" \
     atclone="./mise* completion zsh > _mise" \
     atpull="%atclone" \
-    atload='eval "$(mise activate zsh)"' \
     jdx/mise
 
-if _cmd_exists mise; then
-  autoload -Uz add-zsh-hook
-  add-zsh-hook chpwd _mise_chpwd_hook
-  _mise_chpwd_hook
+if (( $+commands[mise] )); then
+  eval "$(mise activate zsh)"
 fi
 
+alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
+alias ua-update-all="export TMPFILE='$(mktemp)'; \
+    sudo true; \
+    rate-mirrors --save=$TMPFILE arch --max-delay=21600 \
+      && sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup \
+      && sudo mv $TMPFILE /etc/pacman.d/mirrorlist \
+      && ua-drop-caches \
+      && $aurhelper -Syyu --noconfirm"
+alias ua-update-chaotic="export TMPFILE='$(mktemp)'; \
+    sudo true; \
+    rate-mirrors --save=$TMPFILE chaotic-aur \
+      && sudo cp /etc/pacman.d/chaotic-mirrorlist /etc/pacman.d/chaotic-mirrorlist-backup \
+      && sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist \
+      && $aurhelper -Syyu --noconfirm"

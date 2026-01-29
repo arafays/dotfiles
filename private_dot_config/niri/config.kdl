@@ -413,27 +413,59 @@ window-rule {
     clip-to-geometry true
 }
 
-// android studio needs special handling to work properly
 window-rule {
-    match app-id="studio"
-    draw-border-with-background true
+    match app-id=r#"^jetbrains-studio$"#
+    match app-id=r#"^studio$"#
+    draw-border-with-background false
     geometry-corner-radius 0
     clip-to-geometry false
     default-column-width { proportion 1.0; }
+    open-maximized true
 }
 
-// android emulator should be floating
 window-rule {
-    match app-id="Emulator"
+    match app-id=r#"^jetbrains-studio$"# title=r#"^win\d+$"#
+    match app-id=r#"^studio$"# title=r#"^win\d+$"#
     open-floating true
 }
 
-// avd manager too
 window-rule {
-    match app-id="avdmanager"
+    match app-id=r#"^jetbrains-studio$"# title=r#"Settings|Preferences|Project Structure|SDK Manager|AVD Manager"#
+    match app-id=r#"^studio$"# title=r#"Settings|Preferences|Project Structure|SDK Manager|AVD Manager"#
+    open-floating true
+}
+
+window-rule {
+    match app-id="Emulator" title=r#"^Android Emulator"#
+    open-floating true
+    draw-border-with-background false
+    geometry-corner-radius 0
+    clip-to-geometry false
+    focus-ring { off; }
+    border { off; }
+}
+
+window-rule {
+    match app-id="Emulator"
+    draw-border-with-background false
+    open-floating true
+    focus-ring { off; }
+    border { off; }
+}
+
+window-rule {
+    match app-id=r#"^avdmanager$"#
+    match app-id=r#"^sun-awt-X11-XFramePeer$"# title=r#"AVD|Virtual Device"#
+    open-floating true
     draw-border-with-background true
     geometry-corner-radius 0
     clip-to-geometry false
+}
+
+// SDK Manager standalone
+window-rule {
+    match app-id=r#"^sun-awt-X11-XFramePeer$"# title=r#"SDK Manager"#
+    open-floating true
 }
 
 // vscode should have borders
