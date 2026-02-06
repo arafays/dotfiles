@@ -1,0 +1,20 @@
+// ────────────── Output Configuration ──────────────
+// You can run `niri msg outputs` to get the correct name for your displays.
+// You will have to remove "/-" and edit it before it takes effect.
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
+
+// Left monitor (smaller, portrait)
+output "HDMI-A-1" {
+    mode "1440x900@59.887"
+    scale 1.0
+    transform "90"          // Portrait mode - 90° CCW rotation
+    position x=0 y=0        // Leftmost position
+}
+
+// Right monitor (bigger, landscape)
+output "DP-3" {
+    mode "2560x1440@59.951"
+    scale 1.0
+    transform "normal"      // Landscape mode
+    position x=900 y=0      // To the right of portrait monitor (900px width when rotated)
+}
