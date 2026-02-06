@@ -9,7 +9,7 @@
         XDG_CURRENT_DESKTOP "niri"
         QT_QPA_PLATFORMTHEME "gtk3"
         GTK_THEME_VARIANT "Dark"
-        COLORSCHEME "dark"
+        COLORSCHEME "Dark"
     }
 
     debug {
