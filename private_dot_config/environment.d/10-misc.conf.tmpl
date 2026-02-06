@@ -1,0 +1,14 @@
+FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+FZF_DEFAULT_OPTS="--layout=reverse --border --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%"
+
+MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
+MANROFFOPT="-c"
+
+BAT_THEME="ansi"
+BAT_PAGER="less -RF"
+
+CONTEXT7_API_KEY={{ (bitwarden "item" "Context7 API Key").notes | trim }}
+EXA_API_KEY={{ (bitwarden "item" "EXA API Key").notes | trim }}
+BW_SESSION={{ (bitwarden "item" "Session KEY").notes | trim }}
