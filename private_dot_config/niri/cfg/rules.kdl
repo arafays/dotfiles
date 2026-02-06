@@ -1,0 +1,29 @@
+    window-rule {
+        geometry-corner-radius 8
+        clip-to-geometry true
+    }
+
+    window-rule {
+        match app-id="^zen$"
+        open-maximized-to-edges true
+        open-maximized true
+        border {
+            off
+        }
+    }
+
+    window-rule {
+        match app-id=r#"zen$"# title="^Picture-in-Picture$"
+        open-floating true
+    }
+
+    layer-rule {
+        match namespace="^noctalia-wallpaper*"
+        place-within-backdrop true
+    }
+
+    window-rule {
+        match app-id=r#"code(-insiders)?$"#
+        draw-border-with-background true
+        default-column-width { proportion 1.0; }
+    } 
