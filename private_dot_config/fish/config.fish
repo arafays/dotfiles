@@ -11,6 +11,22 @@ for helper in yay paru
     end
 end
 
+function in
+    if test -n "$aurhelper"
+        $aurhelper -S $argv
+    else
+        sudo pacman -S $argv
+    end
+end
+
+mise activate fish | source
+
+if test -d ~/.config/environment.d
+    for file in ~/.config/environment.d/*.conf
+        fenv source $file
+    end
+end
+
 if status is-interactive
     fish_vi_key_bindings
 
@@ -21,22 +37,21 @@ if status is-interactive
 
     type -q starship; and starship init fish | source
     type -q zoxide; and zoxide init fish | source
-    type -q mise; and mise activate fish | source
 
-    if test -d ~/.config/environment.d
-        for file in ~/.config/environment.d/*.conf
-            fenv source $file
-        end
-    end
+    type -q zoxide; and zoxide init fish --cmd cd | source
+
+    abbr g git
+    abbr lzg lazygit
+    abbr lzd lazydocker
+    alias mkcd='mkdir -p $argv; and cd $argv'
+    alias vim='nvim'
+    alias ..='cd ..'
+    alias ...='cd ../..'
+    abbr -a -- - 'cd -'
+    alias n='nvim'
+    alias dev='code-insiders .'
+    alias code="code-insiders"
 end
-
-alias ..='cd ..'
-alias ...='cd ../..'
-abbr -a -- - 'cd -'
-alias vim='nvim'
-alias n='nvim'
-alias dev='code-insiders .'
-alias mkdir='mkdir -p'
 
 if type -q eza
     alias ls='eza -lh --icons=auto --group-directories-first'
@@ -77,12 +92,9 @@ function fcd
     test -n "$dir"; and cd "$dir"
 end
 
-function in
-    if test -n "$aurhelper"
-        $aurhelper -S $argv
-    else
-        sudo pacman -S $argv
-    end
+function fe
+    set -l file (fzf --preview='bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%)
+    test -n "$file"; and $EDITOR "$file"
 end
 
 function tn
@@ -130,7 +142,6 @@ function extract
     end
 end
 
-### Paru/Yay Fuzzy Search (Alt + P)
 function parufind
     set -l pkg (paru -Ss "$argv" 2>/dev/null | awk '/^[a-z]/ {if (p != "") print p " | " d; p = $1; d = ""} /^    / {sub(/^    /, ""); d = $0} END {if (p != "") print p " | " d}' | fzf --ansi --height=80% --layout=reverse --border=rounded --preview='echo {} | cut -d "|" -f1 | tr -d " " | xargs -I{} paru -Si {}' | cut -d '|' -f1 | tr -d ' ')
     if test -n "$pkg"
@@ -148,6 +159,16 @@ function ua-update-all
     set -l TMPFILE (mktemp)
     if rate-mirrors --save=$TMPFILE arch --max-delay=21600
         sudo mv $TMPFILE /etc/pacman.d/mirrorlist
+        sudo paccache -rk3
+        test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
+        $aurhelper -Syyu --noconfirm
+    end
+end
+
+function ua-update-chaotic
+    set -l TMPFILE (mktemp)
+    if rate-mirrors --save=$TMPFILE chaotic-aur
+        sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist
         sudo paccache -rk3
         test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
         $aurhelper -Syyu --noconfirm
