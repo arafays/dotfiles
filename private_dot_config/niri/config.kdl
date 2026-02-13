@@ -739,6 +739,11 @@ binds {
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
+    // Screenshot with annotation (satty + grim + slurp)
+    Mod+P       hotkey-overlay-title="Screenshot Region + Annotate" { spawn-sh "screenshot-annotate region"; }
+    Mod+Shift+P hotkey-overlay-title="Screenshot Fullscreen + Annotate" { spawn-sh "screenshot-annotate fullscreen"; }
+    Mod+Ctrl+P  hotkey-overlay-title="Screenshot Window + Annotate" { spawn-sh "screenshot-annotate window"; }
+
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
     // so they may, for example, forward the key presses as-is to a remote machine.
@@ -755,5 +760,5 @@ binds {
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
-    Mod+Shift+P { power-off-monitors; }
+    Mod+Alt+P { power-off-monitors; }
 }

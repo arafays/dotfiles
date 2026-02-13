@@ -336,6 +336,12 @@ _init_mise(){
 
 alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
 alias ua-update-all="export TMPFILE='$(mktemp)'; sudo true; rate-mirrors --save=$TMPFILE arch --max-delay=21600 && sudo mv $TMPFILE /etc/pacman.d/mirrorlist && ua-drop-caches && $aurhelper -Syyu --noconfirm"
+alias ua-update-chaotic='export TMPFILE="$(mktemp)"; \
+    sudo true; \
+    rate-mirrors --save=$TMPFILE chaotic-aur \
+      && sudo cp /etc/pacman.d/chaotic-mirrorlist /etc/pacman.d/chaotic-mirrorlist-backup \
+      && sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist \
+      && yay -Syyu --noconfirm'
 
 _setup_vi_mode
 _init_zinit

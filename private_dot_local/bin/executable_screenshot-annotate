@@ -1,0 +1,46 @@
+#!/bin/bash
+
+MODE="${1:-region}"
+OUTPUT_DIR="$HOME/Pictures/Screenshots"
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+FILENAME="satty-${TIMESTAMP}.png"
+
+mkdir -p "$OUTPUT_DIR"
+
+case "$MODE" in
+  region)
+    grim -g "$(slurp -d)" -t ppm - | satty \
+      --filename - \
+      --fullscreen \
+      --output-filename "$OUTPUT_DIR/$FILENAME" \
+      --copy-command wl-copy \
+      --actions-on-enter "save-to-clipboard,save-to-file" \
+      --early-exit
+    ;;
+    
+  fullscreen)
+    grim -t ppm - | satty \
+      --filename - \
+      --fullscreen \
+      --output-filename "$OUTPUT_DIR/$FILENAME" \
+      --copy-command wl-copy \
+      --actions-on-enter "save-to-clipboard,save-to-file" \
+      --early-exit
+    ;;
+    
+  window)
+    grim -g "$(slurp -d -c '#ff0000ff')" -t ppm - | satty \
+      --filename - \
+      --fullscreen \
+      --output-filename "$OUTPUT_DIR/$FILENAME" \
+      --copy-command wl-copy \
+      --actions-on-enter "save-to-clipboard,save-to-file" \
+      --early-exit \
+      --initial-tool rectangle
+    ;;
+    
+  *)
+    echo "Usage: $0 {region|fullscreen|window}"
+    exit 1
+    ;;
+esac

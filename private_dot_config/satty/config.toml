@@ -1,0 +1,8 @@
+[general]
+fullscreen = true
+initial-tool = "arrow"
+copy-command = "wl-copy"
+actions-on-enter = ["save-to-clipboard", "save-to-file"]
+early-exit = true
+corner-roundness = 12
+disable-notifications = false
