@@ -4,3 +4,6 @@
     spawn-sh-at-startup "/usr/lib/polkit-kde-authentication-agent-1 &" // Polkit
     spawn-sh-at-startup "qs -c noctalia-shell"
     spawn-sh-at-startup "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
+    
+    // Open terminal on portrait monitor (focus left, spawn, focus back)
+    spawn-sh-at-startup "niri msg action focus-monitor-left || true; alacritty &"

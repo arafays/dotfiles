@@ -9,6 +9,11 @@ output "HDMI-A-1" {
     scale 1.0
     transform "90"          // Portrait mode - 90° CCW rotation
     position x=0 y=0        // Leftmost position
+
+    // Full-width windows on portrait monitor
+    layout {
+        default-column-width { proportion 1.0; }
+    }
 }
 
 // Right monitor (bigger, landscape)

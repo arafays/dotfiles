@@ -5,6 +5,7 @@ pkg: [paru, pacman, mise]
 dots: chezmoi
 
 editors: [vscode-insiders, nvim]
+browser: zen
 search: rg (do not use grep)
 python: uv (do not use pip)
 

@@ -1,6 +1,8 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 set -gx EDITOR nvim
 
+set -gx BROWSER zen-browser
+
 if test -d ~/.config/environment.d
     for file in ~/.config/environment.d/*.conf
         fenv source $file
@@ -29,17 +31,17 @@ if status is-interactive
     set -g fish_cursor_visual block
 
     type -q starship; and starship init fish | source
-    type -q zoxide; and zoxide init fish | source
+    type -q zoxide; and zoxide init fish --cmd cd | source
     type -q mise; and mise activate fish | source
-end
 
-alias ..='cd ..'
-alias ...='cd ../..'
-abbr -a -- - 'cd -'
-alias vim='nvim'
-alias n='nvim'
-alias dev='code-insiders .'
-alias mkdir='mkdir -p'
+    alias ..='cd ..'
+    alias ...='cd ../..'
+    abbr -a -- - 'cd -'
+    alias vim='nvim'
+    alias n='nvim'
+    alias dev='code-insiders .'
+    alias mkcd='mkdir -p $argv; and cd $argv'
+end
 
 if type -q eza
     alias ls='eza -lh --icons=auto --group-directories-first'
@@ -162,5 +164,3 @@ function fish_user_key_bindings
     bind -M insert \ch backward-delete-char
     bind -M insert \cf forward-char
 end
-
-set -x BW_SESSION "hJzXJEsLo9qR8Svejes4QNea9bDDowWm9Ki7lS7Va+Af0uM8LFuEnKs/UcL2y0PiMKqRJxum8g8OJrJqQLXTuA=="
