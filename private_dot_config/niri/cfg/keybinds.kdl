@@ -58,15 +58,17 @@ binds {
     Mod+CTRL+Home                       { move-column-to-first; }
     Mod+CTRL+End                        { move-column-to-last; }
 
-    Mod+Shift+Left                      { focus-monitor-left; }
-    Mod+Shift+Right                     { focus-monitor-right; }
-    Mod+Shift+UP                        { focus-monitor-up; }
-    Mod+Shift+Down                      { focus-monitor-down; }
+    // Focus monitor (easier - no Ctrl)
+    Mod+Shift+H                         { focus-monitor-left; }
+    Mod+Shift+L                         { focus-monitor-right; }
+    Mod+Shift+K                         { focus-monitor-up; }
+    Mod+Shift+J                         { focus-monitor-down; }
 
-    Mod+Shift+CTRL+Left                 { move-column-to-monitor-left; }
-    Mod+Shift+CTRL+Right                { move-column-to-monitor-right; }
-    Mod+Shift+CTRL+UP                   { move-column-to-monitor-up; }
-    Mod+Shift+CTRL+Down                 { move-column-to-monitor-down; }
+    // Move window to monitor (requires Ctrl)
+    Mod+Shift+CTRL+H                    { move-column-to-monitor-left; }
+    Mod+Shift+CTRL+L                    { move-column-to-monitor-right; }
+    Mod+Shift+CTRL+K                    { move-column-to-monitor-up; }
+    Mod+Shift+CTRL+J                    { move-column-to-monitor-down; }
 
     // ─── Workspace Switching ───
     Mod+WheelScrollDown                 cooldown-ms=150 { focus-workspace-down; }
@@ -119,11 +121,15 @@ binds {
     Mod+T                               { toggle-window-floating; }
     Mod+F                               { fullscreen-window; }
     Mod+W                               { toggle-column-tabbed-display; }
+    Mod+Shift+F                         { toggle-windowed-fullscreen; }
 
     // ─── Screenshots ───
     CTRL+Shift+1                        { screenshot; }
     CTRL+Shift+2                        { screenshot-screen; }
     CTRL+Shift+3                        { screenshot-window; }
+
+    // ─── Color Picker ───
+    CTRL+Shift+4                        { spawn-sh "wl-copy $(niri msg pick-color | grep Hex | cut -d' ' -f2)"; }
 
     // ─── Emergency Escape Key ───
     // Use this when a fullscreen app blocks your keybinds.
