@@ -6,4 +6,9 @@
 	helper = !/usr/bin/gh auth git-credential
 [user]
 	name = {{ .name }}
-	email = {{ .email }}
+  email = {{ .email }}
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+
