@@ -7,12 +7,12 @@ dynamic_padding = true
 decorations = "full"
 opacity = 0.95
 decorations_theme_variant = "Dark"
+padding.x = 10
 
 [scrolling]
 history = 10000
 multiplier = 3
 
-#
 # [colors.primary]
 # background = "#202020"
 # foreground = "#dde1e6"
@@ -40,7 +40,7 @@ multiplier = 3
 # magenta = "#be95ff"
 # cyan = "#3ddbd9"
 # white = "#ffffff"
-#
+
 [font]
 size = 12
 
@@ -147,5 +147,6 @@ mods = "Control"
 action = "ResetFontSize"
 
 [general]
+import = ["~/.config/alacritty/themes/noctalia.toml"]
 live_config_reload = true
 working_directory = "None"
