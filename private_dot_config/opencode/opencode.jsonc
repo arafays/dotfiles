@@ -1,13 +1,16 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": [
-    "./profile.yaml"
-  ],
-  "model": "github-copilot/grok-code-fast-1",
+  "instructions": ["./profile.yaml"],
   "mcp": {
-    "v1": {
+    "packrun": {
       "type": "remote",
       "url": "https://mcp.v1.run/mcp",
+      "enabled": true,
+    },
+    "deepwiki": {
+      "type": "remote",
+      "url": "https://mcp.deepwiki.com/mcp",
+      "enabled": false,
     },
     "context7": {
       "type": "local",
@@ -18,7 +21,7 @@
         "--api-key",
         "{env:CONTEXT7_API_KEY}",
       ],
-      "enabled": false
+      "enabled": false,
     },
     "playwright": {
       "type": "local",
@@ -28,7 +31,7 @@
         "--executable-path",
         "{env:CHROMIUM_PATH}",
       ],
-      "enabled": false
+      "enabled": false,
     },
     "devtools": {
       "type": "local",
@@ -39,15 +42,12 @@
         "--executablePath",
         "{env:CHROMIUM_PATH}",
       ],
-      "enabled": false
+      "enabled": false,
     },
     "markitdown": {
       "type": "local",
-      "command": [
-        "uvx",
-        "markitdown-mcp"
-      ],
-      "enabled": false
+      "command": ["uvx", "markitdown-mcp"],
+      "enabled": false,
     },
   },
 }

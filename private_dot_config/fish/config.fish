@@ -20,6 +20,29 @@ function in
 end
 
 mise activate fish | source
+mise completion fish | source
+
+function load_mise_tool_completions --on-variable PWD
+    set active_tools (mise ls --current 2>/dev/null | awk '{print $1}')
+    for tool in $active_tools
+        switch $tool
+            case bun
+                if not set -q __mise_bun_loaded
+                    if type -q bun
+                        bun completions fish | source
+                        set -g __mise_bun_loaded 1
+                    end
+                end
+            case pnpm
+                if not set -q __mise_pnpm_loaded
+                    if type -q pnpm
+                        pnpm completion fish | source
+                        set -g __mise_pnpm_loaded 1
+                    end
+                end
+        end
+    end
+end
 
 if test -d ~/.config/environment.d
     for file in ~/.config/environment.d/*.conf
@@ -179,4 +202,11 @@ function fish_user_key_bindings
     bind \ep parufind-widget
     bind -M insert \ch backward-delete-char
     bind -M insert \cf forward-char
+end
+
+# compress without node_modules and dist
+function compress-project
+    set -l archive $argv[1]
+    set -e argv[1]
+    tar --exclude='node_modules' --exclude='dist' -czf $archive $argv
 end

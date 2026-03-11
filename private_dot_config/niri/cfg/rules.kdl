@@ -1,0 +1,128 @@
+// You can also set this to null to disable saving screenshots to disk.
+// screenshot-path null
+
+// Example: enable rounded corners for all windows.
+// (This example rule is commented out with a "/-" in front.)
+window-rule {
+    geometry-corner-radius 8
+    clip-to-geometry true
+}
+
+// Window rules let you adjust behavior for individual windows.
+// Find more information on the wiki:
+// https://yalter.github.io/niri/Configuration:-Window-Rules
+
+// Enable borders for Alacritty since it no longer has window decorations
+window-rule {
+    match app-id="Alacritty"
+    draw-border-with-background true
+    default-column-width { proportion 0.66667; }
+}
+
+
+window-rule {
+    match app-id="chromium"
+    default-column-width { proportion 1.0; }
+}
+
+window-rule {
+    match app-id=r#"zen$"#
+    default-column-width { proportion 1.0; }
+    open-maximized true
+    open-maximized-to-edges true
+}
+
+// Open the Firefox picture-in-picture player as floating by default.
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Open the Firefox picture-in-picture player as floating by default.
+window-rule {
+    // This app-id regular expression will work for both:
+    // - host Firefox (app-id is "firefox")
+    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+// Example: block out two password managers from screen capture.
+// (This example rule is commented out with a "/-" in front.)
+/-window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+
+    // Use this instead if you want them visible on third-party screenshot tools.
+    // block-out-from "screencast"
+}
+
+
+
+window-rule {
+    match app-id=r#"^jetbrains-studio$"#
+    match app-id=r#"^studio$"#
+    draw-border-with-background false
+    geometry-corner-radius 0
+    clip-to-geometry false
+    default-column-width { proportion 1.0; }
+    open-maximized true
+}
+
+window-rule {
+    match app-id=r#"^jetbrains-studio$"# title=r#"^win\d+$"#
+    match app-id=r#"^studio$"# title=r#"^win\d+$"#
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"^jetbrains-studio$"# title=r#"Settings|Preferences|Project Structure|SDK Manager|AVD Manager"#
+    match app-id=r#"^studio$"# title=r#"Settings|Preferences|Project Structure|SDK Manager|AVD Manager"#
+    open-floating true
+}
+
+window-rule {
+    match app-id="Emulator" title=r#"^Android Emulator"#
+    open-floating true
+    draw-border-with-background false
+    geometry-corner-radius 0
+    clip-to-geometry false
+    focus-ring { off; }
+    border { off; }
+}
+
+window-rule {
+    match app-id="Emulator"
+    draw-border-with-background false
+    open-floating true
+    focus-ring { off; }
+    border { off; }
+}
+
+window-rule {
+    match app-id=r#"^avdmanager$"#
+    match app-id=r#"^sun-awt-X11-XFramePeer$"# title=r#"AVD|Virtual Device"#
+    open-floating true
+    draw-border-with-background true
+    geometry-corner-radius 0
+    clip-to-geometry false
+}
+
+// SDK Manager standalone
+window-rule {
+    match app-id=r#"^sun-awt-X11-XFramePeer$"# title=r#"SDK Manager"#
+    open-floating true
+}
+
+// vscode should have borders
+window-rule {
+  // regex that mantaches code and code-insiders
+    match app-id=r#"code(-insiders)?$"#
+    draw-border-with-background true
+    default-column-width { proportion 1.0; }
+}
