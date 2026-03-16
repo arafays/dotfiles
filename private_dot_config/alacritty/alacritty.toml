@@ -4,8 +4,8 @@ WINIT_X11_SCALE_FACTOR = "1"
 
 [window]
 dynamic_padding = true
-decorations = "full"
-opacity = 0.95
+decorations = "none"
+opacity = 1
 decorations_theme_variant = "Dark"
 padding.x = 10
 
@@ -40,9 +40,6 @@ multiplier = 3
 # magenta = "#be95ff"
 # cyan = "#3ddbd9"
 # white = "#ffffff"
-
-[font]
-size = 12
 
 [font.normal]
 family = "monospace"
