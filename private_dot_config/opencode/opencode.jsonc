@@ -23,16 +23,6 @@
       ],
       "enabled": false,
     },
-    "playwright": {
-      "type": "local",
-      "command": [
-        "npx",
-        "@playwright/mcp@latest",
-        "--executable-path",
-        "{env:CHROMIUM_PATH}",
-      ],
-      "enabled": false,
-    },
     "devtools": {
       "type": "local",
       "command": [

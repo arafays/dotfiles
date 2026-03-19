@@ -1,6 +1,3 @@
-[general]
-live_config_reload = true
-
 [env]
 TERM = "alacritty"
 
@@ -14,18 +11,6 @@ title = "Alacritty"
 x = 10
 y = 10
 
-[font]
-normal.family = "CaskaydiaCove Nerd Font Mono"
-normal.style = "Regular"
-bold.family = "CaskaydiaCove Nerd Font Mono"
-bold.style = "Bold"
-italic.family = "CaskaydiaCove Nerd Font Mono"
-italic.style = "Italic"
-bold_italic.family = "CaskaydiaCove Nerd Font Mono"
-bold_italic.style = "Bold Italic"
-
-size = 12.0
-
 
 [terminal.shell]
 # Shell
@@ -36,42 +21,143 @@ program = "/usr/bin/fish"
 style.shape = "Beam"
 style.blinking = "Off"
 
+
+# # Colors (Oxocarbon theme to match Starship)
+# [colors.primary]
+# background = "#161616"
+# foreground = "#dde1e6"
+#
+# [colors.cursor]
+# text = "#161616"
+# cursor = "#dde1e6"
+#
+# [colors.normal]
+# black = "#161616"
+# red = "#ee5396"
+# green = "#42be65"
+# yellow = "#ffe97b"
+# blue = "#33b1ff"
+# magenta = "#be95ff"
+# cyan = "#3ddbd9"
+# white = "#dde1e6"
+#
+# [colors.bright]
+# black = "#262626"
+# red = "#ee5396"
+# green = "#42be65"
+# yellow = "#ffe97b"
+# blue = "#78a9ff"
+# magenta = "#be95ff"
+# cyan = "#3ddbd9"
+# white = "#ffffff"
+#
+
+[font]
+size = 10
+
+[font.normal]
+family = "monospace"
+style = "Regular"
+
+[font.bold]
+family = "monospace"
+style = "Bold"
+
+[font.italic]
+family = "monospace"
+style = "Italic"
+
+[font.bold_italic]
+family = "monospace"
+style = "Bold Italic"
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+save_to_clipboard = true
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+mouse = "Middle"
+action = "PasteSelection"
+
 [keyboard]
-# Keybindings (basic)
-bindings = [
-  { key = "C", mods = "Control|Shift", action = "Copy" },
-  { key = "V", mods = "Control|Shift", action = "Paste" },
-  { key = "Plus", mods = "Control", action = "IncreaseFontSize" },
-  { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
-  { key = "Key0", mods = "Control", action = "ResetFontSize" },
-]
+[[keyboard.bindings]]
+key = "Paste"
+action = "Paste"
 
+[[keyboard.bindings]]
+key = "Copy"
+action = "Copy"
 
-# Colors (Oxocarbon theme to match Starship)
-[colors.primary]
-background = "#161616"
-foreground = "#dde1e6"
+[[keyboard.bindings]]
+key = "L"
+mods = "Control"
+action = "ClearLogNotice"
 
-[colors.cursor]
-text = "#161616"
-cursor = "#dde1e6"
+[[keyboard.bindings]]
+key = "L"
+mods = "Control"
+mode = "~Vi"
+chars = "\f"
 
-[colors.normal]
-black = "#161616"
-red = "#ee5396"
-green = "#42be65"
-yellow = "#ffe97b"
-blue = "#33b1ff"
-magenta = "#be95ff"
-cyan = "#3ddbd9"
-white = "#dde1e6"
+[[keyboard.bindings]]
+key = "PageUp"
+mods = "Shift"
+mode = "~Alt"
+action = "ScrollPageUp"
 
-[colors.bright]
-black = "#262626"
-red = "#ee5396"
-green = "#42be65"
-yellow = "#ffe97b"
-blue = "#78a9ff"
-magenta = "#be95ff"
-cyan = "#3ddbd9"
-white = "#ffffff"
+[[keyboard.bindings]]
+key = "PageDown"
+mods = "Shift"
+mode = "~Alt"
+action = "ScrollPageDown"
+
+[[keyboard.bindings]]
+key = "Home"
+mods = "Shift"
+mode = "~Alt"
+action = "ScrollToTop"
+
+[[keyboard.bindings]]
+key = "End"
+mods = "Shift"
+mode = "~Alt"
+action = "ScrollToBottom"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Control|Shift"
+action = "SearchForward"
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Control|Shift"
+action = "SearchBackward"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+mode = "Vi"
+action = "ClearSelection"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+[general]
+import = ["~/.config/alacritty/themes/noctalia.toml"]
+live_config_reload = true
+working_directory = "None"
