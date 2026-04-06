@@ -1,22 +1,27 @@
 return {
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   priority = 1000,
+  --   lazy = false,
+  --   opts = {
+  --     transparent = true,
+  --     style = "night", -- Options: "storm", "moon", "day", "night"
+  --     styles = {
+  --       sidebars = "transparent",
+  --       floats = "transparent",
+  --     },
+  --   },
+  -- },
   {
-    "folke/tokyonight.nvim",
-    priority = 1000,
-    lazy = false,
+    "LazyVim/LazyVim",
     opts = {
+      -- Dark mode
       transparent = true,
       style = "night", -- Options: "storm", "moon", "day", "night"
       styles = {
         sidebars = "transparent",
         floats = "transparent",
       },
-    },
-  },
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      -- Dark mode
-      colorscheme = "tokyonight-moon",
     },
   },
   -- {

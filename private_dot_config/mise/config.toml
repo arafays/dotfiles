@@ -1,0 +1,33 @@
+[settings]
+jobs = 4
+not_found_auto_install = true
+always_keep_download = false
+always_keep_install = false
+
+[tools]
+biome = "latest"
+bun = "latest"
+go = "latest"
+java = "24"
+node = "22"
+pnpm = "10.11.0"
+python = "3.14"
+rust = "latest"
+usage = "latest"
+uv = "latest"
+"npm:markdownlint-cli2" = "latest"
+"npm:vim-language-server" = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:@ast-grep/napi" = "latest"
+"npm:@biomejs/biome" = "latest"
+"npm:eas-cli" = "latest"
+"npm:expo" = "latest"
+"npm:firebase-tools" = "latest"
+"npm:neovim" = "latest"
+"npm:playwright" = "latest"
+"npm:prettier" = "latest"
+"npm:yo" = "latest"
+
+[tool_alias]
+node = "core:node"
+python = "core:python"

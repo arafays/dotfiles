@@ -3,6 +3,8 @@ set -gx GPG_TTY (tty)
 set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
 set -g fish_greeting
 
+mise activate fish | source
+
 set -gx aurhelper ""
 for helper in yay paru
     if type -q $helper
@@ -19,29 +21,48 @@ function in
     end
 end
 
-mise activate fish | source
-mise completion fish | source
+if status is-interactive
+    mise completion fish | source
 
-function load_mise_tool_completions --on-variable PWD
-    set active_tools (mise ls --current 2>/dev/null | awk '{print $1}')
-    for tool in $active_tools
-        switch $tool
-            case bun
-                if not set -q __mise_bun_loaded
-                    if type -q bun
-                        bun completions fish | source
-                        set -g __mise_bun_loaded 1
-                    end
+    function _mise_load_tool_completions --on-variable PWD
+        if not set -q __mise_completions_loaded
+            set -g __mise_completions_loaded 1
+
+            set active_tools (mise ls --current 2>/dev/null | awk '{print $1}')
+
+            for tool in $active_tools
+                switch $tool
+                    case bun
+                        if type -q bun; and not set -q __bun_completions_loaded
+                            bun completions fish | source 2>/dev/null
+                            set -g __bun_completions_loaded 1
+                        end
+                    case pnpm
+                        if type -q pnpm; and not set -q __pnpm_completions_loaded
+                            pnpm completion fish | source 2>/dev/null
+                            set -g __pnpm_completions_loaded 1
+                        end
+                    case uv
+                        if type -q uv; and not set -q __uv_completions_loaded
+                            uv generate-shell-completion fish | source 2>/dev/null
+                            set -g __uv_completions_loaded 1
+                        end
+                    case rust
+                        if type -q rustup; and not set -q __rustup_completions_loaded
+                            rustup completions fish | source 2>/dev/null
+                            set -g __rustup_completions_loaded 1
+                        end
+                    case python
+                        if type -q pip; and not set -q __pip_completions_loaded
+                            pip completion --fish | source 2>/dev/null
+                            set -g __pip_completions_loaded 1
+                        end
                 end
-            case pnpm
-                if not set -q __mise_pnpm_loaded
-                    if type -q pnpm
-                        pnpm completion fish | source
-                        set -g __mise_pnpm_loaded 1
-                    end
-                end
+            end
         end
     end
+
+    _mise_load_tool_completions
 end
 
 if test -d ~/.config/environment.d
@@ -59,154 +80,171 @@ if status is-interactive
     set -g fish_cursor_visual block
 
     type -q starship; and starship init fish | source
-    type -q zoxide; and zoxide init fish | source
-
     type -q zoxide; and zoxide init fish --cmd cd | source
 
     abbr g git
     abbr lzg lazygit
     abbr lzd lazydocker
+    abbr oc opencode
     alias mkcd='mkdir -p $argv; and cd $argv'
     alias vim='nvim'
-    alias ..='cd ..'
-    alias ...='cd ../..'
     abbr -a -- - 'cd -'
     alias n='nvim'
-    alias dev='code-insiders .'
     alias code="code-insiders"
-end
+    alias dev='code .'
 
-if type -q eza
-    alias ls='eza -lh --icons=auto --group-directories-first'
-    alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
-    alias l='eza -lh --icons=auto'
-    alias la='eza -lha --icons=auto'
-    alias ld='eza -lhD --icons=auto'
-    alias lt='eza --icons=auto --tree --level=2'
-    set -gx EZA_COLORS "da=36:di=34:ex=32:fi=0:ln=35:pi=33:so=31"
-end
+    if type -q eza
+        alias ls='eza -lh --icons=auto --group-directories-first'
+        alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
+        alias l='eza -lh --icons=auto'
+        alias la='eza -lha --icons=auto'
+        alias ld='eza -lhD --icons=auto'
+        alias lt='eza --icons=auto --tree --level=2'
+        set -gx EZA_COLORS "da=36:di=34:ex=32:fi=0:ln=35:pi=33:so=31"
+    end
 
-if type -q bat
-    alias cat='bat --style=plain --color=always --paging=never'
-    alias less='bat --style=plain --color=always --paging=always'
-end
+    if type -q bat
+        alias cat='bat --style=plain --color=always --paging=never'
+        alias less='bat --style=plain --color=always --paging=always'
+    end
 
-if type -q fd
-    alias find='fd'
-end
-if type -q rg
-    alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
-end
+    if type -q fd
+        alias find='fd'
+    end
+    if type -q rg
+        alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
+    end
 
-if test -n "$aurhelper"
-    alias un="$aurhelper -Rns"
-    alias up="$aurhelper -Syu --noconfirm"
-    alias look="$aurhelper -Qs"
-    alias search="$aurhelper -Ss"
-    alias pc="$aurhelper -Sc"
-    alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
-    alias pi="$aurhelper -Si"
-    alias orphans="$aurhelper -Qtdq"
-    alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
-end
+    if test -n "$aurhelper"
+        alias un="$aurhelper -Rns"
+        alias up="$aurhelper -Syu --noconfirm"
+        alias look="$aurhelper -Qs"
+        alias search="$aurhelper -Ss"
+        alias pc="$aurhelper -Sc"
+        alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
+        alias pi="$aurhelper -Si"
+        alias orphans="$aurhelper -Qtdq"
+        alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
+    end
 
-function fcd
-    set -l dir (find . -maxdepth 5 \( -name .git -o -name node_modules -o -name .next -o -name dist \) -prune -o -type d -print 2>/dev/null | fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%)
-    test -n "$dir"; and cd "$dir"
-end
+    function fcd
+        set -l dir (find . -maxdepth 5 \( -name .git -o -name node_modules -o -name .next -o -name dist \) -prune -o -type d -print 2>/dev/null | fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%)
+        test -n "$dir"; and cd "$dir"
+    end
 
-function fe
-    set -l file (fzf --preview='bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%)
-    test -n "$file"; and $EDITOR "$file"
-end
+    function fe
+        set -l file (fzf --preview='bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%)
+        test -n "$file"; and $EDITOR "$file"
+    end
 
-function tn
-    set -l session_name (basename $PWD | string replace -a '.' '_')
-    tmux new-session -A -s "$session_name" -c "$PWD"
-end
+    function tn
+        set -l session_name (basename $PWD | string replace -a '.' '_')
+        tmux new-session -A -s "$session_name" -c "$PWD"
+    end
 
-function ts
-    set -l ses (tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --layout=reverse)
-    if test -n "$ses"
-        if test -n "$TMUX"
-            tmux switch-client -t "$ses"
-        else
-            tmux attach-session -t "$ses"
+    function ts
+        set -l ses (tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --layout=reverse)
+        if test -n "$ses"
+            if test -n "$TMUX"
+                tmux switch-client -t "$ses"
+            else
+                tmux attach-session -t "$ses"
+            end
         end
     end
-end
 
-function compress
-    set -l archive $argv[1]
-    set -e argv[1]
-    switch $archive
-        case '*.tar.gz'
-            tar -czf $archive $argv
-        case '*.zip'
-            zip -r $archive $argv
-        case '*.7z'
-            7z a $archive $argv
-        case '*'
-            echo "Unsupported format"
+    function compress
+        set -l archive $argv[1]
+        set -e argv[1]
+        switch $archive
+            case '*.tar.gz'
+                tar -czf $archive $argv
+            case '*.zip'
+                zip -r $archive $argv
+            case '*.7z'
+                7z a $archive $argv
+            case '*'
+                echo "Unsupported format"
+        end
     end
-end
 
-function extract
-    set -l archive $argv[1]
-    switch $archive
-        case '*.tar.gz' '*.tgz'
-            tar -xzf $archive
-        case '*.zip'
-            unzip $archive
-        case '*.7z'
-            7z x $archive
-        case '*'
-            echo "Unsupported format"
+    function extract
+        set -l archive $argv[1]
+        switch $archive
+            case '*.tar.gz' '*.tgz'
+                tar -xzf $archive
+            case '*.zip'
+                unzip $archive
+            case '*.7z'
+                7z x $archive
+            case '*'
+                echo "Unsupported format"
+        end
     end
-end
 
-function parufind
-    set -l pkg (paru -Ss "$argv" 2>/dev/null | awk '/^[a-z]/ {if (p != "") print p " | " d; p = $1; d = ""} /^    / {sub(/^    /, ""); d = $0} END {if (p != "") print p " | " d}' | fzf --ansi --height=80% --layout=reverse --border=rounded --preview='echo {} | cut -d "|" -f1 | tr -d " " | xargs -I{} paru -Si {}' | cut -d '|' -f1 | tr -d ' ')
-    if test -n "$pkg"
-        paru -S (echo $pkg | string trim)
+    function parufind
+        set -l pkg (paru -Ss "$argv" 2>/dev/null | awk '/^[a-z]/ {if (p != "") print p " | " d; p = $1; d = ""} /^    / {sub(/^    /, ""); d = $0} END {if (p != "") print p " | " d}' | fzf --ansi --height=80% --layout=reverse --border=rounded --preview='echo {} | cut -d "|" -f1 | tr -d " " | xargs -I{} paru -Si {}' | cut -d '|' -f1 | tr -d ' ')
+        if test -n "$pkg"
+            paru -S (echo $pkg | string trim)
+        end
     end
-end
 
-function parufind-widget
-    read -P "Search AUR: " search
-    test -n "$search"; and parufind "$search"
-    commandline -f repaint
-end
-
-function ua-update-all
-    set -l TMPFILE (mktemp)
-    if rate-mirrors --save=$TMPFILE arch --max-delay=21600
-        sudo mv $TMPFILE /etc/pacman.d/mirrorlist
-        sudo paccache -rk3
-        test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
-        $aurhelper -Syyu --noconfirm
+    function parufind-widget
+        read -P "Search AUR: " search
+        test -n "$search"; and parufind "$search"
+        commandline -f repaint
     end
-end
 
-function ua-update-chaotic
-    set -l TMPFILE (mktemp)
-    if rate-mirrors --save=$TMPFILE chaotic-aur
-        sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist
-        sudo paccache -rk3
-        test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
-        $aurhelper -Syyu --noconfirm
+    function ua-update-all
+        set -l TMPFILE (mktemp)
+        if rate-mirrors --save=$TMPFILE arch --max-delay=21600
+            sudo mv $TMPFILE /etc/pacman.d/mirrorlist
+            sudo paccache -rk3
+            test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
+            $aurhelper -Syyu --noconfirm
+        end
     end
-end
 
-function fish_user_key_bindings
-    bind \ep parufind-widget
-    bind -M insert \ch backward-delete-char
-    bind -M insert \cf forward-char
-end
+    function ua-update-chaotic
+        set -l TMPFILE (mktemp)
+        if rate-mirrors --save=$TMPFILE chaotic-aur
+            sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist
+            sudo paccache -rk3
+            test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
+            $aurhelper -Syyu --noconfirm
+        end
+    end
 
-# compress without node_modules and dist
-function compress-project
-    set -l archive $argv[1]
-    set -e argv[1]
-    tar --exclude='node_modules' --exclude='dist' -czf $archive $argv
+    function fish_user_key_bindings
+        bind \ep parufind-widget
+        bind -M insert \ch backward-delete-char
+        bind -M insert \cf forward-char
+    end
+
+    # compress without node_modules and dist
+    function compress-project
+        set -l archive $argv[1]
+        set -e argv[1]
+        tar --exclude='node_modules' --exclude='dist' -czf $archive $argv
+    end
+
+    # mise helper functions
+    function mise-up
+        mise install
+        mise prune
+    end
+
+    function mise-clean
+        mise prune
+        rm -rf ~/.cache/mise/*
+        mise cache clear
+    end
+
+    function mise-global
+        mise use --global $argv
+    end
+
+    function mise-local
+        mise use $argv
+    end
 end

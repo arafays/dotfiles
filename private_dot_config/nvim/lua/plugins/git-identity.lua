@@ -20,9 +20,8 @@ return {
         cond = function()
           return vim.g.git_identity ~= nil
         end,
-        icon = "",
+        -- icon = "",
       })
-      table.insert(opts.sections.lualine_b, "branch")
     end,
   },
 }
