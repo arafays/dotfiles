@@ -1,0 +1,8 @@
+# OpenCode agents files
+.agents/
+agents.d/
+.skills/
+.opencode/
+
+# Agent configuration
+AGENTS.md

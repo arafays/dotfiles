@@ -1,7 +1,18 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
+set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
 set -gx EDITOR nvim
+set -gx GPG_TTY (tty)
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
+
+set -g fish_greeting
+
+mise activate fish | source
+
+# overwrite greeting
+# potentially disabling fastfetch
+function fish_greeting
+end
 
 if test -d ~/.config/environment.d
     for file in ~/.config/environment.d/*.conf
@@ -9,16 +20,19 @@ if test -d ~/.config/environment.d
     end
 end
 
-# overwrite greeting
-# potentially disabling fastfetch
-function fish_greeting
-end
-
 set -gx aurhelper ""
 for helper in yay paru
     if type -q $helper
         set -gx aurhelper $helper
         break
+    end
+end
+
+function in
+    if test -n "$aurhelper"
+        $aurhelper -S $argv
+    else
+        sudo pacman -S $argv
     end
 end
 
@@ -32,15 +46,18 @@ if status is-interactive
 
     type -q starship; and starship init fish | source
     type -q zoxide; and zoxide init fish --cmd cd | source
-    type -q mise; and mise activate fish | source
 
-    alias ..='cd ..'
-    alias ...='cd ../..'
-    abbr -a -- - 'cd -'
     alias vim='nvim'
     alias n='nvim'
-    alias dev='code-insiders .'
+    alias code="code-insiders"
+    alias dev='code .'
     alias mkcd='mkdir -p $argv; and cd $argv'
+
+    abbr g git
+    abbr lzg lazygit
+    abbr lzd lazydocker
+    abbr oc opencode
+    abbr -a -- - 'cd -'
 
     if type -q eza
         alias ls='eza -lh --icons=auto --group-directories-first'
@@ -177,4 +194,55 @@ if status is-interactive
         tar --exclude='*/node_modules/*' --exclude='*/dist/*' -czf $archive $argv
     end
 
+    # compress without node_modules and dist
+    function compress-project
+        set -l archive $argv[1]
+        set -e argv[1]
+        tar --exclude='node_modules' --exclude='dist' -czf $archive $argv
+    end
+
+end
+
+if status is-interactive
+    mise completion fish | source
+
+    function _mise_load_tool_completions --on-variable PWD
+        if not set -q __mise_completions_loaded
+            set -g __mise_completions_loaded 1
+
+            set active_tools (mise ls --current 2>/dev/null | awk '{print $1}')
+
+            for tool in $active_tools
+                switch $tool
+                    case bun
+                        if type -q bun; and not set -q __bun_completions_loaded
+                            bun completions fish | source 2>/dev/null
+                            set -g __bun_completions_loaded 1
+                        end
+                    case pnpm
+                        if type -q pnpm; and not set -q __pnpm_completions_loaded
+                            pnpm completion fish | source 2>/dev/null
+                            set -g __pnpm_completions_loaded 1
+                        end
+                    case uv
+                        if type -q uv; and not set -q __uv_completions_loaded
+                            uv generate-shell-completion fish | source 2>/dev/null
+                            set -g __uv_completions_loaded 1
+                        end
+                    case rust
+                        if type -q rustup; and not set -q __rustup_completions_loaded
+                            rustup completions fish | source 2>/dev/null
+                            set -g __rustup_completions_loaded 1
+                        end
+                    case python
+                        if type -q pip; and not set -q __pip_completions_loaded
+                            pip completion --fish | source 2>/dev/null
+                            set -g __pip_completions_loaded 1
+                        end
+                end
+            end
+        end
+    end
+
+    _mise_load_tool_completions
 end

@@ -1,53 +1,61 @@
-    window-rule {
-        geometry-corner-radius 8
-        clip-to-geometry true
+layer-rule {
+    match namespace="^noctalia-wallpaper*"
+    place-within-backdrop true
+}
+
+window-rule {
+    open-floating true
+
+    match app-id="^caja$"
+    match app-id="^pcmanfm$"
+    match app-id="^thunar$"
+    match app-id="^nemo$"
+    match app-id=r#"^org\.freedesktop\.impl\.portal\.desktop\.kde$"#
+
+    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    match app-id=r#"^org\.gnome\.Nautilus$"#
+    match app-id="^zen$" title=r#"(?i)Extension.*Bitwarden"#
+    match app-id="^brave-browser$" title=r#"(?i)(Bitwarden|bitwarden|Extension: \()"#
+    match title=r#"(?i)(enter password|authentication|authenticate)"#
+
+    exclude title=r#".* - Nemo$"#
+    exclude title=r#".* - Thunar$"#
+    exclude title=r#".* - Caja$"#
+    exclude title=r#".* - PCManFM$"#
+
+    min-width 800
+    min-height 600
+}
+
+window-rule {
+    geometry-corner-radius 8
+    clip-to-geometry true
+}
+
+window-rule {
+    match app-id="^zen$"
+    match app-id="^brave-browser$"
+    exclude title=r#"(?i)Extension.*Bitwarden"#
+    open-maximized-to-edges true
+    open-maximized true
+    default-column-width { proportion 1.0; }
+    border {
+        off
     }
+}
 
-    window-rule {
-        match app-id="^zen$"
-        open-maximized-to-edges true
-        open-maximized true
-        default-column-width { proportion 1.0; }
-        border {
-            off
-        }
+window-rule {
+    match app-id="^Alacritty$"
+    open-maximized-to-edges true
+    open-maximized true
+    default-column-width { proportion 1.0; }
+    border {
+        off
     }
+}
 
-
-    window-rule {
-        match app-id="^Alacritty$"
-        open-maximized-to-edges true
-        open-maximized true
-        default-column-width { proportion 1.0; }
-        border {
-            off
-        }
-    }
-
-    window-rule {
-        match app-id="^brave-browser$"
-        open-maximized-to-edges true
-        open-maximized true
-        default-column-width { proportion 1.0; }
-        border {
-            off
-        }
-    }
-
-    window-rule {
-        match app-id=r#"zen$"# title="^Picture-in-Picture$"
-        open-floating true
-    }
-
-    layer-rule {
-        match namespace="^noctalia-wallpaper*"
-        place-within-backdrop true
-    }
-
-    window-rule {
-        match app-id=r#"code(-insiders)?$"#
-        draw-border-with-background true
-        default-column-width { proportion 1.0; }
-    }
-
- 
+window-rule {
+    match app-id=r#"code(-insiders)?$"#
+    draw-border-with-background true
+    default-column-width { proportion 0.6667; }
+}
