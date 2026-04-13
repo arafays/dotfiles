@@ -6,4 +6,4 @@
     spawn-sh-at-startup "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
     
     // Open terminal on portrait monitor (focus left, spawn, focus back)
-    spawn-sh-at-startup "niri msg action focus-monitor-left || true; alacritty &"
+    spawn-sh-at-startup "niri msg action focus-monitor-right || true; alacritty &"

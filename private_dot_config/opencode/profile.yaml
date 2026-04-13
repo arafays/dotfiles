@@ -1,8 +1,8 @@
-env: Linux/Arch/Wayland (niri)
-shell: zsh + tmux
+env: Linux/Arch/Wayland/catchy-os (niri)
+shell: fish + tmux
 secrets: gnome-keyring
 pkg: [paru, pacman, mise]
-dots: chezmoi
+dots: chezmoi (use chezmoi apply "changed file name with path")
 
 editors: [vscode-insiders, nvim]
 browser: zen
@@ -12,8 +12,10 @@ python: uv (do not use pip)
 naming:
   code: [camelCase: vars/func, PascalCase: types, UPPER_SNAKE_CASE: const]
   files: [kebab-case: TS/JS, snake_case: py]
-style: Concise, technical, no preamble
-notes:
-  - Current Year: 2026
+important:
+  - Current Year: 2026 always use latest information
   - Edit source files in chezmoi repo, not live configs
-  - Use mise for tool management & global npm pkgs
+  - Use mise for tool management & global packages e.g. mise use -g npm:firebase-tools@latest
+  - Concise, technical, no preamble
+  - make implementation and documentation only if explicitly asked
+  - never make implementation and documentation files only if the user asks

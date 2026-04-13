@@ -1,18 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
-    "~/.config/opencode/profile.yaml"
+    "./profile.yaml"
   ],
+  "permission": {
+    "git add *": "ask",
+    "git reset": "deny",
+  },
   "mcp": {
-    "sequentialthinking": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking@latest",
-      ],
-      "enabled": false
-    },
     "context7": {
       "type": "local",
       "command": [
@@ -22,17 +17,7 @@
         "--api-key",
         "{env:CONTEXT7_API_KEY}",
       ],
-      "enabled": false
-    },
-    "playwright": {
-      "type": "local",
-      "command": [
-        "npx",
-        "@playwright/mcp@latest",
-        "--executable-path",
-        "{env:CHROMIUM_PATH}",
-      ],
-      "enabled": false
+      "enabled": true
     },
     "devtools": {
       "type": "local",
@@ -52,11 +37,6 @@
         "markitdown-mcp"
       ],
       "enabled": false
-    },
-    "deepwiki": {
-      "type": "remote",
-      "url": "https://mcp.deepwiki.com/mcp",
-      "enabled": false
-    },
+    }
   },
 }
