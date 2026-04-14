@@ -2,6 +2,10 @@ layer-rule {
     match namespace="^noctalia-wallpaper*"
     place-within-backdrop true
 }
+window-rule {
+    geometry-corner-radius 8
+    clip-to-geometry true
+}
 
 window-rule {
     open-floating true
@@ -23,14 +27,11 @@ window-rule {
     exclude title=r#".* - Caja$"#
     exclude title=r#".* - PCManFM$"#
 
-    min-width 800
-    min-height 600
+    min-width 1280
+    min-height 920
 }
 
-window-rule {
-    geometry-corner-radius 8
-    clip-to-geometry true
-}
+
 
 window-rule {
     match app-id="^zen$"
