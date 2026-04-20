@@ -154,17 +154,42 @@ if status is-interactive
     end
 
     function compress
-        set -l archive $argv[1]
-        set -e argv[1]
+        set -l split_size ""
+        set -l archive ""
+        set -l files ()
+
+        for arg in $argv
+            if string match -q -- '--split=*' $arg
+                set split_size (string replace -- '--split=' '' $arg)
+            else if test -z "$archive"
+                set archive $arg
+            else
+                set -a files $arg
+            end
+        end
+
+        if test (count $files) -eq 0
+            if not string match -q -- '*.tar.gz' $archive; and not string match -q -- '*.zip' $archive; and not string match -q -- '*.7z' $archive
+                set files $archive
+                set archive "$archive.tar.gz"
+            end
+        end
+
+        if test -n "$split_size"
+            if not string match -q -- '*.7z' $archive
+                set archive (string replace -r -- '\.tar\.gz$|\.zip$' '.7z' $archive)
+            end
+            7z a -v$split_size $archive $files
+            return
+        end
+
         switch $archive
             case '*.tar.gz'
-                tar -czf $archive $argv
+                tar -czf $archive $files
             case '*.zip'
-                zip -r $archive $argv
+                zip -r $archive $files
             case '*.7z'
-                7z a $archive $argv
-            case '*'
-                echo "Unsupported format"
+                7z a $archive $files
         end
     end
 
