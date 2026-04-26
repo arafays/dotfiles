@@ -18,6 +18,10 @@
         "ignoreMouseInput": false,
         "overviewLayer": false,
         "pinnedApps": [
+            "upwork-wayland",
+            "zen",
+            "brave-browser",
+            "losslesscut-bin"
         ],
         "position": "top_center",
         "screenshotAnnotationTool": "",
@@ -32,6 +36,7 @@
         ],
         "preferredPlayer": "vlc",
         "spectrumFrameRate": 30,
+        "spectrumMirrored": true,
         "visualizerType": "linear",
         "volumeFeedback": false,
         "volumeFeedbackSoundFile": "",
@@ -46,14 +51,13 @@
         "capsuleColorKey": "none",
         "capsuleOpacity": 1,
         "contentPadding": 2,
-        "density": "default",
+        "density": "mini",
         "displayMode": "auto_hide",
         "enableExclusionZoneInset": true,
-        "floating": false,
         "fontScale": 1,
         "frameRadius": 12,
         "frameThickness": 8,
-        "hideOnOverview": true,
+        "hideOnOverview": false,
         "marginHorizontal": 4,
         "marginVertical": 4,
         "middleClickAction": "launcherPanel",
@@ -78,7 +82,7 @@
                 "name": "HDMI-A-1"
             },
             {
-                "density": "compact",
+                "density": "mini",
                 "displayMode": "always_visible",
                 "enabled": true,
                 "name": "DP-3",
@@ -102,17 +106,6 @@
                             "showBadge": true,
                             "showLabelsOnlyWhenOccupied": true,
                             "unfocusedIconsOpacity": 0.5700000000000001
-                        },
-                        {
-                            "defaultSettings": {
-                                "activeColor": "primary",
-                                "enableToast": true,
-                                "hideInactive": false,
-                                "iconSpacing": 4,
-                                "inactiveColor": "none",
-                                "removeMargins": false
-                            },
-                            "id": "plugin:privacy-indicator"
                         }
                     ],
                     "left": [
@@ -131,10 +124,11 @@
                             "useCustomFont": false
                         },
                         {
-                            "compactMode": true,
+                            "compactMode": false,
                             "diskPath": "/",
                             "iconColor": "none",
                             "id": "SystemMonitor",
+                            "showCpuCores": false,
                             "showCpuFreq": false,
                             "showCpuTemp": true,
                             "showCpuUsage": true,
@@ -145,7 +139,7 @@
                             "showLoadAverage": false,
                             "showMemoryAsPercent": true,
                             "showMemoryUsage": true,
-                            "showNetworkStats": false,
+                            "showNetworkStats": true,
                             "showSwapUsage": false,
                             "textColor": "none",
                             "useMonospaceFont": true,
@@ -180,16 +174,10 @@
                             "showVisualizer": true,
                             "textColor": "none",
                             "useFixedWidth": false,
-                            "visualizerType": "linear"
-                        },
-                        {
-                            "id": "plugin:screen-recorder"
+                            "visualizerType": "mirrored"
                         },
                         {
                             "id": "plugin:screenshot"
-                        },
-                        {
-                            "id": "plugin:clipper"
                         },
                         {
                             "blacklist": [
@@ -262,6 +250,7 @@
             "left": [
                 {
                     "colorizeSystemIcon": "none",
+                    "colorizeSystemText": "none",
                     "customIconPath": "",
                     "enableColorization": false,
                     "icon": "rocket",
@@ -307,6 +296,7 @@
                     "maxWidth": 145,
                     "scrollingMode": "hover",
                     "showIcon": true,
+                    "showText": true,
                     "textColor": "none",
                     "useFixedWidth": false
                 }
@@ -330,38 +320,9 @@
                 },
                 {
                     "defaultSettings": {
-                        "audioCodec": "opus",
-                        "audioSource": "default_output",
-                        "colorRange": "limited",
-                        "copyToClipboard": false,
-                        "directory": "",
-                        "filenamePattern": "recording_yyyyMMdd_HHmmss",
-                        "frameRate": "60",
-                        "hideInactive": false,
-                        "iconColor": "none",
-                        "quality": "very_high",
-                        "resolution": "original",
-                        "showCursor": true,
-                        "videoCodec": "h264",
-                        "videoSource": "portal"
-                    },
-                    "id": "plugin:screen-recorder"
-                },
-                {
-                    "defaultSettings": {
                         "mode": "region"
                     },
                     "id": "plugin:screenshot"
-                },
-                {
-                    "defaultSettings": {
-                        "enableTodoIntegration": false,
-                        "notecardsEnabled": true,
-                        "pincardsEnabled": true,
-                        "position": "Bottom",
-                        "showCloseButton": false
-                    },
-                    "id": "plugin:clipper"
                 },
                 {
                     "blacklist": [
@@ -392,6 +353,7 @@
                 {
                     "colorizeDistroLogo": false,
                     "colorizeSystemIcon": "none",
+                    "colorizeSystemText": "none",
                     "customIconPath": "",
                     "enableColorization": false,
                     "icon": "noctalia",
@@ -432,6 +394,7 @@
         "monitorForColors": "",
         "predefinedScheme": "Vesper",
         "schedulingMode": "off",
+        "syncGsettings": true,
         "useWallpaperColors": false
     },
     "controlCenter": {
@@ -508,7 +471,7 @@
         "dockType": "floating",
         "enabled": true,
         "floatingRatio": 1.25,
-        "groupApps": false,
+        "groupApps": true,
         "groupClickAction": "cycle",
         "groupContextMenuMode": "extended",
         "groupIndicatorStyle": "dots",
@@ -526,11 +489,13 @@
         ],
         "onlySameOutput": true,
         "pinnedApps": [
+            "zen",
+            "brave-browser"
         ],
-        "pinnedStatic": false,
+        "pinnedStatic": true,
         "position": "bottom",
         "showDockIndicator": false,
-        "showLauncherIcon": false,
+        "showLauncherIcon": true,
         "sitOnFrame": false,
         "size": 2
     },
@@ -543,12 +508,12 @@
         "avatarImage": "/home/arafays/.face",
         "boxRadiusRatio": 1,
         "clockFormat": "hh\\nmm",
-        "clockStyle": "digital",
-        "compactLockScreen": true,
+        "clockStyle": "custom",
+        "compactLockScreen": false,
         "dimmerOpacity": 0.35000000000000003,
         "enableBlurBehind": true,
         "enableLockScreenCountdown": true,
-        "enableLockScreenMediaControls": false,
+        "enableLockScreenMediaControls": true,
         "enableShadows": true,
         "forceBlackScreenCorners": false,
         "iRadiusRatio": 0.98,
@@ -578,10 +543,11 @@
         },
         "language": "en",
         "lockOnSuspend": true,
-        "lockScreenAnimations": false,
+        "lockScreenAnimations": true,
         "lockScreenBlur": 0,
         "lockScreenCountdownDuration": 10000,
         "lockScreenMonitors": [
+            "DP-3"
         ],
         "lockScreenTint": 0,
         "passwordChars": false,
@@ -596,6 +562,7 @@
         "showHibernateOnLockScreen": false,
         "showScreenCorners": true,
         "showSessionButtonsOnLockScreen": true,
+        "smoothScrollEnabled": true,
         "telemetryEnabled": false
     },
     "hooks": {
@@ -626,20 +593,21 @@
     },
     "location": {
         "analogClockInCalendar": false,
+        "autoLocate": true,
         "firstDayOfWeek": 1,
         "hideWeatherCityName": true,
         "hideWeatherTimezone": false,
-        "name": "karachi",
+        "name": "Karachi",
         "showCalendarEvents": true,
         "showCalendarWeather": true,
         "showWeekNumberInCalendar": false,
         "use12hourFormat": true,
         "useFahrenheit": false,
         "weatherEnabled": true,
-        "weatherShowEffects": true
+        "weatherShowEffects": true,
+        "weatherTaliaMascotAlways": false
     },
     "network": {
-        "airplaneModeEnabled": false,
         "bluetoothAutoConnect": true,
         "bluetoothDetailsViewMode": "grid",
         "bluetoothHideUnnamedDevices": false,
@@ -647,8 +615,7 @@
         "bluetoothRssiPollingEnabled": false,
         "disableDiscoverability": false,
         "networkPanelView": "wifi",
-        "wifiDetailsViewMode": "grid",
-        "wifiEnabled": false
+        "wifiDetailsViewMode": "grid"
     },
     "nightLight": {
         "autoSchedule": true,
@@ -761,6 +728,20 @@
                 "countdownEnabled": true,
                 "enabled": true,
                 "keybind": "6"
+            },
+            {
+                "action": "userspaceReboot",
+                "command": "",
+                "countdownEnabled": true,
+                "enabled": false,
+                "keybind": ""
+            },
+            {
+                "action": "rebootToUefi",
+                "command": "",
+                "countdownEnabled": true,
+                "enabled": true,
+                "keybind": "7"
             }
         ],
         "showHeader": true,
@@ -821,9 +802,9 @@
     },
     "ui": {
         "boxBorderEnabled": false,
-        "fontDefault": "Fira Sans",
+        "fontDefault": "Adwaita Sans",
         "fontDefaultScale": 1,
-        "fontFixed": "MesloLGSDZ Nerd Font Mono",
+        "fontFixed": "monospace",
         "fontFixedScale": 1,
         "panelBackgroundOpacity": 0.93,
         "panelsAttachedToBar": true,
@@ -843,6 +824,7 @@
         "fillColor": "#000000",
         "fillMode": "crop",
         "hideWallpaperFilenames": true,
+        "linkLightAndDarkWallpapers": true,
         "monitorDirectories": [
             {
                 "directory": "/home/arafays/Pictures/Wallpapers",
@@ -875,10 +857,11 @@
             "pixelate",
             "honeycomb"
         ],
+        "useOriginalImages": false,
         "useSolidColor": false,
         "useWallhaven": true,
         "viewMode": "single",
-        "wallhavenApiKey": "a8l8RHTgyLVnRSAh04yAngdhupidpi3T",
+        "wallhavenApiKey": "{{ (bitwarden "item" "Wallhaven API Key").notes | trim }}",
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",
         "wallhavenPurity": "100",
