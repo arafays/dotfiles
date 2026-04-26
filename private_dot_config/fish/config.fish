@@ -4,8 +4,11 @@ set -gx EDITOR nvim
 set -gx GPG_TTY (tty)
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
+# use which chromium or google-chrome if available, otherwise fallback to xdg-open
+set -gx CHROMIUM_PATH (which chromium 2>/dev/null || which google-chrome 2>/dev/null || echo "xdg-open")
 
 set -g fish_greeting
+export PATH="$HOME/.local/bin:$PATH"
 
 mise activate fish | source
 

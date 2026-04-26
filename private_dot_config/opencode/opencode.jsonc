@@ -37,6 +37,13 @@
         "markitdown-mcp"
       ],
       "enabled": false
+    },
+    "fal-ai": {
+      "type": "remote",
+      "url": "https://mcp.fal.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:FAL_KEY}"
+      }
     }
   },
 }
