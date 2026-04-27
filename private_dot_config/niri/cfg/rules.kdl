@@ -123,6 +123,8 @@ window-rule {
 window-rule {
   // regex that mantaches code and code-insiders
     match app-id=r#"code(-insiders)?$"#
+    // for zed thats match id id dev.zed.Zed
+    match app-id=r#"dev\.zed\.Zed$"#
     draw-border-with-background true
     default-column-width { proportion 1.0; }
 }
