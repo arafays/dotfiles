@@ -18,6 +18,10 @@ binds {
     // Please choose your own file manager.
     Mod+E                               hotkey-overlay-title="File Manager: Nemo" { spawn "nemo"; }
 
+    // Noctalia Reload & Dictation ───
+    Mod+CTRL+R                          { spawn-sh "killall qs; qs -c noctalia-shell &"; }
+    Mod+Shift+D                         { spawn-sh "qs -c noctalia-shell ipc call plugin:dictation toggle"; }
+
     // ─── Media Controls ───
     XF86AudioRaiseVolume                allow-when-locked=true { spawn-sh "qs -c noctalia-shell ipc call volume increase"; }
     XF86AudioLowerVolume                allow-when-locked=true { spawn-sh "qs -c noctalia-shell ipc call volume decrease"; }
