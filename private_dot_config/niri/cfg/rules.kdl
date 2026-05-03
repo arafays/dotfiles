@@ -10,25 +10,21 @@ window-rule {
 window-rule {
     open-floating true
 
-    match app-id="^caja$"
-    match app-id="^pcmanfm$"
-    match app-id="^thunar$"
     match app-id="^nemo$"
+    match app-id=r#"^org\.gnome\.Nautilus$"#
+    match app-id="^cachyos-pi$"
+    match app-id=r#"^org\.gnome\.Zenity$"#
+
+    match app-id=r#"^org\.cachyos\..*$"#
     match app-id=r#"^org\.freedesktop\.impl\.portal\.desktop\.kde$"#
 
+    match title=r#"(?i)Bitwarden"#
+
     match app-id=r#"zen$"# title="^Picture-in-Picture$"
-    match app-id=r#"^org\.gnome\.Nautilus$"#
-    match app-id="^zen$" title=r#"(?i)Extension.*Bitwarden"#
-    match app-id="^brave-browser$" title=r#"(?i)(Bitwarden|bitwarden|Extension: \()"#
     match title=r#"(?i)(enter password|authentication|authenticate)"#
 
     exclude title=r#".* - Nemo$"#
-    exclude title=r#".* - Thunar$"#
-    exclude title=r#".* - Caja$"#
-    exclude title=r#".* - PCManFM$"#
 }
-
-
 
 window-rule {
     match app-id="^zen$"
@@ -53,9 +49,9 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"code(-insiders)?$"#
+    match app-id=r#"^code(-insiders)?$"#
     // for zed "dev.zed.Zed"
-    match app-id=r#"dev\.zed\.Zed$"#
+    match app-id=r#"^dev\.zed\.Zed$"#
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
 }
