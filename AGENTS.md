@@ -32,7 +32,8 @@ API keys are also exported at runtime via `~/.config/environment.d/10-misc.conf.
 
 - `dot_*` files → `$HOME/.<filename>` (e.g., `dot_gitconfig.tmpl` → `~/.gitconfig`)
 - `private_dot_*` files → private config (not shared)
-- `*.tmpl` suffix → chezmoi templates; 4 template files exist
+- `executable_*` files → `$HOME/.local/bin/<filename>` (e.g., `executable_hello` → `~/.local/bin/hello`)
+- `*.tmpl` suffix → chezmoi templates; 
 - niri config: `private_dot_config/niri/config.kdl` includes `cfg/*.kdl` + `noctalia.kdl`
 - OpenCode config lives in dotfiles at `private_dot_config/opencode/opencode.jsonc`
 - Environment variables loaded from `~/.config/environment.d/*.conf` (sourced by fish)
