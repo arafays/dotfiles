@@ -54,13 +54,16 @@ if status is-interactive
     alias n='nvim'
     alias code="code-insiders"
     alias dev='code .'
-    alias mkcd='mkdir -p $argv; and cd $argv'
 
     abbr g git
     abbr lzg lazygit
     abbr lzd lazydocker
     abbr oc opencode
     abbr -a -- - 'cd -'
+
+    function mkcd
+        mkdir -p $argv; and cd $argv
+    end
 
     if type -q eza
         alias ls='eza -lh --icons=auto --group-directories-first'
