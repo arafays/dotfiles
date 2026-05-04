@@ -8,8 +8,24 @@ Edit source files here (`~/.local/share/chezmoi`), not the live configs in `$HOM
 
 - **Never use global apply** (`chezmoi apply` without args)
 - **Never apply automatically** — only when explicitly requested
-- Apply only the specific file changed: `chezmoi apply "<relative/path>"`
-- Example: `chezmoi apply "dot_gitconfig.tmpl"`
+- Apply only the specific file changed: `chezmoi apply "<path>"`
+- **CRITICAL:** The path you pass is the **source file path relative to this repo** (`~/.local/share/chezmoi`), NOT the target path in `$HOME`. It must include all chezmoi prefixes/suffixes (`private_`, `dot_`, `.tmpl`, etc.).
+- **You MUST use `--source-path` flag** when passing source-relative paths. Without it, chezmoi interprets the path as a destination (target) path and will fail with "not managed".
+- **CORRECT:** `chezmoi apply --source-path "dot_gitconfig.tmpl"`
+- **WRONG:** `chezmoi apply "dot_gitconfig.tmpl"` (missing `--source-path` → will fail)
+- Before applying, ALWAYS verify you know the correct source path:
+  - If you have the target path (e.g. `~/.config/noctalia/plugins/dictation/Settings.qml`), find the source path with `chezmoi source-path "~/.config/noctalia/plugins/dictation/Settings.qml"` — this gives you the path to pass to `chezmoi apply`
+  - Use `chezmoi managed` to list what's tracked (includes prefixes/suffixes)
+  - If a file shows as "not managed", it likely means you used the wrong path — re-check with the commands above
+
+### Examples (these are the paths you pass to `chezmoi apply`):
+
+| Target file | Apply command (uses source path) |
+|---|---|
+| `~/.gitconfig` | `chezmoi apply --source-path "dot_gitconfig.tmpl"` |
+| `~/.config/niri/config.kdl` | `chezmoi apply --source-path "private_dot_config/niri/config.kdl"` |
+| `~/.config/noctalia/plugins/dictation/Settings.qml` | `chezmoi apply --source-path "private_dot_config/noctalia/plugins/dictation/Settings.qml"` |
+| `~/.local/bin/hello` | `chezmoi apply --source-path "executable_dot_local_bin_hello"` |
 
 ## Template data & variables
 

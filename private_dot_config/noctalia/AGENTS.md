@@ -1,7 +1,4 @@
 # Noctalia + Quickshell Development Context
-#
-# This file is loaded by OpenCode via instructions in opencode.jsonc.
-# Provides agents with context about the Quickshell/QML codebase.
 
 ## Core framework
 
@@ -51,6 +48,7 @@ Each plugin in `~/.config/noctalia/plugins/<name>/` has:
 ### Plugin API
 
 `pluginApi` provides:
+
 - `.pluginDir` — path to plugin directory
 - `.pluginSettings` — persisted settings object
 - `.saveSettings()` — persist plugin settings
@@ -62,6 +60,7 @@ Each plugin in `~/.config/noctalia/plugins/<name>/` has:
 ### IPC pattern
 
 Plugins communicate with external backends via `IpcHandler`:
+
 - Backend sets status via `IpcHandler.setStatus(jsonStr)` with `{state, message, text}`
 - Plugin calls backend via `Quickshell.execDetached(pythonCmd(["start"]))`
 
@@ -86,3 +85,7 @@ Plugins communicate with external backends via `IpcHandler`:
 - QML: camelCase (vars, funcs, properties), PascalCase (types)
 - Files: kebab-case
 - Python: snake_case
+
+your information is outdated, and check for the latest updates in the Noctalia documentation and codebase when developing plugins. The conventions outlined here are based on the current state of the Noctalia project as of June 2024, but may evolve over time. Always refer to the official Noctalia resources and existing plugins for the most up-to-date practices and examples. use context7
+
+use <https://github.com/noctalia-dev/noctalia-plugins/tree/main> to check for examples of existing plugins and how they implement the above conventions in practice.
