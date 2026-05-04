@@ -54,17 +54,21 @@ The target path is derived by stripping all recognized attribute prefixes/suffix
 The exact order of prefixes is **mandatory**. Each target type has a specific allowed prefix sequence:
 
 #### Regular files
+
 `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl` suffix
 
 Example: `encrypted_private_executable_dot_secret.sh.tmpl`
 
 #### Create files (create if missing)
+
 `create_` → `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl` suffix
 
 #### Modify files (script that modifies existing target)
+
 `modify_` → `encrypted_` → `private_` → `readonly_` → `executable_` → `dot_` + `.tmpl` suffix
 
 #### Scripts (run as commands)
+
 `run_` → `once_` or `onchange_` → `before_` or `after_` + `.tmpl` suffix
 
 - `run_before_*` — execute BEFORE dotfile updates (alphabetically)
@@ -73,16 +77,19 @@ Example: `encrypted_private_executable_dot_secret.sh.tmpl`
 - `run_onchange_*` — execute only if contents changed since last run
 
 #### Symbolic links
+
 `symlink_` → `dot_` + `.tmpl` suffix
 
 The file content is the link target (literal path or template that evaluates to a path).
 
 #### Directories
+
 `remove_` → `external_` → `exact_` → `private_` → `readonly_` → `dot_`
 
 Directories CANNOT have the `.tmpl` suffix.
 
 #### Remove files
+
 `remove_` → `dot_`
 
 ### Attribute definitions
@@ -114,6 +121,7 @@ Directories CANNOT have the `.tmpl` suffix.
 ### Escaping: `literal_` and `.literal`
 
 If a filename would accidentally match a chezmoi attribute, escape it:
+
 - `literal_dot_example` → target is `.example` (the `dot_` is literal text)
 - `literal_encrypted_stuff` → target is `encrypted_stuff` (NOT encrypted)
 
