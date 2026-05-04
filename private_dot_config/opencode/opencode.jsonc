@@ -6,6 +6,20 @@
   "plugin": [
     "@plannotator/opencode@latest"
   ],
+  "lsp": {
+    "qmlls": {
+      "command": [
+        "/usr/lib/qt6/bin/qmlls",
+        "-E"
+      ],
+      "extensions": [
+        ".qml"
+      ],
+      "env": {
+        "QML_IMPORT_PATH": "/usr/lib/qt6/qml:/etc/xdg/quickshell/noctalia-shell"
+      }
+    }
+  },
   "permission": {
     "git add *": "ask",
     "git reset": "deny",
