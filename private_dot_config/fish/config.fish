@@ -86,7 +86,9 @@ if status is-interactive
     abbr lzg lazygit
     abbr lzd lazydocker
     abbr oc opencode
-    alias mkcd='mkdir -p $argv; and cd $argv'
+    function mkcd
+        mkdir -p $argv; and cd $argv
+    end
     alias vim='nvim'
     abbr -a -- - 'cd -'
     alias n='nvim'
