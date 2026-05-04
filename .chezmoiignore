@@ -6,3 +6,9 @@ agents.d/
 
 # Agent configuration
 AGENTS.md
+
+# Python bytecode
+**/__pycache__/
+
+# Python virtual environments
+**/.venv/
