@@ -18,10 +18,10 @@ echo "dictation-setup: creating venv..." >&2
 
 if command -v uv >/dev/null 2>&1; then
   echo "dictation-setup: using uv to create venv" >&2
-  uv venv "$VENV_DIR"
+  uv venv "$VENV_DIR" >&2
 elif command -v python3 >/dev/null 2>&1; then
   echo "dictation-setup: using python3 -m venv" >&2
-  python3 -m venv "$VENV_DIR"
+  python3 -m venv "$VENV_DIR" >&2
 else
   echo "dictation-setup: error: neither uv nor python3 found" >&2
   exit 1

@@ -41,6 +41,9 @@ multiplier = 3
 # cyan = "#3ddbd9"
 # white = "#ffffff"
 
+[font]
+size = 9
+
 [font.normal]
 family = "monospace"
 style = "Regular"

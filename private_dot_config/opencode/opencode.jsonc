@@ -4,19 +4,23 @@
     "./profile.yaml"
   ],
   "plugin": [
-    "@plannotator/opencode@latest"
+    "@plannotator/opencode@latest",
   ],
   "lsp": {
     "qmlls": {
       "command": [
         "/usr/lib/qt6/bin/qmlls",
-        "-E"
+        "-E",
+        "-I",
+        "/usr/lib/qt6/qml",
+        "-I",
+        "/etc/xdg/quickshell/noctalia-shell"
       ],
       "extensions": [
         ".qml"
       ],
       "env": {
-        "QML_IMPORT_PATH": "/usr/lib/qt6/qml:/etc/xdg/quickshell/noctalia-shell"
+        "QML_IMPORT_PATH": "{env:QML_IMPORT_PATH}:/usr/lib/qt6/qml:/etc/xdg/quickshell/noctalia-shell"
       }
     }
   },
