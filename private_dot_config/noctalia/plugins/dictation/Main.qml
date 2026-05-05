@@ -29,6 +29,8 @@ Item {
   readonly property string setupScript: pluginDir + "/setup.sh"
 
   property bool _launchingBackend: false
+  property string backendStdout: ""
+  property string backendStderr: ""
 
   Process {
     id: _setupProcess
@@ -98,14 +100,46 @@ Item {
     onTriggered: root.ensureBackend()
   }
 
+  Timer {
+    id: _pendingStartTimeout
+    interval: 15000
+    onTriggered: {
+      if (root.pendingStart) {
+        root.pendingStart = false
+        root.sendErrorNotification(pluginApi?.tr("notification.timeout") || "Backend not ready, try again")
+      }
+    }
+  }
+
+  Timer {
+    id: _logPollTimer
+    interval: 500
+    running: _backendProcess.running
+    repeat: true
+    onTriggered: {
+      var outText = _backendStdoutCol.text || ""
+      var errText = _backendStderrCol.text || ""
+      if (outText && outText !== root.backendStdout) root.backendStdout = outText
+      if (errText && errText !== root.backendStderr) root.backendStderr = errText
+    }
+  }
+
   Process {
     id: _backendProcess
 
     stdout: StdioCollector {
-      onStreamFinished: Logger.d("Dictation", "backend stdout:", this.text)
+      id: _backendStdoutCol
+      onStreamFinished: {
+        Logger.d("Dictation", "backend stdout:", this.text)
+        root.backendStdout = this.text || ""
+      }
     }
     stderr: StdioCollector {
-      onStreamFinished: Logger.w("Dictation", "backend stderr:", this.text)
+      id: _backendStderrCol
+      onStreamFinished: {
+        Logger.w("Dictation", "backend stderr:", this.text)
+        root.backendStderr = this.text || ""
+      }
     }
 
     onRunningChanged: {
@@ -170,6 +204,16 @@ Item {
     _restartDelayTimer.restart()
   }
 
+  function stopBackend() {
+    Quickshell.execDetached(pythonCmd(["exit"]))
+    backendState = "stopping"
+  }
+
+  function clearLogs() {
+    backendStdout = ""
+    backendStderr = ""
+  }
+
   function startRecording() {
     if (backendState !== "idle") {
       Logger.w("Dictation", "Cannot start recording: backend is", backendState)
@@ -187,9 +231,11 @@ Item {
       stopRecording()
     } else {
       pendingStart = true
+      _pendingStartTimeout.restart()
       ensureBackend()
       if (backendState === "idle") {
         pendingStart = false
+        _pendingStartTimeout.stop()
         startRecording()
       }
     }
@@ -208,8 +254,12 @@ Item {
   }
 
   function addHistoryEntry(text) {
+    const MAX_HISTORY = 500
     var entry = { text: text, timestamp: Date.now() }
     history = [...history, entry]
+    if (history.length > MAX_HISTORY) {
+      history = history.slice(history.length - MAX_HISTORY)
+    }
     if (pluginApi) {
       pluginApi.pluginSettings.history = history
       pluginApi.saveSettings()
@@ -284,8 +334,9 @@ Item {
           }
 
           if (root.pendingStart && data.state === "idle" &&
-              (data.message === "ready" || data.message === "settings updated" || data.message === "done" || data.message === "silence")) {
+              (data.message === "ready" || data.message === "settings updated" || data.message === "silence" || data.message === "copied")) {
             root.pendingStart = false
+            _pendingStartTimeout.stop()
             root.startRecording()
           }
 
@@ -295,9 +346,11 @@ Item {
           }
         }
 
-        if (data.text && data.text.length > 0) {
+        if (data.state === "idle" && data.message === "copied" && data.text && data.text.length > 0) {
           root.addHistoryEntry(data.text)
-          root.sendNotification(data.text)
+          ToastService.showNotice(pluginApi?.tr("notification.copied") || "Transcription copied to clipboard")
+        } else if (data.state !== "recording" && data.text && data.text.length > 0) {
+          root.addHistoryEntry(data.text)
         }
       } catch (e) {
         Logger.w("Dictation", "failed to parse status:", e)

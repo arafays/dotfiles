@@ -53,10 +53,16 @@ ColumnLayout {
     height: backendStatusRow.implicitHeight + Style.marginM * 2
     color: {
       var st = pluginApi?.mainInstance?.backendState || "stopped"
-      if (st === "error") return Color.mErrorContainer
-      if (st === "idle" || st === "recording" || st === "transcribing") return Color.mPrimaryContainer
-      if (st === "starting" || st === "setup" || st === "stopping") return Color.mSecondaryContainer
-      return Color.mSurfaceVariant
+      switch (st) {
+      case "error": return Color.mErrorContainer
+      case "idle": return Color.mPrimaryContainer
+      case "recording": return Color.mErrorContainer
+      case "transcribing": return Color.mPrimaryContainer
+      case "starting": return Color.mSecondaryContainer
+      case "setup": return Color.mSecondaryContainer
+      case "stopping": return Color.mSecondaryContainer
+      default: return Color.mSurfaceVariant
+      }
     }
     radius: Style.radiusM
 
@@ -66,36 +72,94 @@ ColumnLayout {
         fill: parent
         margins: Style.marginM
       }
-      spacing: Style.marginM
+      spacing: Style.marginS
 
-      NText {
-        text: pluginApi?.tr("settings.backendStatus") || "Backend:"
-        color: Color.mOnSurface
-        font.weight: Font.Medium
-      }
-      NText {
-        text: {
+      NIcon {
+        id: statusIcon
+        icon: {
           var st = pluginApi?.mainInstance?.backendState || "stopped"
           switch (st) {
-            case "idle": return "Running"
-            case "recording": return "Recording"
-            case "transcribing": return "Transcribing"
-            case "starting": return "Starting..."
-            case "stopping": return "Stopping..."
-            case "setup": return "Installing..."
-            case "error": return "Error"
-            default: return "Stopped"
+          case "idle": return "circle-check-filled"
+          case "recording": return "player-record-filled"
+          case "transcribing": return "loader"
+          case "starting": return "loader"
+          case "stopping": return "player-stop"
+          case "setup": return "download"
+          case "error": return "alert-triangle-filled"
+          default: return "circle-off"
           }
         }
-        color: Color.mOnSurface
+        color: {
+          var st = pluginApi?.mainInstance?.backendState || "stopped"
+          switch (st) {
+          case "idle": return Color.mOnPrimaryContainer
+          case "recording": return Color.mOnErrorContainer
+          case "transcribing": return Color.mOnPrimaryContainer
+          case "starting": return Color.mOnSecondaryContainer
+          case "stopping": return Color.mOnSecondaryContainer
+          case "setup": return Color.mOnSecondaryContainer
+          case "error": return Color.mOnErrorContainer
+          default: return Color.mOnSurfaceVariant
+          }
+        }
+        applyUiScale: false
+
+        RotationAnimator on rotation {
+          running: {
+            var st = pluginApi?.mainInstance?.backendState || "stopped"
+            return st === "starting" || st === "transcribing"
+          }
+          from: 0; to: 360
+          duration: 1000
+          loops: Animation.Infinite
+        }
+        Binding {
+          target: statusIcon
+          property: "rotation"
+          value: 0
+          when: {
+            var st = pluginApi?.mainInstance?.backendState || "stopped"
+            return st !== "starting" && st !== "transcribing"
+          }
+        }
       }
-      NText {
-        text: pluginApi?.mainInstance?.backendMessage || ""
-        color: Color.mOnSurfaceVariant
-        visible: text.length > 0
-        elide: Text.ElideRight
+
+      ColumnLayout {
         Layout.fillWidth: true
+        spacing: 1
+
+        NText {
+          text: pluginApi?.tr("settings.backendStatus") || "Backend:"
+          color: Color.mOnSurface
+          font.weight: Font.Medium
+        }
+        NText {
+          text: {
+            var st = pluginApi?.mainInstance?.backendState || "stopped"
+            switch (st) {
+              case "idle": return pluginApi?.tr("settings.status.idle") || "Ready"
+              case "recording": return pluginApi?.tr("settings.status.recording") || "Recording"
+              case "transcribing": return pluginApi?.tr("settings.status.transcribing") || "Transcribing"
+              case "starting": return pluginApi?.tr("settings.status.starting") || "Starting..."
+              case "stopping": return pluginApi?.tr("settings.status.stopping") || "Stopping..."
+              case "setup": return pluginApi?.tr("settings.status.setup") || "Installing..."
+              case "error": return pluginApi?.tr("settings.status.error") || "Error"
+              default: return pluginApi?.tr("settings.status.stopped") || "Stopped"
+            }
+          }
+          color: Color.mOnSurfaceVariant
+          pointSize: Style.fontSizeS
+        }
+        NText {
+          text: pluginApi?.mainInstance?.backendMessage || ""
+          color: Color.mOnSurfaceVariant
+          pointSize: Style.fontSizeXS
+          visible: text.length > 0
+          elide: Text.ElideRight
+          Layout.fillWidth: true
+        }
       }
+
       Item { Layout.fillWidth: true }
 
       NButton {
@@ -127,7 +191,7 @@ ColumnLayout {
   NComboBox {
     Layout.fillWidth: true
     model: ["Tiny", "Base", "Small", "Medium", "Large v3"]
-    currentIndex: root._modelKeys.indexOf(root.editModel)
+    currentIndex: Math.max(0, root._modelKeys.indexOf(root.editModel))
     onCurrentIndexChanged: {
       if (currentIndex >= 0 && currentIndex < root._modelKeys.length) {
         root.editModel = root._modelKeys[currentIndex]
@@ -145,7 +209,7 @@ ColumnLayout {
   NComboBox {
     Layout.fillWidth: true
     model: ["Auto-detect", "English", "Spanish", "French", "German", "Italian", "Portuguese", "Dutch", "Polish", "Russian", "Chinese", "Japanese", "Korean", "Arabic", "Hindi", "Turkish", "Vietnamese", "Thai", "Indonesian", "Ukrainian"]
-    currentIndex: root._languageKeys.indexOf(root.editLanguage)
+    currentIndex: Math.max(0, root._languageKeys.indexOf(root.editLanguage))
     onCurrentIndexChanged: {
       if (currentIndex >= 0 && currentIndex < root._languageKeys.length) {
         root.editLanguage = root._languageKeys[currentIndex]
@@ -163,7 +227,7 @@ ColumnLayout {
   NComboBox {
     Layout.fillWidth: true
     model: ["Auto", "CPU", "CUDA"]
-    currentIndex: root._deviceKeys.indexOf(root.editDevice)
+    currentIndex: Math.max(0, root._deviceKeys.indexOf(root.editDevice))
     onCurrentIndexChanged: {
       if (currentIndex >= 0 && currentIndex < root._deviceKeys.length) {
         root.editDevice = root._deviceKeys[currentIndex]
@@ -181,7 +245,7 @@ ColumnLayout {
   NComboBox {
     Layout.fillWidth: true
     model: ["INT8", "Float 16", "Float 32"]
-    currentIndex: root._computeTypeKeys.indexOf(root.editComputeType)
+    currentIndex: Math.max(0, root._computeTypeKeys.indexOf(root.editComputeType))
     onCurrentIndexChanged: {
       if (currentIndex >= 0 && currentIndex < root._computeTypeKeys.length) {
         root.editComputeType = root._computeTypeKeys[currentIndex]
@@ -219,6 +283,110 @@ ColumnLayout {
     onValueChanged: root.editTimeout = value
   }
 
+  NDivider {
+    Layout.fillWidth: true
+    Layout.topMargin: Style.marginS
+    Layout.bottomMargin: Style.marginS
+  }
+
+  NLabel {
+    label: pluginApi?.tr("settings.debug") || "Debug"
+    description: pluginApi?.tr("settings.debugDesc") || "Backend controls and log output"
+  }
+
+  RowLayout {
+    Layout.fillWidth: true
+    spacing: Style.marginS
+
+    NButton {
+      text: pluginApi?.tr("settings.startBackend") || "Start"
+      outlined: true
+      visible: {
+        var st = pluginApi?.mainInstance?.backendState || "stopped"
+        return st === "stopped" || st === "error"
+      }
+      onClicked: {
+        if (pluginApi?.mainInstance) {
+          pluginApi.mainInstance.ensureBackend()
+        }
+      }
+    }
+
+    NButton {
+      text: pluginApi?.tr("settings.stopBackend") || "Stop"
+      outlined: true
+      visible: {
+        var st = pluginApi?.mainInstance?.backendState || "stopped"
+        return st !== "stopped" && st !== "setup" && st !== "stopping"
+      }
+      onClicked: {
+        if (pluginApi?.mainInstance) {
+          pluginApi.mainInstance.stopBackend()
+        }
+      }
+    }
+
+    NButton {
+      text: pluginApi?.tr("settings.restartBackend") || "Restart"
+      outlined: true
+      visible: {
+        var st = pluginApi?.mainInstance?.backendState || "stopped"
+        return st === "idle" || st === "error"
+      }
+      onClicked: {
+        if (pluginApi?.mainInstance) {
+          pluginApi.mainInstance.restartBackend()
+        }
+      }
+    }
+  }
+
+  NLabel {
+    label: pluginApi?.tr("settings.logs") || "Logs"
+    Layout.topMargin: Style.marginS
+  }
+
+  Rectangle {
+    Layout.fillWidth: true
+    Layout.preferredHeight: 150 * Style.uiScaleRatio
+    color: Color.mSurfaceVariant
+    radius: Style.radiusM
+
+    NScrollView {
+      anchors.fill: parent
+      anchors.margins: Style.marginS
+
+      NText {
+        id: logText
+        text: {
+          var mi = pluginApi?.mainInstance
+          if (!mi) return pluginApi?.tr("settings.noLogs") || "Plugin not loaded"
+          var out = mi.backendStdout || ""
+          var err = mi.backendStderr || ""
+          var result = ""
+          if (out) result += pluginApi?.tr("settings.stdout") || "STDOUT:" + "\n" + out + "\n"
+          if (err) result += (result ? "\n" : "") + (pluginApi?.tr("settings.stderr") || "STDERR:") + "\n" + err
+          if (!result) result = pluginApi?.tr("settings.noLogs") || "(no output yet)"
+          return result
+        }
+        color: Color.mOnSurfaceVariant
+        pointSize: Style.fontSizeXS
+        wrapMode: Text.WordWrap
+      }
+    }
+  }
+
+  NButton {
+    text: pluginApi?.tr("settings.clearLogs") || "Clear logs"
+    outlined: true
+    Layout.topMargin: Style.marginS
+    onClicked: {
+      if (pluginApi?.mainInstance) {
+        pluginApi.mainInstance.clearLogs()
+      }
+    }
+  }
+
   // Called by the settings dialog when user clicks Apply/Save
   function saveSettings() {
     if (!pluginApi) {
@@ -231,7 +399,7 @@ ColumnLayout {
     pluginApi.pluginSettings.device = root.editDevice
     pluginApi.pluginSettings.computeType = root.editComputeType
     pluginApi.pluginSettings.vadEnabled = root.editVad
-    pluginApi.pluginSettings.recordingTimeout = root.editTimeout
+    pluginApi.pluginSettings.recordingTimeout = Math.max(5, Math.min(300, parseInt(root.editTimeout, 10) || 30))
     pluginApi.saveSettings()
 
     if (pluginApi?.mainInstance) {
