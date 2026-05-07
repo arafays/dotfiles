@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# logseq — Wrapper around system Logseq that auto-syncs on exit
+#
+
+# Launch the real Logseq binary
+/usr/bin/logseq "$@" &
+PID=$!
+
+wait "$PID"
+EXIT_CODE=$?
+
+# Auto-sync after Logseq closes
+logseq-sync
+
+exit $EXIT_CODE

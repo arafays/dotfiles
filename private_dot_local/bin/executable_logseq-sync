@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# logseq-sync — Auto-commit and push Logseq graph to GitHub
+#
+
+GRAPH_DIR="${LOGSEQ_GRAPH_DIR:-$HOME/notes}"
+
+cd "$GRAPH_DIR" || { echo "Failed to cd to $GRAPH_DIR"; exit 1; }
+
+if [[ ! -d .git ]]; then
+  echo "No git repository found in $GRAPH_DIR"
+  exit 1
+fi
+
+if [[ -z $(git status --porcelain 2>/dev/null) ]]; then
+  echo "No changes to sync."
+  exit 0
+fi
+
+git add .
+
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+git commit -m "logseq: sync $TIMESTAMP" || true
+
+git push
+
+echo "Logseq graph synced successfully."

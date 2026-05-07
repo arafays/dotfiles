@@ -96,10 +96,10 @@ window-rule {
     border { off; }
 }
 
+
 window-rule {
     match app-id="Emulator"
-    match app-id=r#"dev\.zed\.Zed$"# title=r#"Settings"#
-    match app-id=r#"dev\.zed\.Zed$"# title=r#"Project Structure"#
+    match app-id=r#"dev\.zed\.Zed$"# title=r#"Settings|About Zed|Project Structure"#
     draw-border-with-background false
     open-floating true
     focus-ring { off; }
