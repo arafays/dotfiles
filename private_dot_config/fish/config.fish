@@ -4,18 +4,15 @@ set -gx EDITOR nvim
 set -gx GPG_TTY (tty)
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
+
+function fish_greeting
+end
+
 # Chromium path set via environment.d for OpenCode MCP DevTools
 # set -gx CHROMIUM_PATH (which chromium 2>/dev/null || which google-chrome 2>/dev/null || echo "xdg-open")
 
 set -g fish_greeting
 export PATH="$HOME/.local/bin:$PATH"
-
-mise activate fish | source
-
-# overwrite greeting
-# potentially disabling fastfetch
-function fish_greeting
-end
 
 if test -d ~/.config/environment.d
     for file in ~/.config/environment.d/*.conf
@@ -38,6 +35,8 @@ function in
         sudo pacman -S $argv
     end
 end
+
+mise activate fish | source
 
 if status is-interactive
     fish_vi_key_bindings
