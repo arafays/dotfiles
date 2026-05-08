@@ -2,6 +2,7 @@ layer-rule {
     match namespace="^noctalia-wallpaper*"
     place-within-backdrop true
 }
+
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
@@ -18,9 +19,16 @@ window-rule {
     match app-id=r#"^org\.cachyos\..*$"#
     match app-id=r#"^org\.freedesktop\.impl\.portal\.desktop\.kde$"#
 
-    match title=r#"(?i)Bitwarden"#
+    match app-id="Emulator"
+    match app-id=r#"dev\.zed\.Zed$"# title=r#"Settings"#
+    match app-id=r#"dev\.zed\.Zed$"# title=r#"Project Structure"#
 
-    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    match app-id=r#"^avdmanager$"#
+    match title=r#"AVD|Virtual Device"#
+
+    match title=r#"(?i)Extension.*Bitwarden"#
+
+    match app-id=r#"zen$"# title="^Picture-in-Picture $"
     match title=r#"(?i)(enter password|authentication|authenticate)"#
 
     exclude title=r#".* - Nemo$"#
@@ -50,8 +58,8 @@ window-rule {
 
 window-rule {
     match app-id=r#"^code(-insiders)?$"#
-    // for zed "dev.zed.Zed"
     match app-id=r#"^dev\.zed\.Zed$"#
+
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
 }
