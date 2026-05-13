@@ -7,9 +7,10 @@ agents.d/
 # Agent configuration
 AGENTS.md
 
+
 # QML LSP (environment-specific per Quickshell docs)
 .qmlls.ini
-profile.yaml
+.qmllint.ini
 
 # Python bytecode
 **/__pycache__/
