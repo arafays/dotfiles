@@ -1,18 +1,18 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
+
+function fish_greeting
+end
+
 set -gx EDITOR nvim
 set -gx GPG_TTY (tty)
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
 
-function fish_greeting
-end
+set -gx OPENCODE_EXPERIMENTAL true
 
 # Chromium path set via environment.d for OpenCode MCP DevTools
 # set -gx CHROMIUM_PATH (which chromium 2>/dev/null || which google-chrome 2>/dev/null || echo "xdg-open")
-
-set -g fish_greeting
-export PATH="$HOME/.local/bin:$PATH"
 
 if test -d ~/.config/environment.d
     for file in ~/.config/environment.d/*.conf
@@ -251,3 +251,6 @@ if status is-interactive
 
     _mise_load_tool_completions
 end
+
+fish_add_path $HOME/.local/bin
+fish_add_path $HOME/.opencode/bin

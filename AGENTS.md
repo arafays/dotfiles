@@ -18,7 +18,7 @@ Edit source files here (`~/.local/share/chezmoi`), not the live configs in `$HOM
   - Use `chezmoi managed` to list what's tracked (includes prefixes/suffixes)
   - If a file shows as "not managed", it likely means you used the wrong path — re-check with the commands above
 
-### Examples (these are the paths you pass to `chezmoi apply`):
+### Examples (these are the paths you pass to `chezmoi apply`)
 
 | Target file | Apply command (uses source path) |
 |---|---|

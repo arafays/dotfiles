@@ -1,0 +1,47 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "=== Setting up portless HTTPS proxy ==="
+
+# install portless globally via mise
+echo ">>> Installing portless via mise..."
+mise use -g npm:portless@latest
+
+# get binary paths (mise is at /usr/bin/mise, available to sudo)
+PORTLESS_BIN=$(mise which portless)
+NODE_BIN=$(mise which node)
+SYS_PORTLESS="${NODE_BIN} ${PORTLESS_BIN}"
+
+echo "node:     ${NODE_BIN}"
+echo "portless: ${PORTLESS_BIN}"
+
+# install & start the system service (creates systemd unit, binds port 443)
+echo ">>> Installing portless system service..."
+sudo ${NODE_BIN} ${PORTLESS_BIN} service install
+
+# trust the CA system-wide (adds to /etc/ca-certificates)
+echo ">>> Trusting portless CA..."
+sudo ${NODE_BIN} ${PORTLESS_BIN} trust
+
+if command -v certutil &>/dev/null; then
+  echo ">>> Adding CA to Chrome NSS database..."
+  CA_PATH="${HOME}/.portless/ca.pem"
+  if [ -f "${CA_PATH}" ]; then
+    mkdir -p "${HOME}/.pki/nssdb"
+    certutil -d "sql:${HOME}/.pki/nssdb" -A -t "C,," -n "portless Local CA" -i "${CA_PATH}" 2>/dev/null \
+      && echo "CA added to Chrome NSS" \
+      || echo "CA already in Chrome NSS (or certutil failed)"
+  else
+    echo "CA cert not yet generated — will be created on first proxy start."
+    echo "After proxy starts, run: certutil -d sql:\$HOME/.pki/nssdb -A -t \"C,,\" -n \"portless Local CA\" -i \$HOME/.portless/ca.pem"
+  fi
+else
+  echo ">>> certutil not found. Install it to trust portless in Chrome:"
+  echo "  sudo pacman -S nss        # Arch"
+  echo "  sudo apt install libnss3-tools  # Debian"
+fi
+
+echo ""
+echo "=== Portless setup complete ==="
+echo "Proxy service runs on https://*.localhost:443"
+echo "Restart Chrome fully to pick up the trusted CA."
