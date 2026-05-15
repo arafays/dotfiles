@@ -1,6 +1,5 @@
 ---
-description: Query Basal AI project context (design tokens, specs, chat history)
-subtask: true
+description: Query project context (design tokens, specs, chat history)
 model: opencode-go/deepseek-v4-flash
 fallback_modes: [
   "opencode-go/mimo-v2-omni",

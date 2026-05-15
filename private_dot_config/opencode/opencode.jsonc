@@ -6,6 +6,7 @@
   "plugin": [
     "@plannotator/opencode@latest",
   ],
+  "lsp": true,
   // "lsp": {
   //   "qmlls": {
   //     "command": [
