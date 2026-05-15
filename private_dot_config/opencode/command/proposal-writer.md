@@ -1,5 +1,9 @@
 ---
 description: Write an Upwork proposal using your portfolio and experience
+model: opencode-go/deepseek-v4-flash
+fallback_modes: [
+  "opencode-go/mimo-v2-omni",
+]
 ---
 
 The user wants to write an Upwork proposal. Load the upwork-proposal-writer skill and follow its instructions to craft a tailored proposal.
