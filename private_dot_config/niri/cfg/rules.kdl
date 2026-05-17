@@ -66,7 +66,10 @@ window-rule {
 
 window-rule {
     match app-id="^Upwork$" title=r#"^Control Panel$"#
+    match is-floating=true
     open-floating true
+    open-on-output "HDMI-A-1"
+    default-floating-position x=759 y=655
 }
 
 window-rule {
