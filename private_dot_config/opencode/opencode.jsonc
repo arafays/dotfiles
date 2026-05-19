@@ -6,6 +6,8 @@
   "plugin": [
     "@plannotator/opencode@latest",
   ],
+  "autoupdate": true,
+  "default_agent": "opencode-go/deepseek-v4-flash",
   "lsp": true,
   // "lsp": {
   //   "qmlls": {
@@ -26,7 +28,6 @@
   //   }
   // },
   "permission": {
-    "git add *": "ask",
     "git reset": "deny",
   },
   "mcp": {
