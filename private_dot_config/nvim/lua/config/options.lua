@@ -4,4 +4,6 @@
 
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 
+vim.g.lazyvim_eslint_auto_format = false
+
 vim.opt.background = "dark" -- set this to dark or light

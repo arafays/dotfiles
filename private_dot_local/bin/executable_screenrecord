@@ -1,0 +1,44 @@
+#!/bin/bash
+
+MODE="${1:-region}"
+RECORDING_DIR="$HOME/Videos/ScreenRecordings"
+PIDFILE="/tmp/wf-recorder.pid"
+
+mkdir -p "$RECORDING_DIR"
+
+# Stop if already recording
+if [ -f "$PIDFILE" ]; then
+    PID=$(cat "$PIDFILE")
+    if kill -0 "$PID" 2>/dev/null; then
+        kill -INT "$PID"
+        rm -f "$PIDFILE"
+        notify-send "Screen Recording" "Recording stopped" --icon=camera-video-symbolic
+        exit 0
+    fi
+    rm -f "$PIDFILE"
+fi
+
+# Start new recording
+TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+FILENAME="recording-${MODE}-${TIMESTAMP}.mp4"
+OUTPUT="${RECORDING_DIR}/${FILENAME}"
+
+case "$MODE" in
+    region)
+        GEOM=$(slurp)
+        [ -z "$GEOM" ] && exit 1
+        wf-recorder -g "$GEOM" -f "$OUTPUT" &
+        ;;
+    screen)
+        wf-recorder -f "$OUTPUT" &
+        ;;
+    *)
+        echo "Usage: $0 {region|screen}"
+        exit 1
+        ;;
+esac
+
+PID=$!
+echo $PID > "$PIDFILE"
+notify-send "Screen Recording" "Started ${MODE} recording
+Press again to stop" --icon=camera-video-symbolic

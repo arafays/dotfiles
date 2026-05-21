@@ -2,6 +2,7 @@ set -gx EDITOR nvim
 set -gx GPG_TTY (tty)
 set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
 set -g fish_greeting
+set -gx OPENCODE_EXPERIMENTAL true
 
 mise activate fish | source
 

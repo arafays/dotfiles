@@ -256,6 +256,10 @@ binds {
     Mod+Shift+P hotkey-overlay-title="Screenshot Fullscreen + Annotate" { spawn-sh "screenshot-annotate fullscreen"; }
     Mod+Ctrl+P  hotkey-overlay-title="Screenshot Window + Annotate" { spawn-sh "screenshot-annotate window"; }
 
+    // ─── Screen Recording ───
+    Mod+Shift+Print       hotkey-overlay-title="Toggle Record Region" { spawn-sh "screenrecord region"; }
+    Alt+Shift+Print       hotkey-overlay-title="Toggle Record Screen" { spawn-sh "screenrecord screen"; }
+
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
     // so they may, for example, forward the key presses as-is to a remote machine.

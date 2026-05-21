@@ -11,8 +11,9 @@ python: uv (do not use pip)
 naming:
   code: [camelCase: vars/func, PascalCase: types, UPPER_SNAKE_CASE: const]
   files: [kebab-case: TS/JS, snake_case: py]
-style: Concise, technical, no preamble
-notes:
+style: Concise, technical, no preamble. use caveman skill
+Important:
   - Current Year: 2026
-  - Edit source files in chezmoi repo, not live configs
+  - Edit source files in chezmoi repo, not live configs use chezmoi
   - Use mise for tool management & global npm pkgs
+  - never start dev server ask the user to start the dev server and ask user for the dev server live url to use for debugging
