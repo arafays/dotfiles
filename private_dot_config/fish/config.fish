@@ -276,3 +276,6 @@ if status is-interactive
         mise use $argv
     end
 end
+
+# opencode
+fish_add_path /home/arafays/.opencode/bin

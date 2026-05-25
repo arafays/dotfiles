@@ -1,7 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["./profile.yaml"],
-  "plugin": ["@plannotator/opencode@latest"],
+  "instructions": [
+    "./profile.yaml"
+  ],
+  "plugin": [
+    "@plannotator/opencode@latest"
+  ],
   "mcp": {
     "context7": {
       "type": "local",
@@ -27,7 +31,10 @@
     },
     "markitdown": {
       "type": "local",
-      "command": ["uvx", "markitdown-mcp"],
+      "command": [
+        "uvx",
+        "markitdown-mcp"
+      ],
       "enabled": false,
     },
   },
