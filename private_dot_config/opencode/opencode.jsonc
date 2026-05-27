@@ -6,7 +6,7 @@
   "plugin": [
     "@plannotator/opencode@latest",
   ],
-  "autoupdate": true,
+  "autoupdate": "notify",
   "default_agent": "opencode-go/deepseek-v4-flash",
   "lsp": true,
   // "lsp": {
@@ -71,6 +71,14 @@
         "markitdown-mcp"
       ],
       "enabled": false
+    },
+    "mise": {
+      "type": "local",
+      "command": [
+        "mise",
+        "mcp",
+      ],
+      "enabled": true
     },
     "fal-ai": {
       "type": "remote",
