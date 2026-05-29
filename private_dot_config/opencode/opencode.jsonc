@@ -3,9 +3,12 @@
   "instructions": [
     "./profile.yaml"
   ],
+  "autoupdate": "notify",
   "plugin": [
     "@plannotator/opencode@latest"
   ],
+  "lsp": true,
+  "default_agent": "opencode-go/deepseek-v4-flash",
   "mcp": {
     "context7": {
       "type": "local",
@@ -17,6 +20,14 @@
         "{env:CONTEXT7_API_KEY}",
       ],
       "enabled": true,
+    },
+    "mise": {
+      "type": "local",
+      "command": [
+        "mise",
+        "mcp",
+      ],
+      "enabled": false
     },
     "devtools": {
       "type": "local",
@@ -37,5 +48,18 @@
       ],
       "enabled": false,
     },
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app",
+      "enabled": true
+    },
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp",
+      "enabled": true,
+      "headers": {
+        "x-api-key": "{env:EXA_API_KEY}"
+      }
+    }
   },
 }

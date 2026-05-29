@@ -1,19 +1,19 @@
 env: Linux/Arch/Wayland (niri)
-shell: zsh + tmux
+shell: fish + tmux
 secrets: gnome-keyring
 pkg: [paru, pacman, mise]
-dots: chezmoi (~/dotfiles/)
-
+dots: chezmoi (use chezmoi apply "changed file name with path")
 editors: [vscode-insiders, nvim]
 search: rg (do not use grep)
 python: uv (do not use pip)
-
 naming:
   code: [camelCase: vars/func, PascalCase: types, UPPER_SNAKE_CASE: const]
   files: [kebab-case: TS/JS, snake_case: py]
-style: Concise, technical, no preamble. use caveman skill
 Important:
-  - Current Year: 2026
+  - Current Year: 2026 always use latest information
+  - use caveman skill
+  - Concise, technical, no preamble
   - Edit source files in chezmoi repo, not live configs use chezmoi
-  - Use mise for tool management & global npm pkgs
+  - Use mise for tool management & global npm pkgs like "mise use node@24" or "mise use -g npm:vercel@latest"
   - never start dev server ask the user to start the dev server and ask user for the dev server live url to use for debugging
+  - never make implementation and documentation files only if the user asks

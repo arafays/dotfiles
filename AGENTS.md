@@ -1,266 +1,89 @@
-# AGENTS.md - Chezmoi Dotfiles Repository Guide
+# AGENTS.md — Chezmoi Dotfiles (Arch/Niri)
 
-## Repository Overview
+## Critical: chezmoi apply rules
 
-This is a chezmoi-managed dotfiles repository for an Arch Linux system using:
+- **Never run global apply** (`chezmoi apply` without args)
+- **Always use `--source-path`** with the source-relative path:
+  - `chezmoi apply --source-path "dot_gitconfig.tmpl"` ✅
+  - `chezmoi apply "dot_gitconfig.tmpl"` ❌ (will fail with "not managed")
+- To find the source path from a target path: `chezmoi source-path ~/.config/niri/config.kdl`
+- List all managed files: `chezmoi managed`
 
-- **WM/DE**: Niri (Wayland compositor)
-- **Shell**: Zsh with tmux
-- **Package Manager**: paru/pacman + mise for tool management
-- **Primary Editors**: nvim, vscode-insiders
-- **Secret Management**: gnome-keyring
+## Source file naming (attribute encoding)
 
-## Build/Lint/Test Commands
+chezmoi encodes all behavior in filenames. Order is **mandatory**.
 
-### Chezmoi Management
+| Source | Target | Effect |
+|---|---|---|
+| `dot_gitconfig` | `~/.gitconfig` | `dot_` → leading `.` |
+| `private_dot_config/niri/config.kdl` | `~/.config/niri/config.kdl` | `private_` → 0600 |
+| `executable_dot_local_bin_hello` | `~/.local/bin/hello` | `executable_` → +x |
+| `dot_gitconfig.tmpl` | `~/.gitconfig` | `.tmpl` → Go template |
 
-```bash
-# Apply all dotfiles
-chezmoi apply
+**Prefix order (regular files):** `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl`
 
-# Apply specific file/directory
-chezmoi apply ~/.config/nvim
+**Scripts:** `run_` + `once_|onchange_` + `before_|after_` + `.tmpl`
+**Symlinks:** `symlink_` + `dot_` + `.tmpl`
+**Directories:** `remove_|external_|exact_|private_|readonly_|dot_` (no `.tmpl`)
 
-# Check what would be applied (dry run)
-chezmoi diff
+Full attribute reference: https://chezmoi.io/reference/target-attributes/
 
-# Add new file to chezmoi
-chezmoi add ~/.config/new-config
+## Template data & variables
 
-# Edit source file directly
-chezmoi edit ~/.config/some-config
+Defined via `promptStringOnce` in `.chezmoi.toml.tmpl`:
+- `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}`
 
-# Update from remote
-chezmoi update
+No `missingkey=error` set (but add if needed — current config doesn't set template.options).
 
-# Trust all files in repository
-chezmoi trust
+## Secrets
+
+Bitwarden CLI (`bw`) in `private_dot_config/environment.d/04-misc.conf.tmpl`:
+```
+CONTEXT7_API_KEY={{ (bitwarden "item" "Context7 API Key").notes | trim }}
+EXA_API_KEY={{ (bitwarden "item" "EXA API Key").notes | trim }}
 ```
 
-### Git Operations
+## Environment info
 
-```bash
-# Standard git commands work in chezmoi source directory
-git status
-git add .
-git commit -m "message"
-git push
-```
+- **OS**: Arch Linux, **WM**: Niri (Wayland), **Shell**: fish + tmux
+- **Terminal**: alacritty, **Editors**: nvim, vscode-insiders
+- **Package mgmt**: pacman/paru (AUR), mise for tools/global npm
+- **Python**: uv (not pip), **Search**: rg (not grep)
+- **tmux plugins**: tpm, tmux-sensible, tmux-resurrect, tmux-continuum, tmux-menus, tmux-dotbar
 
-### Development Tools
-
-```bash
-# Search (preferred tool)
-rg "pattern" --type-add 'config:*.{conf,config,kdl,toml,yaml,yml}'
-
-# File operations
-eza -la --icons=auto
-bat --style=numbers --color=always file
-
-# Navigation
-cd ~  # Works in normal shell
-chezmoi cd  # Change to chezmoi source directory
-```
-
-### Validation Commands
-
-```bash
-# Validate chezmoi templates syntax
-chezmoi verify
-
-# Check for missing template variables
-chezmoi data | grep -E "^\s*[a-zA-Z_]" | cut -d: -f1
-
-# Test shell configuration syntax
-zsh -n ~/.zshrc
-
-# Validate TOML files (if toml-cli is available)
-toml lint file.toml
-
-# Validate JSON files
-jq . file.json
-```
-
-## Code Style Guidelines
-
-### Naming Conventions
-
-- **Code**:
-  - Variables/Functions: `camelCase`
-  - Types: `PascalCase`  
-  - Constants: `UPPER_SNAKE_CASE`
-- **Files**:
-  - TypeScript/JavaScript: `kebab-case`
-  - Python: `snake_case`
-  - Shell scripts: `kebab-case`
-  - Config files: descriptive names with appropriate extensions
-
-### Formatting
-
-- **Lua**: 2-space indentation, 120 column width (see `stylua.toml`)
-- **Shell**: Follow existing patterns in `.zshrc`
-- **TOML/YAML**: 2-space indentation
-- **JSON**: Use JSONC format with comments when supported
-
-### Error Handling
-
-- **Shell**: Use proper return codes, check command existence with `_cmd_exists()`
-- **Lua**: Use `pcall()` for error handling in critical sections
-- **Templates**: Validate template variables before use, provide defaults
-
-### Import/Include Patterns
-
-- **Lua**: Use `require()` for modules, keep imports at file top
-- **Shell**: Source files with `source` or `.`
-- **Config files**: Use standard inclusion syntax for each format
-
-### Type Safety
-
-- **Shell**: Use `[[ ]]` for conditional tests, quote variables properly
-- **Lua**: Use type annotations where supported, leverage LazyVim type system
-- **Templates**: Use `{{ .variable | default "defaultValue" }}` for optional variables
-
-## File Organization
-
-### Chezmoi Conventions
-
-- **Private files**: Prefix with `private_` (contains sensitive data)
-- **Template files**: End with `.tmpl` (chezmoi templates)
-- **Dotfiles**: Prefix with `dot_` for files that become `.hidden`
-- **Config directories**: Follow XDG Base Directory specification
-
-### Directory Structure
+## Config structure
 
 ```
-private_dot_config/
-├── environment.d/          # Environment variables (01-99 ordering)
-├── nvim/                   # Neovim configuration
-│   ├── lua/config/         # Core configuration
-│   ├── lua/plugins/        # Plugin specifications
-│   └── stylua.toml         # Lua formatting config
-├── starship/starship.toml  # Prompt configuration
-└── opencode/               # AI assistant configuration
+.
+├── dot_gitconfig.tmpl          # ~/.gitconfig (templated)
+├── dot_tmux.conf               # ~/.tmux.conf
+├── dot_ssh/authorized_keys.tmpl
+├── private_dot_zshrc.tmpl      # ~/.zshrc (templated)
+├── private_dot_config/
+│   ├── environment.d/          # 01-07 numeric order
+│   ├── niri/config.kdl         # + cfg/*.kdl
+│   ├── nvim/                   # LazyVim-based
+│   ├── fish/
+│   ├── opencode/opencode.jsonc
+│   ├── alacritty/, waybar/, starship/, zed/, mise/
+│   ├── chromium-flags.conf, code-flags.conf, electron-flags.conf
+│   └── private_Code - Insiders/
+└── private_dot_local/bin/
 ```
 
-## Working with This Repository
+## OpenCode config
 
-### Making Changes
+`private_dot_config/opencode/opencode.jsonc` loads `profile.yaml` as instructions and uses MCP servers:
+- **context7**: docs/code examples (Context7 API)
+- **gh_grep**: GitHub code search (remote)
+- **exa**: web search (remote, EXA API)
+- **devtools** & **markitdown**: disabled
 
-1. **Always edit chezmoi source files**, not live configs
-2. Test changes with `chezmoi diff` before applying
-3. Apply with `chezmoi apply` when ready
+## Workflow
 
-### Adding New Configs
-
-1. Place new config in appropriate location: `~/.config/some-app/`
-2. Run: `chezmoi add ~/.config/some-app/config-file`
-3. Commit the source file changes
-4. Test with `chezmoi apply`
-
-### Templates
-
-- Use `.tmpl` extension for files with chezmoi templating
-- Access template data with `{{ .variable }}` syntax
-- Use `promptStringOnce` for interactive variable collection
-- Provide sensible defaults for optional variables
-
-## Tool-Specific Guidelines
-
-### Neovim Configuration
-
-- Uses LazyVim as base configuration
-- Lua files in `lua/config/` and `lua/plugins/`
-- 2-space indentation, 120-char line limit (stylua.toml)
-- Follow LazyVim plugin structure and naming conventions
-- Use `vim.opt` for options, `vim.keymap.set` for keymaps
-
-### Shell Configuration
-
-- Modular functions in `.zshrc` with descriptive names
-- Use `_` prefix for private/internal functions
-- Error handling with proper return codes
-- Use `_cmd_exists()` helper for command availability
-- Load environment.d files in numerical order
-
-### Environment Configuration
-
-- Split environment variables into logical files in `environment.d/`
-- Use `01-` to `99-` prefix for loading order
-- Follow XDG Base Directory specification
-- Set `STARSHIP_CONFIG` and `STARSHIP_CACHE` explicitly
-
-### Git Configuration
-
-- Use `.gitconfig.tmpl` for user-specific git settings
-- Include name, email, and GitHub username from chezmoi data
-- Support for multiple git identities via `git_identities.lua`
-
-## Security Considerations
-
-### Sensitive Data
-
-- Files with secrets should have `private_` prefix
-- Never commit actual secrets, only templates
-- Use chezmoi's secret management features
-- Store API keys in appropriate system keyrings
-
-### Permissions
-
-- Ensure sensitive configs have appropriate file permissions
-- Use chezmoi's permission attributes when needed
-- Validate changes before applying to production system
-
-## Testing Your Changes
-
-### Verification Steps
-
-1. `chezmoi diff` - Review changes before applying
-2. `chezmoi apply --dry-run` - Test application without changes
-3. `chezmoi apply` - Apply changes to test environment
-4. Verify application/service functionality
-5. Check logs for errors if applicable
-
-### Single Config Testing
-
-```bash
-# Test specific config without applying
-chezmoi apply --dry-run ~/.config/nvim
-
-# Validate shell syntax
-zsh -n $(chezmoi source-path ~/.zshrc)
-
-# Check template expansion
-chezmoi dump-template ~/.config/some-template.tmpl
-```
-
-### Common Pitfalls
-
-- Editing live configs instead of chezmoi source files
-- Forgetting to commit `private_` prefixed files
-- Breaking environment variable loading order
-- Missing template variable definitions
-- Using `grep` instead of `rg` for searches
-- Using `pip` instead of `uv` for Python packages
-
-## Preferred Tools and Aliases
-
-From the shell configuration:
-
-- `rg` for searching (not `grep`)
-- `eza` for file listing (not `ls`)
-- `bat` for file viewing (not `cat`)
-- `nvim` as primary editor (alias `n`, `vim`, `vi`)
-- `mise` for development tool management
-- `paru` as AUR helper
-- `uv` for Python package management (not `pip`)
-
-## Environment Context
-
-- **OS**: Arch Linux
-- **Display**: Wayland (Niri compositor)
-- **Terminal**: Usually within tmux
-- **Shell**: Zsh with extensive customizations
-- **Year**: 2026 (for context in generated files)
-- **Editor**: Follow profile.yaml naming conventions and style guidelines
-
-Remember: This repository manages personal system configuration. Always test changes in a safe manner and maintain backup of working configurations.
+1. Edit source files in this repo (`~/.local/share/chezmoi`), never live configs
+2. Check changes: `chezmoi diff` or `chezmoi apply --dry-run --source-path "file"`
+3. Apply: `chezmoi apply --source-path "file"` (specific file only)
+4. Add new file: `chezmoi add ~/.config/new-app/config` → commit source files
+5. Validate: `chezmoi verify`, `zsh -n $(chezmoi source-path ~/.zshrc)`
+6. AGENTS.md lives in the repo but is **not** applied by chezmoi — edit directly here
