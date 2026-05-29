@@ -1,5 +1,7 @@
 set -gx EDITOR nvim
 set -gx GPG_TTY (tty)
+set -gx SUDO_EDITOR nvim
+set -gx BROWSER zen-browser
 set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
 set -g fish_greeting
 set -gx OPENCODE_EXPERIMENTAL true
@@ -279,3 +281,4 @@ end
 
 # opencode
 fish_add_path /home/arafays/.opencode/bin
+fish_add_path $HOME/.local/bin

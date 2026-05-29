@@ -5,7 +5,18 @@
   ],
   "autoupdate": "notify",
   "plugin": [
-    "@plannotator/opencode@latest"
+    [
+      "@plannotator/opencode@latest",
+      {
+        "workflow": "plan-agent",
+        "planningAgents": [
+          "plan"
+        ]
+      }
+    ],
+    "@tarquinen/opencode-dcp@latest",
+    "opencode-vibeguard",
+    "oh-my-opencode-slim"
   ],
   "lsp": true,
   "default_agent": "opencode-go/deepseek-v4-flash",
@@ -17,15 +28,15 @@
         "-y",
         "@upstash/context7-mcp@latest",
         "--api-key",
-        "{env:CONTEXT7_API_KEY}",
+        "{env:CONTEXT7_API_KEY}"
       ],
-      "enabled": true,
+      "enabled": true
     },
     "mise": {
       "type": "local",
       "command": [
         "mise",
-        "mcp",
+        "mcp"
       ],
       "enabled": false
     },
@@ -36,9 +47,9 @@
         "-y",
         "chrome-devtools-mcp@latest",
         "--executablePath",
-        "{env:CHROMIUM_PATH}",
+        "{env:CHROMIUM_PATH}"
       ],
-      "enabled": false,
+      "enabled": false
     },
     "markitdown": {
       "type": "local",
@@ -46,7 +57,7 @@
         "uvx",
         "markitdown-mcp"
       ],
-      "enabled": false,
+      "enabled": false
     },
     "gh_grep": {
       "type": "remote",
@@ -62,4 +73,12 @@
       }
     }
   },
+  "agent": {
+    "explore": {
+      "disable": true
+    },
+    "general": {
+      "disable": true
+    }
+  }
 }
