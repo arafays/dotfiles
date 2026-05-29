@@ -13,12 +13,12 @@
 
 chezmoi encodes all behavior in filenames. Order is **mandatory**.
 
-| Source | Target | Effect |
-|---|---|---|
-| `dot_gitconfig` | `~/.gitconfig` | `dot_` → leading `.` |
-| `private_dot_config/niri/config.kdl` | `~/.config/niri/config.kdl` | `private_` → 0600 |
-| `executable_dot_local_bin_hello` | `~/.local/bin/hello` | `executable_` → +x |
-| `dot_gitconfig.tmpl` | `~/.gitconfig` | `.tmpl` → Go template |
+| Source                               | Target                      | Effect                |
+| ------------------------------------ | --------------------------- | --------------------- |
+| `dot_gitconfig`                      | `~/.gitconfig`              | `dot_` → leading `.`  |
+| `private_dot_config/niri/config.kdl` | `~/.config/niri/config.kdl` | `private_` → 0600     |
+| `executable_dot_local_bin_hello`     | `~/.local/bin/hello`        | `executable_` → +x    |
+| `dot_gitconfig.tmpl`                 | `~/.gitconfig`              | `.tmpl` → Go template |
 
 **Prefix order (regular files):** `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl`
 
@@ -26,11 +26,12 @@ chezmoi encodes all behavior in filenames. Order is **mandatory**.
 **Symlinks:** `symlink_` + `dot_` + `.tmpl`
 **Directories:** `remove_|external_|exact_|private_|readonly_|dot_` (no `.tmpl`)
 
-Full attribute reference: https://chezmoi.io/reference/target-attributes/
+Full attribute reference: <https://chezmoi.io/reference/target-attributes/>
 
 ## Template data & variables
 
 Defined via `promptStringOnce` in `.chezmoi.toml.tmpl`:
+
 - `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}`
 
 No `missingkey=error` set (but add if needed — current config doesn't set template.options).
@@ -38,6 +39,7 @@ No `missingkey=error` set (but add if needed — current config doesn't set temp
 ## Secrets
 
 Bitwarden CLI (`bw`) in `private_dot_config/environment.d/04-misc.conf.tmpl`:
+
 ```
 CONTEXT7_API_KEY={{ (bitwarden "item" "Context7 API Key").notes | trim }}
 EXA_API_KEY={{ (bitwarden "item" "EXA API Key").notes | trim }}
@@ -70,14 +72,6 @@ EXA_API_KEY={{ (bitwarden "item" "EXA API Key").notes | trim }}
 │   └── private_Code - Insiders/
 └── private_dot_local/bin/
 ```
-
-## OpenCode config
-
-`private_dot_config/opencode/opencode.jsonc` loads `profile.yaml` as instructions and uses MCP servers:
-- **context7**: docs/code examples (Context7 API)
-- **gh_grep**: GitHub code search (remote)
-- **exa**: web search (remote, EXA API)
-- **devtools** & **markitdown**: disabled
 
 ## Workflow
 
