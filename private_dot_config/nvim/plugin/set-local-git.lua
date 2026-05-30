@@ -1,6 +1,8 @@
 -- Path to the identities file (adjust as needed)
 local identities_file = vim.fn.stdpath("config") .. "/lua/user/git_identities.lua"
 
+local git_cache = { cwd = nil }
+
 -- Load predefined identities; if file missing or malformed, start with an empty table.
 local function load_identities()
 	local ok, identities = pcall(dofile, identities_file)
@@ -68,19 +70,30 @@ local function set_git_config(name, email, gitSigningKey)
 	vim.g.git_identity = " " .. email .. " "
 end
 
--- Get git config value using vim.system (0.11 compatible)
+-- Get git config value using vim.system with caching
 local function get_git_config(scope, key)
-	local result = vim.system({ "git", "config", "--" .. scope, "--get", key }, { text = true }):wait()
-	if result.code == 0 and result.stdout then
-		return vim.trim(result.stdout)
+	local cache_key = scope .. "." .. key
+	if git_cache[cache_key] ~= nil then
+		return git_cache[cache_key]
 	end
-	return ""
+	local result = vim.system({ "git", "config", "--" .. scope, "--get", key }, { text = true }):wait()
+	git_cache[cache_key] = ""
+	if result.code == 0 and result.stdout then
+		git_cache[cache_key] = vim.trim(result.stdout)
+	end
+	return git_cache[cache_key]
 end
 
--- Check if in a git repository
+-- Check if in a git repository with caching
 local function is_git_repo()
+	local cwd = vim.uv.cwd()
+	if git_cache.cwd == cwd then
+		return git_cache.is_git
+	end
+	git_cache.cwd = cwd
 	local result = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { text = true }):wait()
-	return result.code == 0 and vim.trim(result.stdout) == "true"
+	git_cache.is_git = result.code == 0 and vim.trim(result.stdout) == "true"
+	return git_cache.is_git
 end
 
 -- Main function: if in a Git repo and local Git identity isn't set, prompt for one.
@@ -239,6 +252,7 @@ vim.api.nvim_create_autocmd("UIEnter", {
 -- Handle directory changes with scheduled check
 vim.api.nvim_create_autocmd("DirChanged", {
 	callback = function()
+		git_cache.cwd = nil
 		vim.schedule(function()
 			ensure_git_config()
 		end)

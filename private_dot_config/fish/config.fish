@@ -8,8 +8,8 @@ set -gx EDITOR nvim
 set -gx GPG_TTY (tty)
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
-
-set -gx OPENCODE_EXPERIMENTAL true
+# AGENT_BROWSER_EXECUTABLE_PATH={CHROMIUM_PATH} use the chromium path set via environment.d for OpenCode MCP DevTools, fallback to BROWSER env var or xdg-open if not set
+set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
 
 # Chromium path set via environment.d for OpenCode MCP DevTools
 # set -gx CHROMIUM_PATH (which chromium 2>/dev/null || which google-chrome 2>/dev/null || echo "xdg-open")
@@ -25,14 +25,6 @@ for helper in yay paru
     if type -q $helper
         set -gx aurhelper $helper
         break
-    end
-end
-
-function in
-    if test -n "$aurhelper"
-        $aurhelper -S $argv
-    else
-        sudo pacman -S $argv
     end
 end
 
@@ -171,6 +163,7 @@ if status is-interactive
     end
 
     function ua-update-all
+        type -q rate-mirrors; or return
         set -l TMPFILE (mktemp)
         if rate-mirrors --save=$TMPFILE arch --max-delay=21600
             sudo mv $TMPFILE /etc/pacman.d/mirrorlist
@@ -240,9 +233,9 @@ if status is-interactive
                             set -g __rustup_completions_loaded 1
                         end
                     case python
-                        if type -q pip; and not set -q __pip_completions_loaded
-                            pip completion --fish | source 2>/dev/null
-                            set -g __pip_completions_loaded 1
+                        if type -q uv; and not set -q __uv_completions_loaded
+                            uv generate-shell-completion fish | source 2>/dev/null
+                            set -g __uv_completions_loaded 1
                         end
                 end
             end

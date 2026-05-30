@@ -4,4 +4,16 @@
 
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 
-vim.opt.background = "dark" -- set this to dark or light
+vim.opt.background = "dark"
+
+vim.filetype.add({
+	extension = {
+		tmpl = "gotmpl",
+	},
+	pattern = {
+		[".*/environment%.d/.*%.conf"] = "dosini",
+		[".*/environment%.d/.*%.conf%.tmpl"] = "gotmpl",
+		[".*/qt5ct/.*%.conf"] = "dosini",
+		[".*tmux%.conf$"] = "tmux",
+	},
+})

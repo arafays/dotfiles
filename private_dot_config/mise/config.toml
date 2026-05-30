@@ -1,0 +1,29 @@
+[tools]
+bun = "latest"
+go = "latest"
+node = "24"
+pnpm = "latest"
+rust = "latest"
+uv = "latest"
+
+"npm:portless" = "latest"
+"npm:vercel" = "latest"
+"npm:vim-language-server" = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:@ast-grep/napi" = "latest"
+"npm:@biomejs/biome" = "latest"
+"npm:prettier" = "latest"
+"npm:neovim" = "latest"
+"npm:agent-browser" = "latest"
+
+[settings]
+jobs = 4
+not_found_auto_install = true
+always_keep_download = false
+always_keep_install = false
+experimental = true
+
+
+[tool_alias]
+node = "core:node"
+python = "core:python"
