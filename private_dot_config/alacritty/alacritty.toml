@@ -1,16 +1,15 @@
 [env]
-TERM = "xterm-256color"
-WINIT_X11_SCALE_FACTOR = "1"
+TERM = "alacritty"
 
 [window]
 dynamic_padding = true
 decorations = "none"
+dynamic_title = true
 opacity = 1
 decorations_theme_variant = "Dark"
-padding.x = 10
 
 [scrolling]
-history = 10000
+history = 100000
 multiplier = 3
 
 # [colors.primary]

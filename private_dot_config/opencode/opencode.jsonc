@@ -1,14 +1,32 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "autoupdate": "notify",
   "instructions": [
     "./profile.yaml"
   ],
   "plugin": [
-    "@plannotator/opencode@latest",
+    [
+      "@plannotator/opencode@latest",
+      {
+        "workflow": "plan-agent",
+        "planningAgents": [
+          "plan"
+        ]
+      }
+    ],
+    "@tarquinen/opencode-dcp@latest",
+    "opencode-vibeguard",
+    "oh-my-opencode-slim"
   ],
-  "autoupdate": "notify",
   "default_agent": "opencode-go/deepseek-v4-flash",
-  "lsp": true,
+  "agent": {
+    "explore": {
+      "disable": true
+    },
+    "general": {
+      "disable": true
+    }
+  },
   // "lsp": {
   //   "qmlls": {
   //     "command": [
@@ -29,19 +47,10 @@
   // },
   "permission": {
     "git reset": "deny",
+    "sudo": "ask",
+    "rm -rf": "ask"
   },
   "mcp": {
-    "context7": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp@latest",
-        "--api-key",
-        "{env:CONTEXT7_API_KEY}",
-      ],
-      "enabled": true
-    },
     "devtools": {
       "type": "local",
       "command": [

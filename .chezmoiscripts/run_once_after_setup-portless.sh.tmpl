@@ -10,8 +10,6 @@ mise use -g npm:portless@latest
 # get binary paths (mise is at /usr/bin/mise, available to sudo)
 PORTLESS_BIN=$(mise which portless)
 NODE_BIN=$(mise which node)
-SYS_PORTLESS="${NODE_BIN} ${PORTLESS_BIN}"
-
 echo "node:     ${NODE_BIN}"
 echo "portless: ${PORTLESS_BIN}"
 
