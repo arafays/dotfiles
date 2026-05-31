@@ -1,6 +1,9 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
 
+# Fzf: transparent background with noctalia-inspired colors
+set -gx FZF_DEFAULT_OPTS '--color=bg:-1,bg+:-1,fg:#dde1e6,fg+:#ffffff,border:#ffc799,hl:#99ffe4,hl+:#ffc799,info:#45475A,prompt:#ffc799,pointer:#ffc799,marker:#99ffe4,spinner:#ffc799,header:#99ffe4 --border=rounded --layout=reverse'
+
 function fish_greeting
 end
 
@@ -45,6 +48,7 @@ if status is-interactive
     alias n='nvim'
     alias code="code-insiders"
     alias dev='code .'
+    alias czd='chezmoi cd'
 
     abbr g git
     abbr lzg lazygit

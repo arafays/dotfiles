@@ -1,17 +1,17 @@
 return {
-	-- {
-	-- 	"folke/tokyonight.nvim",
-	-- 	priority = 1000,
-	-- 	lazy = false,
-	-- 	opts = {
-	-- 		transparent = true,
-	-- 		style = "night", -- Options: "storm", "moon", "day", "night"
-	-- 		styles = {
-	-- 			sidebars = "transparent",
-	-- 			floats = "transparent",
-	-- 		},
-	-- 	},
-	-- },
+	{
+		"folke/tokyonight.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {
+			transparent = true,
+			style = "night", -- Options: "storm", "moon", "day", "night"
+			styles = {
+				sidebars = "transparent",
+				floats = "transparent",
+			},
+		},
+	},
 	-- {
 	-- 	"LazyVim/LazyVim",
 	-- 	opts = {
@@ -24,11 +24,6 @@ return {
 	--   priority = 1000, -- ensure it loads before LazyVim
 	--   lazy = false,
 	-- },
-	--
-	"RRethy/base16-nvim",
-	config = function()
-		require("matugen").setup()
-	end,
 }
 
 -- To live preview and switch themes, use :Telescope colorscheme

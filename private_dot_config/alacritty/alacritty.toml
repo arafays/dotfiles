@@ -5,7 +5,7 @@ TERM = "alacritty"
 dynamic_padding = true
 decorations = "none"
 dynamic_title = true
-opacity = 1
+opacity = 0.6
 decorations_theme_variant = "Dark"
 
 [scrolling]

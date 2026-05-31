@@ -3,6 +3,13 @@ layer-rule {
     place-within-backdrop true
 }
 
+layer-rule {
+    match namespace="^fuzzel$"
+    background-effect {
+        blur true
+    }
+}
+
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
@@ -36,11 +43,29 @@ window-rule {
 
 window-rule {
     match app-id="^zen$"
+    exclude title=r#"(?i)Extension.*Bitwarden"#
+    open-maximized-to-edges true
+    open-maximized true
+    default-column-width { proportion 1.0; }
+    opacity 0.95
+    background-effect {
+        blur true
+    }
+    border {
+        off
+    }
+}
+
+window-rule {
     match app-id="^brave-browser$"
     exclude title=r#"(?i)Extension.*Bitwarden"#
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
+    opacity 0.95
+    background-effect {
+        blur true
+    }
     border {
         off
     }
@@ -51,8 +76,12 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
+    opacity 0.9
     border {
         off
+    }
+    background-effect {
+        blur true
     }
 }
 
@@ -62,6 +91,10 @@ window-rule {
 
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
+    opacity 0.95
+    background-effect {
+        blur true
+    }
 }
 
 window-rule {
