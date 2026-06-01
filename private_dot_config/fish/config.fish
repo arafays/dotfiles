@@ -258,6 +258,124 @@ if status is-interactive
         tar --exclude='node_modules' --exclude='dist' -czf $archive $argv
     end
 
+    # compress all projects in current dir excluding build artifacts, keeping .git
+    function compress-projects
+        set -l dry_run 0
+        set -l archive ""
+        set -l args ()
+
+        for arg in $argv
+            switch $arg
+                case '--dry-run'
+                    set dry_run 1
+                case '-n'
+                    set dry_run 1
+                case '*'
+                    if test -z "$archive"
+                        set archive $arg
+                    else
+                        set -a args $arg
+                    end
+            end
+        end
+
+        if test -z "$archive"
+            set archive ../(basename $PWD)-(date +%Y%m%d).tar.gz
+        end
+
+        if test (count $args) -eq 0
+            set args .
+        end
+
+        if test $dry_run -eq 1
+            tar --exclude='node_modules' \
+            --exclude='.next' \
+            --exclude='.astro' \
+            --exclude='.svelte-kit' \
+            --exclude='.nuxt' \
+            --exclude='.output' \
+            --exclude='.turbo' \
+            --exclude='.vercel' \
+            --exclude='.expo' \
+            --exclude='dist' \
+            --exclude='build' \
+            --exclude='out' \
+            --exclude='target' \
+            --exclude='__pycache__' \
+            --exclude='.venv' \
+            --exclude='venv' \
+            --exclude='.ruff_cache' \
+            --exclude='.mypy_cache' \
+            --exclude='.pytest_cache' \
+            --exclude='.cache' \
+            --exclude='.yarn' \
+            --exclude='.pnpm-store' \
+            --exclude='.direnv' \
+            --exclude='*.pyc' \
+            --exclude='.DS_Store' \
+            --exclude='.terraform' \
+            --exclude='ios/build' \
+            --exclude='android/build' \
+            --exclude='.gradle' \
+            --exclude='.swiftpm' \
+            --exclude='Pods' \
+            --exclude='DerivedData' \
+            --exclude='.nx' \
+            --exclude='.serverless' \
+            --exclude='coverage' \
+            --exclude='.nyc_output' \
+            --exclude='.eslintcache' \
+            --exclude='.parcel-cache' \
+            --exclude='.angular' \
+            --exclude='.storybook/out' \
+            --exclude='.netlify' \
+            -czvf /dev/null $args
+        else
+            tar --exclude='node_modules' \
+                --exclude='.next' \
+                --exclude='.astro' \
+                --exclude='.svelte-kit' \
+                --exclude='.nuxt' \
+                --exclude='.output' \
+                --exclude='.turbo' \
+                --exclude='.vercel' \
+                --exclude='.expo' \
+                --exclude='dist' \
+                --exclude='build' \
+                --exclude='out' \
+                --exclude='target' \
+                --exclude='__pycache__' \
+                --exclude='.venv' \
+                --exclude='venv' \
+                --exclude='.ruff_cache' \
+                --exclude='.mypy_cache' \
+                --exclude='.pytest_cache' \
+                --exclude='.cache' \
+                --exclude='.yarn' \
+                --exclude='.pnpm-store' \
+                --exclude='.direnv' \
+                --exclude='*.pyc' \
+                --exclude='.DS_Store' \
+                --exclude='.terraform' \
+                --exclude='ios/build' \
+                --exclude='android/build' \
+                --exclude='.gradle' \
+                --exclude='.swiftpm' \
+                --exclude='Pods' \
+                --exclude='DerivedData' \
+                --exclude='.nx' \
+                --exclude='.serverless' \
+                --exclude='coverage' \
+                --exclude='.nyc_output' \
+                --exclude='.eslintcache' \
+                --exclude='.parcel-cache' \
+                --exclude='.angular' \
+                --exclude='.storybook/out' \
+                --exclude='.netlify' \
+                -czf $archive $args
+        end
+    end
+
     # mise helper functions
     function mise-up
         mise install

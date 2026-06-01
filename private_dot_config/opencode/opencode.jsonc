@@ -16,22 +16,13 @@
     ],
     "@tarquinen/opencode-dcp@latest",
     "opencode-vibeguard",
-    "oh-my-opencode-slim"
+    "oh-my-opencode-slim",
+    "opencode-antigravity-auth",
+    "opencode-antigravity-image"
   ],
   "lsp": true,
   "default_agent": "opencode-go/deepseek-v4-flash",
   "mcp": {
-    "context7": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp@latest",
-        "--api-key",
-        "{env:CONTEXT7_API_KEY}"
-      ],
-      "enabled": true
-    },
     "mise": {
       "type": "local",
       "command": [
@@ -58,19 +49,6 @@
         "markitdown-mcp"
       ],
       "enabled": false
-    },
-    "gh_grep": {
-      "type": "remote",
-      "url": "https://mcp.grep.app",
-      "enabled": true
-    },
-    "exa": {
-      "type": "remote",
-      "url": "https://mcp.exa.ai/mcp",
-      "enabled": true,
-      "headers": {
-        "x-api-key": "{env:EXA_API_KEY}"
-      }
     }
   },
   "agent": {

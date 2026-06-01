@@ -244,6 +244,35 @@ _define_functions() {
       *) echo "Unsupported format" ;;
     esac
   }
+  compress-projects() {
+    local archive=""
+    local dry_run=0
+    local dirs=()
+
+    for arg in "$@"; do
+      case "$arg" in
+        --dry-run|-n) dry_run=1 ;;
+        *)
+          if [[ -z "$archive" ]]; then
+            archive="$arg"
+          else
+            dirs+=("$arg")
+          fi
+          ;;
+      esac
+    done
+
+    [[ -z "$archive" ]] && archive="$(basename "$PWD")-$(date +%Y%m%d).tar.gz"
+    [[ ${#dirs[@]} -eq 0 ]] && dirs=(".")
+
+    local tars=(--exclude=node_modules --exclude=.next --exclude=.astro --exclude=.svelte-kit --exclude=.nuxt --exclude=.output --exclude=.turbo --exclude=.vercel --exclude=.expo --exclude=dist --exclude=build --exclude=out --exclude=target --exclude=__pycache__ --exclude=.venv --exclude=venv --exclude=.ruff_cache --exclude=.mypy_cache --exclude=.pytest_cache --exclude=.cache --exclude=.yarn --exclude=.pnpm-store --exclude=.direnv --exclude='*.pyc' --exclude=.DS_Store --exclude=.terraform --exclude=ios/build --exclude=android/build --exclude=.gradle --exclude=.swiftpm --exclude=Pods --exclude=DerivedData --exclude=.nx --exclude=.serverless --exclude=coverage --exclude=.nyc_output --exclude=.eslintcache --exclude=.parcel-cache --exclude=.angular --exclude=.storybook/out --exclude=.netlify)
+
+    if (( dry_run )); then
+      tar "${tars[@]}" -czvf /dev/null "${dirs[@]}"
+    else
+      tar "${tars[@]}" -czf "$archive" "${dirs[@]}"
+    fi
+  }
   extract() {
     local archive="$1"
     case "$archive" in
