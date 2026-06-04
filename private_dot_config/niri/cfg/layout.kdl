@@ -14,7 +14,6 @@
 
       focus-ring {
           width 1
-          active-gradient from="#f00f" to="#0f05" angle=45 in="oklch longer hue"
       }
   
       border {

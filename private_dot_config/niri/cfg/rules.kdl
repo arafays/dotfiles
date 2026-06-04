@@ -47,7 +47,6 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    opacity 0.95
     background-effect {
         blur true
     }
@@ -62,7 +61,6 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    opacity 0.95
     background-effect {
         blur true
     }
@@ -76,7 +74,6 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    opacity 0.9
     border {
         off
     }
@@ -91,7 +88,6 @@ window-rule {
 
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
-    opacity 0.95
     background-effect {
         blur true
     }
