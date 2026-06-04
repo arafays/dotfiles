@@ -15,4 +15,6 @@ input {
     }
 
     workspace-auto-back-and-forth // Enable workspace back & forth switching
+
+    focus-follows-mouse max-scroll-amount="0%"
 }
