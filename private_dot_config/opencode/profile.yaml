@@ -1,21 +1,13 @@
-env: Linux/Arch/Wayland/catchy-os (niri)
-shell: fish + tmux
+env: Linux/Arch/Wayland/cachyos (niri)
+shell: fish
 secrets: gnome-keyring
-pkg: [paru, pacman, mise]
-dots: chezmoi (use chezmoi apply "changed file name with path")
-
+pkg: [paru, mise]
 editors: [vscode-insiders, nvim]
 browser: zen
-search: rg (do not use grep)
-python: uv (do not use pip)
-
-naming:
-  code: [camelCase: vars/func, PascalCase: types, UPPER_SNAKE_CASE: const]
-  files: [kebab-case: TS/JS, snake_case: py]
-important:
-  - Current Year: 2026 always use latest information
-  - Edit source files in chezmoi repo, not live configs
-  - Use mise for tool management & global packages e.g. mise use -g npm:firebase-tools@latest
-  - Concise, technical, no preamble
-  - make implementation and documentation only if explicitly asked
-  - never make implementation and documentation files only if the user asks
+rules:
+  - year is always 2026, use latest info
+  - edit source files in chezmoi repo, not live configs
+  - use mise for global tools (e.g. mise use -g npm:firebase-tools@latest)
+  - search with rg, never grep
+  - python with uv, never pip
+  - never sudo — ask user for password commands
