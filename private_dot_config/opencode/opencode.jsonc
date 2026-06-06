@@ -10,11 +10,13 @@
       {
         "workflow": "plan-agent",
         "planningAgents": [
-          "plan"
+          "plan",
+          "sisyphus"
         ]
       }
     ],
     "@tarquinen/opencode-dcp@latest",
+    "octto",
     "opencode-vibeguard",
     "oh-my-opencode-slim"
   ],
@@ -87,7 +89,7 @@
         "mise",
         "mcp",
       ],
-      "enabled": true
+      "enabled": false
     },
     "fal-ai": {
       "type": "remote",

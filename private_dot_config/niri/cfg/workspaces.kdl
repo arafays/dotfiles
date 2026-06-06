@@ -1,0 +1,21 @@
+// ────────────── Named Workspaces ──────────────
+// https://niri-wm.github.io/niri/Configuration%3A-Named-Workspaces.html
+//
+// These persist even when empty and stick to their output.
+// Dynamic workspaces (5-9) remain for everything else.
+
+workspace "dev" {
+    open-on-output "DP-3"
+}
+
+workspace "browser" {
+    open-on-output "DP-3"
+}
+
+workspace "chat" {
+    open-on-output "DP-3"
+}
+
+workspace "files" {
+    open-on-output "DP-3"
+}

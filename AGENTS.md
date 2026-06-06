@@ -47,6 +47,11 @@ Bitwarden CLI (`bw`) is used for API keys and secrets. Template files call it di
 
 API keys are also exported at runtime via `~/.config/environment.d/10-misc.conf.tmpl`.
 
+## Niri config validation
+
+- **ALWAYS** run `niri validate` after applying any niri config changes — it catches KDL syntax errors before restarting the compositor
+- Fix any validation errors before prompting the user to restart niri
+
 ## Chezmoi source file naming conventions (CRITICAL — read before editing any file)
 
 chezmoi encodes ALL behavior (permissions, encryption, templating, script execution) in source filenames via **prefixes** and **suffixes**. These are called "attributes." The source filename IS the encoding — never rename files without understanding the attribute system below.
