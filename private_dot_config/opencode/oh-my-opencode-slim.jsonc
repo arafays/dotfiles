@@ -11,8 +11,7 @@
           "*"
         ],
         "mcps": [
-          "*",
-          "!context7"
+          "*"
         ]
       },
       "oracle": {
@@ -30,7 +29,8 @@
         "mcps": []
       },
       "librarian": {
-        "model": "opencode-go/minimax-m2.7",
+        "model": "opencode-go/deepseek-v4-flash",
+        // "model": "opencode-go/minimax-m2.7",
         "skills": [],
         "mcps": [
           "websearch",
@@ -39,7 +39,8 @@
         ]
       },
       "explorer": {
-        "model": "opencode-go/minimax-m2.7",
+        "model": "opencode-go/deepseek-v4-flash",
+        // "model": "opencode-go/minimax-m2.7",
         "skills": [],
         "mcps": []
       },
@@ -56,7 +57,9 @@
         "model": "opencode-go/deepseek-v4-flash",
         "variant": "high",
         "skills": [],
-        "mcps": []
+        "mcps": [
+          "context7"
+        ]
       },
       "observer": {
         "model": "opencode-go/kimi-k2.6",

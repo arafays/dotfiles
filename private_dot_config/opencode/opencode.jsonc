@@ -10,13 +10,11 @@
       {
         "workflow": "plan-agent",
         "planningAgents": [
-          "plan",
-          "sisyphus"
+          "plan"
         ]
       }
     ],
     "@tarquinen/opencode-dcp@latest",
-    "octto",
     "opencode-vibeguard",
     "oh-my-opencode-slim"
   ],
@@ -29,24 +27,6 @@
       "disable": true
     }
   },
-  // "lsp": {
-  //   "qmlls": {
-  //     "command": [
-  //       "/usr/lib/qt6/bin/qmlls",
-  //       "-E",
-  //       "-I",
-  //       "/usr/lib/qt6/qml",
-  //       "-I",
-  //       "/etc/xdg/quickshell/noctalia-shell"
-  //     ],
-  //     "extensions": [
-  //       ".qml"
-  //     ],
-  //     "env": {
-  //       "QML_IMPORT_PATH": "{env:QML_IMPORT_PATH}:/usr/lib/qt6/qml:/etc/xdg/quickshell/noctalia-shell"
-  //     }
-  //   }
-  // },
   "permission": {
     "git reset": "deny",
     "sudo": "ask",
@@ -60,21 +40,10 @@
         "-y",
         "chrome-devtools-mcp@latest",
         "--executablePath",
-        "{env:CHROMIUM_PATH}",
+        "{env:CHROMIUM_PATH}"
       ],
       "enabled": false
     },
-    // "upwork": {
-    //   "type": "local",
-    //   "command": [
-    //     "uv",
-    //     "--directory",
-    //     "/home/arafays/upwork-mcp",
-    //     "run",
-    //     "upwork-mcp"
-    //   ],
-    //   "enabled": false
-    // },
     "markitdown": {
       "type": "local",
       "command": [
@@ -87,9 +56,9 @@
       "type": "local",
       "command": [
         "mise",
-        "mcp",
+        "mcp"
       ],
-      "enabled": false
+      "enabled": true
     },
     "fal-ai": {
       "type": "remote",
@@ -100,4 +69,5 @@
       "enabled": false
     }
   },
+  "lsp": true
 }
