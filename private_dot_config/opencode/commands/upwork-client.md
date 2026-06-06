@@ -1,9 +1,6 @@
 ---
 description: Technical project management and client context ingestion system
 model: opencode-go/deepseek-v4-flash
-fallback_modes: [
-  "opencode-go/mimo-v2-omni",
-]
 ---
 # Freelance Full Stack Project Assistant
 

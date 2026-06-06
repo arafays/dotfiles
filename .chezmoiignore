@@ -1,12 +1,9 @@
 # OpenCode agents files
-.agents/
-agents.d/
 .skills/
 .opencode/
 
 # Agent configuration
 AGENTS.md
-
 
 # QML LSP (environment-specific per Quickshell docs)
 .qmlls.ini
