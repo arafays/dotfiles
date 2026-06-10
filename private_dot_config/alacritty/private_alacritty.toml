@@ -4,23 +4,11 @@ TERM = "alacritty"
 [window]
 decorations = "none"
 dynamic_title = true
-opacity = 0.95
+opacity = 0.9
 title = "Alacritty"
 
-[window.padding]
-x = 10
-y = 10
-
-
 [terminal.shell]
-# Shell
 program = "/usr/bin/fish"
-
-[cursor]
-# Cursor settings
-style.shape = "Beam"
-style.blinking = "Off"
-
 
 # # Colors (Oxocarbon theme to match Starship)
 # [colors.primary]
@@ -54,22 +42,6 @@ style.blinking = "Off"
 
 [font]
 size = 10
-
-[font.normal]
-family = "monospace"
-style = "Regular"
-
-[font.bold]
-family = "monospace"
-style = "Bold"
-
-[font.italic]
-family = "monospace"
-style = "Italic"
-
-[font.bold_italic]
-family = "monospace"
-style = "Bold Italic"
 
 [selection]
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
@@ -160,4 +132,3 @@ action = "ResetFontSize"
 [general]
 import = ["~/.config/alacritty/themes/noctalia.toml"]
 live_config_reload = true
-working_directory = "None"

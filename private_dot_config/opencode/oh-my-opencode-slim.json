@@ -1,62 +1,52 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "opencode-go",
+  "preset": "openrouter",
   "presets": {
-    "opencode-go": {
+    "openrouter": {
       "orchestrator": {
-        "model": "opencode-go/glm-5.1",
-        "skills": [
-          "*"
-        ],
-        "mcps": [
-          "*",
-          "!context7"
-        ]
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "variant": "high",
+        "skills": ["*"],
+        "mcps": ["*", "!context7"]
       },
       "oracle": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "openrouter/deepseek/deepseek-v4-pro",
         "variant": "max",
-        "skills": [
-          "simplify"
-        ],
+        "skills": ["simplify"],
         "mcps": []
       },
       "council": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "openrouter/deepseek/deepseek-v4-pro",
         "variant": "high",
         "skills": [],
         "mcps": []
       },
       "librarian": {
-        "model": "opencode-go/minimax-m2.7",
+        "model": "openrouter/deepseek/deepseek-v4-flash",
+        "variant": "low",
         "skills": [],
-        "mcps": [
-          "websearch",
-          "context7",
-          "grep_app"
-        ]
+        "mcps": ["websearch", "context7", "grep_app"]
       },
       "explorer": {
-        "model": "opencode-go/minimax-m2.7",
+        "model": "openrouter/deepseek/deepseek-v4-flash",
+        "variant": "low",
         "skills": [],
         "mcps": []
       },
       "designer": {
-        "model": "opencode-go/kimi-k2.6",
+        "model": "openrouter/moonshotai/kimi-k2.6",
         "variant": "medium",
-        "skills": [
-          "agent-browser"
-        ],
+        "skills": ["agent-browser", "impeccable"],
         "mcps": []
       },
       "fixer": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "openrouter/deepseek/deepseek-v4-flash",
         "variant": "high",
         "skills": [],
         "mcps": []
       },
       "observer": {
-        "model": "opencode-go/kimi-k2.6",
+        "model": "openrouter/moonshotai/kimi-k2.6",
         "skills": [],
         "mcps": []
       }

@@ -13,8 +13,13 @@ window-rule {
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
 // Enable borders for Alacritty since it no longer has window decorations
+// Opacity + blur for a translucent terminal look
 window-rule {
-    match app-id="Alacritty"
+    match app-id="^Alacritty$"
+    opacity 0.95
+    background-effect {
+        blur true
+    }
     draw-border-with-background true
     default-column-width { proportion 0.66667; }
 }
