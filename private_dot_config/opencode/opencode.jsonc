@@ -13,8 +13,6 @@
     "@tarquinen/opencode-dcp@latest",
     "opencode-vibeguard",
     "oh-my-opencode-slim",
-    "opencode-antigravity-auth",
-    "opencode-antigravity-image",
   ],
   "permission": {
     "bash": {
