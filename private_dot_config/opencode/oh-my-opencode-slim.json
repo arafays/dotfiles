@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "openrouter",
+  "preset": "opencode",
   "presets": {
     "openrouter": {
       "orchestrator": {
@@ -53,7 +53,7 @@
     },
     "opencode": {
       "orchestrator": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "opencode-go/glm-5.1",
         "variant": "high",
         "skills": ["*"],
         "mcps": ["*", "!context7"]

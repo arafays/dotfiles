@@ -25,7 +25,6 @@
       ".env*": "deny",
     },
   },
-  "lsp": true,
   "default_agent": "opencode-go/deepseek-v4-flash",
   "mcp": {
     "mise": {
@@ -55,6 +54,12 @@
       "disable": true,
     },
     "general": {
+      "disable": true,
+    },
+    "build": {
+      "disable": true,
+    },
+    "plan": {
       "disable": true,
     },
   },
