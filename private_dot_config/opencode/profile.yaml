@@ -2,16 +2,10 @@ env: Linux/Arch/Wayland (niri)
 shell: fish + tmux
 secrets: gnome-keyring
 pkg: [paru, pacman, mise]
-dots: chezmoi (use chezmoi apply "changed file name with path")
 editors: [vscode-insiders, nvim]
 search: rg (do not use grep)
 python: uv (do not use pip)
-naming:
-  code: [camelCase: vars/func, PascalCase: types, UPPER_SNAKE_CASE: const]
-  files: [kebab-case: TS/JS, snake_case: py]
 Important:
-  - Current Year: 2026 always use latest information
-  - use caveman skill
   - Concise, technical, no preamble
   - Edit source files in chezmoi repo, not live configs use chezmoi
   - Use mise for tool management & global npm pkgs like "mise use node@24" or "mise use -g npm:vercel@latest"

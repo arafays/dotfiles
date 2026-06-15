@@ -6,7 +6,7 @@
       "orchestrator": {
         "model": "openrouter/deepseek/deepseek-v4-pro",
         "variant": "high",
-        "skills": ["*"],
+        "skills": ["*", "!impeccable"],
         "mcps": ["*", "!context7"]
       },
       "oracle": {

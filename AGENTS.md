@@ -1,83 +1,38 @@
-# AGENTS.md — Chezmoi Dotfiles (Arch/Niri)
+# Chezmoi Dotfiles (Arch/Niri)
 
-## Critical: chezmoi apply rules
+## Rules
 
-- **Never run global apply** (`chezmoi apply` without args)
-- **Always use `--source-path`** with the source-relative path:
-  - `chezmoi apply --source-path "dot_gitconfig.tmpl"` ✅
-  - `chezmoi apply "dot_gitconfig.tmpl"` ❌ (will fail with "not managed")
-- To find the source path from a target path: `chezmoi source-path ~/.config/niri/config.kdl`
-- List all managed files: `chezmoi managed`
+- **Edit source** in `~/.local/share/chezmoi/`, NEVER live configs in `$HOME`
+- **Never global apply** — always `chezmoi apply --source-path "file"`
+- Find source path: `chezmoi source-path ~/.config/some/file`
+- List managed: `chezmoi managed`
 
-## Source file naming (attribute encoding)
+## Source Naming (prefix order matters)
 
-chezmoi encodes all behavior in filenames. Order is **mandatory**.
+Regular: `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl`
+Scripts: `run_` + `once_|onchange_` + `before_|after_` + `.tmpl`
+Symlinks: `symlink_` + `dot_` + `.tmpl` (content = link target)
+Dirs: `remove_|external_|exact_|private_|readonly_|dot_` (no .tmpl)
 
-| Source                               | Target                      | Effect                |
-| ------------------------------------ | --------------------------- | --------------------- |
-| `dot_gitconfig`                      | `~/.gitconfig`              | `dot_` → leading `.`  |
-| `private_dot_config/niri/config.kdl` | `~/.config/niri/config.kdl` | `private_` → 0600     |
-| `executable_dot_local_bin_hello`     | `~/.local/bin/hello`        | `executable_` → +x    |
-| `dot_gitconfig.tmpl`                 | `~/.gitconfig`              | `.tmpl` → Go template |
+Examples: `dot_gitconfig` → `~/.gitconfig` · `private_dot_config/niri/config.kdl` → `~/.config/niri/config.kdl` (0600) · `executable_dot_local_bin_hello` → `~/.local/bin/hello` (+x) · `dot_gitconfig.tmpl` → `~/.gitconfig` (templated)
 
-**Prefix order (regular files):** `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl`
+## Template & Secrets
 
-**Scripts:** `run_` + `once_|onchange_` + `before_|after_` + `.tmpl`
-**Symlinks:** `symlink_` + `dot_` + `.tmpl`
-**Directories:** `remove_|external_|exact_|private_|readonly_|dot_` (no `.tmpl`)
+Vars: `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}` (from `.chezmoi.toml.tmpl`)
+Secrets: Bitwarden CLI — `{{ (bitwarden "item" "Name").notes | trim }}` in `environment.d/*.conf.tmpl`
 
-Full attribute reference: <https://chezmoi.io/reference/target-attributes/>
+## Environment
 
-## Template data & variables
+Arch/Niri (Wayland) · fish + tmux · alacritty · nvim/vscode-insiders · pacman/paru + mise · uv (not pip) · rg (not grep)
 
-Defined via `promptStringOnce` in `.chezmoi.toml.tmpl`:
+## Config Layout
 
-- `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}`
-
-No `missingkey=error` set (but add if needed — current config doesn't set template.options).
-
-## Secrets
-
-Bitwarden CLI (`bw`) in `private_dot_config/environment.d/04-misc.conf.tmpl`:
-
-```
-CONTEXT7_API_KEY={{ (bitwarden "item" "Context7 API Key").notes | trim }}
-EXA_API_KEY={{ (bitwarden "item" "EXA API Key").notes | trim }}
-```
-
-## Environment info
-
-- **OS**: Arch Linux, **WM**: Niri (Wayland), **Shell**: fish + tmux
-- **Terminal**: alacritty, **Editors**: nvim, vscode-insiders
-- **Package mgmt**: pacman/paru (AUR), mise for tools/global npm
-- **Python**: uv (not pip), **Search**: rg (not grep)
-- **tmux plugins**: tpm, tmux-sensible, tmux-resurrect, tmux-continuum, tmux-menus, tmux-dotbar
-
-## Config structure
-
-```
-.
-├── dot_gitconfig.tmpl          # ~/.gitconfig (templated)
-├── dot_tmux.conf               # ~/.tmux.conf
-├── dot_ssh/authorized_keys.tmpl
-├── private_dot_zshrc.tmpl      # ~/.zshrc (templated)
-├── private_dot_config/
-│   ├── environment.d/          # 01-07 numeric order
-│   ├── niri/config.kdl         # + cfg/*.kdl
-│   ├── nvim/                   # LazyVim-based
-│   ├── fish/
-│   ├── opencode/opencode.jsonc
-│   ├── alacritty/, waybar/, starship/, zed/, mise/
-│   ├── chromium-flags.conf, code-flags.conf, electron-flags.conf
-│   └── private_Code - Insiders/
-└── private_dot_local/bin/
-```
+`dot_gitconfig.tmpl` · `dot_tmux.conf` · `private_dot_zshrc.tmpl` · `dot_ssh/authorized_keys.tmpl`
+`private_dot_config/` → environment.d/ · niri/ (cfg/\*.kdl) · nvim/ · fish/ · opencode/ · alacritty/ · waybar/ · starship/ · zed/ · mise/
+`private_dot_local/bin/`
 
 ## Workflow
 
-1. Edit source files in this repo (`~/.local/share/chezmoi`), never live configs
-2. Check changes: `chezmoi diff` or `chezmoi apply --dry-run --source-path "file"`
-3. Apply: `chezmoi apply --source-path "file"` (specific file only)
-4. Add new file: `chezmoi add ~/.config/new-app/config` → commit source files
-5. Validate: `chezmoi verify`, `zsh -n $(chezmoi source-path ~/.zshrc)`
-6. AGENTS.md lives in the repo but is **not** applied by chezmoi — edit directly here
+1. Edit source → 2. `chezmoi diff` or `--dry-run` → 3. `chezmoi apply --source-path "file"` → 4. Validate niri: `niri validate`
+   Add new: `chezmoi add ~/.config/new-app/config`. This file excluded via `.chezmoiignore`.
+
