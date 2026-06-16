@@ -51,3 +51,6 @@ require("lazy").setup({
     },
   },
 })
+
+-- Load non-plugin modules after lazy is set up
+require("config.mise_env")

@@ -1,13 +1,24 @@
+# === ENVIRONMENT ===
 set -gx EDITOR nvim
-set -gx GPG_TTY (tty)
+if not set -q GPG_TTY
+    set -gx GPG_TTY (tty)
+end
+
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
 set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
 set -g fish_greeting
 set -gx OPENCODE_EXPERIMENTAL true
 
-mise activate fish | source
+# === DEFERRED MISE ACTIVATION ===
+if status is-interactive
+    function __mise_deferred --on-event fish_prompt
+        mise activate fish | source
+        functions -e __mise_deferred
+    end
+end
 
+# === AUR HELPER ===
 set -gx aurhelper ""
 for helper in yay paru
     if type -q $helper
@@ -24,7 +35,16 @@ function in
     end
 end
 
+# === INTERACTIVE ===
 if status is-interactive
+    # source environment.d (XDG env vars, secrets, etc.)
+    if test -d ~/.config/environment.d
+        for file in ~/.config/environment.d/*.conf
+            fenv source $file
+        end
+    end
+
+    # mise completions (lazy-loaded on PWD change)
     mise completion fish | source
 
     function _mise_load_tool_completions --on-variable PWD
@@ -66,15 +86,8 @@ if status is-interactive
     end
 
     _mise_load_tool_completions
-end
 
-if test -d ~/.config/environment.d
-    for file in ~/.config/environment.d/*.conf
-        fenv source $file
-    end
-end
-
-if status is-interactive
+    # vi key bindings
     fish_vi_key_bindings
 
     set -g fish_cursor_default block
@@ -82,9 +95,11 @@ if status is-interactive
     set -g fish_cursor_replace_one underscore
     set -g fish_cursor_visual block
 
+    # prompt & plugins
     type -q starship; and starship init fish | source
     type -q zoxide; and zoxide init fish --cmd cd | source
 
+    # abbreviations
     abbr g git
     abbr lzg lazygit
     abbr lzd lazydocker
@@ -98,6 +113,7 @@ if status is-interactive
     alias code="code-insiders"
     alias dev='code .'
 
+    # ls replacements
     if type -q eza
         alias ls='eza -lh --icons=auto --group-directories-first'
         alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
@@ -120,6 +136,7 @@ if status is-interactive
         alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
     end
 
+    # pacman aliases
     if test -n "$aurhelper"
         alias un="$aurhelper -Rns"
         alias up="$aurhelper -Syu --noconfirm"
@@ -132,6 +149,7 @@ if status is-interactive
         alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
     end
 
+    # fzf-based navigation
     function fcd
         set -l dir (find . -maxdepth 5 \( -name .git -o -name node_modules -o -name .next -o -name dist \) -prune -o -type d -print 2>/dev/null | fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%)
         test -n "$dir"; and cd "$dir"
@@ -142,6 +160,7 @@ if status is-interactive
         test -n "$file"; and $EDITOR "$file"
     end
 
+    # tmux sessions
     function tn
         set -l session_name (basename $PWD | string replace -a '.' '_')
         tmux new-session -A -s "$session_name" -c "$PWD"
@@ -158,6 +177,7 @@ if status is-interactive
         end
     end
 
+    # archive helpers
     function compress
         set -l split_size ""
         set -l archive ""
@@ -212,6 +232,7 @@ if status is-interactive
         end
     end
 
+    # AUR search with fzf
     function parufind
         set -l pkg (paru -Ss "$argv" 2>/dev/null | awk '/^[a-z]/ {if (p != "") print p " | " d; p = $1; d = ""} /^    / {sub(/^    /, ""); d = $0} END {if (p != "") print p " | " d}' | fzf --ansi --height=80% --layout=reverse --border=rounded --preview='echo {} | cut -d "|" -f1 | tr -d " " | xargs -I{} paru -Si {}' | cut -d '|' -f1 | tr -d ' ')
         if test -n "$pkg"
@@ -225,6 +246,13 @@ if status is-interactive
         commandline -f repaint
     end
 
+    function fish_user_key_bindings
+        bind \ep parufind-widget
+        bind -M insert \ch backward-delete-char
+        bind -M insert \cf forward-char
+    end
+
+    # system update functions
     function ua-update-all
         set -l TMPFILE (mktemp)
         if rate-mirrors --save=$TMPFILE arch --max-delay=21600
@@ -245,12 +273,6 @@ if status is-interactive
         end
     end
 
-    function fish_user_key_bindings
-        bind \ep parufind-widget
-        bind -M insert \ch backward-delete-char
-        bind -M insert \cf forward-char
-    end
-
     # compress without node_modules and dist
     function compress-project
         set -l archive $argv[1]
@@ -263,12 +285,17 @@ if status is-interactive
         set -l dry_run 0
         set -l archive ""
         set -l args ()
+        set -l excludes \
+            node_modules .next .astro .svelte-kit .nuxt .output .turbo .vercel .expo \
+            dist build out target __pycache__ .venv venv .ruff_cache .mypy_cache \
+            .pytest_cache .cache .yarn .pnpm-store .direnv '*.pyc' .DS_Store \
+            .terraform ios/build android/build .gradle .swiftpm Pods DerivedData \
+            .nx .serverless coverage .nyc_output .eslintcache .parcel-cache \
+            .angular .storybook/out .netlify
 
         for arg in $argv
             switch $arg
-                case --dry-run
-                    set dry_run 1
-                case -n
+                case --dry-run -n
                     set dry_run 1
                 case '*'
                     if test -z "$archive"
@@ -287,96 +314,24 @@ if status is-interactive
             set args .
         end
 
+        # Build exclude flags from list (noglob prevents *.pyc expansion)
+        set -l exclude_flags
+        for dir in $excludes
+            set -a exclude_flags --exclude=$dir
+        end
+
         if test $dry_run -eq 1
-            tar --exclude='node_modules' \
-                --exclude='.next' \
-                --exclude='.astro' \
-                --exclude='.svelte-kit' \
-                --exclude='.nuxt' \
-                --exclude='.output' \
-                --exclude='.turbo' \
-                --exclude='.vercel' \
-                --exclude='.expo' \
-                --exclude='dist' \
-                --exclude='build' \
-                --exclude='out' \
-                --exclude='target' \
-                --exclude='__pycache__' \
-                --exclude='.venv' \
-                --exclude='venv' \
-                --exclude='.ruff_cache' \
-                --exclude='.mypy_cache' \
-                --exclude='.pytest_cache' \
-                --exclude='.cache' \
-                --exclude='.yarn' \
-                --exclude='.pnpm-store' \
-                --exclude='.direnv' \
-                --exclude='*.pyc' \
-                --exclude='.DS_Store' \
-                --exclude='.terraform' \
-                --exclude='ios/build' \
-                --exclude='android/build' \
-                --exclude='.gradle' \
-                --exclude='.swiftpm' \
-                --exclude='Pods' \
-                --exclude='DerivedData' \
-                --exclude='.nx' \
-                --exclude='.serverless' \
-                --exclude='coverage' \
-                --exclude='.nyc_output' \
-                --exclude='.eslintcache' \
-                --exclude='.parcel-cache' \
-                --exclude='.angular' \
-                --exclude='.storybook/out' \
-                --exclude='.netlify' \
-                -czvf /dev/null $args
+            noglob tar $exclude_flags -czvf /dev/null $args
         else
-            tar --exclude='node_modules' \
-                --exclude='.next' \
-                --exclude='.astro' \
-                --exclude='.svelte-kit' \
-                --exclude='.nuxt' \
-                --exclude='.output' \
-                --exclude='.turbo' \
-                --exclude='.vercel' \
-                --exclude='.expo' \
-                --exclude='dist' \
-                --exclude='build' \
-                --exclude='out' \
-                --exclude='target' \
-                --exclude='__pycache__' \
-                --exclude='.venv' \
-                --exclude='venv' \
-                --exclude='.ruff_cache' \
-                --exclude='.mypy_cache' \
-                --exclude='.pytest_cache' \
-                --exclude='.cache' \
-                --exclude='.yarn' \
-                --exclude='.pnpm-store' \
-                --exclude='.direnv' \
-                --exclude='*.pyc' \
-                --exclude='.DS_Store' \
-                --exclude='.terraform' \
-                --exclude='ios/build' \
-                --exclude='android/build' \
-                --exclude='.gradle' \
-                --exclude='.swiftpm' \
-                --exclude='Pods' \
-                --exclude='DerivedData' \
-                --exclude='.nx' \
-                --exclude='.serverless' \
-                --exclude='coverage' \
-                --exclude='.nyc_output' \
-                --exclude='.eslintcache' \
-                --exclude='.parcel-cache' \
-                --exclude='.angular' \
-                --exclude='.storybook/out' \
-                --exclude='.netlify' \
-                -czf $archive $args
+            noglob tar $exclude_flags -czf $archive $args
         end
     end
 end
 
-# opencode
+# === PATH (idempotent via fish_add_path) ===
 fish_add_path /home/arafays/.opencode/bin
 fish_add_path $HOME/.local/bin
+fish_add_path --append $HOME/Android/Sdk/emulator \
+    $HOME/Android/Sdk/cmdline-tools/latest/bin \
+    $HOME/Android/Sdk/build-tools/36.1.0 \
+    $HOME/Android/Sdk/platform-tools
