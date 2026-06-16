@@ -19,3 +19,7 @@ workspace "chat" {
 workspace "files" {
     open-on-output "DP-3"
 }
+
+workspace "games" {
+    open-on-output "DP-3"
+}

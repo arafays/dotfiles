@@ -639,7 +639,7 @@
         },
         "language": "en",
         "lockOnSuspend": true,
-        "lockScreenAnimations": true,
+        "lockScreenAnimations": false,
         "lockScreenBlur": 0,
         "lockScreenCountdownDuration": 10000,
         "lockScreenMonitors": [
@@ -739,6 +739,7 @@
         "location": "top_right",
         "lowUrgencyDuration": 3,
         "monitors": [
+            "DP-3"
         ],
         "normalUrgencyDuration": 8,
         "overlayLayer": true,
@@ -930,7 +931,7 @@
     },
     "ui": {
         "boxBorderEnabled": false,
-        "fontDefault": "Adwaita Sans",
+        "fontDefault": "Sans Serif",
         "fontDefaultScale": 1,
         "fontFixed": "monospace",
         "fontFixedScale": 1,
@@ -965,9 +966,9 @@
                 "wallpaper": ""
             }
         ],
-        "overviewBlur": 0.4,
+        "overviewBlur": 0,
         "overviewEnabled": true,
-        "overviewTint": 0.6,
+        "overviewTint": 0,
         "panelPosition": "follow_bar",
         "randomIntervalSec": 300,
         "setWallpaperOnAllMonitors": true,
@@ -988,7 +989,7 @@
         "useOriginalImages": false,
         "useSolidColor": false,
         "useWallhaven": true,
-        "viewMode": "single",
+        "viewMode": "recursive",
         "wallhavenApiKey": "{{ (bitwarden "item" "Wallhaven API Key").notes | trim }}",
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",
@@ -997,7 +998,7 @@
         "wallhavenRatios": "",
         "wallhavenResolutionHeight": "",
         "wallhavenResolutionMode": "atleast",
-        "wallhavenResolutionWidth": "",
+        "wallhavenResolutionWidth": "2000",
         "wallhavenSorting": "random",
         "wallpaperChangeMode": "random"
     }

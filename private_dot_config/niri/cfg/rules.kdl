@@ -152,3 +152,75 @@ window-rule {
     match app-id="^brave-browser$" title=r#"(?i)\bIncognito\b"#
     block-out-from "screencast"
 }
+
+// ────────────── Game Launchers ──────────────
+// Rule order: more specific first, catch-all last
+
+window-rule {
+    match app-id="^steam_app_default$"
+    open-floating true
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id=r#"^steam_app_\d+$"#
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id="^steam$"
+    open-maximized-to-edges true
+    open-maximized true
+    default-column-width { proportion 1.0; }
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id=r#"^net\.lutris\.Lutris$"#
+    open-maximized-to-edges true
+    open-maximized true
+    default-column-width { proportion 1.0; }
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id="^faugus-launcher$"
+    open-maximized-to-edges true
+    open-maximized true
+    default-column-width { proportion 1.0; }
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id="^Heroic$"
+    open-maximized-to-edges true
+    open-maximized true
+    default-column-width { proportion 1.0; }
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id="^gamescope$"
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id="^Goverlay$"
+    open-floating true
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id="^protontricks$"
+    open-floating true
+    open-on-workspace "games"
+}
+
+window-rule {
+    match app-id=r#"^org\.qbittorrent\.qBittorrent$"#
+    open-on-workspace "files"
+    open-floating true
+    default-column-width { fixed 1734; }
+    default-window-height { fixed 1024; }
+    default-floating-position x=520 y=252
+}
