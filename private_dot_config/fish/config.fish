@@ -1,38 +1,11 @@
-# === ENVIRONMENT ===
 set -gx EDITOR nvim
-if not set -q GPG_TTY
-    set -gx GPG_TTY (tty)
-end
-
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
-set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
+
 set -g fish_greeting
-set -gx OPENCODE_EXPERIMENTAL true
 
-# === DEFERRED MISE ACTIVATION ===
-if status is-interactive
-    function __mise_deferred --on-event fish_prompt
-        mise activate fish | source
-        functions -e __mise_deferred
-    end
-end
-
-# === AUR HELPER ===
-set -gx aurhelper ""
-for helper in yay paru
-    if type -q $helper
-        set -gx aurhelper $helper
-        break
-    end
-end
-
-function in
-    if test -n "$aurhelper"
-        $aurhelper -S $argv
-    else
-        sudo pacman -S $argv
-    end
+if not set -q GPG_TTY
+    set -gx GPG_TTY (tty)
 end
 
 # === INTERACTIVE ===
@@ -44,8 +17,12 @@ if status is-interactive
         end
     end
 
-    # mise completions (lazy-loaded on PWD change)
-    mise completion fish | source
+    function __mise_deferred --on-event fish_prompt
+        mise activate fish | source
+        mise completion fish | source
+        type -q zoxide; and zoxide init fish --cmd cd | source
+        functions -e __mise_deferred
+    end
 
     function _mise_load_tool_completions --on-variable PWD
         if not set -q __mise_completions_loaded
@@ -90,28 +67,22 @@ if status is-interactive
     # vi key bindings
     fish_vi_key_bindings
 
-    set -g fish_cursor_default block
-    set -g fish_cursor_insert line
-    set -g fish_cursor_replace_one underscore
-    set -g fish_cursor_visual block
-
-    # prompt & plugins
-    type -q starship; and starship init fish | source
-    type -q zoxide; and zoxide init fish --cmd cd | source
-
     # abbreviations
     abbr g git
     abbr lzg lazygit
     abbr lzd lazydocker
     abbr oc opencode
-    function mkcd
-        mkdir -p $argv; and cd $argv
-    end
+
     alias vim='nvim'
     abbr -a -- - 'cd -'
     alias n='nvim'
     alias code="code-insiders"
     alias dev='code .'
+    alias czd='chezmoi cd'
+
+    function mkcd
+        mkdir -p $argv; and cd $argv
+    end
 
     # ls replacements
     if type -q eza
@@ -121,7 +92,6 @@ if status is-interactive
         alias la='eza -lha --icons=auto'
         alias ld='eza -lhD --icons=auto'
         alias lt='eza --icons=auto --tree --level=2'
-        set -gx EZA_COLORS "da=36:di=34:ex=32:fi=0:ln=35:pi=33:so=31"
     end
 
     if type -q bat
@@ -132,8 +102,26 @@ if status is-interactive
     if type -q fd
         alias find='fd'
     end
+
     if type -q rg
         alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
+    end
+
+    # === AUR HELPER ===
+    set -gx aurhelper ""
+    for helper in yay paru
+        if type -q $helper
+            set -gx aurhelper $helper
+            break
+        end
+    end
+
+    function in
+        if test -n "$aurhelper"
+            $aurhelper -S $argv
+        else
+            sudo pacman -S $argv
+        end
     end
 
     # pacman aliases
@@ -147,17 +135,6 @@ if status is-interactive
         alias psi="$aurhelper -Si"
         alias orphans="$aurhelper -Qtdq"
         alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
-    end
-
-    # fzf-based navigation
-    function fcd
-        set -l dir (find . -maxdepth 5 \( -name .git -o -name node_modules -o -name .next -o -name dist \) -prune -o -type d -print 2>/dev/null | fzf --height=60% --layout=reverse --preview='eza -la --icons=auto {}' --preview-window=right:60%)
-        test -n "$dir"; and cd "$dir"
-    end
-
-    function fe
-        set -l file (fzf --preview='bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%)
-        test -n "$file"; and $EDITOR "$file"
     end
 
     # tmux sessions
@@ -326,6 +303,8 @@ if status is-interactive
             noglob tar $exclude_flags -czf $archive $args
         end
     end
+
+    type -q starship; and starship init fish | source
 end
 
 # === PATH (idempotent via fish_add_path) ===
