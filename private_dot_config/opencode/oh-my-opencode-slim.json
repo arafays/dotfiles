@@ -1,12 +1,12 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "opencode",
+  "preset": "free",
   "presets": {
     "openrouter": {
       "orchestrator": {
         "model": "openrouter/deepseek/deepseek-v4-pro",
         "variant": "high",
-        "skills": ["*", "!impeccable"],
+        "skills": ["*"],
         "mcps": ["*", "!context7"]
       },
       "oracle": {
@@ -53,13 +53,13 @@
     },
     "opencode": {
       "orchestrator": {
-        "model": "opencode-go/glm-5.1",
+        "model": "opencode-go/deepseek-v4-pro",
         "variant": "high",
         "skills": ["*"],
         "mcps": ["*", "!context7"]
       },
       "oracle": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "opencode-go/glm-5.2",
         "variant": "max",
         "skills": ["simplify"],
         "mcps": []
@@ -96,6 +96,55 @@
       },
       "observer": {
         "model": "opencode-go/kimi-k2.6",
+        "skills": [],
+        "mcps": []
+      }
+    },
+    "free": {
+      "orchestrator": {
+        "model": "opencode/nemotron-3-ultra-free",
+        "variant": "high",
+        "skills": ["*"],
+        "mcps": ["*", "!context7"]
+      },
+      "oracle": {
+        "model": "opencode/nemotron-3-ultra-free",
+        "variant": "max",
+        "skills": ["simplify"],
+        "mcps": []
+      },
+      "council": {
+        "model": "opencode/nemotron-3-ultra-free",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "opencode/deepseek-v4-flash-free",
+        "variant": "low",
+        "skills": [],
+        "mcps": ["websearch", "context7", "grep_app"]
+      },
+      "explorer": {
+        "model": "opencode/north-mini-code-free",
+        "variant": "low",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "opencode/mimo-v2.5-free",
+        "variant": "medium",
+        "skills": ["agent-browser", "impeccable"],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "openrouter/qwen/qwen3-coder:free",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "observer": {
+        "model": "openrouter/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
         "skills": [],
         "mcps": []
       }

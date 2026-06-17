@@ -1,21 +1,21 @@
-set -gx EDITOR nvim
-set -gx SUDO_EDITOR nvim
-set -gx BROWSER zen-browser
-
 set -g fish_greeting
+set -gx BROWSER chromium
 
+# GPG TTY (runtime value, can't go in static environment.d)
 if not set -q GPG_TTY
     set -gx GPG_TTY (tty)
 end
 
+# Source environment.d (XDG vars, editor, FZF, Android, mise, secrets, etc.)
+# Shared with ~/.profile and systemd environment.d — single source of truth.
+if test -d ~/.config/environment.d
+    for file in ~/.config/environment.d/*.conf
+        fenv source $file
+    end
+end
+
 # === INTERACTIVE ===
 if status is-interactive
-    # source environment.d (XDG env vars, secrets, etc.)
-    if test -d ~/.config/environment.d
-        for file in ~/.config/environment.d/*.conf
-            fenv source $file
-        end
-    end
 
     function __mise_deferred --on-event fish_prompt
         mise activate fish | source
