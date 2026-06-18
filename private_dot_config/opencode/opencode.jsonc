@@ -48,6 +48,11 @@
       "command": ["uvx", "markitdown-mcp"],
       "enabled": false,
     },
+    "codegraph": {
+      "type": "local",
+      "command": ["codegraph", "serve", "--mcp"],
+      "enabled": true,
+    },
   },
   "agent": {
     "explore": {
@@ -63,4 +68,5 @@
       "disable": true,
     },
   },
+  "lsp": true,
 }

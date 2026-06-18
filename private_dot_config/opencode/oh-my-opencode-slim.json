@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "free",
+  "preset": "opencode",
   "presets": {
     "openrouter": {
       "orchestrator": {
@@ -53,15 +53,14 @@
     },
     "opencode": {
       "orchestrator": {
-        "model": "opencode-go/deepseek-v4-pro",
-        "variant": "high",
+        "model": "opencode-go/glm-5.2",
         "skills": ["*"],
-        "mcps": ["*", "!context7"]
+        "mcps": ["*", "!context7", "!gh_app", "!websearch"]
       },
       "oracle": {
-        "model": "opencode-go/glm-5.2",
+        "model": "opencode-go/deepseek-v4-pro",
         "variant": "max",
-        "skills": ["simplify"],
+        "skills": [],
         "mcps": []
       },
       "council": {
@@ -80,19 +79,19 @@
         "model": "opencode-go/deepseek-v4-flash",
         "variant": "low",
         "skills": [],
-        "mcps": []
+        "mcps": ["codegraph"]
       },
       "designer": {
         "model": "opencode-go/kimi-k2.6",
         "variant": "medium",
         "skills": ["agent-browser", "impeccable"],
-        "mcps": []
+        "mcps": ["codegraph"]
       },
       "fixer": {
         "model": "opencode-go/deepseek-v4-flash",
         "variant": "high",
         "skills": [],
-        "mcps": []
+        "mcps": ["codegraph"]
       },
       "observer": {
         "model": "opencode-go/kimi-k2.6",
@@ -150,5 +149,10 @@
       }
     }
   },
-  "disabled_agents": []
+  "disabled_agents": [],
+  "tmux": {
+    "enabled": true,
+    "layout": "main-vertical",
+    "main_pane_size": 60
+  }
 }
