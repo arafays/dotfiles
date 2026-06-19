@@ -21,7 +21,7 @@ binds {
     Super+Ctrl+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
 
-    Mod+E hotkey-overlay-title="Open File Explorer: nemo" { spawn "nemo"; }
+    Mod+E hotkey-overlay-title="Open File Explorer: nautilus" { spawn "nautilus"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
