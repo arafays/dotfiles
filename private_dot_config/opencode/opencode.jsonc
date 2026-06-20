@@ -25,25 +25,20 @@
     },
     "general": {
       "disable": true
-    }
+    },
+    "build": {
+      "disable": false
+    },
+    "plan": {
+      "disable": true
+    },
   },
   "permission": {
     "git reset": "deny",
     "sudo": "ask",
-    "rm -rf": "ask"
+    "rm -rf": "ask",
   },
   "mcp": {
-    "devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp@latest",
-        "--executablePath",
-        "{env:CHROMIUM_PATH}"
-      ],
-      "enabled": false
-    },
     "markitdown": {
       "type": "local",
       "command": [

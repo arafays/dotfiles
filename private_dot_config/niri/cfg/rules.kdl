@@ -17,7 +17,6 @@ window-rule {
 
 window-rule {
     open-floating true
-    open-on-workspace "files"
 
     match app-id="^nemo$"
     match app-id=r#"^org\.gnome\.Nautilus$"#
@@ -93,6 +92,8 @@ window-rule {
 window-rule {
     match app-id=r#"^code(-insiders)?$"#
     match app-id=r#"^dev\.zed\.Zed$"#
+    match app-id=r#"^zcode$"#
+    match app-id=r#"^cursor$"#
 
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
@@ -110,24 +111,18 @@ window-rule {
 window-rule {
     match app-id="^vesktop$"
     open-on-workspace "chat"
+    open-floating true
 }
 
+
 window-rule {
-    match app-id="^Upwork$"
-    match is-floating=true
+    match app-id="^privateinternetaccess$"
     open-on-output "HDMI-A-1"
-    default-floating-position x=759 y=655
+    default-floating-position x=300 y=400
 }
 
 window-rule {
-    match app-id="^Upwork$"
-    exclude is-floating=true
-    default-column-width { proportion 0.66; }
-    open-on-workspace "5"
-}
-
-window-rule {
-  // upwork
+  // upwork screencast block
   match app-id="^Upwork$"
   block-out-from "screencast"
 }
@@ -177,17 +172,13 @@ window-rule {
 
 window-rule {
     match app-id=r#"^net\.lutris\.Lutris$"#
-    open-maximized-to-edges true
-    open-maximized true
-    default-column-width { proportion 1.0; }
+    open-floating true
     open-on-workspace "games"
 }
 
 window-rule {
     match app-id="^faugus-launcher$"
-    open-maximized-to-edges true
-    open-maximized true
-    default-column-width { proportion 1.0; }
+    open-floating true
     open-on-workspace "games"
 }
 
@@ -218,7 +209,6 @@ window-rule {
 
 window-rule {
     match app-id=r#"^org\.qbittorrent\.qBittorrent$"#
-    open-on-workspace "files"
     open-floating true
     default-column-width { fixed 1734; }
     default-window-height { fixed 1024; }
