@@ -1,0 +1,49 @@
+
+# ~/.profile — POSIX login shell environment
+# Sourced by sh, bash, zsh (via .zshrc), and any login shell.
+# Fish sources environment.d separately via fenv.
+
+# System-wide profile
+[ -f /etc/profile ] && . /etc/profile
+
+# Source environment.d configuration (XDG vars, editor, FZF, Android, mise, secrets, etc.)
+# set -a auto-exports all variables so subprocesses inherit them.
+if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d" ]; then
+  set -a
+  for _env_file in "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d/"*.conf; do
+    [ -f "$_env_file" ] && . "$_env_file"
+  done
+  set +a
+  unset _env_file
+fi
+
+# GPG TTY (not in environment.d — needs runtime tty)
+command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
+
+# Browser (set in fish but not in environment.d)
+export BROWSER=brave
+
+# PATH — idempotent additions
+_prepend() {
+  case ":$PATH:" in *:"$1":*) ;; *) PATH="$1:$PATH" ;; esac
+}
+_append() {
+  case ":$PATH:" in *:"$1":*) ;; *) PATH="$PATH:$1" ;; esac
+}
+
+_prepend "$HOME/.local/bin"
+_prepend "$HOME/.opencode/bin"
+
+# Android SDK tool dirs (append, only if they exist)
+if [ -d "$HOME/Android/Sdk" ]; then
+  for _dir in \
+    "$HOME/Android/Sdk/emulator" \
+    "$HOME/Android/Sdk/cmdline-tools/latest/bin" \
+    "$HOME/Android/Sdk/platform-tools"; do
+    [ -d "$_dir" ] && _append "$_dir"
+  done
+  unset _dir
+fi
+
+export PATH
+unset _prepend _append

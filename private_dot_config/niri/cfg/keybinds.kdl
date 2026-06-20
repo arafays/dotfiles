@@ -16,7 +16,7 @@ binds {
     Mod+Shift+Q                         hotkey-overlay-title="Session Menu: noctalia sessionMenu" { spawn-sh "qs -c noctalia-shell ipc call sessionMenu toggle"; }
 
     // Please choose your own file manager.
-    Mod+E                               hotkey-overlay-title="File Manager: Nemo" { spawn "nemo"; }
+    Mod+E                               hotkey-overlay-title="File Manager: Nautilus" { spawn "nautilus"; }
 
     // Noctalia Reload & Dictation ───
     Mod+CTRL+R                          { spawn-sh "killall qs; qs -c noctalia-shell &"; }
@@ -93,7 +93,7 @@ binds {
     Mod+1                               { focus-workspace "dev"; }
     Mod+2                               { focus-workspace "browser"; }
     Mod+3                               { focus-workspace "chat"; }
-    Mod+4                               { focus-workspace "files"; }
+    Mod+4                               { focus-workspace 4; }
     Mod+5                               { focus-workspace 5; }
     Mod+6                               { focus-workspace 6; }
     Mod+7                               { focus-workspace 7; }
@@ -103,7 +103,7 @@ binds {
     Mod+CTRL+1                          { move-column-to-workspace "dev"; }
     Mod+CTRL+2                          { move-column-to-workspace "browser"; }
     Mod+CTRL+3                          { move-column-to-workspace "chat"; }
-    Mod+CTRL+4                          { move-column-to-workspace "files"; }
+    Mod+CTRL+4                          { move-column-to-workspace 4; }
     Mod+CTRL+5                          { move-column-to-workspace 5; }
     Mod+CTRL+6                          { move-column-to-workspace 6; }
     Mod+CTRL+7                          { move-column-to-workspace 7; }

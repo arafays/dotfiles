@@ -2,6 +2,8 @@
 {{ $email := promptStringOnce . "email" "What is your email address?" -}}
 {{ $github_username := promptStringOnce . "github_username" "What is your GitHub username?" -}}
 
+[bitwarden]
+    unlock = true
 
 [data]
     name = {{ $name | quote }}
