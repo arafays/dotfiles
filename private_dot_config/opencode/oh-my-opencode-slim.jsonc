@@ -1,22 +1,102 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "daily",
+
+  // Active preset name — switches all agent models/skills/MCPs at once
+  // Runtime switch: /preset <name>
+  "preset": "opencode",
+
+  // Agents to disable globally (not per-preset). Empty = all enabled.
   "disabled_agents": [],
+
+  // Auto-install plugin updates in background. Set false for notification-only.
   "autoUpdate": true,
+
+  // Multiplexer for running specialist agents in separate panes
+  "multiplexer": {
+    "type": "tmux",
+    "layout": "main-vertical",
+    "main_pane_size": 60
+  },
+
+  // Council: multi-LLM voting. Each preset defines councillor models.
+  "council": {
+    "default_preset": "opencode",
+    "presets": {
+      "opencode": {
+        "deepseek": {
+          "model": "opencode-go/deepseek-v4-pro",
+          "variant": "high"
+        },
+        "glm": {
+          "model": "opencode-go/glm-5.2",
+          "variant": "high"
+        },
+        "kimi": {
+          "model": "opencode-go/kimi-k2.7-code",
+          "variant": "high"
+        }
+      },
+      "cheapest": {
+        "deepseek": {
+          "model": "opencode-go/deepseek-v4-flash",
+          "variant": "medium"
+        },
+        "mimo": {
+          "model": "opencode-go/mimo-v2.5",
+          "variant": "medium"
+        },
+        "minimax": {
+          "model": "opencode-go/minimax-m2.7",
+          "variant": "low"
+        }
+      },
+      "daily": {
+        "deepseek": {
+          "model": "opencode-go/deepseek-v4-pro",
+          "variant": "high"
+        },
+        "glm": {
+          "model": "opencode-go/glm-5.2",
+          "variant": "high"
+        },
+        "kimi": {
+          "model": "opencode-go/kimi-k2.7-code",
+          "variant": "high"
+        }
+      }
+    }
+  },
+
+  // Per-preset agent config: model, variant, skills, and MCPs
+  //
+  // Built-in MCP names (exact, case-sensitive):
+  //   "websearch" — Exa AI web search
+  //   "context7"  — up-to-date library documentation
+  //   "gh_grep"   — GitHub code search via grep.app (NOT "grep_app")
+  //   "codegraph" — local codegraph MCP (user-installed)
+  //
+  // Skill syntax: ["*"] = all, ["name"] = explicit, ["*","!name"] = exclude
   "presets": {
-    "opencode-go": {
+    "opencode": {
       "orchestrator": {
         "model": "opencode-go/glm-5.2",
+        // All skills — orchestrator uses codemap, deepwork, reflect, worktrees,
+        // clonedeps, oh-my-opencode-slim directly (not delegated)
         "skills": [
           "*"
         ],
+        // All MCPs except context7, gh_app, websearch (librarian handles research)
         "mcps": [
-          "*"
+          "*",
+          "!context7",
+          "!gh_app",
+          "!websearch"
         ]
       },
       "oracle": {
         "model": "opencode-go/deepseek-v4-pro",
         "variant": "max",
+        // Code review + simplification
         "skills": [
           "simplify"
         ],
@@ -29,39 +109,44 @@
         "mcps": []
       },
       "librarian": {
-        "model": "opencode-go/deepseek-v4-flash",
-        // "model": "opencode-go/minimax-m2.7",
+        "model": "opencode-go/minimax-m2.7",
         "skills": [],
+        // Research agent: web search + docs + GitHub code search
         "mcps": [
           "websearch",
           "context7",
-          "grep_app"
+          "gh_grep"
         ]
       },
       "explorer": {
         "model": "opencode-go/deepseek-v4-flash",
-        // "model": "opencode-go/minimax-m2.7",
         "skills": [],
-        "mcps": []
+        "mcps": [
+          "codegraph"
+        ]
       },
       "designer": {
-        "model": "opencode-go/kimi-k2.7-code",
+        // K2.6 chosen over K2.7 Code — better general vision for UI/screenshots
+        "model": "opencode-go/kimi-k2.6",
         "variant": "medium",
         "skills": [
-          "agent-browser",
-          "impeccable"
+          "agent-browser"
         ],
-        "mcps": []
+        "mcps": [
+          "codegraph"
+        ]
       },
       "fixer": {
+        // Fast + cheap — mechanical implementation tasks
         "model": "opencode-go/deepseek-v4-flash",
         "variant": "high",
         "skills": [],
         "mcps": [
-          "context7"
+          "codegraph"
         ]
       },
       "observer": {
+        // Vision-only: screenshots, images, diagrams
         "model": "opencode-go/kimi-k2.6",
         "skills": [],
         "mcps": []
@@ -70,13 +155,20 @@
     "cheapest": {
       "orchestrator": {
         "model": "opencode-go/deepseek-v4-flash",
-        "skills": ["*"],
-        "mcps": ["*"]
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "*",
+          "!context7"
+        ]
       },
       "oracle": {
         "model": "opencode-go/deepseek-v4-flash",
         "variant": "low",
-        "skills": [],
+        "skills": [
+          "simplify"
+        ],
         "mcps": []
       },
       "council": {
@@ -88,7 +180,11 @@
       "librarian": {
         "model": "opencode/north-mini-code-free",
         "skills": [],
-        "mcps": ["websearch", "context7"]
+        "mcps": [
+          "websearch",
+          "context7",
+          "gh_grep"
+        ]
       },
       "explorer": {
         "model": "opencode-go/deepseek-v4-flash",
@@ -97,14 +193,16 @@
       },
       "designer": {
         "model": "opencode/big-pickle",
-        "skills": ["agent-browser"],
+        "skills": [
+          "agent-browser"
+        ],
         "mcps": []
       },
       "fixer": {
         "model": "opencode-go/deepseek-v4-flash",
         "variant": "high",
         "skills": [],
-        "mcps": ["context7"]
+        "mcps": []
       },
       "observer": {
         "model": "opencode/nemotron-3-ultra-free",
@@ -115,13 +213,22 @@
     "daily": {
       "orchestrator": {
         "model": "opencode-go/glm-5.2",
-        "skills": ["*"],
-        "mcps": ["*"]
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "*",
+          "!context7",
+          "!gh_app",
+          "!websearch"
+        ]
       },
       "oracle": {
         "model": "opencode-go/deepseek-v4-pro",
         "variant": "high",
-        "skills": ["simplify"],
+        "skills": [
+          "simplify"
+        ],
         "mcps": []
       },
       "council": {
@@ -131,26 +238,37 @@
         "mcps": []
       },
       "librarian": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "opencode-go/minimax-m2.7",
         "skills": [],
-        "mcps": ["websearch", "context7", "grep_app"]
+        "mcps": [
+          "websearch",
+          "context7",
+          "gh_grep",
+          "codegraph"
+        ]
       },
       "explorer": {
         "model": "opencode-go/deepseek-v4-flash",
         "skills": [],
-        "mcps": []
+        "mcps": [
+          "codegraph"
+        ]
       },
       "designer": {
         "model": "opencode-go/kimi-k2.7-code",
         "variant": "medium",
-        "skills": ["agent-browser"],
+        "skills": [
+          "agent-browser"
+        ],
         "mcps": []
       },
       "fixer": {
         "model": "opencode-go/minimax-m3",
         "variant": "high",
         "skills": [],
-        "mcps": ["context7"]
+        "mcps": [
+          "codegraph"
+        ]
       },
       "observer": {
         "model": "opencode-go/kimi-k2.6",

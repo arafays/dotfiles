@@ -3,7 +3,7 @@
 {{ $github_username := promptStringOnce . "github_username" "What is your GitHub username?" -}}
 
 [bitwarden]
-    unlock = true
+    unlock = "auto"
 
 [data]
     name = {{ $name | quote }}

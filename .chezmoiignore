@@ -9,6 +9,9 @@ AGENTS.md
 .qmlls.ini
 .qmllint.ini
 
+# Niri noctalia theme (auto-generated, switches frequently)
+**/niri/noctalia.kdl
+
 # Python bytecode
 **/__pycache__/
 
