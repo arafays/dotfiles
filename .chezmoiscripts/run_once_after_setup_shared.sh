@@ -3,11 +3,11 @@ set -euo pipefail
 
 # idempotent: create user beera with sudo permissions
 if id "beera" &>/dev/null; then
-    echo "User beera already exists, skipping creation."
+  echo "User beera already exists, skipping creation."
 else
-    sudo useradd -m -G wheel beera
-    echo "beera:changeme" | sudo chpasswd
-    echo "User beera created. Temporary password is 'changeme' — please change immediately with: passwd"
+  sudo useradd -m -G wheel beera
+  echo "beera:changeme" | sudo chpasswd
+  echo "User beera created. Temporary password is 'changeme' — please change immediately with: passwd"
 fi
 
 # Create shared folder
@@ -31,8 +31,8 @@ sudo setfacl -d -m u::rwx,g::rwx,o::rwx /home/shared
 # Add a Shared shortcut in /etc/skel so new users automatically get it
 sudo mkdir -p /etc/skel
 if [ ! -L /etc/skel/Shared ]; then
-    sudo ln -sf /home/shared /etc/skel/Shared
-    echo "Created /etc/skel/Shared -> /home/shared symlink for new users."
+  sudo ln -sf /home/shared /etc/skel/Shared
+  echo "Created /etc/skel/Shared -> /home/shared symlink for new users."
 fi
 
 echo ""

@@ -1,12 +1,19 @@
+# $schema = 
+
+
 [env]
 TERM = "alacritty"
 
+
 [window]
-dynamic_padding = true
-decorations = "none"
 dynamic_title = true
-opacity = 0.6
 decorations_theme_variant = "Dark"
+opacity = 0.6
+blur = true
+
+[window.padding]
+x = 0
+y = 0
 
 [scrolling]
 history = 100000

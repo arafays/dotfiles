@@ -10,7 +10,8 @@
       {
         "workflow": "plan-agent",
         "planningAgents": [
-          "plan"
+          "plan",
+          "orchestrator"
         ]
       }
     ],
@@ -30,7 +31,7 @@
       "disable": false
     },
     "plan": {
-      "disable": true
+      "disable": false
     },
   },
   "permission": {
@@ -53,7 +54,7 @@
         "mise",
         "mcp"
       ],
-      "enabled": true
+      "enabled": false
     },
     "fal-ai": {
       "type": "remote",
@@ -62,7 +63,17 @@
         "Authorization": "Bearer {env:FAL_AI_API_KEY}"
       },
       "enabled": false
+    },
+    "codegraph": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": true
     }
   },
-  "lsp": true
+  "lsp": true,
+  "provider": {}
 }

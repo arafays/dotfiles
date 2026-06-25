@@ -11,8 +11,32 @@ layer-rule {
 }
 
 window-rule {
-    geometry-corner-radius 8
+    geometry-corner-radius 20
     clip-to-geometry true
+}
+
+// Global blur for all windows (noctalia recommended)
+window-rule {
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+// Noctalia surfaces blur
+layer-rule {
+    match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+    background-effect {
+        xray false
+    }
+}
+
+// Noctalia settings window
+window-rule {
+    match app-id="dev.noctalia.Noctalia.Settings"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
 }
 
 window-rule {
@@ -23,52 +47,30 @@ window-rule {
     match app-id="^cachyos-pi$"
     match app-id=r#"^org\.gnome\.Zenity$"#
 
-    match app-id=r#"^org\.cachyos\..*$"#
-    match app-id=r#"^org\.freedesktop\.impl\.portal\.desktop\.kde$"#
-
     match app-id="Emulator"
     match app-id=r#"dev\.zed\.Zed$"# title=r#"Settings"#
     match app-id=r#"dev\.zed\.Zed$"# title=r#"Project Structure"#
+  
+    // nwg-look
+    match app-id=r#"^nwg-look$"#
 
     match app-id=r#"^avdmanager$"#
     match title=r#"AVD|Virtual Device"#
 
     match title=r#"(?i)Extension.*Bitwarden"#
 
-    match app-id=r#"zen$"# title="^Picture-in-Picture $"
-    match title=r#"(?i)(enter password|authentication|authenticate)"#
-
     exclude title=r#".* - Nemo$"#
 }
 
-window-rule {
-    match app-id="^zen$"
-    exclude title=r#"(?i)Extension.*Bitwarden"#
-    open-maximized-to-edges true
-    open-maximized true
-    default-column-width { proportion 1.0; }
-    open-on-workspace "browser"
-    background-effect {
-        blur true
-    }
-    border {
-        off
-    }
-}
 
 window-rule {
+    match app-id="^zen$"
     match app-id="^brave-browser$"
     exclude title=r#"(?i)Extension.*Bitwarden"#
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
     open-on-workspace "browser"
-    background-effect {
-        blur true
-    }
-    border {
-        off
-    }
 }
 
 window-rule {
@@ -109,6 +111,7 @@ window-rule {
 }
 
 window-rule {
+    match app-id="^discord$"
     match app-id="^vesktop$"
     open-on-workspace "chat"
     open-floating true

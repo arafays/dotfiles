@@ -8,7 +8,7 @@
 ## QML import paths (for qmlls)
 
 - Native Quickshell modules: /usr/lib/qt6/qml/Quickshell/
-- Noctalia QML modules (qs.*): /etc/xdg/quickshell/noctalia-shell/
+- Noctalia QML modules (qs.\*): /etc/xdg/quickshell/noctalia-shell/
 
 ## Common QML imports
 
@@ -25,25 +25,25 @@ import qs.Services.UI          // ToastService, BarService, TooltipService
 
 ## Key Quickshell types used in plugins
 
-| Type | Purpose |
-|------|---------|
-| `Process` | Executes external commands. Properties: `exec()`, `running`, `stdout`, `stderr` |
-| `IpcHandler` | IPC communication with Quickshell core. `target: "plugin:name"`, defines callable functions |
-| `StdioCollector` | Captures stdout/stderr from a Process |
-| `Timer` | QML timer with `interval` (ms), `running`, `repeat`, `onTriggered` |
-| `Quickshell.execDetached()` | Run command detached from shell |
-| `ShellScreen` | Screen info (name, geometry) |
+| Type                        | Purpose                                                                                     |
+| --------------------------- | ------------------------------------------------------------------------------------------- |
+| `Process`                   | Executes external commands. Properties: `exec()`, `running`, `stdout`, `stderr`             |
+| `IpcHandler`                | IPC communication with Quickshell core. `target: "plugin:name"`, defines callable functions |
+| `StdioCollector`            | Captures stdout/stderr from a Process                                                       |
+| `Timer`                     | QML timer with `interval` (ms), `running`, `repeat`, `onTriggered`                          |
+| `Quickshell.execDetached()` | Run command detached from shell                                                             |
+| `ShellScreen`               | Screen info (name, geometry)                                                                |
 
 ## Noctalia plugin architecture
 
 Each plugin in `~/.config/noctalia/plugins/<name>/` has:
 
-| File | Purpose |
-|------|---------|
-| `Main.qml` | Plugin entry point. `pluginApi` property injected by host. Handles lifecycle, IPC |
-| `Settings.qml` | Plugin settings UI panel. `pluginApi`, `contentPreferredWidth/Height` |
+| File            | Purpose                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| `Main.qml`      | Plugin entry point. `pluginApi` property injected by host. Handles lifecycle, IPC          |
+| `Settings.qml`  | Plugin settings UI panel. `pluginApi`, `contentPreferredWidth/Height`                      |
 | `BarWidget.qml` | Small widget shown in the bar. `screen`, `widgetId`, `section`, `sectionWidgetIndex/Count` |
-| `Panel.qml` | Full-size panel UI. `pluginApi`, `geometryPlaceholder`, `contentPreferredWidth/Height` |
+| `Panel.qml`     | Full-size panel UI. `pluginApi`, `geometryPlaceholder`, `contentPreferredWidth/Height`     |
 
 ### Plugin API
 
