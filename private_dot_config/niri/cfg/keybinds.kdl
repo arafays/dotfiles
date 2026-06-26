@@ -19,8 +19,13 @@ binds {
     Mod+E                               hotkey-overlay-title="File Manager: Nautilus" { spawn "nautilus"; }
 
     // Noctalia Reload & Dictation ───
+    // Dictation IPC (compositor must bind these; plugin does not register global hotkeys):
+    //   toggle: qs -c noctalia-shell ipc call plugin:dictation toggle
+    //   start:  qs -c noctalia-shell ipc call plugin:dictation start
+    //   stop:   qs -c noctalia-shell ipc call plugin:dictation stop
     Mod+CTRL+R                          { spawn-sh "killall qs; qs -c noctalia-shell &"; }
-    Mod+Shift+D                         { spawn-sh "qs -c noctalia-shell ipc call plugin:dictation toggle"; }
+    Mod+Shift+D                         hotkey-overlay-title="Dictation: toggle recording" { spawn-sh "qs -c noctalia-shell ipc call plugin:dictation toggle"; }
+    // Mod+Shift+S                       hotkey-overlay-title="Dictation: stop recording" { spawn-sh "qs -c noctalia-shell ipc call plugin:dictation stop"; }
 
     // ─── Media Controls ───
     XF86AudioRaiseVolume                allow-when-locked=true { spawn-sh "qs -c noctalia-shell ipc call volume increase"; }
