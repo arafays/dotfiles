@@ -72,12 +72,16 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-workspace "browser"
+    open-on-workspace "2"
+
+    background-effect {
+        blur true
+    }
 }
 
 window-rule {
     match app-id="^chromium$"
-    open-on-workspace "browser"
+    open-on-workspace "2"
 }
 
 window-rule {
@@ -102,7 +106,7 @@ window-rule {
 
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
-    open-on-workspace "dev"
+    open-on-workspace "1"
     background-effect {
         blur true
     }
@@ -110,13 +114,10 @@ window-rule {
 
 window-rule {
     match app-id=r#"(?i)^slack$"#
-    open-on-workspace "chat"
-}
-
-window-rule {
     match app-id="^discord$"
     match app-id="^vesktop$"
-    open-on-workspace "chat"
+    open-on-output "DP-3"
+    open-on-workspace "3"
     open-floating true
 }
 
@@ -160,12 +161,14 @@ window-rule {
 window-rule {
     match app-id="^steam_app_default$"
     open-floating true
-    open-on-workspace "games"
+    open-on-output "DP-3"
+    open-on-workspace "4"
 }
 
 window-rule {
     match app-id=r#"^steam_app_\d+$"#
-    open-on-workspace "games"
+    open-on-output "DP-3"
+    open-on-workspace "4"
 }
 
 window-rule {
@@ -173,39 +176,41 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-workspace "games"
+    open-on-workspace "4"
 }
 
 window-rule {
     match app-id=r#"^net\.lutris\.Lutris$"#
     match app-id="^faugus-launcher$"
     open-floating true
-    open-on-workspace "games"
+    open-on-workspace "4"
+    open-on-output "DP-3"
 }
+
 
 window-rule {
     match app-id="^Heroic$"
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-workspace "games"
+    open-on-workspace "4"
 }
 
 window-rule {
     match app-id="^gamescope$"
-    open-on-workspace "games"
+    open-on-workspace "4"
 }
 
 window-rule {
     match app-id="^Goverlay$"
     open-floating true
-    open-on-workspace "games"
+    open-on-workspace "4"
 }
 
 window-rule {
     match app-id="^protontricks$"
     open-floating true
-    open-on-workspace "games"
+    open-on-workspace "4"
 }
 
 window-rule {

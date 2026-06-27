@@ -16,23 +16,20 @@
       }
     ],
     "@tarquinen/opencode-dcp@latest",
-    "opencode-vibeguard",
     "oh-my-opencode-slim"
   ],
-  "default_agent": "opencode-go/deepseek-v4-flash",
+  "default_agent": "cheap-orchestrator",
   "agent": {
     "explore": {
       "disable": true
     },
-    "general": {
-      "disable": true
-    },
     "build": {
-      "disable": false
+      "disable": true,
     },
     "plan": {
-      "disable": false
-    },
+      "disable": true,
+      "model": "opencode-go/glm-5.2"
+    }
   },
   "permission": {
     "git reset": "deny",
@@ -75,5 +72,4 @@
     }
   },
   "lsp": true,
-  "provider": {}
 }
