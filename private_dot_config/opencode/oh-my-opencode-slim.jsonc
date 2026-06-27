@@ -1,23 +1,18 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-
   // Active preset name — switches all agent models/skills/MCPs at once
   // Runtime switch: /preset <name>
   "preset": "opencode",
-
   // Agents to disable globally (not per-preset). Empty = all enabled.
   "disabled_agents": [],
-
   // Auto-install plugin updates in background. Set false for notification-only.
   "autoUpdate": true,
-
   // Multiplexer for running specialist agents in separate panes
   "multiplexer": {
     "type": "tmux",
     "layout": "main-vertical",
     "main_pane_size": 60
   },
-
   // Council: multi-LLM voting. Each preset defines councillor models.
   "council": {
     "default_preset": "opencode",
@@ -66,7 +61,6 @@
       }
     }
   },
-
   // Per-preset agent config: model, variant, skills, and MCPs
   //
   // Built-in MCP names (exact, case-sensitive):

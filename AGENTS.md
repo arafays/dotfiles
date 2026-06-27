@@ -1,69 +1,48 @@
-# Chezmoi Dotfiles (CachyOS / Niri)
+# System Directives for AI Agent: Chezmoi Dotfiles
 
-## Rules
+You are managing a CachyOS/Linux dotfiles repository using `chezmoi`. You must strictly follow these operational rules to prevent system corruption and blocked processes.
 
-- **Edit source files** in `~/.local/share/chezmoi/`, **never** live configs in `$HOME`.
-- **Never run global apply** (`chezmoi apply` without args).
-- Apply only the changed file: `chezmoi apply --source-path "<source-path>"`.
-  - The path is **source-relative** and must include chezmoi prefixes/suffixes (`private_`, `dot_`, `.tmpl`, etc.).
-  - Without `--source-path`, chezmoi treats it as a target path and fails with "not managed".
-  - Examples:
-    - `chezmoi apply --source-path "dot_gitconfig.tmpl"`
-    - `chezmoi apply --source-path "private_dot_config/niri/config.kdl"`
-    - `chezmoi apply --source-path "executable_dot_local_bin_hello"`
-- Find the source path for a target: `chezmoi source-path ~/.config/some/file`
-- List tracked files: `chezmoi managed`
+## CRITICAL CONSTRAINTS (Never violate these)
 
-## Source Naming
+- **FATAL ERROR:** Never edit live configuration files in `$HOME` (e.g., `~/.config/...`).
+- **FATAL ERROR:** Never run `chezmoi apply` or `chezmoi diff` without arguments. Running them globally evaluates all templates and will hang the system waiting for Bitwarden password prompts.
+- **SOURCE OF TRUTH:** You must only edit files inside `~/.local/share/chezmoi/`.
+- **PATHING RULE (Apply):** When applying changes, you MUST use the `--source-path` flag followed by the exact source-relative filename.
+- **PATHING RULE (Diff):** When previewing changes, you MUST pass the specific target path to `chezmoi diff` (e.g., `chezmoi diff ~/.config/niri/config.kdl`).
 
-chezmoi encodes behavior in source filenames. Prefix order matters.
+## The Modification Workflow
 
-- Regular: `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl`
-- Scripts: `run_` → `once_|onchange_` → `before_|after_` + `.tmpl`
-- Symlinks: `symlink_` → `dot_` + `.tmpl` (content = link target)
-- Dirs: `remove_|external_|exact_|private_|readonly_|dot_` (no `.tmpl`)
+WHEN the user asks you to modify a configuration, you MUST execute these exact steps in order:
 
-Examples:
-`dot_gitconfig` → `~/.gitconfig` · `dot_gitconfig.tmpl` → templated `~/.gitconfig` · `private_dot_config/niri/config.kdl` → `~/.config/niri/config.kdl` (0600) · `executable_dot_local_bin_hello` → `~/.local/bin/hello` (+x)
+1. **Locate Source:** Run `chezmoi source-path <target-path>` to find the exact source file in `~/.local/share/chezmoi/`.
+2. **Edit Source:** Make your changes exclusively to the file located in Step 1.
+3. **Validate (Niri only):** IF you edited a Niri configuration, run `niri validate` to catch KDL syntax errors before proceeding.
+4. **Preview Changes (Diff):** Run `chezmoi diff <target-path>` to verify your changes. **Never** run `chezmoi diff` without the target path. (Alternatively, use `chezmoi apply --source-path "<source-relative-path>" --dry-run`).
+5. **Apply:** Run `chezmoi apply --source-path "<source-relative-path>"`.
 
-## Templates & Secrets
+_Example Application:_ `chezmoi apply --source-path "private_dot_config/niri/config.kdl"`
 
-Template vars from `.chezmoi.toml.tmpl`: `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}`.
-`template.options = ["missingkey=error"]` — undefined template vars fail.
+## Chezmoi Naming Cipher
 
-Secrets via Bitwarden CLI: `{{ (bitwarden "item" "Name").notes | trim }}`.
-API keys are exported at runtime via `private_dot_config/environment.d/*.conf.tmpl`.
+Source filenames encode deployment behavior via specific prefixes and suffixes. Do not rename files without understanding this cipher.
 
-## Environment
+- `dot_` translates to a leading `.` (e.g., `dot_gitconfig` -> `.gitconfig`).
+- `private_` sets strict 0600 permissions.
+- `executable_` sets `chmod +x`.
+- `.tmpl` indicates a Go template. It is processed, and the suffix is stripped.
+- Directory paths are encoded with underscores (e.g., `private_dot_config/niri/config.kdl` creates `~/.config/niri/config.kdl`).
 
-- OS: CachyOS (Arch-based) · WM: Niri (Wayland)
-- Shell: fish + tmux (vi mode, base-index 1)
-- Terminals: alacritty, kitty
-- Editors: nvim, vscode-insiders, zed
-- Package managers: pacman/paru (AUR helper auto-detected), mise for global tools
-- Python: uv (not pip)
-- Search: rg (not grep)
-- `environment.d/*.conf` is sourced by fish via `fenv`
+## Template & Secrets Protocol
 
-## Config Layout
+- Template variables are defined in `.chezmoi.toml.tmpl`.
+- Undefined variables will crash the deployment (`missingkey=error`).
+- Available vars include: `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}`, `{{ .chezmoi.os }}`, `{{ .chezmoi.osRelease.id }}`.
+- Retrieve secrets using the Bitwarden CLI exactly like this: `{{ (bitwarden "item" "Item Name").notes | trim }}`.
 
-- `dot_gitconfig.tmpl` · `dot_tmux.conf` · `dot_profile`
-- `private_dot_config/`
-  - `niri/config.kdl` — only includes `cfg/*.kdl` + `noctalia.kdl`; edit files under `niri/cfg/`
-  - `noctalia/plugins/symlink_*` — plugin dirs are symlinks (content = target path)
-  - `opencode/opencode.jsonc` — OpenCode config
-  - `environment.d/` · `fish/` · `nvim/` · `alacritty/` · `kitty/` · `mise/` · `starship/` · `yazi/` · `zed/`
-- `private_dot_local/bin/` — executable scripts
-- `run_onchange_*` scripts under `.chezmoiscripts/`
+## Environment Context
 
-## Workflow
-
-1. Edit source.
-2. Preview: `chezmoi diff` or `chezmoi apply --source-path "file" --dry-run`.
-3. Apply: `chezmoi apply --source-path "file"`.
-4. After any Niri change: `niri validate` before restarting.
-
-## Notes
-
-- `AGENTS.md`, `.skills/`, `.opencode/`, `**/niri/noctalia.kdl`, and Python artifacts are excluded via `.chezmoiignore`.
-- Code style: camelCase (vars/funcs), PascalCase (types), UPPER_SNAKE_CASE (const); kebab-case files.
+- **OS:** CachyOS (Arch-based)
+- **Window Manager:** Niri (Wayland)
+- **Shell Pipeline:** fish + tmux (vi mode, base-index 1)
+- **Package Managers:** pacman/paru, mise (global tools), uv (Python)
+- **Code Style:** camelCase (vars/funcs), PascalCase (types), UPPER_SNAKE_CASE (const); kebab-case files.
