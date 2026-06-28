@@ -53,6 +53,7 @@ window-rule {
   
     // nwg-look
     match app-id=r#"^nwg-look$"#
+    match app-id=r#"^qt6ct$"#
 
     match app-id=r#"^avdmanager$"#
     match title=r#"AVD|Virtual Device"#
