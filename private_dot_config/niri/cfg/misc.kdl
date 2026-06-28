@@ -15,7 +15,9 @@
 
     cursor {
         xcursor-theme "Bibata-Modern-Classic"
-        xcursor-size 20
+        xcursor-size 24
+        hide-when-typing
+        hide-after-inactive-ms 1000
     }
 
     debug {

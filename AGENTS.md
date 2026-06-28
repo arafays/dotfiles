@@ -5,8 +5,8 @@ You are managing a CachyOS/Linux dotfiles repository using `chezmoi`. You must s
 ## CRITICAL CONSTRAINTS (Never violate these)
 
 - **FATAL ERROR:** Never edit live configuration files in `$HOME` (e.g., `~/.config/...`).
-- **FATAL ERROR:** Never run `chezmoi apply` or `chezmoi diff` without arguments. Running them globally evaluates all templates and will hang the system waiting for Bitwarden password prompts.
 - **SOURCE OF TRUTH:** You must only edit files inside `~/.local/share/chezmoi/`.
+- **FATAL ERROR:** Never run `chezmoi apply` or `chezmoi diff` without arguments. Running them globally evaluates all templates and will hang the system waiting for Bitwarden password prompts.
 - **PATHING RULE (Apply):** When applying changes, you MUST use the `--source-path` flag followed by the exact source-relative filename.
 - **PATHING RULE (Diff):** When previewing changes, you MUST pass the specific target path to `chezmoi diff` (e.g., `chezmoi diff ~/.config/niri/config.kdl`).
 
@@ -20,7 +20,7 @@ WHEN the user asks you to modify a configuration, you MUST execute these exact s
 4. **Preview Changes (Diff):** Run `chezmoi diff <target-path>` to verify your changes. **Never** run `chezmoi diff` without the target path. (Alternatively, use `chezmoi apply --source-path "<source-relative-path>" --dry-run`).
 5. **Apply:** Run `chezmoi apply --source-path "<source-relative-path>"`.
 
-_Example Application:_ `chezmoi apply --source-path "private_dot_config/niri/config.kdl"`
+_Example Application:_ `chezmoi apply --source-path "private_dot_config/niri/config.kdl"` or `chezmoi forget --force --source-path "private_dot_config/niri/config.kdl"` for no prompt
 
 ## Chezmoi Naming Cipher
 
@@ -38,11 +38,3 @@ Source filenames encode deployment behavior via specific prefixes and suffixes. 
 - Undefined variables will crash the deployment (`missingkey=error`).
 - Available vars include: `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}`, `{{ .chezmoi.os }}`, `{{ .chezmoi.osRelease.id }}`.
 - Retrieve secrets using the Bitwarden CLI exactly like this: `{{ (bitwarden "item" "Item Name").notes | trim }}`.
-
-## Environment Context
-
-- **OS:** CachyOS (Arch-based)
-- **Window Manager:** Niri (Wayland)
-- **Shell Pipeline:** fish + tmux (vi mode, base-index 1)
-- **Package Managers:** pacman/paru, mise (global tools), uv (Python)
-- **Code Style:** camelCase (vars/funcs), PascalCase (types), UPPER_SNAKE_CASE (const); kebab-case files.

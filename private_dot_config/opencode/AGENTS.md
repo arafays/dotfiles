@@ -1,3 +1,16 @@
+## Environment Context
+
+- **OS:** CachyOS (Arch-based)
+- **Window Manager:** Niri (Wayland)
+- **Shell Pipeline:** fish + tmux (vi mode, base-index 1)
+- **Package Managers:** pacman/paru, mise (global tools), uv (Python)
+- **Code Style:** camelCase (vars/funcs), PascalCase (types), UPPER_SNAKE_CASE (const); kebab-case files.
+
+## CRITICAL CONSTRAINTS (Never violate these)
+
+- **FATAL ERROR:** Never edit live configuration files in `$HOME` (e.g., `~/.config/...`).
+- **SOURCE OF TRUTH:** You must only edit files inside `~/.local/share/chezmoi/`.
+
 <!-- CODEGRAPH_START -->
 
 ## CodeGraph
