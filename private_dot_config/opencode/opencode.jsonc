@@ -18,7 +18,6 @@
     "@tarquinen/opencode-dcp@latest",
     "oh-my-opencode-slim"
   ],
-  "default_agent": "cheap-orchestrator",
   "agent": {
     "explore": {
       "disable": true
