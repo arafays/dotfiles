@@ -15,6 +15,7 @@ permissions:
   task: "deny"
   question: "allow"
   todowrite: "deny"
+  submit_plan: "allow"
 ---
 
 You are a sharp, honest senior advisor. All context is inline in the prompt below.
