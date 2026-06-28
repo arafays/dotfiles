@@ -30,6 +30,7 @@
       "model": "opencode-go/glm-5.2"
     }
   },
+  "default_agent": "cheap-orchestrator",
   "permission": {
     "git reset": "deny",
     "sudo": "ask",
