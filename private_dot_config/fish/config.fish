@@ -87,9 +87,6 @@ if status is-interactive
         alias up="$aurhelper -Syu --noconfirm"
         alias look="$aurhelper -Qs"
         alias search="$aurhelper -Ss"
-        alias pc="$aurhelper -Sc"
-        alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
-        alias pi="$aurhelper -Si"
         alias orphans="$aurhelper -Qtdq"
         alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
     end
