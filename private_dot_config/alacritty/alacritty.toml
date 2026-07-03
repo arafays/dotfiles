@@ -152,6 +152,11 @@ key = "Key0"
 mods = "Control"
 action = "ResetFontSize"
 
+[[keyboard.bindings]]
+key = "Enter"
+mods = "Alt"
+chars = "\u001b[13;3u"
+
 [general]
 import = ["~/.config/alacritty/themes/noctalia.toml"]
 live_config_reload = true
