@@ -1,0 +1,45 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "description": "Code analysis and search for this monorepo",
+      "command": "codegraph",
+      "args": ["serve", "--mcp"],
+      "lifecycle": "keep-alive",
+      "exposeResources": true
+    },
+    "exa": {
+      "description": "Web search and content extraction",
+      "url": "https://mcp.exa.ai/mcp",
+      "headers": {
+        "x-api-key": "${EXA_API_KEY}"
+      },
+      "lifecycle": "lazy",
+      "exposeResources": false
+    },
+    "context7": {
+      "description": "Library & framework documentation",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      },
+      "lifecycle": "lazy",
+      "exposeResources": false
+    },
+    {{ if false -}}
+    "chrome-devtools": {
+      "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "lifecycle": "lazy",
+      "exposeResources": false
+    },
+    {{ end -}}
+    "markitdown": {
+      "description": "Convert documents to Markdown (Office, PDF, HTML, images)",
+      "command": "uvx",
+      "args": ["markitdown-mcp@latest"],
+      "lifecycle": "lazy",
+      "exposeResources": false
+    }
+  }
+}

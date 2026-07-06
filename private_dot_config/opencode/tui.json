@@ -1,6 +1,3 @@
 {
-  "plugin": [
-    "https://github.com/R44VC0RP/vibe-mode",
-    "oh-my-opencode-slim"
-  ]
+  "plugin": []
 }

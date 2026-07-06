@@ -1,38 +1,26 @@
-# Chezmoi Dotfiles (Arch/Niri)
+<!-- CODEGRAPH_START -->
 
-## Rules
+## CodeGraph
 
-- **Edit source** in `~/.local/share/chezmoi/`, NEVER live configs in `$HOME`
-- **Never global apply** — always `chezmoi apply --source-path "file"`
-- Find source path: `chezmoi source-path ~/.config/some/file`
-- List managed: `chezmoi managed`
+In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the repo root), reach for it BEFORE grep/find or reading files when you need to understand or locate code:
 
-## Source Naming (prefix order matters)
+- **MCP tool** (when available): `codegraph_explore` answers most code questions in one call — the relevant symbols' verbatim source plus the call paths between them, including dynamic-dispatch hops grep can't follow. Name a file or symbol in the query to read its current line-numbered source. If it's listed but deferred, load it by name via tool search.
+- **Shell** (always works): `codegraph explore "<symbol names or question>"` prints the same output.
 
-Regular: `encrypted_` → `private_` → `readonly_` → `empty_` → `executable_` → `dot_` + `.tmpl`
-Scripts: `run_` + `once_|onchange_` + `before_|after_` + `.tmpl`
-Symlinks: `symlink_` + `dot_` + `.tmpl` (content = link target)
-Dirs: `remove_|external_|exact_|private_|readonly_|dot_` (no .tmpl)
+If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is the user's decision.
 
-Examples: `dot_gitconfig` → `~/.gitconfig` · `private_dot_config/niri/config.kdl` → `~/.config/niri/config.kdl` (0600) · `executable_dot_local_bin_hello` → `~/.local/bin/hello` (+x) · `dot_gitconfig.tmpl` → `~/.gitconfig` (templated)
+<!-- CODEGRAPH_END -->
 
-## Template & Secrets
+<!-- context7 -->
 
-Vars: `{{ .name }}`, `{{ .email }}`, `{{ .github_username }}` (from `.chezmoi.toml.tmpl`)
-Secrets: Bitwarden CLI — `{{ (bitwarden "item" "Name").notes | trim }}` in `environment.d/*.conf.tmpl`
+Use Context7 MCP to fetch current documentation whenever the user asks about a library, framework, SDK, API, CLI tool, or cloud service -- even well-known ones like React, Next.js, Prisma, Express, Tailwind, Django, or Spring Boot. This includes API syntax, configuration, version migration, library-specific debugging, setup instructions, and CLI tool usage. Use even when you think you know the answer -- your training data may not reflect recent changes. Prefer this over web search for library docs.
 
-## Environment
+Do not use for: refactoring, writing scripts from scratch, debugging business logic, code review, or general programming concepts.
 
-Arch/Niri (Wayland) · fish + tmux · alacritty · nvim/vscode-insiders · pacman/paru + mise · uv (not pip) · rg (not grep)
+## Steps
 
-## Config Layout
-
-`dot_gitconfig.tmpl` · `dot_tmux.conf` · `private_dot_zshrc.tmpl` · `dot_ssh/authorized_keys.tmpl`
-`private_dot_config/` → environment.d/ · niri/ (cfg/\*.kdl) · nvim/ · fish/ · opencode/ · alacritty/ · waybar/ · starship/ · zed/ · mise/
-`private_dot_local/bin/`
-
-## Workflow
-
-1. Edit source → 2. `chezmoi diff` or `--dry-run` → 3. `chezmoi apply --source-path "file"` → 4. Validate niri: `niri validate`
-   Add new: `chezmoi add ~/.config/new-app/config`. This file excluded via `.chezmoiignore`.
-
+1. Always start with `resolve-library-id` using the library name and the user's question, unless the user provides an exact library ID in `/org/project` format
+2. Pick the best match (ID format: `/org/project`) by: exact name match, description relevance, code snippet count, source reputation (High/Medium preferred), and benchmark score (higher is better). If results don't look right, try alternate names or queries (e.g., "next.js" not "nextjs", or rephrase the question). Use version-specific IDs when the user mentions a version
+3. `query-docs` with the selected library ID and the user's full question (not single words)
+4. Answer using the fetched docs
+<!-- context7 -->

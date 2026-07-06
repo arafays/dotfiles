@@ -12,8 +12,6 @@
       },
     ],
     "@tarquinen/opencode-dcp@latest",
-    "opencode-vibeguard",
-    "oh-my-opencode-slim",
   ],
   "permission": {
     "bash": {
@@ -52,6 +50,14 @@
       "type": "local",
       "command": ["codegraph", "serve", "--mcp"],
       "enabled": true,
+    },
+    "websearch": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp?exaApiKey={env:EXA_API_KEY}",
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
     },
   },
   "agent": {
