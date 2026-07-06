@@ -1,9 +1,6 @@
 # $schema = 
-
-
 [env]
 TERM = "alacritty"
-
 
 [window]
 dynamic_title = true
@@ -51,19 +48,19 @@ multiplier = 3
 size = 9
 
 [font.normal]
-family = "monospace"
+family = "MesloLGS Nerd Font Mono"
 style = "Regular"
 
 [font.bold]
-family = "monospace"
+family = "MesloLGS Nerd Font Mono"
 style = "Bold"
 
 [font.italic]
-family = "monospace"
+family = "MesloLGS Nerd Font Mono"
 style = "Italic"
 
 [font.bold_italic]
-family = "monospace"
+family = "MesloLGS Nerd Font Mono"
 style = "Bold Italic"
 
 [selection]

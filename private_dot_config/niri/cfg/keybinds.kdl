@@ -128,9 +128,9 @@ binds {
 
     // ─── Modes ───
     Mod+T                               { toggle-window-floating; }
-    Mod+F                               { fullscreen-window; }
+    Mod+F                               hotkey-overlay-title="Full Column - Maximized"  { maximize-column; }
     Mod+W                               { toggle-column-tabbed-display; }
-    Mod+Shift+F                         { toggle-windowed-fullscreen; }
+    Mod+Shift+F                         hotkey-overlay-title="Full Screen - Maximized"  { fullscreen-window; } //  toggle-windowed-fullscreen; 
 
     // ─── Screenshots ───
     CTRL+Shift+1                        { screenshot; }
