@@ -3,6 +3,4 @@ description: Primary agent. Fast, cheap orchestration for routine engineering wo
 mode: primary
 model: opencode-go/deepseek-v4-flash
 steps: 30
-permissions:
-  submit_plan: "allow"
 ---

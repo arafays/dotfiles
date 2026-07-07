@@ -1,13 +1,26 @@
 {
   "skills": [
+    "+skills/find-skills/SKILL.md",
     "+skills/agent-browser/SKILL.md"
   ],
   "lastChangelogVersion": "0.80.3",
   "theme": "dark",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "kimi-k2.6",
-  "defaultThinkingLevel": "high",
+  "defaultProvider": "opencode",
   "packages": [
-    "npm:@plannotator/pi-extension"
-  ]
+    "npm:@plannotator/pi-extension",
+    "npm:pi-mcp-adapter",
+    "npm:@pi-vault/pi-dcp"
+  ],
+  "defaultModel": "deepseek-v4-flash-free",
+  "defaultThinkingLevel": "off",
+  "hideThinkingBlock": false,
+  "showHardwareCursor": true,
+  "editorPaddingX": 2,
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "treeFilterMode": "default",
+  "doubleEscapeAction": "tree",
+  "defaultProjectTrust": "ask",
+  "transport": "auto"
 }
