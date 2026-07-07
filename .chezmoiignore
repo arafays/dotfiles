@@ -3,7 +3,7 @@
 .opencode/
 
 # Agent configuration
-AGENTS.md
+./AGENTS.md
 
 # QML LSP (environment-specific per Quickshell docs)
 .qmlls.ini

@@ -12,7 +12,7 @@
     "npm:@pi-vault/pi-dcp"
   ],
   "defaultModel": "deepseek-v4-flash-free",
-  "defaultThinkingLevel": "off",
+  "defaultThinkingLevel": "medium",
   "hideThinkingBlock": false,
   "showHardwareCursor": true,
   "editorPaddingX": 2,
