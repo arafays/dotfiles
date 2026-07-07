@@ -5,7 +5,7 @@ palette = "oxocarbon"
 add_newline = true
 format = """
 [╭](fg:separator) 󰣇 $directory$all$line_break\
-[╰](fg:separator)$character
+[╰](fg:separator) $character
 """
 
 [palettes.oxocarbon]
@@ -50,20 +50,8 @@ behind = ' [ ${count}](red)'
 staged = ' [ ${count}](green)'
 untracked = ' [ ${count}](red)'
 
-# stashed = "[\\($count\\)](blue)"
-# modified = " ! ${count}"
-# ahead = '⇡${count}(red)'
-# diverged = '⇕⇡${ahead_count}⇣${behind_count}'
-# behind = '⇣${count}(red)'
-# staged = '[++\($count\)](green)'
-# untracked = '[??\($count\)](red)'
-
 [git_commit]
 tag_symbol = '  '
-
-# ──────────────────────────────
-# Language & Tool Symbols
-# ──────────────────────────────
 
 [aws]
 symbol = " "
@@ -138,7 +126,6 @@ symbol = "󰆥 "
 symbol = " "
 
 [nodejs]
-symbol = " "
 detect_files = [
   'package.json',
   'package-lock.json',
@@ -185,48 +172,19 @@ symbol = " "
 symbol = " "
 
 [os.symbols]
-Alpaquita = " "
 Alpine = " "
-AlmaLinux = " "
 Amazon = " "
 Android = " "
 Arch = " "
-Artix = " "
 CentOS = " "
 Debian = " "
-DragonFly = " "
-Emscripten = " "
 EndeavourOS = " "
 Fedora = " "
 FreeBSD = " "
 Garuda = "󰛓 "
 Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
 Kali = " "
 Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
 Windows = "󰍲 "
 
 [package]
