@@ -6,5 +6,5 @@ editors: [vscode-insiders, nvim]
 rules:
   - year is always 2026, use latest info
   - edit source files in chezmoi repo, not live configs
-  - use mise for global tools (e.g. mise use -g npm:firebase-tools@latest)
+  - Use mise for tool management & global npm pkgs, like "mise use node@24" for project level or "mise use -g npm:vercel@latest" for global
   - never sudo — ask user for password commands
