@@ -34,7 +34,6 @@ duration = "#ee5396"
 
 [directory]
 read_only = " 󰌾"
-home_symbol = "~"
 truncation_length = 3
 
 
