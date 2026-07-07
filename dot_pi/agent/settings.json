@@ -1,0 +1,19 @@
+{
+  "skills": ["+skills/find-skills/SKILL.md", "+skills/agent-browser/SKILL.md"],
+  "lastChangelogVersion": "0.80.3",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "mimo-v2.5",
+  "defaultThinkingLevel": "high",
+  "packages": ["npm:@plannotator/pi-extension", "npm:pi-mcp-adapter", "npm:@pi-vault/pi-dcp"],
+  "theme": "dark",
+  "hideThinkingBlock": false,
+  "showHardwareCursor": true,
+  "editorPaddingX": 2,
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "treeFilterMode": "default",
+  "doubleEscapeAction": "tree",
+  "defaultProjectTrust": "ask",
+  "transport": "auto"
+}

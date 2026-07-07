@@ -8,7 +8,7 @@
       "@plannotator/opencode@latest",
       {
         "workflow": "plan-agent",
-        "planningAgents": ["plan", "orchestrator"],
+        "planningAgents": ["plan"],
       },
     ],
     "@tarquinen/opencode-dcp@latest",

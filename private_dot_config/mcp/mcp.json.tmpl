@@ -11,21 +11,20 @@
       "description": "Web search and content extraction",
       "url": "https://mcp.exa.ai/mcp",
       "headers": {
-        "x-api-key": "${EXA_API_KEY}"
+        "x-api-key": "{{ .secrets.exa_api_key }}"
       },
       "lifecycle": "lazy",
-      "exposeResources": false
+      "exposeResources": true
     },
     "context7": {
       "description": "Library & framework documentation",
       "url": "https://mcp.context7.com/mcp",
       "headers": {
-        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+        "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}"
       },
-      "lifecycle": "lazy",
-      "exposeResources": false
+      "lifecycle": "keep-alive",
+      "exposeResources": true
     },
-    {{ if false -}}
     "chrome-devtools": {
       "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
       "command": "npx",
@@ -33,11 +32,17 @@
       "lifecycle": "lazy",
       "exposeResources": false
     },
-    {{ end -}}
     "markitdown": {
       "description": "Convert documents to Markdown (Office, PDF, HTML, images)",
       "command": "uvx",
       "args": ["markitdown-mcp@latest"],
+      "lifecycle": "lazy",
+      "exposeResources": false
+    },
+    "mise": {
+      "description": "Connects to mise to manage the local developer environment. Use this server when you need to inspect installed tool versions (Node.js, Python, etc.), view project environment variables, read local configurations, or execute workspace automation tasks via the run_task tool.",
+      "type": "local",
+      "command": ["mise", "mcp"],
       "lifecycle": "lazy",
       "exposeResources": false
     }
