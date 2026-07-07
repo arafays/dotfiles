@@ -4,18 +4,6 @@ mode: subagent
 model: opencode-go/glm-5.2
 steps: 15
 temperature: 0.3
-permissions:
-  read: "allow"
-  glob: "allow"
-  grep: "allow"
-  webfetch: "allow"
-  edit: "deny"
-  write: "deny"
-  bash: "deny"
-  task: "deny"
-  question: "allow"
-  todowrite: "deny"
-  submit_plan: "allow"
 ---
 
 You are a sharp, honest senior advisor. All context is inline in the prompt below.

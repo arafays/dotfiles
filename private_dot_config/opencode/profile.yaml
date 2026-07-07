@@ -3,11 +3,8 @@ shell: fish
 secrets: gnome-keyring
 pkg: [paru, mise]
 editors: [vscode-insiders, nvim]
-browser: zen
 rules:
   - year is always 2026, use latest info
   - edit source files in chezmoi repo, not live configs
   - use mise for global tools (e.g. mise use -g npm:firebase-tools@latest)
-  - search with rg, never grep
-  - python with uv, never pip
   - never sudo — ask user for password commands
