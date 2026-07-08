@@ -1,41 +1,15 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 scan_timeout = 100
-palette = "oxocarbon"
 add_newline = true
 format = """
 [╭](fg:separator) 󰣇 $directory$all$line_break\
 [╰](fg:separator) $character
 """
 
-[palettes.oxocarbon]
-black = "#161616"
-red = "#ee5396"
-green = "#42be65"
-yellow = "#ffe97b"
-blue = "#33b1ff"
-magenta = "#be95ff"
-cyan = "#3ddbd9"
-white = "#dde1e6"
-
-icon = "#161616"
-status = "#e23140"
-
-prompt_ok = "#42be65"
-prompt_err = "#e23140"
-
-separator = "#45475A"
-
-background = "#262626"
-git_branch = "#ffe97b"
-
-directory = "#dde1e6"
-duration = "#ee5396"
-
 [directory]
 read_only = " 󰌾"
 truncation_length = 3
-
 
 [git_branch]
 symbol = " "
