@@ -11,10 +11,11 @@
   "packages": [
     "npm:@plannotator/pi-extension",
     "npm:pi-mcp-adapter",
-    "npm:@pi-vault/pi-dcp",
     "npm:@upstash/context7-pi",
     "npm:pi-exa",
-    "npm:@juicesharp/rpiv-ask-user-question"
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-rtk-optimizer",
+    "npm:pi-observational-memory"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,

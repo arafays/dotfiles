@@ -1,14 +1,4 @@
 {
-  "mcpServers": {
-    "codegraph": {
-      "description": "Code analysis and search for this monorepo",
-      "command": "codegraph",
-      "args": ["serve", "--mcp", "--path", "${workspaceFolder}"],
-      "lifecycle": "keep-alive",
-      "exposeResources": true,
-      "type": "stdio",
-      "directTools": true
-    }
-  },
-  "imports": ["cursor", "claude-code", "opencode"]
+  "mcpServers": {},
+  "imports": ["opencode"]
 }
