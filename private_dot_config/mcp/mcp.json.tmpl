@@ -1,14 +1,7 @@
 {
   "mcpServers": {
-    "codegraph": {
-      "description": "Code analysis and search for this monorepo",
-      "command": "codegraph",
-      "args": ["serve", "--mcp"],
-      "lifecycle": "keep-alive",
-      "exposeResources": true
-    },
     "exa": {
-      "description": "Web search and content extraction",
+      "description": "Exa AI web search — real-time web, news, and code search"
       "url": "https://mcp.exa.ai/mcp",
       "headers": {
         "x-api-key": "{{ .secrets.exa_api_key }}"
