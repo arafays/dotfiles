@@ -1,19 +1,43 @@
 {
-  "skills": ["+skills/find-skills/SKILL.md", "+skills/agent-browser/SKILL.md"],
+  "skills": [
+    "+skills/find-docs/SKILL.md",
+    "+skills/find-skills/SKILL.md",
+    "+skills/agent-browser/SKILL.md"
+  ],
   "lastChangelogVersion": "0.80.3",
   "defaultProvider": "opencode-go",
-  "defaultModel": "mimo-v2.5",
+  "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "high",
-  "packages": ["npm:@plannotator/pi-extension", "npm:pi-mcp-adapter", "npm:@pi-vault/pi-dcp"],
+  "packages": [
+    "npm:@plannotator/pi-extension",
+    "npm:pi-mcp-adapter",
+    "npm:@pi-vault/pi-dcp",
+    "npm:@upstash/context7-pi",
+    "npm:pi-exa",
+    "npm:@juicesharp/rpiv-ask-user-question"
+  ],
   "theme": "dark",
   "hideThinkingBlock": false,
-  "showHardwareCursor": true,
-  "editorPaddingX": 2,
+  "showHardwareCursor": false,
+  "editorPaddingX": 3,
   "terminal": {
     "showTerminalProgress": true
   },
   "treeFilterMode": "default",
   "doubleEscapeAction": "tree",
   "defaultProjectTrust": "ask",
-  "transport": "auto"
+  "transport": "auto",
+  "outputPad": 1,
+  "steeringMode": "one-at-a-time",
+  "warnings": {
+    "anthropicExtraUsage": true
+  },
+  "enabledModels": [
+    "openrouter/moonshotai/kimi-k2.6",
+    "opencode-go/deepseek-v4-flash",
+    "opencode-go/deepseek-v4-pro",
+    "opencode-go/glm-5.2",
+    "opencode-go/mimo-v2.5",
+    "openrouter/z-ai/glm-5.2"
+  ]
 }

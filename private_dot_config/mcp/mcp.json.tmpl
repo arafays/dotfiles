@@ -1,5 +1,14 @@
 {
   "mcpServers": {
+    "codegraph": {
+      "description": "Code analysis and search for this monorepo",
+      "command": "codegraph",
+      "args": ["serve", "--mcp", "--path", "${workspaceFolder}"],
+      "lifecycle": "keep-alive",
+      "exposeResources": true,
+      "type": "stdio",
+      "directTools": true
+    },
     "exa": {
       "description": "Exa AI web search — real-time web, news, and code search"
       "url": "https://mcp.exa.ai/mcp",
@@ -7,15 +16,6 @@
         "x-api-key": "{{ .secrets.exa_api_key }}"
       },
       "lifecycle": "lazy",
-      "exposeResources": true
-    },
-    "context7": {
-      "description": "Library & framework documentation",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}"
-      },
-      "lifecycle": "keep-alive",
       "exposeResources": true
     },
     "chrome-devtools": {
@@ -35,8 +35,9 @@
     "mise": {
       "description": "Connects to mise to manage the local developer environment. Use this server when you need to inspect installed tool versions (Node.js, Python, etc.), view project environment variables, read local configurations, or execute workspace automation tasks via the run_task tool.",
       "type": "local",
-      "command": ["mise", "mcp"],
-      "lifecycle": "lazy",
+      "command": "mise",
+      "args" :  ["mcp"],
+      "lifecycle": "lazy", 
       "exposeResources": false
     }
   }
