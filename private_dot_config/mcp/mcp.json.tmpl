@@ -14,26 +14,6 @@
       "type": "stdio",
       "directTools": true
     },
-    "context7": {
-      "description": "live framework docs. Use this server when the user asks for up-to-date documentation, framework APIs, or library guides (e.g., Next.js, Upstash, Tailwind) to avoid generating hallucinated or outdated code syntax.",
-      "command": "npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp"
-      ],
-      "env": {
-        "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}"
-      }
-    },
-    "exa": {
-      "description": "Exa AI web search — real-time web, news, and code search",
-      "url": "https://mcp.exa.ai/mcp",
-      "headers": {
-        "x-api-key": "{{ .secrets.exa_api_key }}"
-      },
-      "lifecycle": "lazy",
-      "exposeResources": true
-    },
     "chrome-devtools": {
       "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
       "command": "npx",
