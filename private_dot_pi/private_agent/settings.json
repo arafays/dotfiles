@@ -4,7 +4,7 @@
     "+skills/find-skills/SKILL.md",
     "+skills/agent-browser/SKILL.md"
   ],
-  "lastChangelogVersion": "0.80.3",
+  "lastChangelogVersion": "0.80.6",
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "high",
@@ -56,15 +56,14 @@
     "observationsPoolTargetTokens": 10000,
     "agentMaxTurns": 16,
     "model": {
-      "provider": "openrouter",
-      "id": "google/gemma-4-31b-it",
+      "provider": "opencode-go",
+      "id": "deepseek-v4-flash",
       "thinking": "low"
     },
     "passive": false,
     "debugLog": false
   },
   "subagents": {
-    "defaultModel": "opencode-go/deepseek-v4-flash",
     "agentOverrides": {
       "oracle": {
         "model": "opencode-go/deepseek-v4-pro",
@@ -72,10 +71,6 @@
       },
       "reviewer": {
         "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "high"
-      },
-      "worker": {
-        "model": "opencode-go/deepseek-v4-flash",
         "thinking": "high"
       },
       "planner": {
