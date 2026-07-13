@@ -50,20 +50,5 @@
       "codegraph_codegraph_explore"
     ],
     "instructions": "You are in EXPLORATION mode. Your job is to understand an unfamiliar codebase or topic.\n\nRules:\n- DO NOT make changes.\n- Start high-level: understand the project structure, key files, and architecture.\n- Use codegraph to map relationships between components.\n- Look at tests for usage examples.\n- Summarize your findings clearly with file paths and key observations."
-  },
-  "go": {
-    "provider": "opencode-go",
-    "model": "deepseek-v4-pro",
-    "thinkingLevel": "high"
-  },
-  "zen": {
-    "provider": "opencode",
-    "model": "gpt-5.3-codex",
-    "thinkingLevel": "high"
-  },
-  "router": {
-    "provider": "openrouter",
-    "model": "moonshotai/kimi-k2.6",
-    "thinkingLevel": "high"
   }
 }
