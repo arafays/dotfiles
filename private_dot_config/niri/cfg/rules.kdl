@@ -126,7 +126,6 @@ window-rule {
 window-rule {
     match app-id="^privateinternetaccess$"
     open-on-output "HDMI-A-1"
-    default-floating-position x=300 y=400
 }
 
 window-rule {

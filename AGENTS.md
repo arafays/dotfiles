@@ -10,6 +10,12 @@ You are managing a CachyOS/Linux dotfiles repository using `chezmoi`. You must s
 - **PATHING RULE (Apply):** When applying changes, you MUST use the `--source-path` flag followed by the exact source-relative filename.
 - **PATHING RULE (Diff):** When previewing changes, you MUST pass the specific target path to `chezmoi diff` (e.g., `chezmoi diff ~/.config/niri/config.kdl`).
 
+### Practical Example of Editing a Configuration
+
+1. Edit ~/.local/share/chezmoi/private_dot_pi/private_agent/settings.json
+2. Preview chezmoi diff ~/.pi/agent/settings.json
+3. Apply chezmoi apply --source-path "private_dot_pi/private_agent/settings.json"
+
 ## The Modification Workflow
 
 WHEN the user asks you to modify a configuration, you MUST execute these exact steps in order:

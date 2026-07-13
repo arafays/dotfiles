@@ -14,26 +14,6 @@
       "type": "stdio",
       "directTools": true
     },
-    "context7": {
-      "description": "live framework docs. Use this server when the user asks for up-to-date documentation, framework APIs, or library guides (e.g., Next.js, Upstash, Tailwind) to avoid generating hallucinated or outdated code syntax.",
-      "command": "npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp"
-      ],
-      "env": {
-        "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}"
-      }
-    },
-    "exa": {
-      "description": "Exa AI web search — real-time web, news, and code search",
-      "url": "https://mcp.exa.ai/mcp",
-      "headers": {
-        "x-api-key": "{{ .secrets.exa_api_key }}"
-      },
-      "lifecycle": "lazy",
-      "exposeResources": true
-    },
     "chrome-devtools": {
       "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
       "command": "npx",
@@ -49,16 +29,6 @@
       "command": "uvx",
       "args": [
         "markitdown-mcp@latest"
-      ],
-      "lifecycle": "lazy",
-      "exposeResources": false
-    },
-    "mise": {
-      "description": "Manages and inspects the local runtime developer environment. Use this server when you need to discover installed engine versions (Node.js, Python, Ruby), look up active shell environment variables, or execute custom automation workflows defined in tasks.",
-      "type": "local",
-      "command": "mise",
-      "args": [
-        "mcp"
       ],
       "lifecycle": "lazy",
       "exposeResources": false
