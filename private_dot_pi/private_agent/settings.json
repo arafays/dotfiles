@@ -6,23 +6,21 @@
   ],
   "lastChangelogVersion": "0.80.6",
   "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-flash",
-  "defaultThinkingLevel": "high",
+  "defaultModel": "minimax-m2.7",
   "packages": [
     "npm:@plannotator/pi-extension",
-    "npm:pi-mcp-adapter",
-    "npm:@upstash/context7-pi",
-    "npm:pi-exa",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-rtk-optimizer",
-    "npm:pi-observational-memory",
     "npm:pi-subagents",
-    "npm:@pi-vault/pi-dcp"
+    "npm:pi-mcp-adapter",
+    "npm:pi-exa",
+    "npm:pi-web-access",
+    "npm:@upstash/context7-pi",
+    "npm:pi-observational-memory",
+    "npm:pi-rtk-optimizer"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
   "showHardwareCursor": false,
-  "editorPaddingX": 3,
   "terminal": {
     "showTerminalProgress": true
   },
@@ -36,16 +34,16 @@
     "anthropicExtraUsage": true
   },
   "enabledModels": [
-    "openrouter/moonshotai/kimi-k2.6",
+    "opencode-go/minimax-m2.7",
+    "opencode-go/kimi-k2.6",
     "opencode-go/deepseek-v4-flash",
     "opencode-go/deepseek-v4-pro",
     "opencode-go/glm-5.2",
     "opencode-go/mimo-v2.5",
+    "openrouter/moonshotai/kimi-k2.6",
     "openrouter/z-ai/glm-5.2",
     "openrouter/google/gemma-4-31b-it",
-    "openrouter/meta-llama/llama-4-scout",
-    "opencode-go/minimax-m2.7",
-    "opencode-go/kimi-k2.6"
+    "openrouter/meta-llama/llama-4-scout"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,
@@ -61,7 +59,7 @@
       "thinking": "low"
     },
     "passive": false,
-    "debugLog": false
+    "debugLog": true
   },
   "subagents": {
     "agentOverrides": {
