@@ -1,4 +1,16 @@
 {
-  "mcpServers": {},
+  "mcpServers": {
+    "mise": {
+      "description": "Manages and inspects the local runtime developer environment. Use this server when you need to discover installed engine versions (Node.js, Python, Ruby), look up active shell environment variables, or execute custom automation workflows defined in tasks.",
+      "type": "local",
+      "command": "mise",
+      "args": [
+        "mcp"
+      ],
+      "lifecycle": "lazy",
+      "exposeResources": false,
+      "directTools": true
+    }
+  },
   "imports": []
 }

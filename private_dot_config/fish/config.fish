@@ -61,12 +61,7 @@ if status is-interactive
     end
 
     if type -q eza
-        alias ls='eza -lh --icons=auto --group-directories-first'
-        alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
-        alias l='eza -lh --icons=auto'
-        alias la='eza -lha --icons=auto'
         alias ld='eza -lhD --icons=auto'
-        alias lt='eza --icons=auto --tree --level=2'
         set -gx EZA_COLORS "da=36:di=34:ex=32:fi=0:ln=35:pi=33:so=31"
     end
 
@@ -80,15 +75,6 @@ if status is-interactive
     end
     if type -q rg
         alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
-    end
-
-    if test -n "$aurhelper"
-        alias un="$aurhelper -Rns"
-        alias up="$aurhelper -Syu --noconfirm"
-        alias look="$aurhelper -Qs"
-        alias search="$aurhelper -Ss"
-        alias orphans="$aurhelper -Qtdq"
-        alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
     end
 
     function fcd
@@ -246,5 +232,4 @@ if status is-interactive
     _mise_load_tool_completions
 end
 
-fish_add_path $HOME/.local/bin
-fish_add_path $HOME/.opencode/bin
+fish_add_path $HOME/.local/bin $HOME/.opencode/bin

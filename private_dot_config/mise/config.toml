@@ -15,14 +15,27 @@ uv = "latest"
 "npm:prettier" = "latest"
 "npm:neovim" = "latest"
 "npm:agent-browser" = "latest"
+supabase = "latest"
+"npm:framework7-cli" = "latest"
+"npm:cordova" = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:command-code" = "latest"
+aube = "latest"
+"npm:impeccable" = "latest"
+"npm:@native-sdk/cli" = "latest"
+zig = "0.16.0"
+rtk = "latest"
+usage = "latest"
 
 [settings]
 jobs = 4
-not_found_auto_install = true
 always_keep_download = false
 always_keep_install = false
 experimental = true
 
+[tasks.update-daily]
+description = "Bump bleeding-edge npm tools to latest (no release-age gate)"
+run = "mise upgrade --bump --minimum-release-age 0 npm:portless npm:command-code npm:impeccable npm:@opencode-ai/cli npm:@earendil-works/pi-coding-agent npm:prettier npm:@biomejs/biome npm:vercel"
 
 [tool_alias]
 node = "core:node"

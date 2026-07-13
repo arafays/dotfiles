@@ -15,7 +15,9 @@
     "npm:pi-exa",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-rtk-optimizer",
-    "npm:pi-observational-memory"
+    "npm:pi-observational-memory",
+    "npm:pi-subagents",
+    "npm:@pi-vault/pi-dcp"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
@@ -39,6 +41,47 @@
     "opencode-go/deepseek-v4-pro",
     "opencode-go/glm-5.2",
     "opencode-go/mimo-v2.5",
-    "openrouter/z-ai/glm-5.2"
-  ]
+    "openrouter/z-ai/glm-5.2",
+    "openrouter/google/gemma-4-31b-it",
+    "openrouter/meta-llama/llama-4-scout",
+    "opencode-go/minimax-m2.7",
+    "opencode-go/kimi-k2.6"
+  ],
+  "observational-memory": {
+    "observeAfterTokens": 10000,
+    "reflectAfterTokens": 20000,
+    "compactAfterTokens": 81000,
+    "compactAfterTokensMode": "calibrated",
+    "observationsPoolMaxTokens": 20000,
+    "observationsPoolTargetTokens": 10000,
+    "agentMaxTurns": 16,
+    "model": {
+      "provider": "openrouter",
+      "id": "google/gemma-4-31b-it",
+      "thinking": "low"
+    },
+    "passive": false,
+    "debugLog": false
+  },
+  "subagents": {
+    "defaultModel": "opencode-go/deepseek-v4-flash",
+    "agentOverrides": {
+      "oracle": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "thinking": "max"
+      },
+      "reviewer": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "thinking": "high"
+      },
+      "worker": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "thinking": "high"
+      },
+      "planner": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "thinking": "high"
+      }
+    }
+  }
 }
