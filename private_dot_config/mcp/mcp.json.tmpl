@@ -33,15 +33,21 @@
       "lifecycle": "lazy",
       "exposeResources": false
     },
-    "mise": {
-      "description": "Manages and inspects the local runtime developer environment. Use this server when you need to discover installed engine versions (Node.js, Python, Ruby), look up active shell environment variables, or execute custom automation workflows defined in tasks.",
-      "type": "local",
-      "command": "mise",
-      "args": [
-        "mcp"
-      ],
-      "lifecycle": "lazy",
-      "exposeResources": false
+    "fal-ai": {
+      "url": "https://mcp.fal.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer $env:FAL_AI_API_KEY"
+      },
+      "lifecycle": "lazy"
     }
+  },
+
+  "imports": [
+    "cursor",
+    "claude-code",
+    "opencode"
+  ],
+  "settings": {
+    "idleTimeout": 10
   }
 }
