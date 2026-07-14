@@ -224,6 +224,12 @@ if status is-interactive
                             uv generate-shell-completion fish | source 2>/dev/null
                             set -g __uv_completions_loaded 1
                         end
+                    case aube
+                        if type -q aube; and not set -q __aube_completions_loaded
+                            aube activate fish | source 2>/dev/null
+                            aube completion fish | source 2>/dev/null
+                            set -g __aube_completions_loaded 1
+                        end
                 end
             end
         end
