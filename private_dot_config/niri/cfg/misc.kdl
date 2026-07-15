@@ -37,6 +37,13 @@ hotkey-overlay {
     skip-at-startup
 }
 
+blur {
+    passes 3
+    offset 3
+    noise 0.02
+    saturation 1.5
+}
+
 debug {
   honor-xdg-activation-with-invalid-serial
 }

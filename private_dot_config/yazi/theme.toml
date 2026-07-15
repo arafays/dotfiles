@@ -1,0 +1,86 @@
+# Vesper theme for Yazi
+# Inspired by https://github.com/raunofreiberg/vesper
+
+[manager]
+cwd = { fg = "#a0a0a0" }
+find_keyword = { fg = "#ff8080", bold = true, italic = true, underline = true }
+find_position = { fg = "#ff8080", bold = true, italic = true }
+
+marker_copied = { fg = "#90b99f", bg = "#90b99f" }
+marker_cut = { fg = "#f5a191", bg = "#f5a191" }
+marker_marked = { fg = "#e6b99d", bg = "#e6b99d" }
+marker_selected = { fg = "#ffc799", bg = "#ffc799" }
+
+count_copied = { fg = "#101010", bg = "#90b99f" }
+count_cut = { fg = "#101010", bg = "#f5a191" }
+count_selected = { fg = "#101010", bg = "#ffc799" }
+
+border_symbol = "│"
+border_style = { fg = "#7e7e7e" }
+
+hovered = { fg = "#ffffff", bg = "#232323" }
+preview_hovered = { underline = true }
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#7e7e7e" }
+
+mode_normal = { bg = "#ffc799", fg = "#101010", bold = true }
+mode_select = { bg = "#aca1cf", fg = "#101010", bold = true }
+mode_unset = { bg = "#ea83a5", fg = "#101010", bold = true }
+
+progress_label = { bold = true }
+progress_normal = { fg = "#ffc799", bg = "#232323" }
+progress_error = { fg = "#ff8080", bg = "#232323" }
+
+permissions_t = { fg = "#aca1cf" }
+permissions_r = { fg = "#90b99f" }
+permissions_w = { fg = "#e6b99d" }
+permissions_x = { fg = "#ff8080" }
+permissions_s = { fg = "#a0a0a0" }
+
+[input]
+border = { fg = "#7e7e7e" }
+title = {}
+
+[select]
+border = { fg = "#7e7e7e" }
+active = { fg = "#ffc799", bold = true }
+inactive = {}
+
+[confirm]
+border = { fg = "#7e7e7e" }
+title = {}
+
+[pick]
+border = { fg = "#7e7e7e" }
+active = { fg = "#ffc799", bold = true }
+inactive = {}
+
+[completion]
+border = { fg = "#7e7e7e" }
+
+[tasks]
+border = { fg = "#7e7e7e" }
+title = {}
+hovered = { fg = "#ffc799", underline = true }
+
+[which]
+cols = 3
+mask = { bg = "#232323" }
+cand = { fg = "#ffc799" }
+rest = { fg = "#ffffff" }
+desc = { fg = "#a0a0a0" }
+separator = " ▶ "
+separator_style = { fg = "#a0a0a0" }
+
+[help]
+on = { fg = "#ffffff" }
+run = { fg = "#ffc799" }
+footer = { fg = "#101010", bg = "#a0a0a0" }
+
+[notify]
+title_info = { fg = "#90b99f" }
+title_warn = { fg = "#ffc799" }
+title_error = { fg = "#ff8080" }
