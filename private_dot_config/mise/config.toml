@@ -18,7 +18,7 @@ uv = "latest"
 supabase = "latest"
 "npm:framework7-cli" = "latest"
 "npm:cordova" = "latest"
-"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
 "npm:command-code" = "latest"
 aube = "latest"
 "npm:impeccable" = "latest"

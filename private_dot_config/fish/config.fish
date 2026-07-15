@@ -190,6 +190,7 @@ end
 
 if status is-interactive
     mise completion fish | source
+    type -q herdr; and herdr completion fish | source
 
     function _mise_load_tool_completions --on-variable PWD
         if not set -q __mise_completions_loaded
