@@ -4,16 +4,16 @@
     "+skills/find-skills/SKILL.md",
     "+skills/agent-browser/SKILL.md"
   ],
-  "lastChangelogVersion": "0.80.6",
+  "lastChangelogVersion": "0.80.10",
   "defaultProvider": "opencode-go",
-  "defaultModel": "mimo-v2.5",
+  "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "high",
   "packages": [
     "npm:@plannotator/pi-extension",
     "npm:pi-mcp-adapter",
     "npm:@upstash/context7-pi",
-    "npm:pi-exa",
     "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-web-access",
     "npm:pi-rtk-optimizer",
     "npm:pi-observational-memory"
   ],

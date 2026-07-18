@@ -8,6 +8,28 @@ window-rule {
     clip-to-geometry true
 }
 
+
+// Global blur for all windows (noctalia recommended)
+window-rule {
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+// Noctalia surfaces blur
+layer-rule {
+    match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+    background-effect {
+        xray false
+    }
+}
+
+layer-rule {
+    match namespace="^noctalia-wallpaper*"
+    place-within-backdrop true
+}
+
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
@@ -16,12 +38,13 @@ window-rule {
 // Opacity + blur for a translucent terminal look
 window-rule {
     match app-id="^Alacritty$"
-    opacity 0.95
     background-effect {
         blur true
     }
-    draw-border-with-background true
-    default-column-width { proportion 0.66667; }
+    default-column-width { proportion 0.8887; }
+    border {
+      off
+    }
 }
 
 
@@ -67,30 +90,6 @@ window-rule {
     // block-out-from "screencast"
 }
 
-
-
-window-rule {
-    match app-id=r#"^jetbrains-studio$"#
-    match app-id=r#"^studio$"#
-    draw-border-with-background false
-    geometry-corner-radius 0
-    clip-to-geometry false
-    default-column-width { proportion 1.0; }
-    open-maximized true
-}
-
-window-rule {
-    match app-id=r#"^jetbrains-studio$"# title=r#"^win\d+$"#
-    match app-id=r#"^studio$"# title=r#"^win\d+$"#
-    open-floating true
-}
-
-window-rule {
-    match app-id=r#"^jetbrains-studio$"# title=r#"Settings|Preferences|Project Structure|SDK Manager|AVD Manager"#
-    match app-id=r#"^studio$"# title=r#"Settings|Preferences|Project Structure|SDK Manager|AVD Manager"#
-    open-floating true
-}
-
 window-rule {
     match app-id="Emulator" title=r#"^Android Emulator"#
     open-floating true
@@ -118,12 +117,6 @@ window-rule {
     draw-border-with-background true
     geometry-corner-radius 0
     clip-to-geometry false
-}
-
-// SDK Manager standalone
-window-rule {
-    match app-id=r#"^sun-awt-X11-XFramePeer$"# title=r#"SDK Manager"#
-    open-floating true
 }
 
 // vscode should have borders

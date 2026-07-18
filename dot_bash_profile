@@ -1,0 +1,8 @@
+# ~/.bash_profile — bash login shell entry point
+# Sourced for login shells. Sources POSIX env, then interactive config.
+
+# Load POSIX environment variables (XDG, editor, PATH, Android, mise, etc.)
+[ -f ~/.profile ] && . ~/.profile
+
+# Load interactive configuration
+[ -f ~/.bashrc ] && . ~/.bashrc

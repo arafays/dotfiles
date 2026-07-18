@@ -8,12 +8,12 @@ environment {
     QT_STYLE_OVERRIDE "Adwaita-Dark"
     COLORSCHEME "dark"
 
-        ELECTRON_OZONE_PLATFORM_HINT "auto"
-        QT_QPA_PLATFORM "wayland"
-        QT_QPA_PLATFORMTHEME "gtk3"
-        QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
-        XDG_CURRENT_DESKTOP "niri"
-        XDG_SESSION_TYPE "wayland"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -35,13 +35,6 @@ prefer-no-csd
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
-}
-
-blur {
-    passes 3
-    offset 3
-    noise 0.02
-    saturation 1.5
 }
 
 debug {

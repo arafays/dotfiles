@@ -84,3 +84,7 @@ footer = { fg = "#101010", bg = "#a0a0a0" }
 title_info = { fg = "#90b99f" }
 title_warn = { fg = "#ffc799" }
 title_error = { fg = "#ff8080" }
+
+[flavor]
+dark  = "noctalia"
+light = "noctalia"

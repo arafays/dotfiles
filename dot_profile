@@ -44,5 +44,24 @@ if [ -d "$HOME/Android/Sdk" ]; then
   unset _dir
 fi
 
+# Deduplicate PATH while preserving order (environment.d may append duplicates
+# when .profile is sourced more than once, e.g. via BASH_ENV).
+_path_dedup() {
+  _pd_new_path=""
+  _pd_old_ifs="$IFS"
+  IFS=':'
+  for _pd_item in $PATH; do
+    case ":$_pd_new_path:" in
+      *:"$_pd_item":*) ;;
+      *) [ -n "$_pd_item" ] && _pd_new_path="${_pd_new_path:+$_pd_new_path:}$_pd_item" ;;
+    esac
+  done
+  IFS="$_pd_old_ifs"
+  PATH="$_pd_new_path"
+  unset _pd_new_path _pd_item _pd_old_ifs
+}
+_path_dedup
+unset _path_dedup
+
 export PATH
 unset _prepend _append

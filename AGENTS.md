@@ -23,10 +23,12 @@ WHEN the user asks you to modify a configuration, you MUST execute these exact s
 1. **Locate Source:** Run `chezmoi source-path <target-path>` to find the exact source file in `~/.local/share/chezmoi/`.
 2. **Edit Source:** Make your changes exclusively to the file located in Step 1.
 3. **Validate (Niri only):** IF you edited a Niri configuration, run `niri validate` to catch KDL syntax errors before proceeding.
-4. **Preview Changes (Diff):** Run `chezmoi diff <target-path>` to verify your changes. **Never** run `chezmoi diff` without the target path. (Alternatively, use `chezmoi apply --source-path "<source-relative-path>" --dry-run`).
-5. **Apply:** Run `chezmoi apply --source-path "<source-relative-path>"`.
+4. **Preview Changes (Diff):** Run `chezmoi diff <target-path>` to verify your changes. **Never** run `chezmoi diff` without the target path. (Alternatively, use `chezmoi apply --source-path "<absolute-source-path>" --dry-run`).
+5. **Apply:** Run `chezmoi apply --source-path "<absolute-source-path>"`.
 
-_Example Application:_ `chezmoi apply --source-path "private_dot_config/niri/config.kdl"` or `chezmoi forget --force --source-path "private_dot_config/niri/config.kdl"` for no prompt
+_Example Application:_ `chezmoi apply --source-path "/home/arafays/.local/share/chezmoi/private_dot_config/niri/config.kdl"` or `chezmoi forget --force --source-path "/home/arafays/.local/share/chezmoi/private_dot_config/niri/config.kdl"` for no prompt
+
+_Note:_ `--source-path` resolves relative paths against the current working directory, not the chezmoi source directory. Always pass the absolute path under `~/.local/share/chezmoi`.
 
 ## Chezmoi Naming Cipher
 

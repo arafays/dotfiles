@@ -16,6 +16,7 @@ end
 
 # === INTERACTIVE ===
 if status is-interactive
+    type -q herdr; and herdr completion fish | source
 
     function __mise_deferred --on-event fish_prompt
         mise activate fish | source
@@ -72,6 +73,10 @@ if status is-interactive
     abbr lzg lazygit
     abbr lzd lazydocker
     abbr oc opencode
+    abbr hn hn
+    abbr hs hs
+    abbr hw hw
+    abbr hws hws
 
     alias vim='nvim'
     abbr -a -- - 'cd -'
@@ -151,6 +156,101 @@ if status is-interactive
             else
                 tmux attach-session -t "$ses"
             end
+        end
+    end
+
+    # ── herdr session management ──
+    # hn: create/attach to herdr workspace named after CWD (like tmux tn)
+    function hn
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l ws_name (basename $PWD | string replace -a '.' '_')
+        # If already inside herdr, move current pane to new workspace
+        if set -q HERDR_SOCKET_PATH
+            set -l pane_id $HERDR_ACTIVE_PANE_ID
+            if test -z "$pane_id"
+                # Fallback: get current pane
+                set pane_id (herdr pane current --pane --current 2>/dev/null | jq -r '.id // empty')
+            end
+            if test -n "$pane_id"
+                herdr pane move "$pane_id" --new-workspace --label "$ws_name" --focus 2>/dev/null
+            else
+                echo "Could not detect current pane" >&2
+            end
+        else
+            # Outside herdr: launch herdr
+            echo "Launching herdr..."
+            herdr
+        end
+    end
+
+    # hs: fuzzy-find and switch herdr sessions (like tmux ts)
+    function hs
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l ses (herdr session list --json 2>/dev/null | jq -r '.[].name' | fzf --layout=reverse)
+        if test -n "$ses"
+            herdr session attach "$ses"
+        end
+    end
+
+    # hd: detach from herdr (client keeps running in background)
+    function hd
+        if set -q HERDR_SOCKET_PATH
+            # Inside herdr - send prefix+q via herdr CLI
+            echo "Use prefix+q (ctrl+b q) to detach from inside herdr"
+        else
+            echo "Not inside a herdr session"
+        end
+    end
+
+    # hw: list herdr workspaces in current session
+    function hw
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        herdr workspace list 2>/dev/null
+    end
+
+    # hws: switch workspace via fzf
+    function hws
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l ws (herdr workspace list --json 2>/dev/null | jq -r '.[].label // .[].name' | fzf --layout=reverse)
+        if test -n "$ws"
+            herdr workspace focus "$ws" 2>/dev/null
+        end
+    end
+
+    # hpane: split and run a command in new pane
+    function hpane
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l direction right
+        if test (count $argv) -gt 0
+            switch $argv[1]
+                case -v --vertical
+                    set direction right
+                    set -e argv[1]
+                case -h --horizontal
+                    set direction down
+                    set -e argv[1]
+                case '*'
+                    set direction right
+            end
+        end
+        herdr pane split 1-1 --direction "$direction" 2>/dev/null
+        if test (count $argv) -gt 0
+            herdr pane run 1-2 "$argv" 2>/dev/null
         end
     end
 

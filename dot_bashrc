@@ -1,0 +1,140 @@
+# ~/.bashrc — interactive bash configuration
+# Non-interactive bash gets environment via BASH_ENV=~/.profile.
+
+# Bail out early if this is not an interactive shell.
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+# Safety net: if this shell was launched without .bash_profile, ensure
+# environment.d is loaded (XDG vars, editor, PATH, Android, mise, etc.).
+if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d" ]; then
+  set -a
+  for _env_file in "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d/"*.conf; do
+    [ -f "$_env_file" ] && . "$_env_file"
+  done
+  set +a
+  unset _env_file
+fi
+
+# ---- mise ----
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate bash)"
+fi
+
+# ---- prompt ----
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+fi
+
+# ---- directory navigation ----
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init bash)"
+fi
+
+# ---- fuzzy finder ----
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --bash)"
+fi
+
+# ---- history ----
+export HISTSIZE=50000
+export HISTFILESIZE=100000
+export HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+shopt -s checkwinsize
+
+# ---- key bindings ----
+set -o vi
+stty -ixon 2>/dev/null
+
+# ---- basic aliases ----
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias ll='ls -la'
+alias la='ls -A'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias -- -='cd -'
+alias mkdir='mkdir -p'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+alias vim='nvim'
+alias n='nvim'
+alias code='code-insiders'
+alias dev='code .'
+
+# ---- better-tool aliases (same as fish/zsh) ----
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza -lh --icons=auto --group-directories-first'
+  alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
+  alias l='eza -lh --icons=auto'
+  alias la='eza -lha --icons=auto'
+  alias ld='eza -lhD --icons=auto'
+  alias lt='eza --icons=auto --tree --level=2'
+fi
+
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat --style=plain --color=always --paging=never'
+  alias less='bat --style=plain --color=always --paging=always'
+fi
+
+if command -v fd >/dev/null 2>&1; then
+  alias find='fd'
+fi
+
+if command -v rg >/dev/null 2>&1; then
+  alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
+fi
+
+# ---- package manager aliases ----
+if [ -n "$aurhelper" ]; then
+  alias un="$aurhelper -Rns"
+  alias up="$aurhelper -Syu --noconfirm"
+  alias look="$aurhelper -Qs"
+  alias search="$aurhelper -Ss"
+  alias pc="$aurhelper -Sc"
+  alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
+  alias psi="$aurhelper -Si"
+  alias orphans="$aurhelper -Qtdq"
+fi
+
+# ---- functions ----
+mkcd() { mkdir -p "$1" && cd "$1" || return; }
+
+tn() {
+  tmux new-session -A -s "$(basename "$PWD" | tr -c 'a-zA-Z0-9_-' '_')" -c "$PWD"
+}
+
+ts() {
+  local ses
+  ses=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --layout=reverse)
+  [ -n "$ses" ] && (tmux switch-client -t "$ses" 2>/dev/null || tmux attach-session -t "$ses")
+}
+
+compress() {
+  local archive="$1"
+  shift
+  case "$archive" in
+  *.tar.gz) tar -czf "$archive" "$@" ;;
+  *.zip) zip -r "$archive" "$@" ;;
+  *.7z) 7z a "$archive" "$@" ;;
+  *) echo "compress: unsupported format" >&2 ;;
+  esac
+}
+
+extract() {
+  local archive="$1"
+  case "$archive" in
+  *.tar.gz | *.tgz) tar -xzf "$archive" ;;
+  *.zip) unzip "$archive" ;;
+  *.7z) 7z x "$archive" ;;
+  *) echo "extract: unsupported format" >&2 ;;
+  esac
+}
+
+# ---- GPG ----
+command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"

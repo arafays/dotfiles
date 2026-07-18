@@ -4,8 +4,9 @@ TERM = "alacritty"
 [window]
 decorations = "none"
 dynamic_title = true
-opacity = 0.9
+opacity = 0.8
 title = "Alacritty"
+blur = true
 
 [terminal.shell]
 program = "/usr/bin/fish"
@@ -38,7 +39,6 @@ program = "/usr/bin/fish"
 # magenta = "#be95ff"
 # cyan = "#3ddbd9"
 # white = "#ffffff"
-#
 
 [font]
 size = 10
@@ -132,3 +132,4 @@ action = "ResetFontSize"
 [general]
 import = ["~/.config/alacritty/themes/noctalia.toml"]
 live_config_reload = true
+working_directory = "None"

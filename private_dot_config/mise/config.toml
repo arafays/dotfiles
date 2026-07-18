@@ -15,6 +15,7 @@ python = "3.14"
 rust = "latest"
 usage = "latest"
 uv = "latest"
+
 "npm:markdownlint-cli2" = "latest"
 "npm:vim-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
@@ -24,13 +25,20 @@ uv = "latest"
 "npm:expo" = "latest"
 "npm:firebase-tools" = "latest"
 "npm:neovim" = "latest"
-"npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:prettier" = "latest"
 "cargo:create-tauri-app" = "latest"
 "cargo:tauri-cli" = "^2"
 "cargo:trunk" = "latest"
 "npm:portless" = "latest"
 "npm:agent-browser" = { version = "latest", npm_args = "--ignore-scripts=false" }
+"npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
+"npm:impeccable" = { version = "latest" }
+"npm:command-code" = "latest"
+aube = "latest"
+"github:can1357/oh-my-pi" = "latest"
+rtk = "latest"
+"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
+herdr = "latest"
 
 [tool_alias]
 node = "core:node"

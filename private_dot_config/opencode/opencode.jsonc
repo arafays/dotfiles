@@ -12,6 +12,7 @@
       },
     ],
     "@tarquinen/opencode-dcp@latest",
+    "./plugins/herdr-agent-state.js",
   ],
   "permission": {
     "bash": {
