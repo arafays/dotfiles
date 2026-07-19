@@ -1,10 +1,8 @@
 {
   "skills": [
-    "+skills/find-docs/SKILL.md",
-    "+skills/find-skills/SKILL.md",
     "+skills/agent-browser/SKILL.md"
   ],
-  "lastChangelogVersion": "0.80.6",
+  "lastChangelogVersion": "0.80.10",
   "defaultProvider": "opencode-go",
   "defaultModel": "mimo-v2.5",
   "packages": [
@@ -47,7 +45,7 @@
   "observational-memory": {
     "observeAfterTokens": 10000,
     "reflectAfterTokens": 20000,
-    "compactAfterTokens": 81000,
+    "compactAfterTokens": 100001,
     "compactAfterTokensMode": "calibrated",
     "observationsPoolMaxTokens": 20000,
     "observationsPoolTargetTokens": 10000,
@@ -57,8 +55,8 @@
       "id": "deepseek-v4-flash",
       "thinking": "low"
     },
-    "passive": false,
-    "debugLog": true
+    "passive": true,
+    "debugLog": false
   },
   "subagents": {
     "agentOverrides": {
@@ -75,6 +73,5 @@
         "thinking": "high"
       }
     }
-  },
-  "defaultThinkingLevel": "high"
+  }
 }

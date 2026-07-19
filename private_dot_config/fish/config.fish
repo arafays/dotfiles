@@ -13,6 +13,7 @@ set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
 # AGENT_BROWSER_EXECUTABLE_PATH={CHROMIUM_PATH} use the chromium path set via environment.d for OpenCode MCP DevTools, fallback to BROWSER env var or xdg-open if not set
 set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
+set -Ux PORTLESS_NGROK 1
 
 # Chromium path set via environment.d for OpenCode MCP DevTools
 # set -gx CHROMIUM_PATH (which chromium 2>/dev/null || which google-chrome 2>/dev/null || echo "xdg-open")

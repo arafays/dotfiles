@@ -1,0 +1,47 @@
+theme: 
+  dark: dark-one
+  light: light
+setupVersion: 1
+modelRoles: 
+  default: opencode-go/glm-5.2
+defaultThinkingLevel: auto
+symbolPreset: nerd
+statusLine: 
+  preset: default
+  separator: none
+  sessionAccent: true
+  transparent: true
+terminal: 
+  showProgress: true
+tui: 
+  tight: false
+display: 
+  shimmer: kitt
+  showTokenUsage: true
+  cacheMissMarker: true
+task: 
+  showResolvedModelBadge: true
+  eager: preferred
+  enableLsp: true
+personality: pragmatic
+advisor: 
+  enabled: false
+doubleEscapeAction: tree
+stt: 
+  modelName: turbo
+autolearn: 
+  enabled: true
+  autoContinue: true
+memory: 
+  backend: local
+edit: 
+  mode: hashline
+readLineNumbers: false
+lsp: 
+  formatOnWrite: false
+github: 
+  enabled: true
+tts: 
+  localModel: kokoro
+secrets: 
+  enabled: true
