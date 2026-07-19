@@ -1,14 +1,17 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": "notify",
+  "instructions": [
+    "~/.agents/AGENTS.md"
+  ],
   "plugin": [
     [
       "@plannotator/opencode@latest",
       {
         "workflow": "plan-agent",
         "planningAgents": [
+          "cheap-orchestrator",
           "plan",
-          "orchestrator"
         ]
       }
     ],
@@ -16,17 +19,19 @@
   ],
   "agent": {
     "explore": {
-      "disable": true
+      "disable": false,
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "build": {
-      "disable": true,
+      "disable": false,
+      "model": "opencode-go/mimo-v2.5"
     },
     "plan": {
-      "disable": true,
-      "model": "opencode-go/glm-5.2"
+      "disable": false,
+      "model": "opencode-go/glm-5.1"
     }
   },
-  "default_agent": "cheap-orchestrator",
+  "default_agent": "plan",
   "permission": {
     "git reset": "deny",
     "sudo": "ask",

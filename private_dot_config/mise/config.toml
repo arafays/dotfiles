@@ -1,13 +1,15 @@
 [tools]
 bun = "latest"
 go = "latest"
-node = "24"
+node = "lts"
 pnpm = "latest"
 rust = "latest"
 uv = "latest"
 
-"npm:portless" = "latest"
-"npm:vercel" = "latest"
+"npm:portless" = { version = "latest", minimum_release_age = "0s" }
+
+"npm:vercel" = { version = "latest", minimum_release_age = "0s" }
+
 "npm:vim-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
 "npm:@ast-grep/napi" = "latest"
@@ -19,13 +21,16 @@ supabase = "latest"
 "npm:framework7-cli" = "latest"
 "npm:cordova" = "latest"
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
-"npm:command-code" = "latest"
+"npm:command-code" = { version = "latest", minimum_release_age = "0s" }
+
 aube = "latest"
-"npm:impeccable" = "latest"
-"npm:@native-sdk/cli" = "latest"
+"npm:impeccable" = { version = "latest", minimum_release_age = "0s" }
+
 zig = "0.16.0"
 rtk = "latest"
 usage = "latest"
+"github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s" }
+
 
 [settings]
 jobs = 4
@@ -34,8 +39,15 @@ always_keep_install = false
 experimental = true
 
 [tasks.update-daily]
-description = "Bump bleeding-edge npm tools to latest (no release-age gate)"
-run = "mise upgrade --bump --minimum-release-age 0 npm:portless npm:command-code npm:impeccable npm:@opencode-ai/cli npm:@earendil-works/pi-coding-agent npm:prettier npm:@biomejs/biome npm:vercel"
+description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
+run = [
+  "mise upgrade --bump --minimum-release-age 0 npm:portless npm:command-code npm:impeccable npm:@opencode-ai/cli npm:@earendil-works/pi-coding-agent npm:prettier npm:@biomejs/biome npm:vercel npm:@ast-grep/napi npm:agent-browser npm:neovim npm:@native-sdk/cli github:can1357/oh-my-pi",
+  "mise run sync-dotfiles",
+]
+
+[tasks.sync-dotfiles]
+description = "Re-add all chezmoi-managed files so source stays in sync with live configs"
+run = "chezmoi re-add"
 
 [tool_alias]
 node = "core:node"
