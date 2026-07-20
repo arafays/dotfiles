@@ -24,14 +24,6 @@ if test -d ~/.config/environment.d
     end
 end
 
-set -gx aurhelper ""
-for helper in yay paru
-    if type -q $helper
-        set -gx aurhelper $helper
-        break
-    end
-end
-
 mise activate fish | source
 
 if status is-interactive
@@ -83,6 +75,14 @@ if status is-interactive
         test -n "$dir"; and cd "$dir"
     end
 
+    set -gx aurhelper ""
+    for helper in yay paru
+        if type -q $helper
+            set -gx aurhelper $helper
+            break
+        end
+    end
+
     function in
         if test -n "$aurhelper"
             $aurhelper -S $argv
@@ -104,6 +104,101 @@ if status is-interactive
             else
                 tmux attach-session -t "$ses"
             end
+        end
+    end
+
+    # ── herdr session management ──
+    # hn: create/attach to herdr workspace named after CWD (like tmux tn)
+    function hn
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l ws_name (basename $PWD | string replace -a '.' '_')
+        # If already inside herdr, move current pane to new workspace
+        if set -q HERDR_SOCKET_PATH
+            set -l pane_id $HERDR_ACTIVE_PANE_ID
+            if test -z "$pane_id"
+                # Fallback: get current pane
+                set pane_id (herdr pane current --pane --current 2>/dev/null | jq -r '.id // empty')
+            end
+            if test -n "$pane_id"
+                herdr pane move "$pane_id" --new-workspace --label "$ws_name" --focus 2>/dev/null
+            else
+                echo "Could not detect current pane" >&2
+            end
+        else
+            # Outside herdr: launch herdr
+            echo "Launching herdr..."
+            herdr
+        end
+    end
+
+    # hs: fuzzy-find and switch herdr sessions (like tmux ts)
+    function hs
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l ses (herdr session list --json 2>/dev/null | jq -r '.[].name' | fzf --layout=reverse)
+        if test -n "$ses"
+            herdr session attach "$ses"
+        end
+    end
+
+    # hd: detach from herdr (client keeps running in background)
+    function hd
+        if set -q HERDR_SOCKET_PATH
+            # Inside herdr - send prefix+q via herdr CLI
+            echo "Use prefix+q (ctrl+b q) to detach from inside herdr"
+        else
+            echo "Not inside a herdr session"
+        end
+    end
+
+    # hw: list herdr workspaces in current session
+    function hw
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        herdr workspace list 2>/dev/null
+    end
+
+    # hws: switch workspace via fzf
+    function hws
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l ws (herdr workspace list --json 2>/dev/null | jq -r '.[].label // .[].name' | fzf --layout=reverse)
+        if test -n "$ws"
+            herdr workspace focus "$ws" 2>/dev/null
+        end
+    end
+
+    # hpane: split and run a command in new pane
+    function hpane
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
+        set -l direction right
+        if test (count $argv) -gt 0
+            switch $argv[1]
+                case -v --vertical
+                    set direction right
+                    set -e argv[1]
+                case -h --horizontal
+                    set direction down
+                    set -e argv[1]
+                case '*'
+                    set direction right
+            end
+        end
+        herdr pane split 1-1 --direction "$direction" 2>/dev/null
+        if test (count $argv) -gt 0
+            herdr pane run 1-2 "$argv" 2>/dev/null
         end
     end
 
@@ -187,6 +282,52 @@ if status is-interactive
         tar --exclude='node_modules' --exclude='dist' -czf $archive $argv
     end
 
+    # compress all projects in current dir excluding build artifacts, keeping .git
+    function compress-projects
+        set -l dry_run 0
+        set -l archive ""
+        set -l args ()
+        set -l excludes \
+            node_modules .next .astro .svelte-kit .nuxt .output .turbo .vercel .expo \
+            dist build out target __pycache__ .venv venv .ruff_cache .mypy_cache \
+            .pytest_cache .cache .yarn .pnpm-store .direnv '*.pyc' .DS_Store \
+            .terraform ios/build android/build .gradle .swiftpm Pods DerivedData \
+            .nx .serverless coverage .nyc_output .eslintcache .parcel-cache \
+            .angular .storybook/out .netlify
+
+        for arg in $argv
+            switch $arg
+                case --dry-run -n
+                    set dry_run 1
+                case '*'
+                    if test -z "$archive"
+                        set archive $arg
+                    else
+                        set -a args $arg
+                    end
+            end
+        end
+
+        if test -z "$archive"
+            set archive ../(basename $PWD)-(date +%Y%m%d).tar.gz
+        end
+
+        if test (count $args) -eq 0
+            set args .
+        end
+
+        # Build exclude flags from list (noglob prevents *.pyc expansion)
+        set -l exclude_flags
+        for dir in $excludes
+            set -a exclude_flags --exclude=$dir
+        end
+
+        if test $dry_run -eq 1
+            noglob tar $exclude_flags -czvf /dev/null $args
+        else
+            noglob tar $exclude_flags -czf $archive $args
+        end
+    end
 end
 
 if status is-interactive
