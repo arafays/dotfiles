@@ -4,8 +4,8 @@ palette = "noctalia"
 scan_timeout = 100
 add_newline = true
 format = """
-[╭](fg:separator)󰣇$directory$all$line_break\
-[╰](fg:separator)$character
+[╭](fg:separator) 󰣇 $directory$all$line_break\
+[╰](fg:separator) $character
 """
 
 [directory]
