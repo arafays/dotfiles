@@ -10,7 +10,7 @@
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-subagents",
     "npm:pi-mcp-adapter",
-    "npm:pi-web-access",
+    "npm:pi-exa",
     "npm:@upstash/context7-pi",
     "npm:pi-observational-memory",
     "npm:pi-rtk-optimizer"
