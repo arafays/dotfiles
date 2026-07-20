@@ -9,13 +9,14 @@
   "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "high",
   "packages": [
-    "npm:@plannotator/pi-extension",
     "npm:pi-mcp-adapter",
+    "npm:pi-exa",
     "npm:@upstash/context7-pi",
+    "npm:@plannotator/pi-extension",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-web-access",
-    "npm:pi-rtk-optimizer",
-    "npm:pi-observational-memory"
+    "npm:pi-subagents",
+    "npm:pi-observational-memory",
+    "npm:pi-rtk-optimizer"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
@@ -57,8 +58,8 @@
       "id": "deepseek-v4-flash",
       "thinking": "low"
     },
-    "passive": false,
-    "debugLog": true
+    "passive": true,
+    "debugLog": false
   },
   "subagents": {
     "agentOverrides": {

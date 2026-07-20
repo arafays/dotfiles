@@ -13,8 +13,9 @@ node = "24"
 pnpm = "latest"
 python = "3.14"
 rust = "latest"
-usage = "latest"
+usage = { version = "latest", minimum_release_age = "0s" }
 uv = "latest"
+rtk = "latest"
 
 "npm:markdownlint-cli2" = "latest"
 "npm:vim-language-server" = "latest"
@@ -29,16 +30,23 @@ uv = "latest"
 "cargo:create-tauri-app" = "latest"
 "cargo:tauri-cli" = "^2"
 "cargo:trunk" = "latest"
-"npm:portless" = "latest"
+aube = "latest"
+
+"github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s" }
+"npm:impeccable" = { version = "latest", minimum_release_age = "0s" }
+"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
+"npm:command-code" = { version = "latest", minimum_release_age = "0s" }
+"npm:portless" = { version = "latest", minimum_release_age = "0s" }
+"npm:vercel" = { version = "latest", minimum_release_age = "0s" }
 "npm:agent-browser" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
-"npm:impeccable" = { version = "latest" }
-"npm:command-code" = "latest"
-aube = "latest"
-"github:can1357/oh-my-pi" = "latest"
-rtk = "latest"
-"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
-herdr = "latest"
+
+[tasks.update-daily]
+description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
+run = [
+  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:impeccable npm:@earendil-works/pi-coding-agent npm:vercel npm:agent-browser github:can1357/oh-my-pi",
+  "chezmoi re-add",
+]
 
 [tool_alias]
 node = "core:node"

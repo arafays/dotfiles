@@ -6,7 +6,6 @@ auto_switch = false
 
 [terminal]
 default_shell = "fish"
-shell_mode = "non_login"
 new_cwd = "follow"
 
 [ui]
@@ -15,10 +14,6 @@ agent_panel_sort = "priority"
 prompt_new_tab_name = false
 # mouse_capture = true  # default true
 # copy_on_select = true  # default true
-
-[ui.toast]
-delivery = "herdr"
-delay_seconds = 1
 
 [ui.toast.herdr]
 position = "bottom-right"
@@ -94,8 +89,6 @@ description = "btop"
 width = "80%"
 height = "80%"
 
-
-
 [ui.sound]
 enabled = true
 
@@ -104,3 +97,6 @@ directory = "~/.herdr/worktrees"
 
 [experimental]
 pane_history = false
+
+[update]
+channel = "preview"
