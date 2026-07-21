@@ -23,14 +23,14 @@ position = "bottom-right"
 prefix = "ctrl+b"
 
 # Navigate mode: workspace switching without arrow keys (60% friendly)
-navigate_workspace_up = "["
-navigate_workspace_down = "]"
+next_workspace = "ctrl+alt+k"
+previous_workspace = "ctrl+alt+j"
 
 # Pane navigation (prefix + vim keys + ctrl+alt direct)
-focus_pane_left = ["prefix+h", "ctrl+alt+h"]
-focus_pane_down = ["prefix+j", "ctrl+alt+j"]
-focus_pane_up = ["prefix+k", "ctrl+alt+k"]
-focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
 
 # Tab switching
 previous_tab = ["prefix+p", "ctrl+alt+["]
@@ -43,9 +43,6 @@ next_agent = ["prefix+.", "ctrl+alt+."]
 # Split shortcuts
 split_vertical = ["prefix+v", "ctrl+alt+d"]
 split_horizontal = ["prefix+minus", "ctrl+alt+shift+d"]
-
-# Zoom
-zoom = ["prefix+z", "ctrl+alt+z"]
 
 # Workspace navigation
 workspace_picker = "prefix+w"

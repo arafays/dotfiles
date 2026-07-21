@@ -3,6 +3,7 @@ jobs = 4
 not_found_auto_install = true
 always_keep_download = false
 always_keep_install = false
+experimental = true
 
 [tools]
 biome = "latest"
@@ -10,12 +11,12 @@ bun = "latest"
 go = "latest"
 java = "24"
 node = "24"
-pnpm = "latest"
 python = "3.14"
 rust = "latest"
 usage = { version = "latest", minimum_release_age = "0s" }
 uv = "latest"
 rtk = "latest"
+aube = "latest"
 
 "npm:markdownlint-cli2" = "latest"
 "npm:vim-language-server" = "latest"
@@ -30,11 +31,10 @@ rtk = "latest"
 "cargo:create-tauri-app" = "latest"
 "cargo:tauri-cli" = "^2"
 "cargo:trunk" = "latest"
-aube = "latest"
 
-"github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s" }
-"npm:impeccable" = { version = "latest", minimum_release_age = "0s" }
-"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
+"github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
+"npm:impeccable" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
+"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
 "npm:command-code" = { version = "latest", minimum_release_age = "0s" }
 "npm:portless" = { version = "latest", minimum_release_age = "0s" }
 "npm:vercel" = { version = "latest", minimum_release_age = "0s" }
@@ -44,10 +44,14 @@ aube = "latest"
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
-  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:impeccable npm:@earendil-works/pi-coding-agent npm:vercel npm:agent-browser github:can1357/oh-my-pi",
+  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:impeccable npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
+  "mise prune -y",
   "chezmoi re-add",
 ]
 
 [tool_alias]
 node = "core:node"
 python = "core:python"
+
+[hooks]
+postinstall = 'corepack enable'

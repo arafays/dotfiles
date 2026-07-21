@@ -7,7 +7,7 @@
  * Usage:
  * 1. Use /skills to open the skill selector
  * 2. Toggle skills on/off with arrow keys
- * 3. Press Ctrl+S to save and close
+ * 3. Press Enter to save and close
  * 4. Press Escape to cancel without saving
  */
 
@@ -142,7 +142,7 @@ export default function skillsExtension(pi: ExtensionAPI) {
 								theme.fg("muted", `${availableSkills.length} skills in system prompt`),
 								theme.fg("muted", `${pendingDisabled.size} currently disabled`),
 								"",
-								theme.fg("success", "Ctrl+S") + theme.fg("muted", " save & close   ") +
+								theme.fg("success", "Enter") + theme.fg("muted", " save & close   ") +
 								theme.fg("error", "Esc") + theme.fg("muted", " cancel"),
 								"",
 							];
@@ -156,7 +156,7 @@ export default function skillsExtension(pi: ExtensionAPI) {
 					Math.min(items.length + 2, 15),
 					getSettingsListTheme(),
 					(id, newValue) => {
-						// Update pending state (not final until Ctrl+S)
+						// Update pending state (not final until Enter)
 						if (newValue === "disabled") {
 							pendingDisabled.add(id);
 						} else {
@@ -179,8 +179,8 @@ export default function skillsExtension(pi: ExtensionAPI) {
 						container.invalidate();
 					},
 					handleInput(data: string) {
-						// Ctrl+S to save
-						if (data === "\x13") {
+						// Enter to save
+						if (data === "\r" || data === "\n") {
 							done(true);
 							return;
 						}

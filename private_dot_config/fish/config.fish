@@ -16,7 +16,7 @@ end
 
 # === INTERACTIVE ===
 if status is-interactive
-    type -q herdr; and herdr completion fish | source
+    # type -q herdr; and herdr completion fish | source  # disabled: outputs JSON instead of fish completions
 
     function __mise_deferred --on-event fish_prompt
         mise activate fish | source
@@ -73,10 +73,6 @@ if status is-interactive
     abbr lzg lazygit
     abbr lzd lazydocker
     abbr oc opencode
-    abbr hn hn
-    abbr hs hs
-    abbr hw hw
-    abbr hws hws
 
     alias vim='nvim'
     abbr -a -- - 'cd -'
@@ -169,11 +165,7 @@ if status is-interactive
         set -l ws_name (basename $PWD | string replace -a '.' '_')
         # If already inside herdr, move current pane to new workspace
         if set -q HERDR_SOCKET_PATH
-            set -l pane_id $HERDR_ACTIVE_PANE_ID
-            if test -z "$pane_id"
-                # Fallback: get current pane
-                set pane_id (herdr pane current --pane --current 2>/dev/null | jq -r '.id // empty')
-            end
+            set -l pane_id (herdr pane current --current 2>/dev/null | jq -r '.result.pane.pane_id // empty')
             if test -n "$pane_id"
                 herdr pane move "$pane_id" --new-workspace --label "$ws_name" --focus 2>/dev/null
             else
@@ -192,7 +184,7 @@ if status is-interactive
             echo "herdr not installed" >&2
             return 1
         end
-        set -l ses (herdr session list --json 2>/dev/null | jq -r '.[].name' | fzf --layout=reverse)
+        set -l ses (herdr session list --json 2>/dev/null | jq -r '.sessions[].name' | fzf --layout=reverse)
         if test -n "$ses"
             herdr session attach "$ses"
         end
@@ -214,7 +206,7 @@ if status is-interactive
             echo "herdr not installed" >&2
             return 1
         end
-        herdr workspace list 2>/dev/null
+        herdr workspace list 2>/dev/null | jq -r '.result.workspaces[] | (if .focused then "▸ " else "  " end) + .label + " (" + (.pane_count|tostring) + " panes)"'
     end
 
     # hws: switch workspace via fzf
@@ -223,9 +215,9 @@ if status is-interactive
             echo "herdr not installed" >&2
             return 1
         end
-        set -l ws (herdr workspace list --json 2>/dev/null | jq -r '.[].label // .[].name' | fzf --layout=reverse)
-        if test -n "$ws"
-            herdr workspace focus "$ws" 2>/dev/null
+        set -l ws_id (herdr workspace list 2>/dev/null | jq -r '.result.workspaces[] | .label + " " + .workspace_id' | fzf --layout=reverse | awk '{print $NF}')
+        if test -n "$ws_id"
+            herdr workspace focus "$ws_id" 2>/dev/null
         end
     end
 
@@ -248,9 +240,12 @@ if status is-interactive
                     set direction right
             end
         end
-        herdr pane split 1-1 --direction "$direction" 2>/dev/null
+        herdr pane split --current --direction "$direction" 2>/dev/null
         if test (count $argv) -gt 0
-            herdr pane run 1-2 "$argv" 2>/dev/null
+            set -l new_pane (herdr pane current --current 2>/dev/null | jq -r '.result.pane.pane_id // empty')
+            if test -n "$new_pane"
+                herdr pane run "$new_pane" "$argv" 2>/dev/null
+            end
         end
     end
 

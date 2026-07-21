@@ -1,24 +1,26 @@
 {
-  "skills": ["+skills/agent-browser/SKILL.md"],
-  "lastChangelogVersion": "0.80.10",
+  "skills": [
+    "+skills/agent-browser/SKILL.md"
+  ],
+  "lastChangelogVersion": "0.81.1",
   "defaultProvider": "openrouter",
   "defaultModel": "xiaomi/mimo-v2.5",
-  "defaultThinkingLevel": "high",
+  "defaultThinkingLevel": "medium",
   "packages": [
     "npm:pi-observational-memory",
     "npm:pi-mcp-adapter",
     {
-      "source": "npm:plannotator/pi-extension",
+      "source": "npm:@plannotator/pi-extension",
       "skills": []
     },
     "npm:pi-thinking-steps",
     "npm:@juicesharp/rpiv-ask-user-question",
     "@samfp/pi-essentials",
-    "npm:@fflabs/pi-fff",
     "npm:pi-exa",
     "npm:@upstash/context7-pi",
     "npm:pi-subagents",
-    "npm:pi-rtk-optimizer"
+    "npm:pi-rtk-optimizer",
+    "npm:@ff-labs/pi-fff"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
