@@ -1,21 +1,23 @@
 {
-  "skills": [
-    "+skills/find-docs/SKILL.md",
-    "+skills/find-skills/SKILL.md",
-    "+skills/agent-browser/SKILL.md"
-  ],
+  "skills": ["+skills/agent-browser/SKILL.md"],
   "lastChangelogVersion": "0.80.10",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-flash",
+  "defaultProvider": "openrouter",
+  "defaultModel": "xiaomi/mimo-v2.5",
   "defaultThinkingLevel": "high",
   "packages": [
+    "npm:pi-observational-memory",
     "npm:pi-mcp-adapter",
+    {
+      "source": "npm:plannotator/pi-extension",
+      "skills": []
+    },
+    "npm:pi-thinking-steps",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "@samfp/pi-essentials",
+    "npm:@fflabs/pi-fff",
     "npm:pi-exa",
     "npm:@upstash/context7-pi",
-    "npm:@plannotator/pi-extension",
-    "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-subagents",
-    "npm:pi-observational-memory",
     "npm:pi-rtk-optimizer"
   ],
   "theme": "dark",

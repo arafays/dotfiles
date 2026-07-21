@@ -36,9 +36,11 @@
     "fal-ai": {
       "url": "https://mcp.fal.ai/mcp",
       "headers": {
-        "Authorization": "Bearer $env:FAL_AI_API_KEY"
+        "Authorization": "Bearer $env:FAL_KEY"
       },
-      "lifecycle": "lazy"
+      "lifecycle": "lazy",
+      "exposeResources": true,
+      "directTools": true
     }
   },
 
