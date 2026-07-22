@@ -1,10 +1,8 @@
 {
-  "skills": [
-    "+skills/agent-browser/SKILL.md"
-  ],
+  "skills": ["+skills/agent-browser/SKILL.md"],
   "lastChangelogVersion": "0.81.1",
-  "defaultProvider": "openrouter",
-  "defaultModel": "xiaomi/mimo-v2.5",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "mimo-v2.5",
   "defaultThinkingLevel": "medium",
   "packages": [
     "npm:pi-observational-memory",
@@ -62,7 +60,7 @@
       "id": "deepseek-v4-flash",
       "thinking": "low"
     },
-    "passive": true,
+    "passive": false,
     "debugLog": false
   },
   "subagents": {
