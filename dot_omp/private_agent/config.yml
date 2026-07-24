@@ -1,0 +1,65 @@
+symbolPreset: nerd
+theme: 
+  dark: dark-gruvbox
+setupVersion: 1
+modelRoles: 
+  default: opencode-zen/deepseek-v4-flash-free
+defaultThinkingLevel: auto
+statusLine: 
+  separator: powerline-thin
+  preset: default
+  compactThinkingLevel: false
+  sessionAccent: true
+display: 
+  shimmer: classic
+  showTokenUsage: true
+  cacheMissMarker: true
+providers: 
+  webSearchOrder: 
+    - exa
+    - perplexity
+    - gemini
+    - anthropic
+    - codex
+    - xai
+    - zai
+    - tinyfish
+    - jina
+    - kagi
+    - tavily
+    - firecrawl
+    - brave
+    - kimi
+    - parallel
+    - synthetic
+    - searxng
+    - startpage
+    - duckduckgo
+    - ecosia
+    - google
+    - mojeek
+    - public
+browser: 
+  headless: true
+tui: 
+  tight: true
+task: 
+  showResolvedModelBadge: true
+compaction: 
+  strategy: snapcompact
+autolearn: 
+  enabled: true
+  autoContinue: true
+memory: 
+  backend: hindsight
+bash: 
+  enabled: true
+  autoBackground: 
+    enabled: true
+github: 
+  enabled: true
+tools: 
+  xdev: true
+  xdevDocs: builtins
+mcp: 
+  notifications: false

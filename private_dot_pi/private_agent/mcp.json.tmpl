@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    {{ if false}}
+    "chrome-devtools": {
+      "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest",
+        "--executablePath",
+        "/usr/bin/chromium"
+      ],
+      "lifecycle": "lazy",
+      "exposeResources": false,
+      "directTools": true
+    },
+    "fal-ai": {
+      "url": "https://mcp.fal.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer $env:FAL_KEY"
+      },
+      "lifecycle": "lazy",
+      "exposeResources": true,
+      "directTools": false
+    }
+    {{end }}
+  },
+
+  "imports": []
+}

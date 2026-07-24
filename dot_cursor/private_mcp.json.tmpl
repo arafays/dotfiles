@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "${workspaceFolder}"
+      ]
+    },
+    "context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": {{ .secrets.context7_api_key }}
+      }
+    }
+  }
+}

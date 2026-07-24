@@ -26,11 +26,6 @@
     },
   },
   "mcp": {
-    "mise": {
-      "type": "local",
-      "command": ["mise", "mcp"],
-      "enabled": false,
-    },
     "devtools": {
       "type": "local",
       "command": [

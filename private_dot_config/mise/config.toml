@@ -9,7 +9,7 @@ experimental = true
 biome = "latest"
 bun = "latest"
 go = "latest"
-java = "24"
+java = "26"
 node = "24"
 python = "3.14"
 rust = "latest"
@@ -28,8 +28,6 @@ aube = "latest"
 "npm:firebase-tools" = "latest"
 "npm:neovim" = "latest"
 "npm:prettier" = "latest"
-"cargo:create-tauri-app" = "latest"
-"cargo:tauri-cli" = "^2"
 "cargo:trunk" = "latest"
 
 "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }

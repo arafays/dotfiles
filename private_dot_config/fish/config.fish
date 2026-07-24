@@ -6,22 +6,38 @@ if not set -q GPG_TTY
     set -gx GPG_TTY (tty)
 end
 
-# Source environment.d (XDG vars, editor, FZF, Android, mise, secrets, etc.)
-# Shared with ~/.profile and systemd environment.d — single source of truth.
-if test -d ~/.config/environment.d
-    for file in ~/.config/environment.d/*.conf
-        fenv source $file
+# Essential PATH — mise shims + local bin (must come before any mise calls)
+set -gx PATH $HOME/.local/share/mise/shims $HOME/.local/bin $PATH
+
+# Import environment from systemd user daemon (~15ms vs ~750ms with fenv).
+# systemd already loads ~/.config/environment.d/*.conf at login.
+# After editing env.d files: systemctl --user daemon-reload
+for line in (systemctl --user show-environment 2>/dev/null)
+    set -l pair (string split --max 1 '=' -- $line)
+    set -l key $pair[1]
+    # Skip read-only or fish-managed variables
+    contains -- $key PWD SHLVL _ PATH; and continue
+    set -l val $pair[2]
+    # systemd wraps special chars in $'...' — strip the wrapper and unescape inner quotes
+    set -l _dollar_quote (printf '\x24\x27') # literal $'
+    if test (string sub -l 2 -- $val) = "$_dollar_quote"
+        set val (string sub -s 3 -- $val | string sub -e -1)
+        set val (string replace -a "\\'" "'" -- $val)
     end
+    set -gx $key $val
 end
 
 # === INTERACTIVE ===
+
+# Build PATH: systemd shims + local bin + Android SDK
+set -gx PATH $HOME/.local/share/mise/shims $HOME/.local/bin $PATH
 if status is-interactive
-    # type -q herdr; and herdr completion fish | source  # disabled: outputs JSON instead of fish completions
 
     function __mise_deferred --on-event fish_prompt
         mise activate fish | source
         mise completion fish | source
         type -q zoxide; and zoxide init fish --cmd cd | source
+        type -q herdr; and herdr completion fish | source # disabled: outputs JSON instead of fish completions
         functions -e __mise_deferred
     end
 
@@ -29,7 +45,10 @@ if status is-interactive
         if not set -q __mise_completions_loaded
             set -g __mise_completions_loaded 1
 
-            set active_tools (mise ls --current 2>/dev/null | awk '{print $1}')
+            # mise may not be in PATH yet (activate deferred to fish_prompt)
+            if type -q mise
+                set active_tools (mise ls --current 2>/dev/null | awk '{print $1}')
+            end
 
             for tool in $active_tools
                 switch $tool
@@ -318,6 +337,31 @@ if status is-interactive
         commandline -f repaint
     end
 
+    # ── pi suggest ──
+    # Type a comment → pg → get a command
+    # Type a command → pg → get an explanation
+    function pg
+        set -l cmd (commandline)
+
+        # If called with arguments, use those directly
+        if test (count $argv) -gt 0
+            set -l prompt (string join ' ' $argv)
+            pi -p --no-session --tools read,grep,find,ls "$prompt"
+            return
+        end
+
+        # If called from keybinding (empty args), use commandline buffer
+        test -z "$cmd"; and return
+
+        if string match -q '#*' "$cmd"
+            set -l prompt (string replace -r '^#\s*' '' -- $cmd)
+            set -l result (pi -p --no-session --tools read,grep,find,ls "Convert to a shell command. Output ONLY the command, no explanation: $prompt" 2>/dev/null)
+            test -n "$result"; and commandline -r "$result"
+        else
+            pi -p --no-session --tools read,grep,find,ls "Explain concisely: $cmd" 2>/dev/null
+        end
+    end
+
     function fish_user_key_bindings
         bind \ep parufind-widget
         bind -M insert \ch backward-delete-char
@@ -402,9 +446,9 @@ if status is-interactive
     type -q starship; and starship init fish | source
 end
 
-# === PATH (idempotent via fish_add_path) ===
-fish_add_path /home/arafays/.opencode/bin
-fish_add_path $HOME/.local/bin
+# === PATH ===
+# These are already in systemd env via environment.d (mise shims, etc.).
+# fish_add_path only writes universal vars on first run; subsequent calls are no-ops.
 fish_add_path --append $HOME/Android/Sdk/emulator \
     $HOME/Android/Sdk/cmdline-tools/latest/bin \
     $HOME/Android/Sdk/build-tools/36.1.0 \

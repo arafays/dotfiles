@@ -1,4 +1,0 @@
-{
-  "mcpServers": {},
-  "imports": ["cursor", "claude-code", "opencode"]
-}

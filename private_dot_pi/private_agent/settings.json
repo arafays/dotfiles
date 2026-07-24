@@ -1,9 +1,11 @@
 {
-  "skills": ["+skills/agent-browser/SKILL.md"],
-  "lastChangelogVersion": "0.81.1",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "mimo-v2.5",
-  "defaultThinkingLevel": "medium",
+  "skills": [
+    "+skills/agent-browser/SKILL.md"
+  ],
+  "lastChangelogVersion": "0.82.0",
+  "defaultProvider": "openrouter",
+  "defaultModel": "z-ai/glm-5.2",
+  "defaultThinkingLevel": "xhigh",
   "packages": [
     "npm:pi-observational-memory",
     "npm:pi-mcp-adapter",
@@ -78,5 +80,8 @@
         "thinking": "high"
       }
     }
-  }
+  },
+  "autocompleteMaxVisible": 15,
+  "httpIdleTimeoutMs": 120000,
+  "collapseChangelog": true
 }

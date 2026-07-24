@@ -14,12 +14,15 @@
       "type": "stdio",
       "directTools": true
     },
+    {{ if false}}
     "chrome-devtools": {
       "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
       "command": "npx",
       "args": [
         "-y",
-        "chrome-devtools-mcp@latest"
+        "chrome-devtools-mcp@latest",
+        "--executablePath",
+        "/usr/bin/chromium"
       ],
       "lifecycle": "lazy",
       "exposeResources": false
@@ -33,22 +36,25 @@
       "lifecycle": "lazy",
       "exposeResources": false
     },
+    "context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "lifecycle": "lazy",
+      "exposeResources": true,
+      "directTools": true
+    },
     "fal-ai": {
       "url": "https://mcp.fal.ai/mcp",
       "headers": {
         "Authorization": "Bearer $env:FAL_KEY"
       },
       "lifecycle": "lazy",
-      "exposeResources": true,
-      "directTools": true
+      "exposeResources": false,
+      "directTools": flase
     }
+   {{end}}
   },
-
-  "imports": [
-    "cursor",
-    "claude-code",
-    "opencode"
-  ],
+  "disabledServers": ["figma:figma"],
+  "imports": [],
   "settings": {
     "idleTimeout": 10
   }
