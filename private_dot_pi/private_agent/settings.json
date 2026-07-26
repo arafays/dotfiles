@@ -2,18 +2,23 @@
   "skills": [
     "+skills/agent-browser/SKILL.md"
   ],
-  "lastChangelogVersion": "0.80.10",
+  "lastChangelogVersion": "0.82.1",
   "defaultProvider": "opencode-go",
   "defaultModel": "mimo-v2.5",
   "packages": [
-    "npm:@plannotator/pi-extension",
-    "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-subagents",
     "npm:pi-mcp-adapter",
+    {
+      "source": "npm:@plannotator/pi-extension",
+      "skills": []
+    },
+    "npm:pi-thinking-steps",
+    "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-exa",
     "npm:@upstash/context7-pi",
-    "npm:pi-observational-memory",
-    "npm:pi-rtk-optimizer"
+    "npm:pi-subagents",
+    "npm:pi-rtk-optimizer",
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-observational-memory"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
@@ -21,6 +26,7 @@
   "terminal": {
     "showTerminalProgress": true
   },
+  "editorPaddingX": 3,
   "treeFilterMode": "default",
   "doubleEscapeAction": "tree",
   "defaultProjectTrust": "ask",
@@ -31,21 +37,20 @@
     "anthropicExtraUsage": true
   },
   "enabledModels": [
-    "opencode-go/minimax-m2.7",
-    "opencode-go/kimi-k2.6",
     "opencode-go/deepseek-v4-flash",
     "opencode-go/deepseek-v4-pro",
     "opencode-go/glm-5.2",
     "opencode-go/mimo-v2.5",
-    "openrouter/moonshotai/kimi-k2.6",
     "openrouter/z-ai/glm-5.2",
-    "openrouter/google/gemma-4-31b-it",
-    "openrouter/meta-llama/llama-4-scout"
+    "openrouter/z-ai/glm-5.2",
+    "openrouter/moonshotai/kimi-k2.6",
+    "openrouter/minimax/minimax-m2.7",
+    "openrouter/xiaomi/mimo-v2.5"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,
     "reflectAfterTokens": 20000,
-    "compactAfterTokens": 100001,
+    "compactAfterTokens": 81000,
     "compactAfterTokensMode": "calibrated",
     "observationsPoolMaxTokens": 20000,
     "observationsPoolTargetTokens": 10000,
@@ -55,7 +60,7 @@
       "id": "deepseek-v4-flash",
       "thinking": "low"
     },
-    "passive": true,
+    "passive": false,
     "debugLog": false
   },
   "subagents": {
@@ -73,5 +78,9 @@
         "thinking": "high"
       }
     }
-  }
+  },
+  "defaultThinkingLevel": "medium",
+  "autocompleteMaxVisible": 15,
+  "httpIdleTimeoutMs": 120000,
+  "collapseChangelog": true
 }

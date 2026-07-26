@@ -3,7 +3,16 @@ theme:
   light: light
 setupVersion: 1
 modelRoles: 
-  default: opencode-go/glm-5.2
+  default: opencode-go/deepseek-v4-pro:max
+  smol: opencode-go/mimo-v2.5
+  commit: opencode-go/deepseek-v4-flash
+  tiny: opencode-zen/mimo-v2.5-free
+  vision: opencode-go/mimo-v2.5
+  plan: opencode-go/deepseek-v4-pro:high
+  slow: opencode-go/glm-5.2:max
+  designer: opencode-go/kimi-k2.6
+  task: opencode-go/deepseek-v4-pro
+  advisor: opencode-go/deepseek-v4-pro
 defaultThinkingLevel: auto
 symbolPreset: nerd
 statusLine: 
@@ -30,10 +39,10 @@ doubleEscapeAction: tree
 stt: 
   modelName: turbo
 autolearn: 
-  enabled: true
+  enabled: false
   autoContinue: true
 memory: 
-  backend: local
+  backend: mnemopi
 edit: 
   mode: hashline
 readLineNumbers: false
@@ -44,4 +53,12 @@ github:
 tts: 
   localModel: kokoro
 secrets: 
+  enabled: true
+cycleOrder: 
+  - default
+  - slow
+  - commit
+providers: 
+  memoryModel: online
+bash: 
   enabled: true

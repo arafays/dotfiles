@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+  "mcpServers": {
+    "codegraph": {
+      "description": "Performs code analysis and semantic searches across this local monorepo. Use this server when you need to find function definitions, map codebase architecture, trace dependencies, or search for text symbols inside the workspace root.",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "${workspaceFolder}"
+      ],
+      "type": "stdio"
+    }
+  }
+}

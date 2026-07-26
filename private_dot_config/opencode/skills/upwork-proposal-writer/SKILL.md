@@ -37,7 +37,7 @@ You are **Abdul Rafay Shaikh** — a Lead Product Developer with 13 years of exp
 
 ## Tech stack & expertise
 
-- **Frontend:** React, Next.js (13/14/15), Vue.js, Nuxt, SvelteKit, TypeScript, TailwindCSS v3/v4, DaisyUI, Radix UI, shadcn/ui, Framer Motion, GSAP
+- **Frontend:** React, Next.js (13/14/15/16), Vue.js, Nuxt, SvelteKit, TypeScript (5/7), TailwindCSS v3/v4, DaisyUI, Radix UI, shadcn/ui, Framer Motion, GSAP, Motion, Lenis
 - **Database & ORM:** PostgreSQL, MongoDB, Drizzle ORM, Prisma, @neondatabase/serverless, @vercel/postgres, SQLite (turso/libsql)
 - **Backend:** Node.js, Express, Go, RESTful APIs, Firebase, Supabase, Docker, CI/CD
 - **Auth:** Better-Auth, Next-Auth v4/v5, Auth.js
@@ -91,6 +91,9 @@ You are **Abdul Rafay Shaikh** — a Lead Product Developer with 13 years of exp
 | WatchNext                      | Next.js + TypeScript                                                                                                                                                                | <https://github.com/arafays/watchnext>                         | Movie/TV watchlist and recommendation app                                                                                                                          |
 | Arturo Digital                 | WordPress, HubSpot                                                                                                                                                                  | <https://arturodigital.com/>                                   | Enterprise mobile app dev agency site with portfolio, client logos (Deloitte, Houston Methodist), custom CMS, blog                                                 |
 | Maya Bytes                     | WordPress                                                                                                                                                                           | <https://www.mayabytes.com/>                                   | Creative digital agency in Houston, portfolio of branding & web design projects                                                                                    |
+
+| Case Studies Monorepo          | Next.js 16, React 19, TypeScript 7 (Go port), Tailwind v4 (CSS-first), Turborepo 2.10, Biome, Motion, Lenis, shadcn/Radix UI, Payload CMS 3 (PostgreSQL), pnpm                       | <https://github.com/Mayabytes-LLP/case-studies-monorepo>       | 9 niche landing pages (dental ×3, law ×3, spa ×3) — shared @repo/ui component library (14 categories × 9 style variants), semantic token bridge, OKLCH per-niche theming, Vercel-deployed, generated via [impeccable.style](https://impeccable.style/)
+
 
 ## Approach & philosophy
 

@@ -22,14 +22,14 @@ position = "bottom-right"
 prefix = "ctrl+b"
 
 # Navigate mode: workspace switching without arrow keys (60% friendly)
-navigate_workspace_up = "["
-navigate_workspace_down = "]"
+next_workspace = "ctrl+alt+j"
+previous_workspace = "ctrl+alt+k"
 
 # Pane navigation (prefix + vim keys + ctrl+alt direct)
-focus_pane_left = ["prefix+h", "ctrl+alt+h"]
-focus_pane_down = ["prefix+j", "ctrl+alt+j"]
-focus_pane_up = ["prefix+k", "ctrl+alt+k"]
-focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
 
 # Tab switching
 previous_tab = ["prefix+p", "ctrl+alt+["]
@@ -46,7 +46,6 @@ split_horizontal = ["prefix+minus", "ctrl+alt+shift+d"]
 # Workspace navigation
 workspace_picker = "prefix+w"
 goto = "prefix+g"
-
 # === Custom command keybindings ===
 
 # Lazygit - git TUI
@@ -55,8 +54,8 @@ key = "prefix+alt+g"
 type = "popup"
 command = "lazygit"
 description = "lazygit"
-width = "90%"
-height = "90%"
+width = "95%"
+height = "95%"
 
 # Lazydocker - docker TUI
 [[keys.command]]
@@ -64,8 +63,8 @@ key = "prefix+alt+d"
 type = "popup"
 command = "lazydocker"
 description = "lazydocker"
-width = "90%"
-height = "90%"
+width = "95%"
+height = "95%"
 
 # Yazi - file manager
 [[keys.command]]
@@ -73,8 +72,8 @@ key = "prefix+alt+y"
 type = "popup"
 command = "yazi"
 description = "yazi"
-width = "90%"
-height = "90%"
+width = "95%"
+height = "95%"
 
 # Btop - system monitor
 [[keys.command]]
@@ -82,9 +81,8 @@ key = "prefix+alt+b"
 type = "popup"
 command = "btop"
 description = "btop"
-width = "80%"
-height = "80%"
-
+width = "95%"
+height = "95%"
 
 [ui.sound]
 enabled = true

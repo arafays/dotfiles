@@ -14,6 +14,7 @@
       "type": "stdio",
       "directTools": true
     },
+    {{ if false}}
     "chrome-devtools": {
       "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
       "command": "npx",
@@ -39,13 +40,22 @@
         "Authorization": "Bearer $env:FAL_AI_API_KEY"
       },
       "lifecycle": "lazy"
+    },
+  "mise": {
+      "description": "Manages and inspects the local runtime developer environment. Use this server when you need to discover installed engine versions (Node.js, Python, Ruby), look up active shell environment variables, or execute custom automation workflows defined in tasks.",
+      "type": "local",
+      "command": "mise",
+      "args": [
+        "mcp"
+      ],
+      "lifecycle": "lazy",
+      "exposeResources": false,
+      "directTools": true
     }
+    {{ end}}
   },
 
   "imports": [
-    "cursor",
-    "claude-code",
-    "opencode"
   ],
   "settings": {
     "idleTimeout": 10
