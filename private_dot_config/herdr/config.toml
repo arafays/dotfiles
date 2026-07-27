@@ -23,8 +23,8 @@ position = "bottom-right"
 prefix = "ctrl+b"
 
 # Navigate mode: workspace switching without arrow keys (60% friendly)
-next_workspace = "ctrl+alt+k"
-previous_workspace = "ctrl+alt+j"
+next_workspace = "ctrl+alt+j"
+previous_workspace = "ctrl+alt+k"
 
 # Pane navigation (prefix + vim keys + ctrl+alt direct)
 focus_pane_left = "prefix+h"

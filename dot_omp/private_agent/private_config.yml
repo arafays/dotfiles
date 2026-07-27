@@ -1,17 +1,31 @@
-symbolPreset: nerd
 theme: 
   dark: dark-gruvbox
 setupVersion: 1
 modelRoles: 
-  default: opencode-zen/deepseek-v4-flash-free
+  default: opencode-go/deepseek-v4-pro:max
+  smol: opencode-go/mimo-v2.5
+  commit: opencode-go/deepseek-v4-flash
+  tiny: opencode-zen/mimo-v2.5-free
+  vision: opencode-go/mimo-v2.5
+  plan: opencode-go/deepseek-v4-pro:high
+  slow: opencode-go/glm-5.2:max
+  designer: opencode-go/kimi-k2.6
+  task: opencode-go/deepseek-v4-pro
+  advisor: opencode-go/deepseek-v4-pro
 defaultThinkingLevel: auto
+symbolPreset: nerd
 statusLine: 
-  separator: powerline-thin
   preset: default
+  separator: powerline-thin
   compactThinkingLevel: false
   sessionAccent: true
+  transparent: true
+terminal: 
+  showProgress: true
+tur: 
+  tight: false
 display: 
-  shimmer: classic
+  shimmer: kitt
   showTokenUsage: true
   cacheMissMarker: true
 providers: 
@@ -39,27 +53,40 @@ providers:
     - google
     - mojeek
     - public
+  memoryModel: online
 browser: 
   headless: true
-tui: 
-  tight: true
 task: 
   showResolvedModelBadge: true
+  eager: preffered
+  enableLsp: true
+tui: 
+  tight: false
 compaction: 
   strategy: snapcompact
 autolearn: 
   enabled: true
   autoContinue: true
 memory: 
-  backend: hindsight
+  backend: mnemopi
 bash: 
   enabled: true
   autoBackground: 
     enabled: true
 github: 
   enabled: true
+lsp: 
+  formatOnWrite: true
 tools: 
   xdev: true
   xdevDocs: builtins
 mcp: 
   notifications: false
+secrets: 
+  enabled: true
+cycleOrder: 
+  - default
+  - slow
+  - commit
+dev: 
+  autoqaConsent: granted
