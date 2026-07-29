@@ -21,6 +21,7 @@ command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
 
 # Browser (set in fish but not in environment.d)
 export BROWSER=chromium
+export CHROMIUM_PATH=/usr/bin/chromium
 
 # PATH — idempotent additions
 _prepend() {
@@ -52,8 +53,8 @@ _path_dedup() {
   IFS=':'
   for _pd_item in $PATH; do
     case ":$_pd_new_path:" in
-      *:"$_pd_item":*) ;;
-      *) [ -n "$_pd_item" ] && _pd_new_path="${_pd_new_path:+$_pd_new_path:}$_pd_item" ;;
+    *:"$_pd_item":*) ;;
+    *) [ -n "$_pd_item" ] && _pd_new_path="${_pd_new_path:+$_pd_new_path:}$_pd_item" ;;
     esac
   done
   IFS="$_pd_old_ifs"
@@ -65,3 +66,6 @@ unset _path_dedup
 
 export PATH
 unset _prepend _append
+
+# Added by Antigravity CLI installer
+export PATH="/home/arafays/.local/bin:$PATH"

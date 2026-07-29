@@ -1,16 +1,25 @@
 return {
 	{
-		"folke/tokyonight.nvim",
+		"nyoom-engineering/oxocarbon.nvim",
 		priority = 1000,
 		lazy = false,
-		opts = {
-			transparent = true,
-			style = "night", -- Options: "storm", "moon", "day", "night"
-			styles = {
-				sidebars = "transparent",
-				floats = "transparent",
-			},
-		},
+		config = function()
+			vim.opt.background = "dark"
+			vim.cmd.colorscheme "oxocarbon"
+
+			-- Transparency: clear backgrounds
+			local transparent_groups = {
+				"Normal", "NormalFloat", "NormalNC",
+				"SignColumn", "LineNr", "FoldColumn",
+				"CursorLineNr", "FloatBorder",
+				"TelescopeNormal", "TelescopeBorder",
+				"NvimTreeNormal", "NvimTreeEndOfBuffer",
+				"WhichKeyFloat", "MsgArea",
+			}
+			for _, group in ipairs(transparent_groups) do
+				vim.api.nvim_set_hl(0, group, { bg = "none" })
+			end
+		end,
 	},
 	-- {
 	--   "crusoexia/vim-monokai",

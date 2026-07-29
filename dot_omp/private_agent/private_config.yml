@@ -1,4 +1,4 @@
-theme:
+theme: 
   dark: dark-gruvbox
 setupVersion: 1
 # modelRoles: 
@@ -12,8 +12,8 @@ setupVersion: 1
 #   designer: opencode-go/kimi-k2.6
 #   task: opencode-go/deepseek-v4-pro
 #   advisor: opencode-go/deepseek-v4-pro
-modelRoles:
-  default: deepseek/deepseek-v4-pro
+modelRoles: 
+  default: openrouter/z-ai/glm-5.2
   smol: xiaomi/mimo-v2.5
   commit: deepseek/deepseek-v4-flash
   tiny: deepseek/deepseek-v4-flash
@@ -25,22 +25,22 @@ modelRoles:
   advisor: deepseek/deepseek-v4-pro
 defaultThinkingLevel: auto
 symbolPreset: nerd
-statusLine:
+statusLine: 
   preset: default
   separator: powerline-thin
   compactThinkingLevel: false
   sessionAccent: true
   transparent: true
-terminal:
+terminal: 
   showProgress: true
-tur:
+tur: 
   tight: false
-display:
+display: 
   shimmer: kitt
   showTokenUsage: true
   cacheMissMarker: true
-providers:
-  webSearchOrder:
+providers: 
+  webSearchOrder: 
     - exa
     - perplexity
     - gemini
@@ -65,39 +65,43 @@ providers:
     - mojeek
     - public
   memoryModel: online
-browser:
+  imageOrder: 
+    - openrouter
+browser: 
   headless: true
-task:
+task: 
   showResolvedModelBadge: true
   eager: preffered
   enableLsp: true
-tui:
+tui: 
   tight: false
-compaction:
+compaction: 
   strategy: snapcompact
-autolearn:
+autolearn: 
   enabled: true
   autoContinue: true
-memory:
+memory: 
   backend: mnemopi
-bash:
+bash: 
   enabled: true
-  autoBackground:
+  autoBackground: 
     enabled: true
-github:
+github: 
   enabled: true
-lsp:
+lsp: 
   formatOnWrite: true
-tools:
+tools: 
   xdev: true
   xdevDocs: builtins
-mcp:
+mcp: 
   notifications: false
-secrets:
+secrets: 
   enabled: true
-cycleOrder:
+cycleOrder: 
   - default
   - slow
   - commit
-dev:
+dev: 
   autoqaConsent: granted
+generate_image: 
+  enabled: true

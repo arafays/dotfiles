@@ -453,3 +453,7 @@ fish_add_path --append $HOME/Android/Sdk/emulator \
     $HOME/Android/Sdk/cmdline-tools/latest/bin \
     $HOME/Android/Sdk/build-tools/36.1.0 \
     $HOME/Android/Sdk/platform-tools
+
+
+# Added by Antigravity CLI installer
+set -gx PATH "/home/arafays/.local/bin" $PATH

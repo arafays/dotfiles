@@ -3,10 +3,10 @@ biome = "latest"
 bun = "latest"
 go = "latest"
 java = "26"
-node = "24"
+node = "lts"
 python = "3.14"
 rust = "latest"
-usage = { version = "latest", minimum_release_age = "0s" }
+usage = "latest"
 uv = "latest"
 rtk = "latest"
 aube = "latest"
@@ -39,6 +39,4 @@ run = [
 [tool_alias]
 node = "core:node"
 python = "core:python"
-
-[hooks]
-postinstall = "corepack enable"
+java = "code:java"

@@ -14,6 +14,12 @@
 			"password": true
 		},
 		{
+			"id": "fal_ai_api_key",
+			"type": "promptString",
+			"description": "Fal AI API key (optional; increases rate limits). Get one at https://fal.ai/dashboard",
+			"password": true
+		},
+		{
 			"id": "browser_url",
 			"type": "promptString",
 			"description": "Optional: connect to an already-running Chrome (remote debugging / port-forward). Example: http://127.0.0.1:9222",
@@ -48,12 +54,6 @@
 		}
 	],
 	"servers": {
-		"github/github-mcp-server": {
-			"type": "http",
-			"url": "https://api.githubcopilot.com/mcp/",
-			"gallery": "https://api.mcp.github.com",
-			"version": "0.13.0"
-		},
 		"context7": {
 			"type": "http",
 			"url": "https://mcp.context7.com/mcp",
@@ -63,23 +63,6 @@
 			"gallery": "https://api.mcp.github.com",
 			"version": "1.0.0"
 		},
-		"chromedevtools/chrome-devtools-mcp": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"chrome-devtools-mcp@latest",
-				"--browserUrl",
-				"${input:browser_url}",
-				"--headless",
-				"${input:headless}",
-				"--isolated",
-				"${input:isolated}",
-				"--executablePath",
-				"${input:executable_path}"
-			],
-			"gallery": "https://api.mcp.github.com",
-			"version": "0.0.1-seed"
-		},
 		"microsoft/markitdown": {
 			"type": "stdio",
 			"command": "uvx",
@@ -87,6 +70,16 @@
 				"markitdown-mcp"
 			],
 			"gallery": "https://api.mcp.github.com",
+			"version": "1.0.0",
+			"enabled": false
+		},
+		"fal-ai": {
+			"type": "http",
+			"url": "https://mcp.fal.ai/mcp",
+			"gallery": "https://api.mcp.github.com",
+			"headers": {
+				"Authorization": "Bearer ${input:fal_ai_api_key}"
+			},
 			"version": "1.0.0",
 			"enabled": false
 		}

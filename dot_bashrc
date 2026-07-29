@@ -3,8 +3,8 @@
 
 # Bail out early if this is not an interactive shell.
 case $- in
-  *i*) ;;
-  *) return ;;
+*i*) ;;
+*) return ;;
 esac
 
 # Safety net: if this shell was launched without .bash_profile, ensure
@@ -49,92 +49,7 @@ shopt -s checkwinsize
 set -o vi
 stty -ixon 2>/dev/null
 
-# ---- basic aliases ----
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias ll='ls -la'
-alias la='ls -A'
-alias l='ls -CF'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias -- -='cd -'
-alias mkdir='mkdir -p'
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -i'
-alias vim='nvim'
-alias n='nvim'
-alias code='code-insiders'
-alias dev='code .'
-
-# ---- better-tool aliases (same as fish/zsh) ----
-if command -v eza >/dev/null 2>&1; then
-  alias ls='eza -lh --icons=auto --group-directories-first'
-  alias ll='eza -lha --icons=auto --sort=name --group-directories-first'
-  alias l='eza -lh --icons=auto'
-  alias la='eza -lha --icons=auto'
-  alias ld='eza -lhD --icons=auto'
-  alias lt='eza --icons=auto --tree --level=2'
-fi
-
-if command -v bat >/dev/null 2>&1; then
-  alias cat='bat --style=plain --color=always --paging=never'
-  alias less='bat --style=plain --color=always --paging=always'
-fi
-
-if command -v fd >/dev/null 2>&1; then
-  alias find='fd'
-fi
-
-if command -v rg >/dev/null 2>&1; then
-  alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
-fi
-
-# ---- package manager aliases ----
-if [ -n "$aurhelper" ]; then
-  alias un="$aurhelper -Rns"
-  alias up="$aurhelper -Syu --noconfirm"
-  alias look="$aurhelper -Qs"
-  alias search="$aurhelper -Ss"
-  alias pc="$aurhelper -Sc"
-  alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
-  alias psi="$aurhelper -Si"
-  alias orphans="$aurhelper -Qtdq"
-fi
-
-# ---- functions ----
-mkcd() { mkdir -p "$1" && cd "$1" || return; }
-
-tn() {
-  tmux new-session -A -s "$(basename "$PWD" | tr -c 'a-zA-Z0-9_-' '_')" -c "$PWD"
-}
-
-ts() {
-  local ses
-  ses=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --layout=reverse)
-  [ -n "$ses" ] && (tmux switch-client -t "$ses" 2>/dev/null || tmux attach-session -t "$ses")
-}
-
-compress() {
-  local archive="$1"
-  shift
-  case "$archive" in
-  *.tar.gz) tar -czf "$archive" "$@" ;;
-  *.zip) zip -r "$archive" "$@" ;;
-  *.7z) 7z a "$archive" "$@" ;;
-  *) echo "compress: unsupported format" >&2 ;;
-  esac
-}
-
-extract() {
-  local archive="$1"
-  case "$archive" in
-  *.tar.gz | *.tgz) tar -xzf "$archive" ;;
-  *.zip) unzip "$archive" ;;
-  *.7z) 7z x "$archive" ;;
-  *) echo "extract: unsupported format" >&2 ;;
-  esac
-}
-
-# ---- GPG ----
 command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
+
+# Added by Antigravity CLI installer
+export PATH="/home/arafays/.local/bin:$PATH"
