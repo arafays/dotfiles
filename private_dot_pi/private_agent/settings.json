@@ -2,10 +2,10 @@
   "skills": [
     "+skills/agent-browser/SKILL.md"
   ],
-  "lastChangelogVersion": "0.82.1",
+  "lastChangelogVersion": "0.83.0",
   "defaultProvider": "openrouter",
-  "defaultModel": "z-ai/glm-5.2",
-  "defaultThinkingLevel": "xhigh",
+  "defaultModel": "deepseek/deepseek-v4-flash",
+  "defaultThinkingLevel": "high",
   "packages": [
     "npm:pi-observational-memory",
     "npm:pi-mcp-adapter",

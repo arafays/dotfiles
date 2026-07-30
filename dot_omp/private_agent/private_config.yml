@@ -1,25 +1,14 @@
 theme: 
   dark: dark-gruvbox
 setupVersion: 1
-# modelRoles: 
-#   default: opencode-go/deepseek-v4-pro:max
-#   smol: opencode-go/mimo-v2.5
-#   commit: opencode-go/deepseek-v4-flash
-#   tiny: opencode-zen/mimo-v2.5-free
-#   vision: opencode-go/mimo-v2.5
-#   plan: opencode-go/deepseek-v4-pro:high
-#   slow: opencode-go/glm-5.2:max
-#   designer: opencode-go/kimi-k2.6
-#   task: opencode-go/deepseek-v4-pro
-#   advisor: opencode-go/deepseek-v4-pro
 modelRoles: 
   default: openrouter/z-ai/glm-5.2
   smol: xiaomi/mimo-v2.5
   commit: deepseek/deepseek-v4-flash
   tiny: deepseek/deepseek-v4-flash
   vision: xiaomi/mimo-v2.5
-  plan: deepseek/deepseek-v4-pro
-  slow: z-ai/glm-5.2
+  plan: openrouter/moonshotai/kimi-k3:high
+  slow: openrouter/moonshotai/kimi-k3:high
   designer: moonshotai/kimi-k2.6
   task: deepseek/deepseek-v4-pro
   advisor: deepseek/deepseek-v4-pro
@@ -71,21 +60,21 @@ browser:
   headless: true
 task: 
   showResolvedModelBadge: true
-  eager: preffered
+  eager: preferred
   enableLsp: true
 tui: 
   tight: false
 compaction: 
   strategy: snapcompact
 autolearn: 
-  enabled: true
+  enabled: false
   autoContinue: true
 memory: 
   backend: mnemopi
 bash: 
   enabled: true
   autoBackground: 
-    enabled: true
+    enabled: false
 github: 
   enabled: true
 lsp: 
@@ -105,3 +94,6 @@ dev:
   autoqaConsent: granted
 generate_image: 
   enabled: true
+hideThinkingBlock: false
+mnemopi: 
+  polyphonicRecall: false
