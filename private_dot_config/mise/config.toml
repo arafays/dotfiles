@@ -26,6 +26,8 @@ aube = "latest"
 "npm:vercel" = { version = "latest", minimum_release_age = "0s" }
 "npm:agent-browser" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
+"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
+"npm:@opencode-ai/cli" = "next"
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
@@ -33,10 +35,11 @@ run = [
   "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
   "mise prune -y",
   "opencode upgrade",
+  "herdr update",
   "chezmoi re-add",
 ]
 
 [tool_alias]
 node = "core:node"
 python = "core:python"
-java = "code:java"
+java = "core:java"
