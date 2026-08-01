@@ -1,4 +1,7 @@
 ; extends
+;
+; Syntax highlighting for mise run commands embedded in TOML.
+; From: https://mise.jdx.dev/mise-cookbook/neovim.html
 
 (pair
   (bare_key) @key (#eq? @key "run")
@@ -40,3 +43,4 @@
   (#offset! @injection.content 0 1 0 -1) ; rm quotes
   (#set! injection.language "bash") ; default to bash
 )
+

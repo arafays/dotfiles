@@ -11,6 +11,17 @@ set -gx EDITOR nvim
 set -gx GPG_TTY (tty)
 set -gx SUDO_EDITOR nvim
 set -gx BROWSER zen-browser
+
+# Claude Code + OpenRouter
+set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
+set -gx ANTHROPIC_BASE_URL "https://openrouter.ai/api"
+set -gx ANTHROPIC_AUTH_TOKEN "$OPENROUTER_API_KEY"
+set -gx ANTHROPIC_API_KEY ""
+# Route Claude Code model slots to non-Anthropic models via OpenRouter
+set -gx ANTHROPIC_DEFAULT_OPUS_MODEL "xiaomi/mimo-v2.5"
+set -gx ANTHROPIC_DEFAULT_SONNET_MODEL "openai/gpt-5.6-terra"
+set -gx ANTHROPIC_DEFAULT_HAIKU_MODEL "openai/gpt-5.6-luna"
+set -gx CLAUDE_CODE_SUBAGENT_MODEL "openai/gpt-5.6-terra"
 # AGENT_BROWSER_EXECUTABLE_PATH={CHROMIUM_PATH} use the chromium path set via environment.d for OpenCode MCP DevTools, fallback to BROWSER env var or xdg-open if not set
 set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
 set -Ux PORTLESS_NGROK 1

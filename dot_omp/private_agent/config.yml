@@ -5,7 +5,7 @@ setupVersion: 1
 modelRoles: 
   default: opencode-go/deepseek-v4-pro:max
   smol: opencode-go/mimo-v2.5
-  commit: opencode-go/deepseek-v4-flash
+  commit: opencode/deepseek-v4-flash-free
   tiny: opencode-zen/mimo-v2.5-free
   vision: opencode-go/mimo-v2.5
   plan: opencode-go/deepseek-v4-pro:high
@@ -62,3 +62,4 @@ providers:
   memoryModel: online
 bash: 
   enabled: true
+hideThinkingBlock: false

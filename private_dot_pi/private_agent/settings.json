@@ -1,8 +1,8 @@
 {
   "skills": [
-    "+skills/agent-browser/SKILL.md"
+    "+skills/browser-control/SKILL.md"
   ],
-  "lastChangelogVersion": "0.82.1",
+  "lastChangelogVersion": "0.83.0",
   "defaultProvider": "opencode-go",
   "defaultModel": "mimo-v2.5",
   "packages": [
@@ -37,7 +37,7 @@
     "anthropicExtraUsage": true
   },
   "enabledModels": [
-    "opencode-go/deepseek-v4-flash",
+    "opencode/deepseek-v4-flash-free",
     "opencode-go/deepseek-v4-pro",
     "opencode-go/glm-5.2",
     "opencode-go/mimo-v2.5",
@@ -56,8 +56,8 @@
     "observationsPoolTargetTokens": 10000,
     "agentMaxTurns": 16,
     "model": {
-      "provider": "opencode-go",
-      "id": "deepseek-v4-flash",
+      "provider": "opencode",
+      "id": "deepseek-v4-flash-free",
       "thinking": "low"
     },
     "passive": false,

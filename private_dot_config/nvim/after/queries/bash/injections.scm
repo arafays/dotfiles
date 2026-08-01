@@ -1,13 +1,15 @@
 ; extends
+;
+; Syntax highlighting for #MISE and #USAGE comments in shell scripts (file-based tasks).
+; From: https://mise.jdx.dev/mise-cookbook/neovim.html
 
 ; ============================================================================
 ; #MISE comments - TOML injection
 ; ============================================================================
 ; This injection captures comment lines starting with "#MISE " or "#[MISE]" or
 ; "# [MISE]" and treats them as TOML code blocks for syntax highlighting.
-;
+
 ; #MISE format
-; The (#offset!) directive skips the "#MISE " prefix (6 characters) from the source
 ((comment) @injection.content
   (#lua-match? @injection.content "^#MISE ")
   (#offset! @injection.content 0 6 0 1)
@@ -31,7 +33,7 @@
 ; This injection captures consecutive comment lines starting with "#USAGE " or
 ; "#[USAGE]" or "# [USAGE]" and treats them as a single KDL code block for
 ; syntax highlighting.
-;
+
 ; #USAGE format
 ((comment) @injection.content
   (#lua-match? @injection.content "^#USAGE ")
@@ -66,3 +68,4 @@
 ; this is the preferred way as combined injections have multiple
 ; limitations:
 ; https://github.com/neovim/neovim/issues/32635
+

@@ -30,10 +30,20 @@ zig = "0.16.0"
 rtk = "latest"
 usage = "latest"
 "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s" }
-
+# Verified 2026-08-01: both @effect/* betas below were published by effect-bot from
+# Effect-TS/effect-smol (the Effect v4 repo) in a SINGLE CI run — commit f643dbb,
+# run 29059118794, "Pin to NPM 11 to fix provenance bug in cli (#2572)" — rather
+# than via the trusted-publisher OIDC workflow used by the stable lines. An npm 11
+# provenance bug forced that manual publish. Both have valid signed SLSA provenance
+# and tarball sha512s matching their attested subjects. Upstream fixed this in
+# beta.102, which is back on trusted publishing; browser-control 0.4.0 pins beta.97
+# exactly, so these excludes can be dropped once it bumps.
+"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s", trust_policy_excludes = [
+  "@effect/platform-node@4.0.0-beta.97",
+  "effect@4.0.0-beta.97",
+] }
 
 [settings]
-jobs = 4
 always_keep_download = false
 always_keep_install = false
 experimental = true
@@ -41,14 +51,12 @@ experimental = true
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
-  "mise upgrade --bump --minimum-release-age 0 npm:portless npm:command-code npm:impeccable npm:@opencode-ai/cli npm:@earendil-works/pi-coding-agent npm:prettier npm:@biomejs/biome npm:vercel npm:@ast-grep/napi npm:agent-browser npm:neovim npm:@native-sdk/cli github:can1357/oh-my-pi",
-  "mise run sync-dotfiles",
+  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
+  "mise prune -y",
+  "opencode upgrade",
+  "chezmoi re-add",
+
 ]
-
-[tasks.sync-dotfiles]
-description = "Re-add all chezmoi-managed files so source stays in sync with live configs"
-run = "chezmoi re-add"
-
 [tool_alias]
 node = "core:node"
 python = "core:python"

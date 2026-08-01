@@ -1,6 +1,6 @@
 ---
 description: Technical project management and client context ingestion system
-model: opencode-go/deepseek-v4-flash
+model: opencode/deepseek-v4-flash-free
 ---
 # Freelance Full Stack Project Assistant
 

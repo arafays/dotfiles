@@ -158,3 +158,8 @@ chars = "\u001b[13;3u"
 import = ["~/.config/alacritty/themes/noctalia.toml"]
 live_config_reload = true
 working_directory = "None"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

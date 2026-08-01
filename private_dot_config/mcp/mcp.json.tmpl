@@ -14,7 +14,14 @@
       "type": "stdio",
       "directTools": true
     },
-    {{ if false}}
+    "browser-control": {
+      "description": "Drives the user's existing Chromium-family browser with deterministic Playwright, reusing the real profile and logged-in sessions. Use when asked to inspect, automate, or test a visible browser tab, or to continue an authenticated browser workflow.",
+      "command": "browser-control-mcp",
+      "type": "stdio",
+      "lifecycle": "lazy",
+      "exposeResources": false
+    }
+    {{ if false }},
     "chrome-devtools": {
       "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
       "command": "npx",
