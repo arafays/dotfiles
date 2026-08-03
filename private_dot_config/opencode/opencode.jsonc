@@ -23,6 +23,7 @@
     },
     "read": {
       ".env*": "deny",
+      "/tmp/*": "allow",
     },
   },
   "mcp": {
@@ -54,6 +55,18 @@
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "${env:CONTEXT7_API_KEY}",
+      },
+      "enabled": false,
+    },
+    "fal-ai": {
+      "type": "remote",
+      "url": "https://mcp.fal.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:FAL_KEY}",
+      },
+      "enabled": false,
     },
   },
   "lsp": true,

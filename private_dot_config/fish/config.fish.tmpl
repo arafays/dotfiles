@@ -9,6 +9,29 @@ end
 # Essential PATH — mise shims + local bin (must come before any mise calls)
 set -gx PATH $HOME/.local/share/mise/shims $HOME/.local/bin $PATH
 
+# Claude Code + OpenRouter
+set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
+set -gx ANTHROPIC_BASE_URL "https://openrouter.ai/api"
+set -gx ANTHROPIC_AUTH_TOKEN "$OPENROUTER_API_KEY"
+set -gx ANTHROPIC_API_KEY ""
+# Route Claude Code model slots to non-Anthropic models via OpenRouter
+# Frontend/UI-focused routing (2026) - values are full OpenRouter IDs (vendor/model)
+# Main session model = Kimi K3 (#1 Arena.ai Frontend Code Arena, multimodal)
+# SONNET/SUBAGENT = same frontend workhorse; OPUS/FABLE = GPT-5.6 Terra (#2 Design Arena Elo); HAIKU = cheap creative multimodal
+# ANTHROPIC_MODEL sets the main conversation model; the *_MODEL vars pin the sonnet/opus/haiku/fable aliases.
+set -gx ANTHROPIC_MODEL "moonshotai/kimi-k3"
+set -gx ANTHROPIC_DEFAULT_FABLE_MODEL "openai/gpt-5.6-terra"
+set -gx ANTHROPIC_DEFAULT_OPUS_MODEL "openai/gpt-5.6-terra"
+set -gx ANTHROPIC_DEFAULT_SONNET_MODEL "moonshotai/kimi-k3"
+set -gx ANTHROPIC_DEFAULT_HAIKU_MODEL "minimax/minimax-m3"
+set -gx CLAUDE_CODE_SUBAGENT_MODEL "moonshotai/kimi-k3"
+# AGENT_BROWSER_EXECUTABLE_PATH={CHROMIUM_PATH} use the chromium path set via environment.d for OpenCode MCP DevTools, fallback to BROWSER env var or xdg-open if not set
+set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
+set -Ux PORTLESS_NGROK 1
+
+# Chromium path set via environment.d for OpenCode MCP DevTools
+# set -gx CHROMIUM_PATH (which chromium 2>/dev/null || which google-chrome 2>/dev/null || echo "xdg-open")
+
 # Import environment from systemd user daemon (~15ms vs ~750ms with fenv).
 # systemd already loads ~/.config/environment.d/*.conf at login.
 # After editing env.d files: systemctl --user daemon-reload
@@ -454,6 +477,4 @@ fish_add_path --append $HOME/Android/Sdk/emulator \
     $HOME/Android/Sdk/build-tools/36.1.0 \
     $HOME/Android/Sdk/platform-tools
 
-
 # Added by Antigravity CLI installer
-set -gx PATH "/home/arafays/.local/bin" $PATH

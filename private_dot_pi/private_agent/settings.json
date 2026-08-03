@@ -3,9 +3,9 @@
     "+skills/agent-browser/SKILL.md"
   ],
   "lastChangelogVersion": "0.83.0",
-  "defaultProvider": "openrouter",
-  "defaultModel": "deepseek/deepseek-v4-flash",
-  "defaultThinkingLevel": "high",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4-flash",
+  "defaultThinkingLevel": "off",
   "packages": [
     "npm:pi-observational-memory",
     "npm:pi-mcp-adapter",
