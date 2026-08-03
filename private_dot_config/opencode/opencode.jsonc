@@ -13,6 +13,7 @@
     ],
     "@tarquinen/opencode-dcp@latest",
     "./plugins/herdr-agent-state.js",
+    "./plugins/image-autoload.ts",
   ],
   "permission": {
     "bash": {
