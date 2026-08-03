@@ -1,11 +1,9 @@
 {
-  "skills": [
-    "+skills/agent-browser/SKILL.md"
-  ],
+  "skills": ["+skills/browser-control/SKILL.md"],
   "lastChangelogVersion": "0.83.0",
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4-flash",
-  "defaultThinkingLevel": "off",
+  "defaultThinkingLevel": "auto",
   "packages": [
     "npm:pi-observational-memory",
     "npm:pi-mcp-adapter",
@@ -60,7 +58,7 @@
     "model": {
       "provider": "opencode-go",
       "id": "deepseek-v4-flash",
-      "thinking": "low"
+      "thinking": "off"
     },
     "passive": false,
     "debugLog": false
