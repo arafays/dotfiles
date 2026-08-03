@@ -3,22 +3,18 @@
   "lastChangelogVersion": "0.83.0",
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4-flash",
-  "defaultThinkingLevel": "auto",
+  "defaultThinkingLevel": "medium",
   "packages": [
-    "npm:pi-observational-memory",
+    "npm:pi-rtk-optimizer",
+    "npm:@upstash/context7-pi",
+    "npm:@plannotator/pi-extension",
     "npm:pi-mcp-adapter",
-    {
-      "source": "npm:@plannotator/pi-extension",
-      "skills": []
-    },
-    "npm:pi-thinking-steps",
-    "npm:@juicesharp/rpiv-ask-user-question",
     "@samfp/pi-essentials",
     "npm:pi-exa",
-    "npm:@upstash/context7-pi",
-    "npm:pi-subagents",
-    "npm:pi-rtk-optimizer",
-    "npm:@ff-labs/pi-fff"
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-thinking-steps",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-observational-memory"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
@@ -37,15 +33,17 @@
     "anthropicExtraUsage": true
   },
   "enabledModels": [
-    "openrouter/moonshotai/kimi-k2.6",
     "opencode-go/deepseek-v4-flash",
     "opencode-go/deepseek-v4-pro",
-    "opencode-go/glm-5.2",
     "opencode-go/mimo-v2.5",
+    "opencode-go/glm-5.2",
+    "opencode-go/kimi-k3",
+    "openrouter/openrouter/free",
     "openrouter/z-ai/glm-5.2",
-    "openrouter/z-ai/glm-5.2",
-    "openrouter/minimax/minimax-m2.7",
-    "openrouter/xiaomi/mimo-v2.5"
+    "openrouter/openai/gpt-5.6-luna",
+    "openrouter/moonshotai/kimi-k3",
+    "openrouter/openai/gpt-5.6-terra",
+    "openrouter/openai/gpt-5.6-luna"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,
@@ -66,15 +64,15 @@
   "subagents": {
     "agentOverrides": {
       "oracle": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "openrouter/moonshotai/kimi-k3",
         "thinking": "max"
       },
       "reviewer": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "openrouter/moonshotai/kimi-k3",
         "thinking": "high"
       },
       "planner": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "openrouter/moonshotai/kimi-k3",
         "thinking": "high"
       }
     }
