@@ -1,9 +1,11 @@
 {
-  "skills": ["+skills/browser-control/SKILL.md"],
+  "skills": [
+    "+skills/browser-control/SKILL.md"
+  ],
   "lastChangelogVersion": "0.83.0",
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4-flash",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "off",
   "packages": [
     "npm:pi-rtk-optimizer",
     "npm:@upstash/context7-pi",

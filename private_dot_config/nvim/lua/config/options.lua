@@ -6,4 +6,9 @@ vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 
 vim.g.lazyvim_eslint_auto_format = false
 
+local tsgo = vim.fn.system({ "mise", "which", "tsgo" })
+if vim.v.shell_error == 0 then
+  vim.g.lazyvim_ts_lsp = "tsgo"
+end
+
 vim.opt.background = "dark" -- set this to dark or light

@@ -34,6 +34,7 @@ description = "Bump bleeding-edge npm tools to latest, then re-add managed chezm
 run = [
   "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
   "mise prune -y",
+  "pi update --extensions",
   "opencode upgrade",
   "herdr update",
   "chezmoi re-add",
