@@ -4,7 +4,7 @@
   ],
   "lastChangelogVersion": "0.83.0",
   "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-flash",
+  "defaultModel": "mimo-v2.5",
   "defaultThinkingLevel": "off",
   "packages": [
     "npm:pi-rtk-optimizer",

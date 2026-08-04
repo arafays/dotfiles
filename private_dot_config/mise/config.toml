@@ -1,5 +1,4 @@
 [tools]
-biome = "latest"
 bun = "latest"
 go = "latest"
 java = "26"
@@ -27,7 +26,8 @@ aube = "latest"
 "npm:agent-browser" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
-"npm:@opencode-ai/cli" = "next"
+"npm:@opencode-ai/cli" = "1"
+"npm:@zaly/cli" = "latest"
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
