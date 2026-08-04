@@ -353,6 +353,11 @@ if status is-interactive
 
             for tool in $active_tools
                 switch $tool
+                    case herdr
+                        if type -q herdr; and not set -q __herdr_completions_loaded
+                            herdr completion fish | source 2>/dev/null
+                            set -g __herdr_completions_loaded 1
+                        end
                     case bun
                         if type -q bun; and not set -q __bun_completions_loaded
                             bun completions fish | source 2>/dev/null

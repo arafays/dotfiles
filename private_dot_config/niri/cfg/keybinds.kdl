@@ -19,15 +19,9 @@ binds {
     Mod+E                               hotkey-overlay-title="File Manager: Nautilus" { spawn "nautilus"; }
 
     // ─── Handy (Speech-to-Text) ───
-    Mod+Shift+M                         hotkey-overlay-title="Handy: Toggle Transcription" { spawn "handy" "--toggle-transcription"; }
+    Mod+Shift+D                         hotkey-overlay-title="Handy: Toggle Transcription" { spawn "handy" "--toggle-transcription"; }
 
-    // Noctalia Reload & Dictation ───
-    // Dictation IPC (compositor must bind these; plugin does not register global hotkeys):
-    //   toggle: qs -c noctalia-shell ipc call plugin:dictation toggle
-    //   start:  qs -c noctalia-shell ipc call plugin:dictation start
-    //   stop:   qs -c noctalia-shell ipc call plugin:dictation stop
     Mod+CTRL+R                          { spawn-sh "killall qs; qs -c noctalia-shell &"; }
-    Mod+Shift+D                         hotkey-overlay-title="Dictation: toggle recording" { spawn-sh "qs -c noctalia-shell ipc call plugin:dictation toggle"; }
     // Mod+Shift+S                       hotkey-overlay-title="Dictation: stop recording" { spawn-sh "qs -c noctalia-shell ipc call plugin:dictation stop"; }
 
     // ─── Media Controls ───
@@ -130,7 +124,7 @@ binds {
     Mod+Shift+Equal                     { set-window-height "+10%"; }
 
     // ─── Modes ───
-    Mod+T                               { toggle-window-floating; }
+    Alt+V                               { toggle-window-floating; }
     Mod+F                               hotkey-overlay-title="Full Column - Maximized"  { maximize-column; }
     Mod+W                               { toggle-column-tabbed-display; }
     Mod+Shift+F                         hotkey-overlay-title="Full Screen - Maximized"  { fullscreen-window; } //  toggle-windowed-fullscreen; 

@@ -1,0 +1,4 @@
+Host aur.archlinux.org
+   User aur
+   IdentityFile ~/.ssh/aur_ed25519
+   IdentitiesOnly yes

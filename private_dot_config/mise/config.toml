@@ -42,6 +42,7 @@ usage = "latest"
   "@effect/platform-node@4.0.0-beta.97",
   "effect@4.0.0-beta.97",
 ] }
+"npm:@openai/codex" = "latest"
 
 [settings]
 always_keep_download = false

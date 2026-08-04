@@ -1,0 +1,37 @@
+model = "gpt-5.6-luna"
+model_provider = "openrouter"
+model_reasoning_effort = "low"
+approvals_reviewer = "user"
+
+[model_providers.openrouter]
+name = "OpenRouter"
+base_url = "https://openrouter.ai/api/v1"
+env_key = "OPENROUTER_API_KEY"
+wire_api = "responses"
+
+[profiles.main]
+model = "openai/gpt-5.6-terra"
+model_provider = "openrouter"
+
+[profiles.cheap]
+model = "xiaomi/mimo-v2.5"
+model_provider = "openrouter"
+model_reasoning_effort = "medium"
+
+[profiles.fast]
+model = "openai/gpt-5.6-luna"
+model_provider = "openrouter"
+
+[projects."/home/arafays/projects/case-studies-monorepo"]
+trust_level = "trusted"
+
+[hooks.state]
+
+[hooks.state."/home/arafays/projects/case-studies-monorepo/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:12efdd54b3c8a0778d63d1056073a7cbeec09518b5bfd46e2893c96b2292af7f"
+
+[hooks.state."/home/arafays/projects/case-studies-monorepo/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:15e2e58db3e02eb8b44667e15b8ae7c28d08178d5dd1c1ed4b9369ef3ecf56d9"
+
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 2

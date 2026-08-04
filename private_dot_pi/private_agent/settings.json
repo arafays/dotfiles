@@ -4,7 +4,7 @@
   ],
   "lastChangelogVersion": "0.83.0",
   "defaultProvider": "opencode-go",
-  "defaultModel": "mimo-v2.5",
+  "defaultModel": "deepseek-v4-flash",
   "packages": [
     "npm:pi-mcp-adapter",
     {
@@ -42,10 +42,11 @@
     "opencode-go/glm-5.2",
     "opencode-go/mimo-v2.5",
     "openrouter/z-ai/glm-5.2",
-    "openrouter/z-ai/glm-5.2",
     "openrouter/moonshotai/kimi-k2.6",
     "openrouter/minimax/minimax-m2.7",
-    "openrouter/xiaomi/mimo-v2.5"
+    "openrouter/xiaomi/mimo-v2.5",
+    "opencode-go/deepseek-v4-flash",
+    "openrouter/openrouter/free"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,
@@ -57,7 +58,7 @@
     "agentMaxTurns": 16,
     "model": {
       "provider": "opencode",
-      "id": "deepseek-v4-flash-free",
+      "id": "deepseek-v4-flash",
       "thinking": "low"
     },
     "passive": false,
@@ -65,9 +66,25 @@
   },
   "subagents": {
     "agentOverrides": {
-      "oracle": {
-        "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "max"
+      "scout": {
+        "model": "opencode-go/mimo-v2.5",
+        "thinking": "low"
+      },
+      "researcher": {
+        "model": "opencode-go/glm-5.2",
+        "thinking": "medium"
+      },
+      "delegate": {
+        "model": "opencode-go/glm-5.2",
+        "thinking": "low"
+      },
+      "context-builder": {
+        "model": "opencode-go/glm-5.2",
+        "thinking": "medium"
+      },
+      "worker": {
+        "model": "opencode-go/glm-5.2",
+        "thinking": "medium"
       },
       "reviewer": {
         "model": "opencode-go/deepseek-v4-pro",
@@ -76,10 +93,18 @@
       "planner": {
         "model": "opencode-go/deepseek-v4-pro",
         "thinking": "high"
+      },
+      "oracle": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "thinking": "max"
+      },
+      "advisor": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "thinking": "max"
       }
     }
   },
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "high",
   "autocompleteMaxVisible": 15,
   "httpIdleTimeoutMs": 120000,
   "collapseChangelog": true
