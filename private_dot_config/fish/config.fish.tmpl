@@ -75,6 +75,11 @@ if status is-interactive
 
             for tool in $active_tools
                 switch $tool
+                    case aube
+                        if type -q aube; and not set -q __aube_completions_loaded
+                            aube completion fish | source 2>/dev/null
+                            set -g __aube_completions_loaded 1
+                        end
                     case bun
                         if type -q bun; and not set -q __bun_completions_loaded
                             bun completions fish | source 2>/dev/null
@@ -122,6 +127,7 @@ if status is-interactive
     alias code="code-insiders"
     alias dev='code .'
     alias czd='chezmoi cd'
+    alias x='aubx'
 
     function mkcd
         mkdir -p $argv; and cd $argv
@@ -140,14 +146,6 @@ if status is-interactive
     if type -q bat
         alias cat='bat --style=plain --color=always --paging=never'
         alias less='bat --style=plain --color=always --paging=always'
-    end
-
-    if type -q fd
-        alias find='fd'
-    end
-
-    if type -q rg
-        alias grep='rg --color=auto --line-number --smart-case --hidden --glob "!.git"'
     end
 
     # === AUR HELPER ===
@@ -361,15 +359,40 @@ if status is-interactive
     end
 
     # ── pi suggest ──
-    # Type a comment → pg → get a command
-    # Type a command → pg → get an explanation
-    function pg
+    # Inline AI command assistant powered by `pi` (pi-coding-agent), always
+    # running on the free DeepSeek model (opencode-go/deepseek-v4-flash).
+    #
+    # Usage:
+    #   suggest <prompt>          Ask a one-off question/request directly
+    #   #<comment>                Type a comment line, then run `suggest`
+    #                             → replaces the buffer with a generated shell command
+    #   <command>                 Type any command, then run `suggest`
+    #                             → prints a concise explanation of what it does
+    #
+    # Bindings: wire it to a key (e.g. `bind \es suggest`) to use the current
+    # commandline buffer without typing `suggest` first.
+    function suggest
         set -l cmd (commandline)
+        set -l model opencode/deepseek-v4-flash-free # free DeepSeek via opencode-go
+
+        # Colors
+        set -l cyan (set_color cyan)
+        set -l green (set_color green)
+        set -l yellow (set_color yellow)
+        set -l dim (set_color brblack)
+        set -l reset (set_color normal)
 
         # If called with arguments, use those directly
         if test (count $argv) -gt 0
             set -l prompt (string join ' ' $argv)
-            pi -p --no-session --tools read,grep,find,ls "$prompt"
+            printf "\r%s⏳ %sThinking...%s\n\r" $cyan "▸ $prompt" $reset >&2
+            set -l result (pi -p -ne --no-session --model $model --tools read,grep,find,ls "$prompt" 2>/dev/null)
+            printf "\033[K" >&2 # Clear thinking line
+            if test -n "$result"
+                printf "%s%s%s\n" $green $result $reset
+            else
+                printf "%s⚠ No response%s\n" $dim $reset >&2
+            end
             return
         end
 
@@ -378,10 +401,24 @@ if status is-interactive
 
         if string match -q '#*' "$cmd"
             set -l prompt (string replace -r '^#\s*' '' -- $cmd)
-            set -l result (pi -p --no-session --tools read,grep,find,ls "Convert to a shell command. Output ONLY the command, no explanation: $prompt" 2>/dev/null)
-            test -n "$result"; and commandline -r "$result"
+            printf "\r%s⏳ %sConverting: %s%s%s\r" $cyan "▸" $yellow $prompt $reset >&2
+            set -l result (pi -p -ne --no-session --model $model --tools read,grep,find,ls "Convert to a shell command. Output ONLY the command, no explanation: $prompt" 2>/dev/null)
+            printf "\033[K" >&2
+            if test -n "$result"
+                printf "%s✔%s %s%s%s\n" $green "" $reset $green $result $reset >&2
+                commandline -r "$result"
+            else
+                printf "%s✘ Failed to convert%s\n" $dim $reset >&2
+            end
         else
-            pi -p --no-session --tools read,grep,find,ls "Explain concisely: $cmd" 2>/dev/null
+            printf "\r%s⏳ %sExplaining: %s%s%s\r" $cyan "▸" $yellow $cmd $reset >&2
+            set -l result (pi -p -ne --no-session --model $model --tools read,grep,find,ls "Explain concisely: $cmd" 2>/dev/null)
+            printf "\033[K" >&2
+            if test -n "$result"
+                printf "%s%s%s\n" $green $result $reset
+            else
+                printf "%s⚠ No explanation available%s\n" $dim $reset >&2
+            end
         end
     end
 
@@ -476,5 +513,3 @@ fish_add_path --append $HOME/Android/Sdk/emulator \
     $HOME/Android/Sdk/cmdline-tools/latest/bin \
     $HOME/Android/Sdk/build-tools/36.1.0 \
     $HOME/Android/Sdk/platform-tools
-
-# Added by Antigravity CLI installer
