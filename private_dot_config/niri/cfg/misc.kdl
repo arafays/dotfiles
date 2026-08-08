@@ -9,15 +9,24 @@
         COLORSCHEME "Dark"
         XDG_CURRENT_DESKTOP "niri"
         XDG_SESSION_TYPE "wayland"
+        // QT_QPA_PLATFORMTHEME "gtk3"
         QT_QPA_PLATFORMTHEME "qt6ct"
     }
 
 
     cursor {
-        xcursor-theme "Bibata-Modern-Classic"
+        xcursor-theme "capitaine-cursors"
         xcursor-size 24
         hide-when-typing
         hide-after-inactive-ms 1000
+    }
+
+    // Blur settings (noctalia recommended)
+    blur {
+        passes 2        // more passes = stronger blur (default: 3)
+        offset 3.0      // sample distance per pass (default: 3.0)
+        noise 0.03      // grain overlay (default: 0.02)
+        saturation 1.0  // color saturation boost (default: 1.5)
     }
 
     debug {

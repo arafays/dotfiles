@@ -3,21 +3,21 @@
 //
 // These persist even when empty and stick to their output.
 
-workspace "1" {
-    open-on-output "DP-3"
-}
-
-workspace "2" {
-    open-on-output "DP-3"
-}
-
-workspace "3" {
-    open-on-output "DP-3"
-}
-
-workspace "4" {
-    open-on-output "DP-3"
-}
-
-workspace "5"
+// workspace "1" {
+//     open-on-output "DP-3"
+// }
+//
+// workspace "2" {
+//     open-on-output "DP-3"
+// }
+//
+// workspace "3" {
+//     open-on-output "DP-3"
+// }
+//
+// workspace "4" {
+//     open-on-output "DP-3"
+// }
+//
+// workspace "5"
 

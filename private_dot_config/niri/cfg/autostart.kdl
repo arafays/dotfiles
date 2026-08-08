@@ -2,8 +2,7 @@
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
     spawn-sh-at-startup "dbus-update-activation-environment --all"
 
-    spawn-sh-at-startup "/usr/lib/polkit-kde-authentication-agent-1 &" // Polkit
-    spawn-sh-at-startup "qs -c noctalia-shell"
+    spawn-at-startup "noctalia"
     spawn-sh-at-startup "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
     
     // Open terminal on portrait monitor (focus left, spawn, focus back)
