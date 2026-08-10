@@ -83,20 +83,16 @@ window-rule {
 window-rule {
     match app-id="^zen$"
     match app-id="^brave-browser$"
+    match app-id="^chromium$"
     exclude title=r#"(?i)Extension.*Bitwarden"#
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-workspace "2"
+    open-on-output "DP-3"
 
     background-effect {
         blur true
     }
-}
-
-window-rule {
-    match app-id="^chromium$"
-    open-on-workspace "2"
 }
 
 window-rule {
@@ -121,7 +117,6 @@ window-rule {
 
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
-    open-on-workspace "1"
     background-effect {
         blur true
     }
@@ -132,7 +127,6 @@ window-rule {
     match app-id="^discord$"
     match app-id="^vesktop$"
     open-on-output "DP-3"
-    open-on-workspace "3"
     open-floating true
 }
 
@@ -176,28 +170,25 @@ window-rule {
     match app-id="^steam_app_default$"
     open-floating true
     open-on-output "DP-3"
-    open-on-workspace "4"
 }
 
 window-rule {
     match app-id=r#"^steam_app_\d+$"#
     open-on-output "DP-3"
-    open-on-workspace "4"
 }
 
 window-rule {
     match app-id="^steam$"
     open-maximized-to-edges true
+    open-on-output "DP-3"
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-workspace "4"
 }
 
 window-rule {
     match app-id=r#"^net\.lutris\.Lutris$"#
     match app-id="^faugus-launcher$"
     open-floating true
-    open-on-workspace "4"
     open-on-output "DP-3"
 }
 
@@ -207,28 +198,29 @@ window-rule {
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-workspace "4"
+    open-on-output "DP-3"
 }
 
 window-rule {
     match app-id="^gamescope$"
-    open-on-workspace "4"
+    open-on-output "DP-3"
 }
 
 window-rule {
     match app-id="^Goverlay$"
+    open-on-output "DP-3"
     open-floating true
-    open-on-workspace "4"
 }
 
 window-rule {
     match app-id="^protontricks$"
     open-floating true
-    open-on-workspace "4"
+    open-on-output "DP-3"
 }
 
 window-rule {
     match app-id=r#"^org\.qbittorrent\.qBittorrent$"#
+    open-on-output "DP-3"
     open-floating true
     default-column-width { fixed 1734; }
     default-window-height { fixed 1024; }
