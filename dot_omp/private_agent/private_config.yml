@@ -1,5 +1,5 @@
 theme: 
-  dark: dark-gruvbox
+  dark: dark-starfall
 setupVersion: 1
 modelRoles: 
   default: openrouter/z-ai/glm-5.2
@@ -97,3 +97,5 @@ generate_image:
 hideThinkingBlock: false
 mnemopi: 
   polyphonicRecall: false
+plan: 
+  enabled: true

@@ -51,13 +51,13 @@
     },
     "websearch": {
       "type": "remote",
-      "url": "https://mcp.exa.ai/mcp?exaApiKey={env:EXA_API_KEY}",
+      "url": "https://mcp.exa.ai/mcp?exaApiKey={{ .secrets.exa_api_key }}",
     },
     "context7": {
       "type": "remote",
       "url": "https://mcp.context7.com/mcp",
       "headers": {
-        "CONTEXT7_API_KEY": "${env:CONTEXT7_API_KEY}",
+        "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}",
       },
       "enabled": false,
     },
@@ -65,7 +65,7 @@
       "type": "remote",
       "url": "https://mcp.fal.ai/mcp",
       "headers": {
-        "Authorization": "Bearer ${env:FAL_KEY}",
+        "Authorization": "Bearer {{ .secrets.fal_ai_api_key }}",
       },
       "enabled": false,
     },

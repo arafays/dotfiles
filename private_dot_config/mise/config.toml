@@ -26,17 +26,24 @@ aube = "latest"
 "npm:agent-browser" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
-"npm:@opencode-ai/cli" = "1"
-"npm:@zaly/cli" = "latest"
+
+[tasks.update-zaly]
+description = "Pull zaly main, rebuild it, and relink the dev binary"
+run = [
+  "git -C ~/projects/zaly pull --ff-only",
+  "bun install --cwd ~/projects/zaly",
+  "bun run --cwd ~/projects/zaly z build",
+  "ln -sf ~/projects/zaly/packages/cli/dist/zaly.mjs ~/.local/bin/zaly",
+]
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
   "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
+  "mise run update-zaly",
   "mise prune -y",
   "pi update --extensions",
   "opencode upgrade",
-  "herdr update",
   "chezmoi re-add",
 ]
 
