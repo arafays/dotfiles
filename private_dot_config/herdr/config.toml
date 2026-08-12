@@ -48,6 +48,9 @@ split_horizontal = ["prefix+minus", "ctrl+alt+shift+d"]
 workspace_picker = "prefix+w"
 goto = "prefix+g"
 
+# Worktree
+open_worktree = "prefix+shift+o"
+
 # === Custom command keybindings ===
 
 # Lazygit - git TUI
