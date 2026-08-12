@@ -56,6 +56,8 @@ providers:
   memoryModel: online
   imageOrder: 
     - openrouter
+  anthropic: 
+    serverSideFallback: false
 browser: 
   headless: true
 task: 
@@ -99,3 +101,13 @@ mnemopi:
   polyphonicRecall: false
 plan: 
   enabled: true
+disabledExtensions: 
+  - skill:check-openrouter-balance
+  - skill:plannotator-annotate
+  - skill:plannotator-last
+  - skill:plannotator-review
+commands: 
+  enableOpencodeUser: false
+  enableOpencodeProject: false
+  enableClaudeProject: false
+  enableClaudeUser: false

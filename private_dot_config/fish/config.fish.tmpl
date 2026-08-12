@@ -11,6 +11,7 @@ set -gx PATH $HOME/.local/share/mise/shims $HOME/.local/bin $PATH
 
 # Claude Code + OpenRouter
 set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
+set -gx BW_SESSION '{{ .secrets.bw_session }}'
 # set -gx ANTHROPIC_BASE_URL "https://openrouter.ai/api"
 # set -gx ANTHROPIC_AUTH_TOKEN "$OPENROUTER_API_KEY"
 # set -gx ANTHROPIC_API_KEY ""

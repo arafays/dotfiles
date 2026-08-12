@@ -2,7 +2,7 @@
   "skills": [
     "+skills/browser-control/SKILL.md"
   ],
-  "lastChangelogVersion": "0.83.0",
+  "lastChangelogVersion": "0.84.1",
   "defaultProvider": "opencode-go",
   "defaultModel": "mimo-v2.5",
   "defaultThinkingLevel": "off",
