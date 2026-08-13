@@ -51,3 +51,6 @@ run = [
 node = "core:node"
 python = "core:python"
 java = "core:java"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]

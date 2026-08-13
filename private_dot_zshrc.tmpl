@@ -360,7 +360,9 @@ _init_mise(){
 
   if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
+  eval "$(aube activate zsh)"
   _load_completion "mise" "mise completion zsh" "1"
+  _load_completion "aube" "aube completion zsh" "1"
   fi
 }
 

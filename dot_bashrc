@@ -1,6 +1,13 @@
 # ~/.bashrc — interactive bash configuration
 # Non-interactive bash gets environment via BASH_ENV=~/.profile.
 
+# ---- history ----
+export HISTSIZE=50000
+export HISTFILESIZE=100000
+export HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+shopt -s checkwinsize
+
 # Bail out early if this is not an interactive shell.
 case $- in
 *i*) ;;
@@ -23,6 +30,11 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate bash)"
 fi
 
+# ---- aube ----
+if command -v aube >/dev/null 2>&1; then
+  eval "$(aube activate bash)"
+fi
+
 # ---- prompt ----
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
@@ -37,13 +49,6 @@ fi
 if command -v fzf >/dev/null 2>&1; then
   eval "$(fzf --bash)"
 fi
-
-# ---- history ----
-export HISTSIZE=50000
-export HISTFILESIZE=100000
-export HISTCONTROL=ignoreboth:erasedups
-shopt -s histappend
-shopt -s checkwinsize
 
 # ---- key bindings ----
 set -o vi
