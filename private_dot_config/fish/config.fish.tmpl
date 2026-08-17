@@ -12,26 +12,8 @@ set -gx PATH $HOME/.local/share/mise/shims $HOME/.local/bin $PATH
 # Claude Code + OpenRouter
 set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
 set -gx BW_SESSION '{{ .secrets.bw_session }}'
-# set -gx ANTHROPIC_BASE_URL "https://openrouter.ai/api"
-# set -gx ANTHROPIC_AUTH_TOKEN "$OPENROUTER_API_KEY"
-# set -gx ANTHROPIC_API_KEY ""
-# # Route Claude Code model slots to non-Anthropic models via OpenRouter
-# # Frontend/UI-focused routing (2026) - values are full OpenRouter IDs (vendor/model)
-# # Main session model = Kimi K3 (#1 Arena.ai Frontend Code Arena, multimodal)
-# # SONNET/SUBAGENT = same frontend workhorse; OPUS/FABLE = GPT-5.6 Terra (#2 Design Arena Elo); HAIKU = cheap creative multimodal
-# # ANTHROPIC_MODEL sets the main conversation model; the *_MODEL vars pin the sonnet/opus/haiku/fable aliases.
-# set -gx ANTHROPIC_MODEL "moonshotai/kimi-k3"
-# set -gx ANTHROPIC_DEFAULT_FABLE_MODEL "openai/gpt-5.6-terra"
-# set -gx ANTHROPIC_DEFAULT_OPUS_MODEL "openai/gpt-5.6-terra"
-# set -gx ANTHROPIC_DEFAULT_SONNET_MODEL "moonshotai/kimi-k3"
-# set -gx ANTHROPIC_DEFAULT_HAIKU_MODEL "minimax/minimax-m3"
-# set -gx CLAUDE_CODE_SUBAGENT_MODEL "moonshotai/kimi-k3"
-# # AGENT_BROWSER_EXECUTABLE_PATH={CHROMIUM_PATH} use the chromium path set via environment.d for OpenCode MCP DevTools, fallback to BROWSER env var or xdg-open if not set
 set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
 set -Ux PORTLESS_NGROK 1
-
-# Chromium path set via environment.d for OpenCode MCP DevTools
-# set -gx CHROMIUM_PATH (which chromium 2>/dev/null || which google-chrome 2>/dev/null || echo "xdg-open")
 
 # Import environment from systemd user daemon (~15ms vs ~750ms with fenv).
 # systemd already loads ~/.config/environment.d/*.conf at login.
@@ -53,66 +35,29 @@ end
 
 # === INTERACTIVE ===
 
-# Build PATH: systemd shims + local bin + Android SDK
-set -gx PATH $HOME/.local/share/mise/shims $HOME/.local/bin $PATH
 if status is-interactive
 
     function __mise_deferred --on-event fish_prompt
         mise activate fish | source
         mise completion fish | source
         type -q zoxide; and zoxide init fish --cmd cd | source
-        type -q herdr; and herdr completion fish | source # disabled: outputs JSON instead of fish completions
 
-        functions -e __mise_deferred
-    end
-
-    function _mise_load_tool_completions --on-variable PWD
-        if not set -q __mise_completions_loaded
-            set -g __mise_completions_loaded 1
-
-            # mise may not be in PATH yet (activate deferred to fish_prompt)
-            if type -q mise
-                set active_tools (mise ls --current 2>/dev/null | awk '{print $1}')
-            end
-
-            for tool in $active_tools
+        # Load completions for mise-managed tools
+        if type -q mise
+            for tool in (mise ls --current 2>/dev/null | awk '{print $1}')
                 switch $tool
-                    case aube
-                        if type -q aube; and not set -q __aube_completions_loaded
-                            aube completion fish | source 2>/dev/null
-                            set -g __aube_completions_loaded 1
-                        end
-                    case bun
-                        if type -q bun; and not set -q __bun_completions_loaded
-                            bun completions fish | source 2>/dev/null
-                            set -g __bun_completions_loaded 1
-                        end
-                    case pnpm
-                        if type -q pnpm; and not set -q __pnpm_completions_loaded
-                            pnpm completion fish | source 2>/dev/null
-                            set -g __pnpm_completions_loaded 1
-                        end
-                    case uv
-                        if type -q uv; and not set -q __uv_completions_loaded
-                            uv generate-shell-completion fish | source 2>/dev/null
-                            set -g __uv_completions_loaded 1
-                        end
-                    case rust
-                        if type -q rustup; and not set -q __rustup_completions_loaded
-                            rustup completions fish | source 2>/dev/null
-                            set -g __rustup_completions_loaded 1
-                        end
-                    case python
-                        if type -q pip; and not set -q __pip_completions_loaded
-                            pip completion --fish | source 2>/dev/null
-                            set -g __pip_completions_loaded 1
-                        end
+                    case aube;  type -q aube;  and aube completion fish  | source 2>/dev/null
+                    case bun;   type -q bun;   and bun completions fish  | source 2>/dev/null
+                    case pnpm;  type -q pnpm;  and pnpm completion fish | source 2>/dev/null
+                    case uv;    type -q uv;    and uv generate-shell-completion fish | source 2>/dev/null
+                    case rust;  type -q rustup; and rustup completions fish | source 2>/dev/null
+                    case python; type -q pip;  and pip completion --fish | source 2>/dev/null
                 end
             end
         end
-    end
 
-    _mise_load_tool_completions
+        functions -e __mise_deferred
+    end
 
     # vi key bindings
     fish_vi_key_bindings
@@ -151,11 +96,20 @@ if status is-interactive
         alias less='bat --style=plain --color=always --paging=always'
     end
 
-    # === AUR HELPER ===
+    # pacman aliases
     set -gx aurhelper ""
     for helper in yay paru
         if type -q $helper
             set -gx aurhelper $helper
+            alias un="$helper -Rns"
+            alias up="$helper -Syu --noconfirm"
+            alias look="$helper -Qs"
+            alias search="$helper -Ss"
+            alias pc="$helper -Sc"
+            alias po="$helper -Qtdq | $helper -Rns -"
+            alias psi="$helper -Si"
+            alias orphans="$helper -Qtdq"
+            alias ua-drop-caches="sudo paccache -rk3; $helper -Sc --aur --noconfirm"
             break
         end
     end
@@ -166,19 +120,6 @@ if status is-interactive
         else
             sudo pacman -S $argv
         end
-    end
-
-    # pacman aliases
-    if test -n "$aurhelper"
-        alias un="$aurhelper -Rns"
-        alias up="$aurhelper -Syu --noconfirm"
-        alias look="$aurhelper -Qs"
-        alias search="$aurhelper -Ss"
-        alias pc="$aurhelper -Sc"
-        alias po="$aurhelper -Qtdq | $aurhelper -Rns -"
-        alias psi="$aurhelper -Si"
-        alias orphans="$aurhelper -Qtdq"
-        alias ua-drop-caches="sudo paccache -rk3; $aurhelper -Sc --aur --noconfirm"
     end
 
     # tmux sessions
@@ -199,78 +140,31 @@ if status is-interactive
     end
 
     # ── herdr session management ──
-    # hn: create/attach to herdr workspace named after CWD (like tmux tn)
     function hn
-        if not type -q herdr
-            echo "herdr not installed" >&2
-            return 1
-        end
+        if not type -q herdr; echo "herdr not installed" >&2; return 1; end
         set -l ws_name (basename $PWD | string replace -a '.' '_')
-        # If already inside herdr, move current pane to new workspace
         if set -q HERDR_SOCKET_PATH
             set -l pane_id (herdr pane current --current 2>/dev/null | jq -r '.result.pane.pane_id // empty')
-            if test -n "$pane_id"
-                herdr pane move "$pane_id" --new-workspace --label "$ws_name" --focus 2>/dev/null
-            else
-                echo "Could not detect current pane" >&2
-            end
+            test -n "$pane_id"; and herdr pane move "$pane_id" --new-workspace --label "$ws_name" --focus 2>/dev/null; or echo "Could not detect current pane" >&2
         else
-            # Outside herdr: launch herdr
-            echo "Launching herdr..."
             herdr
         end
     end
 
-    # hws: switch workspace via fzf
     function hs
-        if not type -q herdr
-            echo "herdr not installed" >&2
-            return 1
-        end
+        if not type -q herdr; echo "herdr not installed" >&2; return 1; end
         set -l ws_id (herdr workspace list 2>/dev/null | jq -r '.result.workspaces[] | .label + " " + .workspace_id' | fzf --layout=reverse | awk '{print $NF}')
-        if test -n "$ws_id"
-            herdr workspace focus "$ws_id" 2>/dev/null
-        end
+        test -n "$ws_id"; and herdr workspace focus "$ws_id" 2>/dev/null
     end
 
     # archive helpers
     function compress
-        set -l split_size ""
-        set -l archive ""
-        set -l files ()
-
-        for arg in $argv
-            if string match -q -- '--split=*' $arg
-                set split_size (string replace -- '--split=' '' $arg)
-            else if test -z "$archive"
-                set archive $arg
-            else
-                set -a files $arg
-            end
-        end
-
-        if test (count $files) -eq 0
-            if not string match -q -- '*.tar.gz' $archive; and not string match -q -- '*.zip' $archive; and not string match -q -- '*.7z' $archive
-                set files $archive
-                set archive "$archive.tar.gz"
-            end
-        end
-
-        if test -n "$split_size"
-            if not string match -q -- '*.7z' $archive
-                set archive (string replace -r -- '\.tar\.gz$|\.zip$' '.7z' $archive)
-            end
-            7z a -v$split_size $archive $files
-            return
-        end
-
+        set -l archive $argv[1]; set -e argv[1]
         switch $archive
-            case '*.tar.gz'
-                tar -czf $archive $files
-            case '*.zip'
-                zip -r $archive $files
-            case '*.7z'
-                7z a $archive $files
+            case '*.tar.gz'; tar -czf $archive $argv
+            case '*.zip';    zip -r $archive $argv
+            case '*.7z';     7z a $archive $argv
+            case '*';        echo "Unsupported format (use .tar.gz/.zip/.7z)"; return 1
         end
     end
 
@@ -290,10 +184,8 @@ if status is-interactive
 
     # AUR search with fzf
     function parufind
-        set -l pkg (paru -Ss "$argv" 2>/dev/null | awk '/^[a-z]/ {if (p != "") print p " | " d; p = $1; d = ""} /^    / {sub(/^    /, ""); d = $0} END {if (p != "") print p " | " d}' | fzf --ansi --height=80% --layout=reverse --border=rounded --preview='echo {} | cut -d "|" -f1 | tr -d " " | xargs -I{} paru -Si {}' | cut -d '|' -f1 | tr -d ' ')
-        if test -n "$pkg"
-            paru -S (echo $pkg | string trim)
-        end
+        set -l pkg (paru -Ss $argv 2>/dev/null | awk '/^[a-z]/ {if (p != "") print p " | " d; p=$1; d=""} /^    / {sub(/^    /,""); d=$0} END {if (p != "") print p " | " d}' | fzf --ansi --height=80% --layout=reverse --border=rounded --preview='paru -Si {1}' --delimiter='\|' --with-nth=1,2 | cut -d'|' -f1 | string trim)
+        test -n "$pkg"; and paru -S $pkg
     end
 
     function parufind-widget
@@ -303,66 +195,39 @@ if status is-interactive
     end
 
     # ── pi suggest ──
-    # Inline AI command assistant powered by `pi` (pi-coding-agent), always
-    # running on the free DeepSeek model (opencode-go/deepseek-v4-flash).
-    #
-    # Usage:
-    #   suggest <prompt>          Ask a one-off question/request directly
-    #   #<comment>                Type a comment line, then run `suggest`
-    #                             → replaces the buffer with a generated shell command
-    #   <command>                 Type any command, then run `suggest`
-    #                             → prints a concise explanation of what it does
-    #
-    # Bindings: wire it to a key (e.g. `bind \es suggest`) to use the current
-    # commandline buffer without typing `suggest` first.
+    # Usage: suggest <prompt>, #comment→command, <command>→explain
     function suggest
         set -l cmd (commandline)
-        set -l model opencode/deepseek-v4-flash-free # free DeepSeek via opencode-go
+        set -l model opencode/deepseek-v4-flash-free
+        set -l pi_args -p -ne --no-session --model $model --tools read,grep,find,ls
 
-        # Colors
-        set -l cyan (set_color cyan)
-        set -l green (set_color green)
-        set -l yellow (set_color yellow)
-        set -l dim (set_color brblack)
-        set -l reset (set_color normal)
-
-        # If called with arguments, use those directly
         if test (count $argv) -gt 0
             set -l prompt (string join ' ' $argv)
-            printf "\r%s⏳ %sThinking...%s\n\r" $cyan "▸ $prompt" $reset >&2
-            set -l result (pi -p -ne --no-session --model $model --tools read,grep,find,ls "$prompt" 2>/dev/null)
-            printf "\033[K" >&2 # Clear thinking line
-            if test -n "$result"
-                printf "%s%s%s\n" $green $result $reset
-            else
-                printf "%s⚠ No response%s\n" $dim $reset >&2
-            end
+            printf '\r%s⏳ ▸ %s%s\n\r' (set_color cyan) $prompt (set_color normal) >&2
+            set -l result (pi $pi_args "$prompt" 2>/dev/null)
+            printf '\033[K' >&2
+            test -n "$result"; and printf '%s%s%s\n' (set_color green) $result (set_color normal); or printf '%s⚠ No response%s\n' (set_color brblack) (set_color normal) >&2
             return
         end
 
-        # If called from keybinding (empty args), use commandline buffer
         test -z "$cmd"; and return
 
         if string match -q '#*' "$cmd"
             set -l prompt (string replace -r '^#\s*' '' -- $cmd)
-            printf "\r%s⏳ %sConverting: %s%s%s\r" $cyan "▸" $yellow $prompt $reset >&2
-            set -l result (pi -p -ne --no-session --model $model --tools read,grep,find,ls "Convert to a shell command. Output ONLY the command, no explanation: $prompt" 2>/dev/null)
-            printf "\033[K" >&2
+            printf '\r%s⏳ ▸ Converting: %s%s%s\r' (set_color cyan) (set_color yellow) $prompt (set_color normal) >&2
+            set -l result (pi $pi_args "Convert to a shell command. Output ONLY the command, no explanation: $prompt" 2>/dev/null)
+            printf '\033[K' >&2
             if test -n "$result"
-                printf "%s✔%s %s%s%s\n" $green "" $reset $green $result $reset >&2
+                printf '%s✔ %s%s\n' (set_color green) $result (set_color normal) >&2
                 commandline -r "$result"
             else
-                printf "%s✘ Failed to convert%s\n" $dim $reset >&2
+                printf '%s✘ Failed%s\n' (set_color brblack) (set_color normal) >&2
             end
         else
-            printf "\r%s⏳ %sExplaining: %s%s%s\r" $cyan "▸" $yellow $cmd $reset >&2
-            set -l result (pi -p -ne --no-session --model $model --tools read,grep,find,ls "Explain concisely: $cmd" 2>/dev/null)
-            printf "\033[K" >&2
-            if test -n "$result"
-                printf "%s%s%s\n" $green $result $reset
-            else
-                printf "%s⚠ No explanation available%s\n" $dim $reset >&2
-            end
+            printf '\r%s⏳ ▸ Explaining: %s%s%s\r' (set_color cyan) (set_color yellow) $cmd (set_color normal) >&2
+            set -l result (pi $pi_args "Explain concisely: $cmd" 2>/dev/null)
+            printf '\033[K' >&2
+            test -n "$result"; and printf '%s%s%s\n' (set_color green) $result (set_color normal); or printf '%s⚠ No explanation%s\n' (set_color brblack) (set_color normal) >&2
         end
     end
 
@@ -378,8 +243,7 @@ if status is-interactive
         if rate-mirrors --save=$TMPFILE arch --max-delay=21600
             sudo mv $TMPFILE /etc/pacman.d/mirrorlist
             sudo paccache -rk3
-            test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
-            $aurhelper -Syyu --noconfirm
+            test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm; and $aurhelper -Syyu --noconfirm
         end
     end
 
@@ -388,72 +252,16 @@ if status is-interactive
         if rate-mirrors --save=$TMPFILE chaotic-aur
             sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist
             sudo paccache -rk3
-            test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm
-            $aurhelper -Syyu --noconfirm
+            test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm; and $aurhelper -Syyu --noconfirm
         end
     end
 
-    # compress without node_modules and dist
-    function compress-project
-        set -l archive $argv[1]
-        set -e argv[1]
-        tar --exclude='node_modules' --exclude='dist' -czf $archive $argv
-    end
-
-    # compress all projects in current dir excluding build artifacts, keeping .git
+    # compress-projects: tar.gz current dir excluding build artifacts
     function compress-projects
-        set -l dry_run 0
-        set -l archive ""
-        set -l args ()
-        set -l excludes \
-            node_modules .next .astro .svelte-kit .nuxt .output .turbo .vercel .expo \
-            dist build out target __pycache__ .venv venv .ruff_cache .mypy_cache \
-            .pytest_cache .cache .yarn .pnpm-store .direnv '*.pyc' .DS_Store \
-            .terraform ios/build android/build .gradle .swiftpm Pods DerivedData \
-            .nx .serverless coverage .nyc_output .eslintcache .parcel-cache \
-            .angular .storybook/out .netlify
-
-        for arg in $argv
-            switch $arg
-                case --dry-run -n
-                    set dry_run 1
-                case '*'
-                    if test -z "$archive"
-                        set archive $arg
-                    else
-                        set -a args $arg
-                    end
-            end
-        end
-
-        if test -z "$archive"
-            set archive ../(basename $PWD)-(date +%Y%m%d).tar.gz
-        end
-
-        if test (count $args) -eq 0
-            set args .
-        end
-
-        # Build exclude flags from list (noglob prevents *.pyc expansion)
-        set -l exclude_flags
-        for dir in $excludes
-            set -a exclude_flags --exclude=$dir
-        end
-
-        if test $dry_run -eq 1
-            noglob tar $exclude_flags -czvf /dev/null $args
-        else
-            noglob tar $exclude_flags -czf $archive $args
-        end
+        set -l archive (test (count $argv) -gt 0; and echo $argv[1]; or echo "../"(basename $PWD)-(date +%Y%m%d).tar.gz)
+        set -l dirs (test (count $argv) -gt 1; and echo $argv[2..]; or echo .)
+        noglob tar --exclude={node_modules,.next,.astro,.svelte-kit,.nuxt,.output,.turbo,.vercel,.expo,dist,build,out,target,__pycache__,.venv,venv,.ruff_cache,.mypy_cache,.pytest_cache,.cache,.yarn,.pnpm-store,.direnv,'*.pyc',.DS_Store,.terraform,ios/build,android/build,.gradle,.swiftpm,Pods,DerivedData,.nx,.serverless,coverage,.nyc_output,.eslintcache,.parcel-cache,.angular,.storybook/out,.netlify} -czf $archive $dirs
     end
 
     type -q starship; and starship init fish | source
 end
-
-# === PATH ===
-# These are already in systemd env via environment.d (mise shims, etc.).
-# fish_add_path only writes universal vars on first run; subsequent calls are no-ops.
-fish_add_path --append $HOME/Android/Sdk/emulator \
-    $HOME/Android/Sdk/cmdline-tools/latest/bin \
-    $HOME/Android/Sdk/build-tools/36.1.0 \
-    $HOME/Android/Sdk/platform-tools

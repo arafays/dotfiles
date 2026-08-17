@@ -19,10 +19,6 @@ fi
 # GPG TTY (not in environment.d — needs runtime tty)
 command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
 
-# Browser (set in fish but not in environment.d)
-export BROWSER=chromium
-export CHROMIUM_PATH=/usr/bin/chromium
-
 # PATH — idempotent additions
 _prepend() {
   case ":$PATH:" in *:"$1":*) ;; *) PATH="$1:$PATH" ;; esac
@@ -66,5 +62,4 @@ unset _path_dedup
 export PATH
 unset _prepend _append
 
-# Added by Antigravity CLI installer
-export PATH="/home/arafays/.local/bin:$PATH"
+
