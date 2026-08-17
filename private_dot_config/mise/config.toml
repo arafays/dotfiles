@@ -1,14 +1,16 @@
 [tools]
+aube = "latest"
+usage = "latest"
+rtk = "latest"
+
+node = "lts"
 bun = "latest"
 go = "latest"
 java = "26"
-node = "lts"
 python = "3.14"
 rust = "latest"
-usage = "latest"
 uv = "latest"
-rtk = "latest"
-aube = "latest"
+
 "npm:markdownlint-cli2" = "latest"
 "npm:vim-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
@@ -17,7 +19,7 @@ aube = "latest"
 "npm:firebase-tools" = "latest"
 "npm:neovim" = "latest"
 "npm:prettier" = "latest"
-"cargo:trunk" = "latest"
+
 "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
 "npm:command-code" = { version = "latest", minimum_release_age = "0s" }
@@ -27,20 +29,10 @@ aube = "latest"
 "npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
 
-[tasks.update-zaly]
-description = "Pull zaly main, rebuild it, and relink the dev binary"
-run = [
-  "git -C ~/projects/zaly pull --ff-only",
-  "bun install --cwd ~/projects/zaly",
-  "bun run --cwd ~/projects/zaly z build",
-  "ln -sf ~/projects/zaly/packages/cli/dist/zaly.mjs ~/.local/bin/zaly",
-]
-
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
   "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
-  "mise run update-zaly",
   "mise prune -y",
   "pi update --extensions",
   "opencode upgrade",
@@ -51,6 +43,3 @@ run = [
 node = "core:node"
 python = "core:python"
 java = "core:java"
-
-[settings]
-idiomatic_version_file_enable_tools = ["node"]

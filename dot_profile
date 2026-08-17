@@ -32,7 +32,6 @@ _append() {
 }
 
 _prepend "$HOME/.local/bin"
-_prepend "$HOME/.opencode/bin"
 
 # Android SDK tool dirs (append, only if they exist)
 if [ -d "$HOME/Android/Sdk" ]; then

@@ -60,7 +60,6 @@ if status is-interactive
     function __mise_deferred --on-event fish_prompt
         mise activate fish | source
         mise completion fish | source
-        type -q aube; and aube activate fish | source
         type -q zoxide; and zoxide init fish --cmd cd | source
         type -q herdr; and herdr completion fish | source # disabled: outputs JSON instead of fish completions
 
@@ -122,7 +121,7 @@ if status is-interactive
     abbr g git
     abbr lzg lazygit
     abbr lzd lazydocker
-    abbr oc opencode
+    abbr oc opencode2
 
     alias vim='nvim'
     abbr -a -- - 'cd -'
@@ -130,6 +129,8 @@ if status is-interactive
     alias code="code-insiders"
     alias dev='code .'
     alias czd='chezmoi cd'
+    alias npx="aubx"
+    alias opencode="opencode2"
 
     function mkcd
         mkdir -p $argv; and cd $argv

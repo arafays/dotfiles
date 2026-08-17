@@ -1,74 +1,80 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["./profile.yaml"],
   "autoupdate": "notify",
   "default_agent": "build",
-  "plugin": [
-    [
-      "@plannotator/opencode@latest",
-      {
+  "compaction": {
+    "auto": true,
+    "keep": {
+      "tokens": 15000,
+    },
+    "buffer": 20000,
+  },
+  "permissions": [
+    { "action": "shell", "resource": "sudo *", "effect": "deny" },
+    { "action": "shell", "resource": "sudo -u *", "effect": "deny" },
+    { "action": "shell", "resource": "doas *", "effect": "deny" },
+    { "action": "shell", "resource": "pkexec *", "effect": "deny" },
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+    { "action": "read", "resource": "*.env.*", "effect": "deny" },
+    { "action": "read", "resource": "/tmp/*", "effect": "allow" },
+    { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" },
+  ],
+  "plugins": [
+    {
+      "package": "@plannotator/opencode@latest",
+      "options": {
         "workflow": "plan-agent",
         "planningAgents": ["plan"],
       },
-    ],
-    "@tarquinen/opencode-dcp@latest",
-    "./plugins/herdr-agent-state.js",
-    "./plugins/image-autoload.ts",
+    },
+    // image-autoload.ts and herdr-agent-state.js load via the global
+    // ~/.config/opencode/plugins/ auto-discovery (V2), no entry needed.
   ],
-  "permission": {
-    "bash": {
-      "sudo *": "deny",
-      "sudo -u *": "deny",
-      "doas *": "deny",
-      "pkexec *": "deny",
-    },
-    "read": {
-      ".env*": "deny",
-      "/tmp/*": "allow",
-    },
-  },
   "mcp": {
-    "devtools": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "chrome-devtools-mcp@latest",
-        "--executablePath",
-        "{env:CHROMIUM_PATH}",
-      ],
-      "enabled": false,
-    },
-    "markitdown": {
-      "type": "local",
-      "command": ["uvx", "markitdown-mcp"],
-      "enabled": false,
-    },
-    "codegraph": {
-      "type": "local",
-      "command": ["codegraph", "serve", "--mcp"],
-      "enabled": true,
-    },
-    "websearch": {
-      "type": "remote",
-      "url": "https://mcp.exa.ai/mcp?exaApiKey={{ .secrets.exa_api_key }}",
-    },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp",
-      "headers": {
-        "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}",
+    "servers": {
+      "devtools": {
+        "type": "local",
+        "command": [
+          "npx",
+          "-y",
+          "chrome-devtools-mcp@latest",
+          "--executablePath",
+          "{env:CHROMIUM_PATH}",
+        ],
+        "disabled": true,
       },
-      "enabled": false,
-    },
-    "fal-ai": {
-      "type": "remote",
-      "url": "https://mcp.fal.ai/mcp",
-      "headers": {
-        "Authorization": "Bearer {{ .secrets.fal_ai_api_key }}",
+      "markitdown": {
+        "type": "local",
+        "command": ["uvx", "markitdown-mcp"],
+        "disabled": true,
       },
-      "enabled": false,
+      "codegraph": {
+        "type": "local",
+        "command": ["codegraph", "serve", "--mcp"],
+      },
+      "websearch": {
+        "type": "remote",
+        "url": "https://mcp.exa.ai/mcp?exaApiKey={{ .secrets.exa_api_key }}",
+        "oauth": false,
+      },
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "headers": {
+          "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}",
+        },
+        "oauth": false,
+        "disabled": true,
+      },
+      "fal-ai": {
+        "type": "remote",
+        "url": "https://mcp.fal.ai/mcp",
+        "headers": {
+          "Authorization": "Bearer {{ .secrets.fal_ai_api_key }}",
+        },
+        "oauth": false,
+        "disabled": true,
+      },
     },
   },
-  "lsp": true,
 }

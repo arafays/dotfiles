@@ -9,3 +9,16 @@ In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the re
 
 If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is the user's decision.
 <!-- CODEGRAPH_END -->
+
+## Environment
+
+- OS: Linux/Arch/Wayland (niri); shell: fish + tmux
+- Secrets: gnome-keyring
+- Packages: paru, pacman, mise — use `mise` for tool management and global npm packages (e.g. `mise use node@24` or `mise use -g npm:vercel@latest`)
+- Editors: vscode-insiders, nvim
+
+## Working rules
+
+- Concise, technical, no preamble
+- Edit source files in the chezmoi repo (`~/.local/share/chezmoi/`), never live configs; use chezmoi to apply
+- Never start dev servers — ask the user to start the dev server and provide the live URL for debugging

@@ -1,21 +1,20 @@
 {
   "skills": ["+skills/browser-control/SKILL.md"],
-  "lastChangelogVersion": "0.84.1",
+  "lastChangelogVersion": "0.84.2",
   "defaultProvider": "commandcode",
   "defaultModel": "deepseek/deepseek-v4-pro",
   "defaultThinkingLevel": "high",
   "packages": [
-    "npm:pi-rtk-optimizer",
-    "npm:@upstash/context7-pi",
-    "npm:@plannotator/pi-extension",
-    "npm:pi-mcp-adapter",
-    "npm:pi-exa",
-    "npm:@ff-labs/pi-fff",
-    "npm:pi-thinking-steps",
-    "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-observational-memory",
+    "npm:@plannotator/pi-extension",
     "npm:pi-commandcode-provider",
-    "git:github.com/arafays/pi-dcp-advanced"
+    "npm:pi-thinking-steps",
+    "npm:@dietrichgebert/ponytail",
+    "npm:pi-web-access",
+    "npm:pi-mcp-adapter",
+    "npm:pi-context-view",
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-subagents"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
@@ -40,7 +39,10 @@
     "opencode-go/glm-5.2",
     "opencode-go/gpt-5.6-luna",
     "commandcode/deepseek/deepseek-v4-flash",
-    "commandcode/deepseek/deepseek-v4-pro"
+    "commandcode/deepseek/deepseek-v4-pro",
+    "commandcode/zai-org/GLM-5.3",
+    "commandcode/xiaomi/mimo-v2.5-pro",
+    "commandcode/poolside/laguna-s-2.1-free"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,
