@@ -9,7 +9,8 @@
 // ────────────── Startup Applications ──────────────
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
 
-    spawn-sh-at-startup "qs -c noctalia-shell"
+    // Noctalia v5 (native shell, Arch [extra] package)
+    spawn-at-startup "noctalia"
 
 
     // Start gnome-keyring daemon for secret management

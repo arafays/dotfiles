@@ -7,7 +7,9 @@ if not set -q GPG_TTY
 end
 
 # Essential PATH — mise shims + local bin (must come before any mise calls)
-set -gx PATH $HOME/.local/share/mise/shims $HOME/.local/bin $PATH
+fish_add_path $HOME/.local/share/mise/shims
+fish_add_path $HOME/.local/bin
+fish_add_path $HOME/.opencode/bin
 
 # Claude Code + OpenRouter
 set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
@@ -46,12 +48,20 @@ if status is-interactive
         if type -q mise
             for tool in (mise ls --current 2>/dev/null | awk '{print $1}')
                 switch $tool
-                    case aube;  type -q aube;  and aube completion fish  | source 2>/dev/null
-                    case bun;   type -q bun;   and bun completions fish  | source 2>/dev/null
-                    case pnpm;  type -q pnpm;  and pnpm completion fish | source 2>/dev/null
-                    case uv;    type -q uv;    and uv generate-shell-completion fish | source 2>/dev/null
-                    case rust;  type -q rustup; and rustup completions fish | source 2>/dev/null
-                    case python; type -q pip;  and pip completion --fish | source 2>/dev/null
+                    case aube
+                        type -q aube; and aube completion fish | source 2>/dev/null
+                    case bun
+                        type -q bun; and bun completions fish | source 2>/dev/null
+                    case pnpm
+                        type -q pnpm; and pnpm completion fish | source 2>/dev/null
+                    case uv
+                        type -q uv; and uv generate-shell-completion fish | source 2>/dev/null
+                    case rust
+                        type -q rustup; and rustup completions fish | source 2>/dev/null
+                    case python
+                        type -q pip; and pip completion --fish | source 2>/dev/null
+                    case opencode2
+                        type -q opencode2; and opencode2 --completions fish | source 2>/dev/null
                 end
             end
         end
@@ -141,7 +151,10 @@ if status is-interactive
 
     # ── herdr session management ──
     function hn
-        if not type -q herdr; echo "herdr not installed" >&2; return 1; end
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
         set -l ws_name (basename $PWD | string replace -a '.' '_')
         if set -q HERDR_SOCKET_PATH
             set -l pane_id (herdr pane current --current 2>/dev/null | jq -r '.result.pane.pane_id // empty')
@@ -152,19 +165,28 @@ if status is-interactive
     end
 
     function hs
-        if not type -q herdr; echo "herdr not installed" >&2; return 1; end
+        if not type -q herdr
+            echo "herdr not installed" >&2
+            return 1
+        end
         set -l ws_id (herdr workspace list 2>/dev/null | jq -r '.result.workspaces[] | .label + " " + .workspace_id' | fzf --layout=reverse | awk '{print $NF}')
         test -n "$ws_id"; and herdr workspace focus "$ws_id" 2>/dev/null
     end
 
     # archive helpers
     function compress
-        set -l archive $argv[1]; set -e argv[1]
+        set -l archive $argv[1]
+        set -e argv[1]
         switch $archive
-            case '*.tar.gz'; tar -czf $archive $argv
-            case '*.zip';    zip -r $archive $argv
-            case '*.7z';     7z a $archive $argv
-            case '*';        echo "Unsupported format (use .tar.gz/.zip/.7z)"; return 1
+            case '*.tar.gz'
+                tar -czf $archive $argv
+            case '*.zip'
+                zip -r $archive $argv
+            case '*.7z'
+                7z a $archive $argv
+            case '*'
+                echo "Unsupported format (use .tar.gz/.zip/.7z)"
+                return 1
         end
     end
 

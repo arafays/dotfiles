@@ -1,0 +1,16 @@
+# Taste
+- Prefers AI CLI tools (e.g., `pi`) to always use the free model — explicitly asked to "use the free deepseek model always" (opencode-go/deepseek-v4-flash). Confidence: 0.9
+- Wants their config files / shell functions (e.g., fish `config.fish.tmpl`) to include inline documentation and usage comments. Confidence: 0.7
+- Uses chezmoi for dotfile management (`~/.local/share/chezmoi/private_dot_config/...`). Confidence: 0.9
+- Uses alacritty as terminal emulator. Confidence: 0.9
+- Uses fish shell with vi mode enabled. Confidence: 0.9
+- Uses neovim with LazyVim distribution. Confidence: 0.9
+- Cares about cross-tool keybinding consistency — asked to audit alacritty, fish, and nvim for conflicting keybindings. Confidence: 0.8
+- Wants the assistant to proactively search for latest docs (e.g., LazyVim defaults) rather than rely on stale knowledge. Confidence: 0.7
+- Uses mise as a runtime/tool version manager (with systemd environment.d integration for PATH). Confidence: 0.8
+- When troubleshooting issues, prefers checking recent git history and diffs as a first diagnostic step. Confidence: 0.7
+- References dotfiles paths using `@` prefix notation (e.g., `@private_dot_config/fish`, `@dot_profile`) — a shorthand for chezmoi-managed file paths. Confidence: 0.8
+- Prefers chezmoi templates to use `$HOME` instead of hardcoded absolute home paths for portability. Confidence: 0.8
+- Prefers seeing `chezmoi diff` output before applying changes. Confidence: 0.7
+- When the assistant identifies a clearly better approach, prefers it to just implement it rather than ask for confirmation ("do what is better"). Confidence: 0.8
+- Prefers `fish_add_path` over `set -gx PATH` for adding tool paths in fish config — values fish's built-in deduplication and universal variable persistence. Confidence: 0.8

@@ -41,7 +41,7 @@ program = "/usr/bin/fish"
 # white = "#ffffff"
 
 [font]
-size = 10
+size = 12
 
 [selection]
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
@@ -130,6 +130,5 @@ mods = "Control"
 action = "ResetFontSize"
 
 [general]
-import = ["~/.config/alacritty/themes/noctalia.toml"]
 live_config_reload = true
 working_directory = "None"

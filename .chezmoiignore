@@ -30,4 +30,7 @@
 
 **/.ruff_cache/
 
+# Editor formatting config for chezmoi source templates (not deployed)
+biome.jsonc
+
 

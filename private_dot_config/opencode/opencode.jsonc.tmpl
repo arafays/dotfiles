@@ -20,15 +20,7 @@
     { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" },
   ],
   "plugins": [
-    {
-      "package": "@plannotator/opencode@latest",
-      "options": {
-        "workflow": "plan-agent",
-        "planningAgents": ["plan"],
-      },
-    },
-    // image-autoload.ts and herdr-agent-state.js load via the global
-    // ~/.config/opencode/plugins/ auto-discovery (V2), no entry needed.
+    "@plannotator/opencode@latest",
   ],
   "mcp": {
     "servers": {
@@ -54,14 +46,14 @@
       },
       "websearch": {
         "type": "remote",
-        "url": "https://mcp.exa.ai/mcp?exaApiKey={{ .secrets.exa_api_key }}",
+        "url": ["https://mcp.exa.ai/mcp?exaApiKey=", "{env:EXA_API_KEY}"],
         "oauth": false,
       },
       "context7": {
         "type": "remote",
         "url": "https://mcp.context7.com/mcp",
         "headers": {
-          "CONTEXT7_API_KEY": "{{ .secrets.context7_api_key }}",
+          "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}",
         },
         "oauth": false,
         "disabled": true,
@@ -70,7 +62,7 @@
         "type": "remote",
         "url": "https://mcp.fal.ai/mcp",
         "headers": {
-          "Authorization": "Bearer {{ .secrets.fal_ai_api_key }}",
+          "Authorization": "Bearer {env:FAL_AI_API_KEY}",
         },
         "oauth": false,
         "disabled": true,

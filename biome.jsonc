@@ -1,0 +1,14 @@
+{
+	// Formatter config for chezmoi-managed JSON/JSONC templates (*.json.tmpl,
+	// *.jsonc.tmpl). conform.nvim's biome-check formatter is configured with
+	// require_cwd by LazyVim's typescript.biome extra, so it only runs when a
+	// biome.json(c) exists at the project root — which is this file.
+	// Excluded from deployment via .chezmoiignore.
+	"$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "space",
+		"indentWidth": 2,
+		"lineWidth": 100
+	},
+}

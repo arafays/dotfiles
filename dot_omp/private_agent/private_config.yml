@@ -1,8 +1,8 @@
 theme: 
-  dark: dark-starfall
-setupVersion: 1
+  dark: dark-gruvbox
+setupVersion: 2
 modelRoles: 
-  default: openrouter/z-ai/glm-5.2
+  default: opencode-go/gpt-5.6-luna:high
   smol: xiaomi/mimo-v2.5
   commit: deepseek/deepseek-v4-flash
   tiny: deepseek/deepseek-v4-flash
@@ -67,7 +67,10 @@ task:
 tui: 
   tight: false
 compaction: 
-  strategy: snapcompact
+  methodOrder: 
+    - snapcompact
+    - remote
+    - soft
 autolearn: 
   enabled: false
   autoContinue: true

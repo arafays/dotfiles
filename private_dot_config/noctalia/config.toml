@@ -1,0 +1,30 @@
+# Noctalia v5 declarative base config.
+# Layering: built-in defaults < this file (*.toml in ~/.config/noctalia)
+#           < GUI overrides (~/.local/state/noctalia/settings.toml).
+# Docs: https://docs.noctalia.dev/noctalia/configuration/
+
+[theme]
+mode = "dark"
+
+[theme.templates]
+# Opt-in built-in template ids (empty list = none applied):
+#   gtk3, gtk4, qt, kcolorscheme, niri, kitty, alacritty, ghostty, foot,
+#   helix, cava, btop, emacs, hyprland, scroll, ... (noctalia theme --list-templates)
+# kcolorscheme intentionally omitted: it merges into ~/.config/kdeglobals;
+# add it here if Dolphin/KDE apps need deeper integration than qt6ct.
+enable_builtin_templates = true
+builtin_ids = [
+    "gtk3",
+    "gtk4",
+    "qt",
+    "niri",
+]
+
+# Translucency — matched to Alacritty (opacity = 0.8).
+# niri blurs behind these surfaces via ext-background-effects; rules in
+# niri/cfg/rules.kdl keep xray off for a realistic look.
+[bar.default]
+background_opacity = 0.8
+
+[shell.panel]
+transparency_mode = "glass"

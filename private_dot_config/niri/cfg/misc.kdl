@@ -3,14 +3,22 @@
 // The path is formatted with strftime(3) to give you the screenshot date and time.
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
+// NOTE on theming env vars:
+// - Qt: QT_QPA_PLATFORMTHEME is managed HERE (moved out of environment.d) so all
+//   niri-spawned processes and app-niri-* scopes inherit it. It does not reach
+//   systemd/XDG-autostart services, but the only ones here are GTK (nm-applet,
+//   remmina-applet), so nothing needs it from environment.d anymore.
+// - GTK: theme is adw-gtk3 via gsettings/nwg-look; colors come from Noctalia's
+//   gtk template (~/.config/gtk-3.0/noctalia.css). Do not force GTK_THEME or
+//   QT_STYLE_OVERRIDE — both conflict with the templates.
 environment {
-    GTK_THEME "Adwaita:dark"
-    QT_STYLE_OVERRIDE "Adwaita-Dark"
     COLORSCHEME "dark"
 
     ELECTRON_OZONE_PLATFORM_HINT "auto"
     QT_QPA_PLATFORM "wayland"
-    QT_QPA_PLATFORMTHEME "gtk3"
+    // qt6ct platform theme; palette comes from Noctalia's Qt template
+    // (~/.config/qt6ct/colors/noctalia.conf), selected via qt6ct.conf.
+    QT_QPA_PLATFORMTHEME "qt6ct"
     QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
     XDG_CURRENT_DESKTOP "niri"
     XDG_SESSION_TYPE "wayland"

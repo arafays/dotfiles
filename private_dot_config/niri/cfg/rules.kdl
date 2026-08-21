@@ -13,14 +13,31 @@ window-rule {
 window-rule {
     background-effect {
         blur true
-        xray false
+        xray true
     }
+}
+
+// Floating Noctalia settings window (docs recommendation)
+window-rule {
+    match app-id="dev.noctalia.Noctalia"
+    open-floating true
+    default-column-width { fixed 1080; }
+    default-window-height { fixed 920; }
 }
 
 // Noctalia surfaces blur
 layer-rule {
     match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
     background-effect {
+        xray false
+    }
+}
+
+// Enable blur on noctalia's window switcher and disable xray
+layer-rule {
+    match namespace="noctalia-window-switcher"
+    background-effect {
+        blur true
         xray false
     }
 }
@@ -35,17 +52,49 @@ layer-rule {
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
 // Enable borders for Alacritty since it no longer has window decorations
-// Opacity + blur for a translucent terminal look
+// Opacity + blur for a translucent terminal look.
+// NOTE: transparency comes client-side from alacritty.toml (`window.opacity = 0.8`);
+// do NOT add a compositor `opacity` here — niri's rule opacity multiplies on top.
+// draw-border-with-background false: draw the focus ring AROUND the window instead
+// of as a solid rectangle behind it (which would show through the translucency).
 window-rule {
     match app-id="^Alacritty$"
+    draw-border-with-background false
     background-effect {
         blur true
+        xray true
     }
     default-column-width { proportion 0.8887; }
     border {
       off
     }
 }
+
+// Compositor-side translucency for apps that have no native opacity setting.
+// Browsers (chromium/zen) are deliberately left out: it dims page content.
+window-rule {
+    match app-id=r#"^slack$"#
+    match app-id=r#"code(-insiders)?$"#
+    match app-id=r#"dev\.zed\.Zed$"#
+    // match app-id=r#"^(discord|Signal|obsidian|org\.telegram\.desktop)$"#
+    opacity 0.95
+
+    // Popup menus are separate surfaces and stay opaque; blur them to match,
+    // with the same corner radius as the global rounding rule above.
+    popups {
+        geometry-corner-radius 8
+        background-effect {
+            blur true
+        }
+    }
+}
+
+// Optional: dim unfocused windows for depth. Stacks multiplicatively with the
+// rules above (inactive Alacritty becomes 0.8 * 0.95).
+// window-rule {
+//     match is-active=false
+//     opacity 0.95
+// }
 
 
 window-rule {
@@ -125,6 +174,8 @@ window-rule {
     match app-id=r#"code(-insiders)?$"#
     // for zed thats match id id dev.zed.Zed
     match app-id=r#"dev\.zed\.Zed$"#
-    draw-border-with-background true
+    // false: draw ring around the window; a background rectangle would show
+    // through their 0.95 compositor transparency (rule above).
+    draw-border-with-background false
     default-column-width { proportion 1.0; }
 }
