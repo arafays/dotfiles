@@ -38,4 +38,10 @@
        skip-at-startup
     }
 
+    overview {
+        workspace-shadow {
+            off
+        }
+    }
+
    

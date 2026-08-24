@@ -1,16 +1,14 @@
+// ────────────── Global Window Style ──────────────
 window-rule {
-    geometry-corner-radius 20 // Set every window radius to 20
+    geometry-corner-radius 20
     clip-to-geometry true
-}
-
-window-rule {
     background-effect {
         blur true
         xray false
     }
 }
 
-// Floating Noctalia settings window.
+// ────────────── Noctalia ──────────────
 window-rule {
     match app-id="dev.noctalia.Noctalia"
     open-floating true
@@ -18,7 +16,28 @@ window-rule {
     default-window-height { fixed 920; }
 }
 
-// if you use steam you will probably like these
+layer-rule {
+    match namespace="^noctalia-wallpaper"
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
+    background-effect {
+        xray false
+    }
+}
+
+layer-rule {
+    match namespace="noctalia-window-switcher"
+    background-effect {
+        blur true
+        xray false
+    }
+}
+
+// ────────────── Steam ──────────────
+// Popups and toasts float; the main window tiles.
 window-rule {
     match app-id="steam"
     exclude title=r#"^[Ss]team$"#
@@ -31,70 +50,42 @@ window-rule {
     open-focused false
 }
 
-layer-rule {
-    match namespace="^noctalia-wallpaper"
-    place-within-backdrop true
-}
-
-layer-rule {
-    match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
-    background-effect {
-        xray false
-        // blur false
-    }
-}
-
-layer-rule {
-    match namespace="noctalia-window-switcher"
-    background-effect {
-        blur true
-        xray false
-    }
-}
-
-
+// ────────────── Floating Utility Windows ──────────────
 window-rule {
     open-floating true
+    default-column-width { fixed 1734; }
+    default-window-height { fixed 1024; }
 
     match app-id="^nemo$"
     match app-id=r#"^org\.gnome\.Nautilus$"#
     match app-id="^cachyos-pi$"
     match app-id=r#"^org\.gnome\.Zenity$"#
-
     match app-id="Emulator"
     match app-id=r#"dev\.zed\.Zed$"# title=r#"Settings"#
     match app-id=r#"dev\.zed\.Zed$"# title=r#"Project Structure"#
-  
-    // nwg-look
     match app-id=r#"^nwg-look$"#
     match app-id=r#"^qt6ct$"#
-
     match app-id=r#"^avdmanager$"#
     match title=r#"AVD|Virtual Device"#
-
     match title=r#"(?i)Extension.*Bitwarden"#
-
-
-    default-column-width { fixed 1734; }
-    default-window-height { fixed 1024; }
 }
 
-
+// ────────────── Browsers (DP-3) ──────────────
 window-rule {
     match app-id="^zen$"
     match app-id="^brave-browser$"
     match app-id="^chromium$"
     exclude title=r#"(?i)Extension.*Bitwarden"#
+    open-on-output "DP-3"
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-output "DP-3"
-
     background-effect {
         blur true
     }
 }
 
+// ────────────── Terminals ──────────────
 window-rule {
     match app-id="^Alacritty$"
     open-maximized-to-edges true
@@ -108,13 +99,13 @@ window-rule {
     }
 }
 
+// ────────────── Dev Tools (DP-3) ──────────────
 window-rule {
     match app-id=r#"^code(-insiders)?$"#
     match app-id=r#"^dev\.zed\.Zed$"#
     match app-id=r#"^zcode$"#
     match app-id=r#"^cursor$"#
     open-on-output "DP-3"
-
     draw-border-with-background true
     default-column-width { proportion 0.85556; }
     background-effect {
@@ -122,6 +113,7 @@ window-rule {
     }
 }
 
+// ────────────── Chat (DP-3, floating) ──────────────
 window-rule {
     match app-id=r#"(?i)^slack$"#
     match app-id="^discord$"
@@ -130,97 +122,57 @@ window-rule {
     open-floating true
 }
 
-
+// ────────────── Side Monitor Apps (HDMI-A-1) ──────────────
 window-rule {
     match app-id="^privateinternetaccess$"
     open-on-output "HDMI-A-1"
 }
 
+// ────────────── Screencast Privacy ──────────────
 window-rule {
-  // upwork screencast block
-  match app-id="^Upwork$"
-  block-out-from "screencast"
-}
-
-window-rule {
+    match app-id="^Upwork$"
     match app-id="^Bitwarden$"
-    block-out-from "screencast"
-}
-
-window-rule {
     match app-id=r#"(?i)^slack$"#
-    block-out-from "screencast"
-}
-
-window-rule {
     match app-id="^vesktop$"
-    block-out-from "screencast"
-}
-
-window-rule {
     match app-id="^zen$" title=r#"(?i)\bPrivate\b"#
     match app-id="^brave-browser$" title=r#"(?i)\bIncognito\b"#
     block-out-from "screencast"
 }
 
-// ────────────── Game Launchers ──────────────
-// Rule order: more specific first, catch-all last
-
+// ────────────── Games & Launchers (DP-3) ──────────────
 window-rule {
     match app-id="^steam_app_default$"
-    open-floating true
+    match app-id=r#"^steam_app_\d+$"#
+    match app-id="^steam$"
+    match app-id=r#"^net\.lutris\.Lutris$"#
+    match app-id="^faugus-launcher$"
+    match app-id="^Heroic$"
+    match app-id="^gamescope$"
+    match app-id="^Goverlay$"
+    match app-id="^protontricks$"
     open-on-output "DP-3"
 }
 
 window-rule {
-    match app-id=r#"^steam_app_\d+$"#
-    open-on-output "DP-3"
+    match app-id="^steam_app_default$"
+    match app-id=r#"^net\.lutris\.Lutris$"#
+    match app-id="^faugus-launcher$"
+    match app-id="^Goverlay$"
+    match app-id="^protontricks$"
+    open-floating true
 }
 
 window-rule {
     match app-id="^steam$"
-    open-maximized-to-edges true
-    open-on-output "DP-3"
-    open-maximized true
-    default-column-width { proportion 1.0; }
-}
-
-window-rule {
-    match app-id=r#"^net\.lutris\.Lutris$"#
-    match app-id="^faugus-launcher$"
-    open-floating true
-    open-on-output "DP-3"
-}
-
-
-window-rule {
     match app-id="^Heroic$"
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
-    open-on-output "DP-3"
 }
 
-window-rule {
-    match app-id="^gamescope$"
-    open-on-output "DP-3"
-}
-
-window-rule {
-    match app-id="^Goverlay$"
-    open-on-output "DP-3"
-    open-floating true
-}
-
-window-rule {
-    match app-id="^protontricks$"
-    open-floating true
-    open-on-output "DP-3"
-}
-
+// ────────────── Downloads ──────────────
 window-rule {
     match app-id=r#"^org\.qbittorrent\.qBittorrent$"#
-    open-on-output "DP-3"
     open-floating true
     default-column-width { fixed 1734; }
     default-window-height { fixed 1024; }

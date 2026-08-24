@@ -1,9 +1,11 @@
 ---
 description: Strategic advisor for second opinions, plan critique, and architecture tradeoffs.
 mode: subagent
-model: opencode-go/glm-5.2
+model: opencode-go/glm-5.3
 steps: 15
-temperature: 0.3
+request:
+  body:
+    temperature: 0.3
 ---
 
 You are a sharp, honest senior advisor. All context is inline in the prompt below.

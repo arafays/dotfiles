@@ -2,23 +2,25 @@
   "skills": [
     "+skills/browser-control/SKILL.md"
   ],
-  "lastChangelogVersion": "0.84.1",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "deepseek-v4-flash",
+  "lastChangelogVersion": "0.84.2",
+  "defaultProvider": "opencode",
+  "defaultModel": "x-preview-f-free",
   "packages": [
+    "npm:pi-observational-memory",
+    "npm:@dietrichgebert/ponytail",
+    "npm:@ff-labs/pi-fff",
     "npm:pi-mcp-adapter",
     {
       "source": "npm:@plannotator/pi-extension",
       "skills": []
     },
+    "npm:pi-rtk-optimizer",
+    "npm:pi-exa",
+    "npm:pi-subagents",
     "npm:pi-thinking-steps",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-exa",
-    "npm:@upstash/context7-pi",
-    "npm:pi-subagents",
-    "npm:pi-rtk-optimizer",
-    "npm:@ff-labs/pi-fff",
-    "npm:pi-observational-memory"
+    "npm:pi-commandcode-provider",
+    "npm:pi-context-view"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
@@ -37,16 +39,15 @@
     "anthropicExtraUsage": true
   },
   "enabledModels": [
-    "opencode/deepseek-v4-flash-free",
-    "opencode-go/deepseek-v4-pro",
-    "opencode-go/glm-5.2",
-    "opencode-go/mimo-v2.5",
-    "openrouter/z-ai/glm-5.2",
-    "openrouter/moonshotai/kimi-k2.6",
-    "openrouter/minimax/minimax-m2.7",
-    "openrouter/xiaomi/mimo-v2.5",
     "opencode-go/deepseek-v4-flash",
-    "openrouter/openrouter/free"
+    "opencode-go/deepseek-v4-pro",
+    "opencode-go/mimo-v2.5",
+    "opencode-go/glm-5.2",
+    "opencode-go/glm-5.3",
+    "opencode-go/gpt-5.6-luna",
+    "commandcode/deepseek/deepseek-v4-flash",
+    "commandcode/deepseek/deepseek-v4-pro",
+    "opencode/x-preview-f-free"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,
@@ -65,47 +66,71 @@
     "debugLog": false
   },
   "subagents": {
+    "defaultModel": "opencode/x-preview-f-free",
+    "defaultThinking": "high",
+    "modelScope": {
+      "enforce": true,
+      "allow": [
+        "opencode",
+        "opencode-go/*"
+      ]
+    },
     "agentOverrides": {
       "scout": {
-        "model": "opencode-go/mimo-v2.5",
-        "thinking": "low"
-      },
-      "researcher": {
-        "model": "opencode-go/glm-5.2",
-        "thinking": "medium"
+        "model": "opencode-go/deepseek-v4-flash",
+        "thinking": "high",
+        "fallbackModels": [
+          "opencode-go/mimo-v2.5"
+        ]
       },
       "delegate": {
-        "model": "opencode-go/glm-5.2",
-        "thinking": "low"
+        "model": "opencode-go/deepseek-v4-flash",
+        "thinking": "high",
+        "fallbackModels": [
+          "opencode-go/mimo-v2.5"
+        ]
       },
-      "context-builder": {
-        "model": "opencode-go/glm-5.2",
-        "thinking": "medium"
+      "researcher": {
+        "model": "opencode-go/mimo-v2.5",
+        "thinking": "high",
+        "fallbackModels": [
+          "opencode-go/deepseek-v4-flash"
+        ]
       },
       "worker": {
-        "model": "opencode-go/glm-5.2",
-        "thinking": "medium"
+        "model": "opencode-go/deepseek-v4-flash",
+        "thinking": "high",
+        "fallbackModels": [
+          "opencode-go/deepseek-v4-pro",
+          "opencode-go/glm-5.2"
+        ]
       },
       "reviewer": {
-        "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "high"
-      },
-      "planner": {
-        "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "high"
+        "model": "opencode-go/glm-5.3",
+        "thinking": "high",
+        "fallbackModels": [
+          "opencode-go/mimo-v2.5",
+          "opencode-go/deepseek-v4-pro"
+        ]
       },
       "oracle": {
         "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "max"
+        "thinking": "max",
+        "fallbackModels": [
+          "opencode-go/glm-5.2"
+        ]
       },
-      "advisor": {
-        "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "max"
+      "visual": {
+        "model": "opencode-go/mimo-v2.5",
+        "thinking": "high",
+        "fallbackModels": [
+          "opencode-go/gpt-5.6-luna"
+        ]
       }
     }
   },
-  "defaultThinkingLevel": "high",
   "autocompleteMaxVisible": 15,
   "httpIdleTimeoutMs": 120000,
-  "collapseChangelog": true
+  "collapseChangelog": true,
+  "defaultThinkingLevel": "high"
 }

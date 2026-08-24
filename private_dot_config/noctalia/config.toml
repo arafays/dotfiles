@@ -1,5 +1,6 @@
 [shell]
 polkit_agent = true
+niri_overview_type_to_launch_enabled = true
 
 [hooks]
 theme_mode_changed = "/usr/share/noctalia/assets/templates/gtk/apply.sh --appearance-only $NOCTALIA_THEME_MODE"

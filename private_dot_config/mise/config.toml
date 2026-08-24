@@ -1,3 +1,8 @@
+[settings]
+always_keep_download = false
+always_keep_install = false
+experimental = true
+
 [tools]
 bun = "latest"
 go = "latest"
@@ -17,30 +22,18 @@ aube = "latest"
 "npm:@biomejs/biome" = "latest"
 "npm:prettier" = "latest"
 "npm:neovim" = "latest"
-supabase = "latest"
 
 
 "github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s" }
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
-#~/.config/mise/config.toml
-"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s", trust_policy_excludes = [
-  "@effect/platform-node@4.0.0-beta.97",
-  "effect@4.0.0-beta.97",
-] }
+"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s", trust_policy_excludes = ["@effect/platform-node@4.0.0-beta.97", "effect@4.0.0-beta.97"] }
 "npm:command-code" = { version = "latest", minimum_release_age = "0s" }
-"npm:@openai/codex" = "latest"
-
-[settings]
-always_keep_download = false
-always_keep_install = false
-experimental = true
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
   "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
   "mise prune -y",
-  "opencode upgrade",
   "chezmoi re-add",
 ]
 

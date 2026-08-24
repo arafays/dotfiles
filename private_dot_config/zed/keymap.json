@@ -1,0 +1,44 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    },
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore",
+      "j j": "vim::NormalBefore",
+    },
+  },
+  {
+    // LazyVim: <C-u>/<C-d> scroll half-page then center the cursor (zz)
+    // SendKeystrokes can't re-trigger the key it was bound to, so we route
+    // through ctrl-shift-u / ctrl-shift-d as raw scroll actions.
+    "context": "VimControl && !menu",
+    "bindings": {
+      "ctrl-shift-u": "vim::ScrollUp",
+      "ctrl-shift-d": "vim::ScrollDown",
+      "ctrl-u": ["workspace::SendKeystrokes", "ctrl-shift-u z z"],
+      "ctrl-d": ["workspace::SendKeystrokes", "ctrl-shift-d z z"],
+    },
+  },
+  {
+    // LazyVim: n / N find-next/prev and center the cursor (nzzzv)
+    "context": "vim_mode == normal",
+    "bindings": {
+      "ctrl-shift-n": "vim::MoveToNextMatch",
+      "ctrl-shift-m": "vim::MoveToPreviousMatch",
+      "n": ["workspace::SendKeystrokes", "ctrl-shift-n z z"],
+      "shift-n": ["workspace::SendKeystrokes", "ctrl-shift-m z z"],
+    },
+  },
+]

@@ -5,71 +5,98 @@
   "instructions": [
     "~/.agents/AGENTS.md"
   ],
-  "plugin": [
-    [
-      "@plannotator/opencode@latest",
-      {
-        "workflow": "plan-agent",
-        "planningAgents": [
-          "cheap-orchestrator",
-          "plan",
-        ]
+  "plugins": [
+    {
+      "package": "../../projects/opencode-dcp-v2/dist/index.js",
+      "options": {
+        "debug": true,
+        "maxContextLimit": 120000,
+        "strategies": {
+          "deduplication": {
+            "enabled": true
+          },
+          "purgeErrors": {
+            "enabled": true,
+            "turns": 4
+          }
+        }
       }
-    ],
-    "@tarquinen/opencode-dcp@latest",
-    "./plugins/herdr-agent-state.js",
+    }
   ],
-  "permission": {
-    "git reset": "deny",
-    "sudo": "ask",
-    "rm -rf": "ask",
-  },
+  "permissions": [
+    {
+      "action": "shell",
+      "resource": "sudo *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "sudo -u *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "doas *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "pkexec *",
+      "effect": "deny"
+    },
+    {
+      "action": "read",
+      "resource": "*.env",
+      "effect": "deny"
+    },
+    {
+      "action": "read",
+      "resource": "*.env.*",
+      "effect": "deny"
+    },
+    {
+      "action": "read",
+      "resource": "/tmp/*",
+      "effect": "allow"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/tmp/*",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -rf",
+      "effect": "ask"
+    },
+  ],
   "mcp": {
-    "markitdown": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "markitdown-mcp"
-      ],
-      "enabled": false
-    },
-    "websearch": {
-      "type": "remote",
-      "url": "https://mcp.exa.ai/mcp?exaApiKey={env:EXA_API_KEY}",
-    },
-    "mise": {
-      "type": "local",
-      "command": [
-        "mise",
-        "mcp"
-      ],
-      "enabled": false
-    },
-    "fal-ai": {
-      "type": "remote",
-      "url": "https://mcp.fal.ai/mcp",
-      "headers": {
-        "Authorization": "Bearer {env:FAL_AI_API_KEY}"
+    "servers": {
+      "markitdown": {
+        "type": "local",
+        "command": [
+          "uvx",
+          "markitdown-mcp"
+        ],
+        "disabled": true
       },
-      "enabled": false
-    },
-    "codegraph": {
-      "type": "local",
-      "command": [
-        "codegraph",
-        "serve",
-        "--mcp"
-      ],
-      "enabled": true
-    },
-    // Drives your real Brave/Chromium profile via a local relay + unpacked
-    // extension. Requires the extension loaded at brave://extensions.
-    "browser-control": {
-      "type": "local",
-      "command": [
-        "browser-control-mcp"
-      ],
-      "enabled": true
+      "fal-ai": {
+        "type": "remote",
+        "url": "https://mcp.fal.ai/mcp",
+        "headers": {
+          "Authorization": "Bearer {env:FAL_AI_API_KEY}"
+        },
+        "disabled": true
+      },
+      "codegraph": {
+        "type": "local",
+        "command": [
+          "codegraph",
+          "serve",
+          "--mcp"
+        ],
+        "disabled": false
+      },
     }
   },
   "lsp": true,
