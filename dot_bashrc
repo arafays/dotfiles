@@ -58,3 +58,6 @@ command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
 
 # Added by Antigravity CLI installer
 export PATH="/home/arafays/.local/bin:$PATH"
+
+# Shopify Hydrogen alias to local projects
+alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'

@@ -34,7 +34,7 @@ run = [
   "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
   "mise prune -y",
   "pi update --extensions",
-  "chezmoi re-add",
+  "chezmoi re-add --verbose",
 ]
 
 [tool_alias]

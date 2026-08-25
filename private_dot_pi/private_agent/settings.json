@@ -1,9 +1,6 @@
 {
   "skills": ["+skills/browser-control/SKILL.md"],
-  "lastChangelogVersion": "0.84.2",
-  "defaultProvider": "commandcode",
-  "defaultModel": "deepseek/deepseek-v4-pro",
-  "defaultThinkingLevel": "high",
+  "lastChangelogVersion": "0.84.3",
   "packages": [
     "npm:pi-observational-memory",
     "npm:@plannotator/pi-extension",
@@ -42,7 +39,8 @@
     "commandcode/deepseek/deepseek-v4-pro",
     "commandcode/zai-org/GLM-5.3",
     "commandcode/xiaomi/mimo-v2.5-pro",
-    "commandcode/poolside/laguna-s-2.1-free"
+    "commandcode/poolside/laguna-s-2.1-free",
+    "opencode/x-preview-f-free"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,
@@ -61,51 +59,16 @@
     "debugLog": false
   },
   "subagents": {
-    "defaultModel": "opencode-go/mimo-v2.5",
+    "defaultModel": "opencode/x-preview-f-free",
     "defaultThinking": "high",
     "modelScope": {
       "enforce": true,
-      "allow": ["opencode-go/*"]
-    },
-    "agentOverrides": {
-      "scout": {
-        "model": "opencode-go/deepseek-v4-flash",
-        "thinking": "high",
-        "fallbackModels": ["opencode-go/mimo-v2.5"]
-      },
-      "delegate": {
-        "model": "opencode-go/deepseek-v4-flash",
-        "thinking": "high",
-        "fallbackModels": ["opencode-go/mimo-v2.5"]
-      },
-      "researcher": {
-        "model": "opencode-go/mimo-v2.5",
-        "thinking": "high",
-        "fallbackModels": ["opencode-go/deepseek-v4-flash"]
-      },
-      "worker": {
-        "model": "opencode-go/deepseek-v4-flash",
-        "thinking": "high",
-        "fallbackModels": ["opencode-go/deepseek-v4-pro", "opencode-go/glm-5.2"]
-      },
-      "reviewer": {
-        "model": "opencode-go/glm-5.2",
-        "thinking": "high",
-        "fallbackModels": ["opencode-go/mimo-v2.5", "opencode-go/deepseek-v4-pro"]
-      },
-      "oracle": {
-        "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "max",
-        "fallbackModels": ["opencode-go/glm-5.2"]
-      },
-      "visual": {
-        "model": "opencode-go/mimo-v2.5",
-        "thinking": "high",
-        "fallbackModels": ["opencode-go/gpt-5.6-luna"]
-      }
+      "allow": ["opencode/x-preview-f-free"]
     }
   },
   "autocompleteMaxVisible": 15,
   "httpIdleTimeoutMs": 120000,
-  "collapseChangelog": true
+  "collapseChangelog": true,
+  "defaultProvider": "opencode",
+  "defaultModel": "x-preview-f-free"
 }
