@@ -1,7 +1,7 @@
-theme: 
+theme:
   dark: dark-gruvbox
 setupVersion: 2
-modelRoles: 
+modelRoles:
   default: opencode-zen/x-preview-f-free
   smol: openrouter/stealth/ox-alpha:auto
   commit: opencode-zen/ox-alpha-free
@@ -14,22 +14,22 @@ modelRoles:
   advisor: opencode-zen/ox-alpha-free
 defaultThinkingLevel: auto
 symbolPreset: nerd
-statusLine: 
+statusLine:
   preset: default
   separator: powerline-thin
   compactThinkingLevel: false
   sessionAccent: true
   transparent: true
-terminal: 
+terminal:
   showProgress: true
-tur: 
+tur:
   tight: false
-display: 
+display:
   shimmer: kitt
   showTokenUsage: true
   cacheMissMarker: true
-providers: 
-  webSearchOrder: 
+providers:
+  webSearchOrder:
     - exa
     - perplexity
     - gemini
@@ -54,62 +54,62 @@ providers:
     - mojeek
     - public
   memoryModel: online
-  imageOrder: 
+  imageOrder:
     - openrouter
-  anthropic: 
+  anthropic:
     serverSideFallback: false
-browser: 
+browser:
   headless: true
-task: 
+task:
   showResolvedModelBadge: true
   eager: preferred
   enableLsp: true
-tui: 
+tui:
   tight: false
-compaction: 
-  methodOrder: 
+compaction:
+  methodOrder:
     - snapcompact
     - remote
     - soft
-autolearn: 
+autolearn:
   enabled: false
   autoContinue: true
-memory: 
+memory:
   backend: mnemopi
-bash: 
+bash:
   enabled: true
-  autoBackground: 
+  autoBackground:
     enabled: false
-github: 
+github:
   enabled: true
-lsp: 
+lsp:
   formatOnWrite: true
-tools: 
+tools:
   xdev: true
   xdevDocs: builtins
-mcp: 
+mcp:
   notifications: false
-secrets: 
+secrets:
   enabled: true
-cycleOrder: 
+cycleOrder:
   - default
   - slow
   - commit
-dev: 
+dev:
   autoqaConsent: granted
-generate_image: 
+generate_image:
   enabled: true
 hideThinkingBlock: false
-mnemopi: 
+mnemopi:
   polyphonicRecall: false
-plan: 
+plan:
   enabled: true
-disabledExtensions: 
+disabledExtensions:
   - skill:check-openrouter-balance
   - skill:plannotator-annotate
   - skill:plannotator-last
   - skill:plannotator-review
-commands: 
+commands:
   enableOpencodeUser: false
   enableOpencodeProject: false
   enableClaudeProject: false

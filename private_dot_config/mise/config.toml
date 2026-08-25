@@ -27,6 +27,8 @@ uv = "latest"
 "npm:vercel" = { version = "latest", minimum_release_age = "0s" }
 "npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
 "npm:@zaly/cli" = "latest"
+"npm:@native-sdk/cli" = "latest"
+"npm:typescript-language-server" = "latest"
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
