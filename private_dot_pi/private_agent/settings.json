@@ -2,25 +2,21 @@
   "skills": [
     "+skills/browser-control/SKILL.md"
   ],
-  "lastChangelogVersion": "0.84.2",
-  "defaultProvider": "opencode",
-  "defaultModel": "x-preview-f-free",
+  "lastChangelogVersion": "0.84.3",
+  "defaultProvider": "commandcode",
+  "defaultModel": "deepseek/deepseek-v4-pro",
   "packages": [
     "npm:pi-observational-memory",
     "npm:@dietrichgebert/ponytail",
     "npm:@ff-labs/pi-fff",
     "npm:pi-mcp-adapter",
-    {
-      "source": "npm:@plannotator/pi-extension",
-      "skills": []
-    },
+    "npm:@plannotator/pi-extension",
     "npm:pi-rtk-optimizer",
     "npm:pi-exa",
     "npm:pi-subagents",
     "npm:pi-thinking-steps",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:pi-commandcode-provider",
-    "npm:pi-context-view"
+    "npm:pi-commandcode-provider"
   ],
   "theme": "dark",
   "hideThinkingBlock": false,
@@ -41,13 +37,10 @@
   "enabledModels": [
     "opencode-go/deepseek-v4-flash",
     "opencode-go/deepseek-v4-pro",
-    "opencode-go/mimo-v2.5",
-    "opencode-go/glm-5.2",
     "opencode-go/glm-5.3",
     "opencode-go/gpt-5.6-luna",
     "commandcode/deepseek/deepseek-v4-flash",
-    "commandcode/deepseek/deepseek-v4-pro",
-    "opencode/x-preview-f-free"
+    "commandcode/deepseek/deepseek-v4-pro"
   ],
   "observational-memory": {
     "observeAfterTokens": 10000,

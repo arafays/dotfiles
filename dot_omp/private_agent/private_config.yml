@@ -1,9 +1,9 @@
-theme: 
+theme:
   dark: dark-one
   light: light
-setupVersion: 1
-modelRoles: 
-  default: opencode-go/deepseek-v4-pro:max
+setupVersion: 2
+modelRoles:
+  default: opencode-go/ox-alpha-free:max
   smol: opencode-go/mimo-v2.5
   commit: opencode/deepseek-v4-flash-free
   tiny: opencode-zen/mimo-v2.5-free
@@ -15,51 +15,56 @@ modelRoles:
   advisor: opencode-go/deepseek-v4-pro
 defaultThinkingLevel: auto
 symbolPreset: nerd
-statusLine: 
-  preset: default
-  separator: none
+statusLine:
+  preset: compact
+  separator: powerline-thin
   sessionAccent: true
   transparent: true
-terminal: 
+  compactThinkingLevel: false
+terminal:
   showProgress: true
-tui: 
+tui:
   tight: false
-display: 
+display:
   shimmer: kitt
   showTokenUsage: true
   cacheMissMarker: true
-task: 
+task:
   showResolvedModelBadge: true
   eager: preferred
   enableLsp: true
 personality: pragmatic
-advisor: 
+advisor:
   enabled: false
 doubleEscapeAction: tree
-stt: 
+stt:
   modelName: turbo
-autolearn: 
+autolearn:
   enabled: false
   autoContinue: true
-memory: 
+memory:
   backend: mnemopi
-edit: 
+edit:
   mode: hashline
 readLineNumbers: false
-lsp: 
+lsp:
   formatOnWrite: false
-github: 
+github:
   enabled: true
-tts: 
+tts:
   localModel: kokoro
-secrets: 
+secrets:
   enabled: true
-cycleOrder: 
+cycleOrder:
   - default
   - slow
   - commit
-providers: 
+providers:
   memoryModel: online
-bash: 
+bash:
   enabled: true
 hideThinkingBlock: false
+composer:
+  shape: claude
+steeringMode: all
+followUpMode: one-at-a-time
