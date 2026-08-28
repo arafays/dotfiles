@@ -17,7 +17,7 @@ Manage technical context, process client files, and track architectural decision
 ## Core Workflows
 
 A. Processing New Client Files
-Save original to documents/originals/.MANDATORY: Use markitdown MCP (convert_to_markdown) to transform file to Markdown.Save output to documents/processed/ and update AGENTS.md with the new reference.
+Save original to documents/originals/.MANDATORY: Convert the file to Markdown using the markitdown MCP server's conversion tool (do not assume the exact tool name — discover the current markitdown tools and read their live descriptions first; if the server is disabled or unavailable, tell the user instead of reading raw binary files).Save output to documents/processed/ and update AGENTS.md with the new reference.
 B. Saving Client Messages / Chat logs
 Extract technical decisions, feature requests, and status updates from raw pastes.Save to documents/chat-logs/ as YYYY-MM-DD-{NNN}-{description}.md.Provide a concise bulleted summary.
 C. Maintaining Architecture State

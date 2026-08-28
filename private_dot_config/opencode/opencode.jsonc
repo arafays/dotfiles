@@ -5,24 +5,7 @@
   "instructions": [
     "~/.agents/AGENTS.md"
   ],
-  "plugins": [
-    {
-      "package": "../../projects/opencode-dcp-v2/dist/index.js",
-      "options": {
-        "debug": true,
-        "maxContextLimit": 120000,
-        "strategies": {
-          "deduplication": {
-            "enabled": true
-          },
-          "purgeErrors": {
-            "enabled": true,
-            "turns": 4
-          }
-        }
-      }
-    }
-  ],
+  "plugins": [],
   "permissions": [
     {
       "action": "shell",
@@ -97,6 +80,11 @@
         ],
         "disabled": false
       },
+      "upwork": {
+        "type": "remote",
+        "url": "https://mcp.upwork.com/mcp",
+        "disabled": true
+      }
     }
   },
   "lsp": true,

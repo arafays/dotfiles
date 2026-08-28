@@ -4,22 +4,20 @@
   ],
   "lastChangelogVersion": "0.84.3",
   "defaultProvider": "commandcode",
-  "defaultModel": "deepseek/deepseek-v4-pro",
+  "defaultModel": "z-ai/glm-5.3-flash",
+  "defaultThinkingLevel": "max",
   "packages": [
-    "npm:pi-observational-memory",
     "npm:@dietrichgebert/ponytail",
     "npm:@ff-labs/pi-fff",
     "npm:pi-mcp-adapter",
     "npm:@plannotator/pi-extension",
-    "npm:pi-rtk-optimizer",
     "npm:pi-exa",
     "npm:pi-subagents",
-    "npm:pi-thinking-steps",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-commandcode-provider"
   ],
   "theme": "dark",
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "showHardwareCursor": false,
   "terminal": {
     "showTerminalProgress": true
@@ -37,93 +35,22 @@
   "enabledModels": [
     "opencode-go/deepseek-v4-flash",
     "opencode-go/deepseek-v4-pro",
-    "opencode-go/glm-5.3",
     "opencode-go/gpt-5.6-luna",
     "commandcode/deepseek/deepseek-v4-flash",
-    "commandcode/deepseek/deepseek-v4-pro"
+    "commandcode/deepseek/deepseek-v4-pro",
+    "commandcode/z-ai/glm-5.3-flash"
   ],
-  "observational-memory": {
-    "observeAfterTokens": 10000,
-    "reflectAfterTokens": 20000,
-    "compactAfterTokens": 81000,
-    "compactAfterTokensMode": "calibrated",
-    "observationsPoolMaxTokens": 20000,
-    "observationsPoolTargetTokens": 10000,
-    "agentMaxTurns": 16,
-    "model": {
-      "provider": "opencode",
-      "id": "deepseek-v4-flash",
-      "thinking": "low"
-    },
-    "passive": false,
-    "debugLog": false
-  },
   "subagents": {
-    "defaultModel": "opencode/x-preview-f-free",
+    "defaultModel": "opencode-go/glm-5.3",
     "defaultThinking": "high",
     "modelScope": {
       "enforce": true,
       "allow": [
-        "opencode",
         "opencode-go/*"
       ]
-    },
-    "agentOverrides": {
-      "scout": {
-        "model": "opencode-go/deepseek-v4-flash",
-        "thinking": "high",
-        "fallbackModels": [
-          "opencode-go/mimo-v2.5"
-        ]
-      },
-      "delegate": {
-        "model": "opencode-go/deepseek-v4-flash",
-        "thinking": "high",
-        "fallbackModels": [
-          "opencode-go/mimo-v2.5"
-        ]
-      },
-      "researcher": {
-        "model": "opencode-go/mimo-v2.5",
-        "thinking": "high",
-        "fallbackModels": [
-          "opencode-go/deepseek-v4-flash"
-        ]
-      },
-      "worker": {
-        "model": "opencode-go/deepseek-v4-flash",
-        "thinking": "high",
-        "fallbackModels": [
-          "opencode-go/deepseek-v4-pro",
-          "opencode-go/glm-5.2"
-        ]
-      },
-      "reviewer": {
-        "model": "opencode-go/glm-5.3",
-        "thinking": "high",
-        "fallbackModels": [
-          "opencode-go/mimo-v2.5",
-          "opencode-go/deepseek-v4-pro"
-        ]
-      },
-      "oracle": {
-        "model": "opencode-go/deepseek-v4-pro",
-        "thinking": "max",
-        "fallbackModels": [
-          "opencode-go/glm-5.2"
-        ]
-      },
-      "visual": {
-        "model": "opencode-go/mimo-v2.5",
-        "thinking": "high",
-        "fallbackModels": [
-          "opencode-go/gpt-5.6-luna"
-        ]
-      }
     }
   },
   "autocompleteMaxVisible": 15,
   "httpIdleTimeoutMs": 120000,
   "collapseChangelog": true,
-  "defaultThinkingLevel": "high"
 }

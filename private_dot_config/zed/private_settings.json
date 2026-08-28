@@ -20,7 +20,7 @@
       "model": "codestral-latest"
     }
   },
-  "vim_mode": true,
+  "vim_mode": false,
   "icon_theme": {
     "mode": "dark",
     "light": "Zed (Default)",

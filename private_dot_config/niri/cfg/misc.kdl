@@ -15,7 +15,7 @@
 
 
     cursor {
-        xcursor-theme "capitaine-cursors"
+        xcursor-theme "Bibata-Modern-Amber"
         xcursor-size 24
         hide-when-typing
         hide-after-inactive-ms 1000
