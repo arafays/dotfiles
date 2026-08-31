@@ -1,13 +1,11 @@
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
-
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
 }
-
 
 // Global blur for all windows (noctalia recommended)
 window-rule {
@@ -21,16 +19,15 @@ window-rule {
 window-rule {
     match app-id="dev.noctalia.Noctalia"
     open-floating true
-    default-column-width { fixed 1080; }
+    default-column-width  { fixed 1080; }
     default-window-height { fixed 920; }
 }
 
 // Noctalia surfaces blur
+
 layer-rule {
     match namespace="^noctalia-(bar-[^\"]+|notification|dock|panel|attached-panel|osd)$"
-    background-effect {
-        xray false
-    }
+    background-effect { xray false; }
 }
 
 // Enable blur on noctalia's window switcher and disable xray
@@ -41,7 +38,6 @@ layer-rule {
         xray false
     }
 }
-
 layer-rule {
     match namespace="^noctalia-wallpaper*"
     place-within-backdrop true
@@ -50,13 +46,13 @@ layer-rule {
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
-
 // Enable borders for Alacritty since it no longer has window decorations
 // Opacity + blur for a translucent terminal look.
 // NOTE: transparency comes client-side from alacritty.toml (`window.opacity = 0.8`);
 // do NOT add a compositor `opacity` here — niri's rule opacity multiplies on top.
 // draw-border-with-background false: draw the focus ring AROUND the window instead
 // of as a solid rectangle behind it (which would show through the translucency).
+
 window-rule {
     match app-id="^Alacritty$"
     draw-border-with-background false
@@ -64,18 +60,17 @@ window-rule {
         blur true
         xray true
     }
-    default-column-width { proportion 0.8887; }
-    border {
-      off
-    }
+    default-column-width  { proportion 0.8887; }
+    border                { off; }
 }
 
 // Compositor-side translucency for apps that have no native opacity setting.
 // Browsers (chromium/zen) are deliberately left out: it dims page content.
 window-rule {
-    match app-id=r#"^slack$"#
-    match app-id=r#"code(-insiders)?$"#
-    match app-id=r#"dev\.zed\.Zed$"#
+    match app-id="^slack$"
+    match app-id="code(-insiders)?$"
+    match app-id="dev\\.zed\\.Zed$"
+
     // match app-id=r#"^(discord|Signal|obsidian|org\.telegram\.desktop)$"#
     opacity 0.95
 
@@ -83,9 +78,7 @@ window-rule {
     // with the same corner radius as the global rounding rule above.
     popups {
         geometry-corner-radius 8
-        background-effect {
-            blur true
-        }
+        background-effect { blur true; }
     }
 }
 
@@ -95,16 +88,13 @@ window-rule {
 //     match is-active=false
 //     opacity 0.95
 // }
-
-
 window-rule {
     match app-id="chromium"
-    default-column-width { proportion 1.0; }
+    default-column-width  { proportion 1.0; }
 }
-
 window-rule {
-    match app-id=r#"zen$"#
-    default-column-width { proportion 1.0; }
+    match app-id="zen$"
+    default-column-width  { proportion 1.0; }
     open-maximized true
     open-maximized-to-edges true
 }
@@ -114,7 +104,7 @@ window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    match app-id="zen$" title="^Picture-in-Picture$"
     open-floating true
 }
 
@@ -123,45 +113,42 @@ window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id="firefox$" title="^Picture-in-Picture$"
     open-floating true
 }
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
 
-    block-out-from "screen-capture"
+/-window-rule {
+match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+match app-id=r#"^org\.gnome\.World\.Secrets$"#
+block-out-from "screen-capture"
 
     // Use this instead if you want them visible on third-party screenshot tools.
     // block-out-from "screencast"
 }
 
 window-rule {
-    match app-id="Emulator" title=r#"^Android Emulator"#
+    match app-id="Emulator" title="^Android Emulator"
     open-floating true
     draw-border-with-background false
     geometry-corner-radius 0
     clip-to-geometry false
-    focus-ring { off; }
-    border { off; }
+    focus-ring            { off; }
+    border                { off; }
 }
-
-
 window-rule {
     match app-id="Emulator"
-    match app-id=r#"dev\.zed\.Zed$"# title=r#"Settings|About Zed|Project Structure"#
+    match app-id="dev\\.zed\\.Zed$" title="Settings|About Zed|Project Structure"
     draw-border-with-background false
     open-floating true
-    focus-ring { off; }
-    border { off; }
+    focus-ring            { off; }
+    border                { off; }
 }
-
 window-rule {
-    match app-id=r#"^avdmanager$"#
-    match app-id=r#"^sun-awt-X11-XFramePeer$"# title=r#"AVD|Virtual Device"#
+    match app-id="^avdmanager$"
+    match app-id="^sun-awt-X11-XFramePeer$" title="AVD|Virtual Device"
     open-floating true
     draw-border-with-background true
     geometry-corner-radius 0
@@ -170,12 +157,15 @@ window-rule {
 
 // vscode should have borders
 window-rule {
-  // regex that mantaches code and code-insiders
-    match app-id=r#"code(-insiders)?$"#
+    // regex that mantaches code and code-insiders
+    match app-id="code(-insiders)?$"
+
     // for zed thats match id id dev.zed.Zed
-    match app-id=r#"dev\.zed\.Zed$"#
+    match app-id="dev\\.zed\\.Zed$"
+
     // false: draw ring around the window; a background rectangle would show
     // through their 0.95 compositor transparency (rule above).
     draw-border-with-background false
-    default-column-width { proportion 1.0; }
+    default-column-width  { proportion 1.0; }
 }
+

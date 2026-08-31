@@ -1,8 +1,9 @@
 {
-  "skills": ["+skills/browser-control/SKILL.md"],
-  "lastChangelogVersion": "0.84.3",
+  "skills": [
+    "+skills/browser-control/SKILL.md"
+  ],
+  "lastChangelogVersion": "0.84.4",
   "packages": [
-    "npm:pi-observational-memory",
     "npm:@plannotator/pi-extension",
     "npm:pi-commandcode-provider",
     "npm:pi-thinking-steps",
@@ -30,45 +31,11 @@
     "anthropicExtraUsage": true
   },
   "enabledModels": [
-    "opencode-go/deepseek-v4-flash",
-    "opencode-go/deepseek-v4-pro",
-    "opencode-go/mimo-v2.5",
-    "opencode-go/glm-5.2",
-    "opencode-go/gpt-5.6-luna",
-    "commandcode/deepseek/deepseek-v4-flash",
     "commandcode/deepseek/deepseek-v4-pro",
-    "commandcode/zai-org/GLM-5.3",
     "commandcode/xiaomi/mimo-v2.5-pro",
-    "commandcode/poolside/laguna-s-2.1-free",
-    "opencode/x-preview-f-free"
+    "opencode-go/glm-5.3-flash",
+    "commandcode/z-ai/glm-5.3-flash"
   ],
-  "observational-memory": {
-    "observeAfterTokens": 10000,
-    "reflectAfterTokens": 20000,
-    "compactAfterTokens": 81000,
-    "compactAfterTokensMode": "calibrated",
-    "observationsPoolMaxTokens": 20000,
-    "observationsPoolTargetTokens": 10000,
-    "agentMaxTurns": 16,
-    "model": {
-      "provider": "opencode-go",
-      "id": "deepseek-v4-flash",
-      "thinking": "off"
-    },
-    "passive": false,
-    "debugLog": false
-  },
-  "subagents": {
-    "defaultModel": "opencode/x-preview-f-free",
-    "defaultThinking": "high",
-    "modelScope": {
-      "enforce": true,
-      "allow": ["opencode/x-preview-f-free"]
-    }
-  },
   "autocompleteMaxVisible": 15,
-  "httpIdleTimeoutMs": 120000,
-  "collapseChangelog": true,
-  "defaultProvider": "opencode",
-  "defaultModel": "x-preview-f-free"
+  "httpIdleTimeoutMs": 120000
 }

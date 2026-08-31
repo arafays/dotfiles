@@ -1,3 +1,7 @@
+XDG_PROJECTS_DIR="${XDG_PROJECTS_DIR:-$HOME/projects}"
+
+XDG_MENU_PREFIX=arch-
+
 FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
@@ -7,12 +11,9 @@ MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
 MANROFFOPT="-c"
 
 WGETRC="${XDG_CONFIG_HOME}/wgetrc"
-PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
-SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
-
-WGPU_BACKEND=gl
 BAT_THEME="ansi"
 BAT_PAGER="less -RF"
 
-CONTEXT7_API_KEY={{ .secrets.context7_api_key }}
-EXA_API_KEY={{ .secrets.exa_api_key }}
+WGPU_BACKEND=gl
+CONTEXT7_API_KEY="{{ .secrets.context7_api_key }}"
+EXA_API_KEY="{{ .secrets.exa_api_key }}"

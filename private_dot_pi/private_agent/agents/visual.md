@@ -1,7 +1,7 @@
 ---
 name: visual
 description: Vision subagent for reading, analyzing, and describing images and screenshots
-model: opencode-go/kimi-k2.6
+model: opencode-go/glm-5.3-flash
 thinking: high
 tools: read, bash, grep, find, ls, write, web_search_exa, web_fetch_exa, contact_supervisor
 systemPromptMode: replace

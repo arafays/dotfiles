@@ -29,11 +29,14 @@ uv = "latest"
 "npm:@zaly/cli" = "latest"
 "npm:@native-sdk/cli" = "latest"
 "npm:typescript-language-server" = "latest"
+"npm:llmock" = "latest"
+"github:adwinying/php" = "8.2.30"
+"cargo:kdlfmt" = "latest"
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
-  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
+  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi npm:@zaly/cli",
   "mise prune -y",
   "pi update --extensions",
   "chezmoi re-add --verbose",

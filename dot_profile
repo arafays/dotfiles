@@ -5,17 +5,6 @@
 # System-wide profile
 [ -f /etc/profile ] && . /etc/profile
 
-# Source environment.d configuration (XDG vars, editor, FZF, Android, mise, secrets, etc.)
-# set -a auto-exports all variables so subprocesses inherit them.
-if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d" ]; then
-  set -a
-  for _env_file in "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d/"*.conf; do
-    [ -f "$_env_file" ] && . "$_env_file"
-  done
-  set +a
-  unset _env_file
-fi
-
 # GPG TTY (not in environment.d — needs runtime tty)
 command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
 
@@ -61,5 +50,3 @@ unset _path_dedup
 
 export PATH
 unset _prepend _append
-
-

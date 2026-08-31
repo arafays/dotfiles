@@ -11,13 +11,13 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // - GTK: theme is adw-gtk3 via gsettings/nwg-look; colors come from Noctalia's
 //   gtk template (~/.config/gtk-3.0/noctalia.css). Do not force GTK_THEME or
 //   QT_STYLE_OVERRIDE — both conflict with the templates.
+
 environment {
     COLORSCHEME "dark"
-
+    GTK_THEME_VARIANT "Dark"
+    SDL_VIDEODRIVER "wayland,x11,windows"
     ELECTRON_OZONE_PLATFORM_HINT "auto"
     QT_QPA_PLATFORM "wayland"
-    // qt6ct platform theme; palette comes from Noctalia's Qt template
-    // (~/.config/qt6ct/colors/noctalia.conf), selected via qt6ct.conf.
     QT_QPA_PLATFORMTHEME "qt6ct"
     QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
     XDG_CURRENT_DESKTOP "niri"
@@ -29,14 +29,13 @@ environment {
 // Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
 // This option will also fix border/focus ring drawing behind some semitransparent windows.
 // After enabling or disabling this, you need to restart the apps for this to take effect.
-prefer-no-csd
 
+prefer-no-csd
 
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
-
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
@@ -45,9 +44,5 @@ hotkey-overlay {
     skip-at-startup
 }
 
-debug {
-  honor-xdg-activation-with-invalid-serial
-}
-
-
+debug { honor-xdg-activation-with-invalid-serial; }
 

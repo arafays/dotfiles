@@ -12,7 +12,6 @@ layout {
     // - "on-overflow", focusing a column will center it if it doesn't fit
     //   together with the previously focused column.
     center-focused-column "never"
-
     background-color "transparent"
 
     // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
@@ -30,12 +29,11 @@ layout {
 
     // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
     // preset-window-heights { }
-
     // You can change the default width of the new windows.
     default-column-width { proportion 0.66667; }
+
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     // default-column-width {}
-
     // By default focus ring and border are rendered as a solid background rectangle
     // behind windows. That is, they will show up through semitransparent windows.
     // This is because windows using client-side decorations can have an arbitrary shape.
@@ -46,13 +44,11 @@ layout {
     //
     // Alternatively, you can override it with a window rule called
     // `draw-border-with-background`.
-
     // You can change how the focus ring looks.
     // Colors are owned by the Noctalia niri template (../noctalia.kdl).
     focus-ring {
         // Uncomment this line to disable the focus ring.
         // off
-
         // How many logical pixels the ring extends out from the windows.
         width 2
 
@@ -78,7 +74,6 @@ layout {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
         off
-
         width 2
 
         // Gradients can use a few different interpolation color spaces.
@@ -94,7 +89,6 @@ layout {
     shadow {
         // Uncomment the next line to enable shadows.
         // on
-
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
         //
@@ -110,10 +104,8 @@ layout {
         // draws any.
         //
         // draw-behind-window true
-
         // You can change how shadows look. The values below are in logical
         // pixels and match the CSS box-shadow properties.
-
         // Softness controls the shadow blur radius.
         softness 30
 
@@ -134,9 +126,9 @@ layout {
         // right 64
         // top 64
         // bottom 64
+
     }
 
     // Set background color for dark mode
 }
-
 

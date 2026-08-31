@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# kdlfmt-niri — kdlfmt post-processor for niri configs.
+#
+# Formats stdin through kdlfmt (installed via mise), then collapses
+# single-statement nodes and groups top-level blocks (kdl_collapse.py).
+#
+# Upstream: https://github.com/Artifait/NiriConfigFormatter
+#
+# Usage:
+#   kdlfmt-niri < config.kdl            # output to stdout
+#   kdlfmt-niri < config.kdl > out.kdl
+
+set -euo pipefail
+
+COLLAPSE_PY="$HOME/.local/share/kdlfmt-niri/kdl_collapse.py"
+
+# Resolve kdlfmt: PATH (terminal shells with mise activate) → `mise which`
+# (GUI apps like VS Code launched without mise shims on PATH) → known mise
+# install path. Override with KDLFMT_BIN.
+KDLFMT_BIN="${KDLFMT_BIN:-}"
+if [[ -z $KDLFMT_BIN ]] && ! command -v kdlfmt >/dev/null 2>&1; then
+  if command -v mise >/dev/null 2>&1; then
+    KDLFMT_BIN="$(mise which kdlfmt 2>/dev/null || true)"
+  fi
+  if [[ -z $KDLFMT_BIN && -x "$HOME/.local/share/mise/installs/cargo-kdlfmt/latest/bin/kdlfmt" ]]; then
+    KDLFMT_BIN="$HOME/.local/share/mise/installs/cargo-kdlfmt/latest/bin/kdlfmt"
+  fi
+fi
+KDLFMT_BIN="${KDLFMT_BIN:-kdlfmt}"
+
+"$KDLFMT_BIN" format --kdl-version v1 - | python3 "$COLLAPSE_PY"

@@ -2,12 +2,10 @@
 // "/-" comments out the following node.
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
-
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
 input {
-
     keyboard {
         xkb {
             // You can set rules, model, layout, variant and options.
@@ -20,6 +18,7 @@ input {
             // If this section is empty, niri will fetch xkb settings
             // from org.freedesktop.locale1. You can control these using
             // localectl set-x11-keymap.
+
         }
 
         // Enable numlock on startup, omitting this setting disables it.
@@ -32,25 +31,26 @@ input {
     touchpad {
         // off
         tap
+
         // dwt
         // dwtp
         // drag false
         // drag-lock
         natural-scroll
+
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "two-finger"
         // disabled-on-external-mouse
     }
-
     mouse {
         // off
         // natural-scroll
         // accel-speed 0.2
         // accel-profile "flat"
         // scroll-method "no-scroll"
-    }
 
+    }
     trackpoint {
         // off
         // natural-scroll
@@ -60,8 +60,8 @@ input {
         // scroll-button 273
         // scroll-button-lock
         // middle-emulation
-    }
 
+    }
     workspace-auto-back-and-forth
     focus-follows-mouse max-scroll-amount="0%"
 
@@ -72,5 +72,4 @@ input {
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
     // focus-follows-mouse max-scroll-amount="0%"
 }
-
 

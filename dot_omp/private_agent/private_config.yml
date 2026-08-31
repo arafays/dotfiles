@@ -1,17 +1,6 @@
 theme:
   dark: dark-gruvbox
 setupVersion: 2
-modelRoles:
-  default: opencode-zen/x-preview-f-free
-  smol: openrouter/stealth/ox-alpha:auto
-  commit: opencode-zen/ox-alpha-free
-  tiny: opencode-zen/ox-alpha-free
-  vision: opencode-zen/ox-alpha-free
-  plan: opencode-zen/ox-alpha-free
-  slow: opencode-zen/ox-alpha-free
-  designer: opencode-zen/ox-alpha-free
-  task: opencode-zen/ox-alpha-free
-  advisor: opencode-zen/ox-alpha-free
 defaultThinkingLevel: auto
 symbolPreset: nerd
 statusLine:
@@ -114,3 +103,8 @@ commands:
   enableOpencodeProject: false
   enableClaudeProject: false
   enableClaudeUser: false
+modelRoles:
+  advisor: opencode-go/kimi-k3:high
+  smol: opencode-go/glm-5.3-flash:auto
+  designer: opencode-go/kimi-k3:auto
+  default: commandcode/gpt-5.6-luna:max
