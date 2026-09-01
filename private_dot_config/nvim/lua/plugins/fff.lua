@@ -3,12 +3,6 @@ return {
 	{ "nvim-telescope/telescope.nvim", enabled = false },
 	{ "ibhagwan/fzf-lua", enabled = false },
 	{ "nvim-mini/mini.pick", enabled = false },
-	{
-		"folke/snacks.nvim",
-		opts = {
-			picker = { enabled = false },
-		},
-	},
 	-- fff.nvim configuration
 	{
 		"dmtrKovalenko/fff.nvim",
