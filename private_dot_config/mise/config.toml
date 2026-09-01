@@ -14,29 +14,32 @@ uv = "latest"
 "npm:markdownlint-cli2" = "latest"
 "npm:vim-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
-"npm:@ast-grep/napi" = "latest"
-"npm:@biomejs/biome" = "latest"
-"npm:firebase-tools" = "latest"
-"npm:neovim" = "latest"
-"npm:prettier" = "latest"
 
-"github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
+
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
-"npm:command-code" = { version = "latest", minimum_release_age = "0s" }
+"npm:@zaly/cli" = "latest"
+
+"npm:firebase-tools" = "latest"
 "npm:portless" = { version = "latest", minimum_release_age = "0s" }
 "npm:vercel" = { version = "latest", minimum_release_age = "0s" }
+
 "npm:playwright" = { version = "latest", npm_args = "--ignore-scripts=false" }
-"npm:@zaly/cli" = "latest"
 "npm:@native-sdk/cli" = "latest"
-"npm:typescript-language-server" = "latest"
+
 "npm:llmock" = "latest"
 "github:adwinying/php" = "8.2.30"
+
+"npm:@ast-grep/napi" = "latest"
+"npm:@biomejs/biome" = "latest"
+"npm:neovim" = "latest"
+"npm:prettier" = "latest"
 "cargo:kdlfmt" = "latest"
+"npm:typescript-language-server" = "latest"
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
-  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi npm:@zaly/cli",
+  "mise upgrade --bump --minimum-release-age 0 npm:@earendil-works/pi-coding-agent npm:@zaly/cli",
   "mise prune -y",
   "pi update --extensions",
   "chezmoi re-add --verbose",
@@ -46,3 +49,4 @@ run = [
 node = "core:node"
 python = "core:python"
 java = "core:java"
+"php" = "core:php"
