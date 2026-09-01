@@ -1,35 +1,29 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 
-set -gx FZF_DEFAULT_OPTS '--color=bg:-1,bg+:-1,fg:#dde1e6,fg+:#ffffff,border:#ffc799,hl:#99ffe4,hl+:#ffc799,info:#45475A,prompt:#ffc799,pointer:#ffc799,marker:#99ffe4,spinner:#ffc799,header:#99ffe4 --border=rounded --layout=reverse'
-
-set -gx EDITOR nvim
-set -gx SUDO_EDITOR nvim
-set -gx BROWSER zen-browser
-
-set -gx GPG_TTY $TTY
-
-fish_add_path $HOME/.local/share/mise/shims
-fish_add_path $HOME/.local/bin
-fish_add_path $HOME/.opencode/bin
-
-set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
-set -gx BW_SESSION '{{ .secrets.bw_session }}'
-set -Ux PORTLESS_NGROK 1
-
-set -gx CHROMIUM_PATH (command -v chromium || command -v google-chrome || echo "xdg-open")
-
+# Import environment from systemd user daemon (~17ms — measured, 5 runs).
+# fenv plugin is significantly slower, so we parse the output ourselves.
+# systemd loads ~/.config/environment.d/*.conf at login — that directory is
+# the single source of truth for session env vars (shared with ~/.profile).
+# After editing env.d files: systemctl --user daemon-reload, then re-login.
 for line in (systemctl --user show-environment 2>/dev/null)
     set -l pair (string split --max 1 '=' -- $line)
     set -l key $pair[1]
+    # Skip read-only or fish-managed variables
     contains -- $key PWD SHLVL _ PATH; and continue
     set -l val $pair[2]
-    set -l _dollar_quote (printf '\x24\x27')
+    # systemd wraps special chars in $'...' — strip the wrapper and unescape inner quotes
+    set -l _dollar_quote (printf '\x24\x27') # literal $'
     if test (string sub -l 2 -- $val) = "$_dollar_quote"
         set val (string sub -s 3 -- $val | string sub -e -1)
         set val (string replace -a "\\'" "'" -- $val)
     end
     set -gx $key $val
 end
+
+set -gx GPG_TTY $TTY
+
+fish_add_path $HOME/.local/share/mise/shims
+fish_add_path $HOME/.opencode/bin
 
 function fish_greeting
 end

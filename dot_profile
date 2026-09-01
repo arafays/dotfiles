@@ -1,49 +1,33 @@
-
 # ~/.profile — POSIX login shell environment
-# Sourced by sh, bash, zsh (via .zshrc), and any login shell.
-# Fish sources environment.d separately via fenv.
+# Sourced by SDDM (wayland-session script), bash/zsh login shells.
+# Fish gets the same variables from systemd via config.fish's
+# systemctl --user show-environment import (no fenv plugin needed).
 
 # System-wide profile
 [ -f /etc/profile ] && . /etc/profile
 
-# Source environment.d configuration (XDG vars, editor, FZF, Android, mise, secrets, etc.)
-# set -a auto-exports all variables so subprocesses inherit them.
-if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d" ]; then
+# Canonical user environment — single source of truth:
+# ~/.config/environment.d/*.conf (also read natively by systemd --user).
+# set -a auto-exports everything so the SDDM session inherits it.
+_env_dir="${XDG_CONFIG_HOME:-$HOME/.config}/environment.d"
+if [ -d "$_env_dir" ]; then
   set -a
-  for _env_file in "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d/"*.conf; do
+  for _env_file in "$_env_dir"/*.conf; do
     [ -f "$_env_file" ] && . "$_env_file"
   done
   set +a
-  unset _env_file
 fi
+unset _env_dir _env_file
 
-# GPG TTY (not in environment.d — needs runtime tty)
+# GPG TTY (runtime — needs a real tty, cannot live in environment.d)
 command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
 
-# Browser (set in fish but not in environment.d)
-export BROWSER=brave
-
-# PATH — idempotent additions
+# PATH — shell-specific, idempotent additions (never put PATH in environment.d)
 _prepend() {
   case ":$PATH:" in *:"$1":*) ;; *) PATH="$1:$PATH" ;; esac
 }
-_append() {
-  case ":$PATH:" in *:"$1":*) ;; *) PATH="$PATH:$1" ;; esac
-}
-
 _prepend "$HOME/.local/bin"
 _prepend "$HOME/.opencode/bin"
 
-# Android SDK tool dirs (append, only if they exist)
-if [ -d "$HOME/Android/Sdk" ]; then
-  for _dir in \
-    "$HOME/Android/Sdk/emulator" \
-    "$HOME/Android/Sdk/cmdline-tools/latest/bin" \
-    "$HOME/Android/Sdk/platform-tools"; do
-    [ -d "$_dir" ] && _append "$_dir"
-  done
-  unset _dir
-fi
-
 export PATH
-unset _prepend _append
+unset -f _prepend

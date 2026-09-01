@@ -1,0 +1,43 @@
+# ─── Canonical session environment ─────────────────────────────
+# Single source of truth for user environment variables. Consumed by:
+#   • systemd --user (native)     → niri.service + every GUI app
+#   • ~/.profile (sources *.conf) → SDDM session, bash/zsh login shells
+#   • fish (config.fish imports systemctl --user show-environment)
+#
+# GUI/compositor-only vars live in niri's environment block (cfg/misc.kdl).
+# PATH never goes here — it is shell-specific (.profile / fish_add_path).
+#
+# After editing:
+#   chezmoi apply --source-path "private_dot_config/environment.d/private_50-session.conf.tmpl"
+#   systemctl --user daemon-reload   # re-runs the environment.d generator
+#   re-login (or restart the shell) to pick up changes
+
+# ── Editors
+EDITOR=nvim
+SUDO_EDITOR=nvim
+VISUAL=nvim
+
+# ── Browser (xdg default: brave-browser.desktop)
+BROWSER=brave
+
+# Chromium binary for automation tooling (puppeteer, agent-browser, browser-control)
+CHROMIUM_PATH={{ lookPath "chromium" | default (lookPath "google-chrome-stable" | default (lookPath "google-chrome" | default "xdg-open")) }}
+
+# ── fzf
+FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+FZF_CTRL_T_COMMAND="fd --type f --hidden --follow --exclude .git"
+FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
+FZF_DEFAULT_OPTS="--color=bg:-1,bg+:-1,fg:#dde1e6,fg+:#ffffff,border:#ffc799,hl:#99ffe4,hl+:#ffc799,info:#45475A,prompt:#ffc799,pointer:#ffc799,marker:#99ffe4,spinner:#ffc799,header:#99ffe4 --border=rounded --layout=reverse --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%"
+
+# ── man / bat
+MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"
+MANROFFOPT="-c"
+BAT_THEME="ansi"
+BAT_PAGER="less -RF"
+
+# ── Secrets (cached from Bitwarden by chezmoi-refresh-secrets)
+CONTEXT7_API_KEY="{{ .secrets.context7_api_key }}"
+EXA_API_KEY="{{ .secrets.exa_api_key }}"
+FAL_AI_API_KEY="{{ .secrets.fal_ai_api_key }}"
+OPENROUTER_API_KEY="{{ .secrets.openrouter_api_key }}"
+BW_SESSION="{{ .secrets.bw_session }}"

@@ -9,6 +9,7 @@
         COLORSCHEME "Dark"
         XDG_CURRENT_DESKTOP "niri"
         XDG_SESSION_TYPE "wayland"
+        PROTON_ENABLE_WAYLAND "1"
         // QT_QPA_PLATFORMTHEME "gtk3"
         QT_QPA_PLATFORMTHEME "qt6ct"
     }

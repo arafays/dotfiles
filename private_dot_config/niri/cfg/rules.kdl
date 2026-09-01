@@ -66,6 +66,7 @@ window-rule {
     match app-id=r#"^nwg-look$"#
     match app-id=r#"^qt6ct$"#
     match app-id=r#"^avdmanager$"#
+    match app-id=r#"^warp-taskbar$"#
     match title=r#"AVD|Virtual Device"#
     match title=r#"(?i)Extension.*Bitwarden"#
 }

@@ -37,6 +37,140 @@ run = [
   "chezmoi re-add",
 ]
 
+[tasks.pkg-info]
+description = "Show where a command lives and how it was installed. Usage: mise run pkg-info <command> [command...]"
+run = '''
+#!/usr/bin/env bash
+set +eu  # detection relies on failing probes (command -v, pacman -Qo); never abort mid-scan
+
+# pkg-info — locate a command and show how it was installed.
+if [ $# -eq 0 ]; then
+  echo "usage: mise run pkg-info <command> [command...]"
+  echo "example: mise run pkg-info opencode2 code-insiders claude"
+  exit 1
+fi
+
+MISE_DATA="${MISE_DATA_DIR:-$HOME/.local/share/mise}"
+PNPM_HOME_DIR="${PNPM_HOME:-$HOME/.local/share/pnpm}"
+PIPX_DIR="${PIPX_HOME:-$HOME/.local/share/pipx}"
+UV_TOOLS="${UV_TOOL_DIR:-$HOME/.local/share/uv/tools}"
+
+pretty() { printf "%s" "$1" | sed "s|$HOME|~|g"; }
+
+for cmd in "$@"; do
+  loc="$(command -v "$cmd" 2>/dev/null)"
+  echo "$cmd"
+  if [ -z "$loc" ]; then
+    echo "  not found in PATH"
+    echo ""
+    continue
+  fi
+
+  src=""
+  ver=""
+  real="$loc"
+
+  # Resolve location. Mise shims are symlinks to the mise binary, so they are
+  # detected by path first and resolved via mise which instead of readlink.
+  case "$loc" in
+    "$MISE_DATA"/shims/*)
+      src="mise (shim)"
+      r="$(mise which "$cmd" 2>/dev/null)"
+      [ -n "$r" ] && real="$r"
+      ;;
+    *)
+      r="$(readlink -f "$loc" 2>/dev/null)"
+      [ -n "$r" ] && real="$r"
+      ;;
+  esac
+
+  # Mise-managed tool: parse tool@version from the installs path.
+  case "$real" in
+    "$MISE_DATA"/installs/*)
+      rel="${real#"$MISE_DATA"/installs/}"
+      tool="${rel%%/*}"
+      rest="${rel#*/}"
+      ver="$tool@${rest%%/*}"
+      src="mise"
+      ;;
+  esac
+
+  # Pacman-owned (official repos and AUR alike).
+  if [ -z "$src" ]; then
+    if pacman -Qo "$real" >/dev/null 2>&1 || pacman -Qo "$loc" >/dev/null 2>&1; then
+      owner="$(pacman -Qo "$real" 2>/dev/null || pacman -Qo "$loc" 2>/dev/null)"
+      owner="${owner##* owned by }"
+      ver="$owner"
+      src="pacman (AUR)"
+      pacman -Si "${owner%% *}" >/dev/null 2>&1 && src="pacman (repo)"
+    fi
+  fi
+
+  # uv / pipx tool venvs.
+  if [ -z "$src" ]; then
+    for d in "$UV_TOOLS"/*/; do
+      if [ -e "${d}bin/$cmd" ]; then src="uv tool ($(basename "$d"))"; break; fi
+    done
+  fi
+  if [ -z "$src" ]; then
+    for d in "$PIPX_DIR"/venvs/*/; do
+      if [ -e "${d}bin/$cmd" ]; then src="pipx ($(basename "$d"))"; break; fi
+    done
+  fi
+  if [ -z "$src" ]; then
+    case "$real" in
+      "$UV_TOOLS"/*) src="uv tool" ;;
+      "$PIPX_DIR"/*) src="pipx" ;;
+    esac
+  fi
+
+  # Known install prefixes.
+  if [ -z "$src" ]; then
+    case "$real" in
+      "$HOME"/.opencode/*) src="opencode installer (curl)" ;;
+      "$HOME"/.cargo/bin/*) src="cargo" ;;
+      "$HOME"/go/bin/*) src="go install" ;;
+      "$HOME"/.bun/*) src="bun global" ;;
+      "$PNPM_HOME_DIR"/*) src="pnpm global" ;;
+      /usr/lib/node_modules/*|/usr/local/lib/node_modules/*|"$HOME"/.npm-global/*) src="npm global" ;;
+      "$HOME"/.local/bin/mise) src="mise installer (curl)" ;;
+    esac
+  fi
+
+  # Fallbacks based on where the command itself lives.
+  if [ -z "$src" ]; then
+    in_home=""
+    case "$real" in "$HOME"/*) in_home=1 ;; esac
+    case "$loc" in
+      "$HOME"/.local/bin/*|"$HOME"/.local/sbin/*|"$HOME"/bin/*)
+        if [ -n "$in_home" ] && [ "$real" != "$loc" ]; then
+          src="native installer (self-updating curl script)"
+        else
+          src="manual user install (~/.local/bin)"
+        fi
+        ;;
+      /usr/local/bin/*|/usr/local/sbin/*|/opt/*)
+        src="manual system install (not pacman-owned)"
+        ;;
+      *)
+        src="unmanaged (not owned by pacman)"
+        ;;
+    esac
+  fi
+
+  echo "  path:    $(pretty "$loc")"
+  if [ "$real" != "$loc" ]; then
+    echo "  target:  $(pretty "$real")"
+  fi
+  if [ -n "$ver" ]; then
+    echo "  source:  $src → $ver"
+  else
+    echo "  source:  $src"
+  fi
+  echo ""
+done
+'''
+
 [tool_alias]
 node = "core:node"
 python = "core:python"
