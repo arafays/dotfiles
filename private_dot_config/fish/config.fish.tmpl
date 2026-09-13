@@ -21,9 +21,13 @@ for line in (systemctl --user show-environment 2>/dev/null)
 end
 
 set -gx GPG_TTY $TTY
+set -gx CONTEXT7_API_KEY "{{ .secrets.context7_api_key }}"
+set -gx EXA_API_KEY "{{ .secrets.exa_api_key }}"
+set -gx FAL_AI_API_KEY "{{ .secrets.fal_ai_api_key }}"
+set -gx OPENROUTER_API_KEY "{{ .secrets.openrouter_api_key }}"
+set -gx BW_SESSION "{{ .secrets.bw_session }}"
 
 fish_add_path $HOME/.local/share/mise/shims
-fish_add_path $HOME/.opencode/bin
 
 function fish_greeting
 end
@@ -49,9 +53,6 @@ function __deferred_init --on-event fish_prompt
     __cached_source zoxide "$cache/zoxide.init.fish" zoxide init fish --cmd cd
     __cached_source herdr "$cache/herdr.completions.fish" herdr completion fish
 
-    __cached_source bun "$cache/bun.fish" bun completions fish
-    __cached_source pnpm "$cache/pnpm.fish" pnpm completion fish
-
     __cached_source aube "$cache/aube.activate.fish" aube activate fish
     __cached_source aube "$cache/aube.completions.fish" aube completion fish
     __cached_source opencode2 "$cache/opencode2.fish" opencode2 --completions fish
@@ -60,12 +61,6 @@ function __deferred_init --on-event fish_prompt
 end
 
 if status is-interactive
-    set -g fish_cursor_default block
-    set -g fish_cursor_insert line
-    set -g fish_cursor_replace_one underscore
-    set -g fish_cursor_replace underscore
-    set -g fish_cursor_external line
-    set -g fish_cursor_visual block
     fish_vi_key_bindings
 
     # Must be defined AND invoked after fish_vi_key_bindings,
@@ -91,7 +86,6 @@ if status is-interactive
     alias czd='chezmoi cd'
     alias npx="aubx"
     alias opencode="opencode2"
-    alias fish_clearn_cache="rm -rf ~/.cache/fish/init"
 
     function mkcd
         mkdir -p $argv; and cd $argv
@@ -104,15 +98,6 @@ if status is-interactive
         alias la='eza -lha --icons=auto'
         alias ld='eza -lhD --icons=auto'
         alias lt='eza --icons=auto --tree --level=2'
-    end
-
-    if type -q bat
-        alias cat='bat --style=plain --color=always --paging=never'
-        alias less='bat --style=plain --color=always --paging=always'
-    end
-
-    if type -q fd
-        alias find='fd'
     end
 
     function fcd
@@ -221,19 +206,6 @@ if status is-interactive
             case '*'
                 echo "Unsupported format"
         end
-    end
-
-    function parufind
-        set -l pkg (paru -Ss "$argv" 2>/dev/null | awk '/^[a-z]/ {if (p != "") print p " | " d; p = $1; d = ""} /^    / {sub(/^    /, ""); d = $0} END {if (p != "") print p " | " d}' | fzf --ansi --height=80% --layout=reverse --border=rounded --preview='echo {} | cut -d "|" -f1 | tr -d " " | xargs -I{} paru -Si {}' | cut -d '|' -f1 | tr -d ' ')
-        if test -n "$pkg"
-            paru -S (echo $pkg | string trim)
-        end
-    end
-
-    function parufind-widget
-        read -P "Search AUR: " search
-        test -n "$search"; and parufind "$search"
-        commandline -f repaint
     end
 
     function ua-update-all

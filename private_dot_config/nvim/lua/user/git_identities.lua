@@ -1,1 +1,0 @@
-return {{ .secrets.git_identities }}

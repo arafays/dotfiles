@@ -1,0 +1,13 @@
+theme = noctalia
+
+background-opacity = 0.8
+background-blur = false
+window-theme = dark
+window-padding-x = 0
+window-padding-y = 0
+
+font-size = 12
+
+scrollback-limit = 100000000
+copy-on-select = clipboard
+mouse-hide-while-typing = true

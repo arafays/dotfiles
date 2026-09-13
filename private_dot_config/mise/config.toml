@@ -1,45 +1,27 @@
 [settings]
-always_keep_download = false
-always_keep_install = false
 experimental = true
 
+[settings.npm]
+package_manager = "aube"
+
 [tools]
-bun = "latest"
+aube = "latest"
 go = "latest"
 node = "lts"
-pnpm = "latest"
 rust = "latest"
 uv = "latest"
 rtk = "latest"
 usage = "latest"
-aube = "latest"
 
-"npm:portless" = { version = "latest", minimum_release_age = "0s" }
 "npm:vercel" = { version = "latest", minimum_release_age = "0s" }
-"npm:vim-language-server" = "latest"
-"npm:yaml-language-server" = "latest"
 "npm:@ast-grep/napi" = "latest"
-"npm:@biomejs/biome" = "latest"
-"npm:prettier" = "latest"
 "npm:neovim" = "latest"
-
-
-"github:can1357/oh-my-pi" = { version = "latest", minimum_release_age = "0s" }
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
-"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s", trust_policy_excludes = ["@effect/platform-node@4.0.0-beta.97", "effect@4.0.0-beta.97"] }
-"npm:command-code" = { version = "latest", minimum_release_age = "0s" }
+"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
 
-[tasks.update-daily]
-description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
-run = [
-  "mise upgrade --bump --minimum-release-age 0 npm:command-code npm:@earendil-works/pi-coding-agent github:can1357/oh-my-pi",
-  "mise prune -y",
-  "chezmoi re-add",
-]
-
-[tasks.pkg-info]
-description = "Show where a command lives and how it was installed. Usage: mise run pkg-info <command> [command...]"
-run = '''
+[tasks]
+update-daily = { description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files", run = ["mise upgrade --bump --minimum-release-age 0 npm:vercel npm:@earendil-works/pi-coding-agent npm:@opencode-ai/browser-control github:can1357/oh-my-pi", "mise prune -y", "chezmoi re-add"] }
+pkg-info = { description = "Show where a command lives and how it was installed. Usage: mise run pkg-info <command> [command...]", run = """
 #!/usr/bin/env bash
 set +eu  # detection relies on failing probes (command -v, pacman -Qo); never abort mid-scan
 
@@ -169,8 +151,4 @@ for cmd in "$@"; do
   fi
   echo ""
 done
-'''
-
-[tool_alias]
-node = "core:node"
-python = "core:python"
+""" }

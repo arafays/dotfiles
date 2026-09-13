@@ -419,7 +419,7 @@ export default function referencesExtension(pi: ExtensionAPI) {
     }
     resolvedRefs = buildReferences(cwd, () => {
       if (lastCtx) {
-        resolvedRefs = buildReferences(cwd, () => {});
+        resolvedRefs = buildReferences(cwd, () => { });
         updateStatus(lastCtx);
       }
     });
@@ -837,7 +837,7 @@ export default function referencesExtension(pi: ExtensionAPI) {
 
     resolvedRefs = buildReferences(ctx.cwd, () => {
       if (lastCtx) {
-        resolvedRefs = buildReferences(ctx.cwd, () => {});
+        resolvedRefs = buildReferences(ctx.cwd, () => { });
         updateStatus(lastCtx);
       }
     });

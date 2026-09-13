@@ -89,14 +89,17 @@ window-rule {
 // ────────────── Terminals ──────────────
 window-rule {
     match app-id="^Alacritty$"
+    match app-id="^com.mitchellh.ghostty$"
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
+    draw-border-with-background false
     border {
         off
     }
     background-effect {
         blur true
+        xray true
     }
 }
 

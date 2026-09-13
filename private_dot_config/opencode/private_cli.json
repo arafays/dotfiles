@@ -11,13 +11,11 @@
   "session": {
     "sidebar": "auto",
     "scrollbar": true,
-    "thinking": "show"
+    "thinking": "show",
+    "permissions": "autoaccept"
   },
   "animations": true,
   "tabs": {
     "enabled": false
-  },
-  "plugins": [
-    "../../projects/opencode-dcp-v2/tui.tsx"
-  ]
+  }
 }

@@ -1,11 +1,9 @@
 onboarding = false
+terminal.kitty_graphics = true
 
 [theme]
-name = "vesper"
+name = "gruvbox"
 auto_switch = false
-
-[terminal]
-default_shell = "fish"
 
 [ui]
 show_agent_labels_on_pane_borders = true
@@ -18,9 +16,6 @@ prompt_new_tab_name = false
 position = "bottom-right"
 
 [keys]
-# Prefix
-prefix = "ctrl+b"
-
 # Navigate mode: workspace switching without arrow keys (60% friendly)
 next_workspace = "ctrl+alt+j"
 previous_workspace = "ctrl+alt+k"
@@ -75,23 +70,17 @@ description = "yazi"
 width = "95%"
 height = "95%"
 
-# Btop - system monitor
-[[keys.command]]
-key = "prefix+alt+b"
-type = "popup"
-command = "btop"
-description = "btop"
-width = "95%"
-height = "95%"
-
 [ui.sound]
 enabled = true
 
 [worktrees]
-directory = "~/.herdr/worktrees"
+directory = "~/projects/worktrees"
 
 [experimental]
 pane_history = false
 
 [update]
 channel = "preview"
+
+[ui.toast]
+delivery = "system"
