@@ -5,27 +5,20 @@
   "permissions": [
     { "action": "shell", "resource": "sudo *", "effect": "deny" },
     { "action": "shell", "resource": "sudo -u *", "effect": "deny" },
-    { "action": "shell", "resource": "doas *", "effect": "deny" },
-    { "action": "shell", "resource": "pkexec *", "effect": "deny" },
-    { "action": "read", "resource": "*.env", "effect": "deny" },
-    { "action": "read", "resource": "*.env.*", "effect": "deny" },
     { "action": "read", "resource": "/tmp/*", "effect": "allow" },
     { "action": "external_directory", "resource": "/tmp/*", "effect": "allow" },
   ],
-  "plugins": ["@plannotator/opencode@latest"],
+  "plugins": [
+    "@plannotator/opencode@latest",
+    {
+      "package": "opencode-dcp@latest",
+      "options": {
+        "maxContextLimit": 150000,
+      },
+    },
+  ],
   "mcp": {
     "servers": {
-      "devtools": {
-        "type": "local",
-        "command": [
-          "npx",
-          "-y",
-          "chrome-devtools-mcp@latest",
-          "--executablePath",
-          "{env:CHROMIUM_PATH}",
-        ],
-        "disabled": true,
-      },
       "markitdown": {
         "type": "local",
         "command": ["uvx", "markitdown-mcp"],
@@ -34,11 +27,6 @@
       "codegraph": {
         "type": "local",
         "command": ["codegraph", "serve", "--mcp"],
-      },
-      "websearch": {
-        "type": "remote",
-        "url": ["https://mcp.exa.ai/mcp?exaApiKey=", "{env:EXA_API_KEY}"],
-        "oauth": false,
       },
       "context7": {
         "type": "remote",
@@ -56,7 +44,6 @@
           "Authorization": "Bearer {env:FAL_AI_API_KEY}",
         },
         "oauth": false,
-        "disabled": true,
       },
     },
   },

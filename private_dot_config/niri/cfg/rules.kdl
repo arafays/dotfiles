@@ -55,6 +55,7 @@ layer-rule {
 
 window-rule {
     match app-id="^Alacritty$"
+    match app-id=r#"^com\.mitchellh\.ghostty$"#
     draw-border-with-background false
     background-effect {
         blur true
@@ -82,18 +83,10 @@ window-rule {
     }
 }
 
-// Optional: dim unfocused windows for depth. Stacks multiplicatively with the
-// rules above (inactive Alacritty becomes 0.8 * 0.95).
-// window-rule {
-//     match is-active=false
-//     opacity 0.95
-// }
-window-rule {
-    match app-id="chromium"
-    default-column-width  { proportion 1.0; }
-}
 window-rule {
     match app-id="zen$"
+    match app-id="codex-desktop"
+    match app-id="chromium"
     default-column-width  { proportion 1.0; }
     open-maximized true
     open-maximized-to-edges true
@@ -104,16 +97,10 @@ window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id="zen$" title="^Picture-in-Picture$"
-    open-floating true
-}
-
-// Open the Firefox picture-in-picture player as floating by default.
-window-rule {
-    // This app-id regular expression will work for both:
-    // - host Firefox (app-id is "firefox")
-    // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id="firefox$" title="^Picture-in-Picture$"
+    match app-id="zen$" title="^Picture-in-Picture$"
+    
+  
     open-floating true
 }
 

@@ -14,6 +14,7 @@ fish_add_path $HOME/.opencode/bin
 # Claude Code + OpenRouter
 ## set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
 set -gx BW_SESSION '{{ .secrets.bw_session }}'
+set -gx FAL_AI_API_KEY '{{ .secrets.fal_ai_api_key }}'
 set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
 
 # Import environment from systemd user daemon (~15ms vs ~750ms with fenv).

@@ -1,14 +1,10 @@
 {
-  "skills": [
-    "+skills/browser-control/SKILL.md"
-  ],
-  "lastChangelogVersion": "0.84.4",
+  "skills": [],
+  "lastChangelogVersion": "0.85.1",
   "packages": [
     "npm:@plannotator/pi-extension",
-    "npm:pi-commandcode-provider",
     "npm:pi-thinking-steps",
-    "npm:@dietrichgebert/ponytail",
-    "npm:pi-web-access",
+    "npm:pi-exa",
     "npm:pi-mcp-adapter",
     "npm:pi-context-view",
     "npm:@ff-labs/pi-fff",
@@ -30,12 +26,10 @@
   "warnings": {
     "anthropicExtraUsage": true
   },
-  "enabledModels": [
-    "commandcode/deepseek/deepseek-v4-pro",
-    "commandcode/xiaomi/mimo-v2.5-pro",
-    "opencode-go/glm-5.3-flash",
-    "commandcode/z-ai/glm-5.3-flash"
-  ],
   "autocompleteMaxVisible": 15,
-  "httpIdleTimeoutMs": 120000
+  "httpIdleTimeoutMs": 120000,
+  "enabledModels": [
+    "opencode/deepseek-v4-pro",
+    "opencode-go/hy4-preview"
+  ]
 }
