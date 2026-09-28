@@ -10,7 +10,11 @@
     "scrollbar": true,
     "markdown": "rendered",
     "new_location": "launch",
-    "permissions": "autoaccept"
+    "permissions": "autoaccept",
+    "verbosity": "high",
+    "tps": true,
+    "grouping": "auto",
+    "sidebar": "auto"
   },
   "animations": true,
   "scroll": {
@@ -18,7 +22,10 @@
   },
   "tabs": {
     "enabled": false,
-    "layout": "horizontal"
+    "layout": "vertical",
+    "mode": "auto",
+    "scope": "global",
+    "indicators": "status"
   },
   "debug": {
     "devtools": false
@@ -26,5 +33,12 @@
   "prompt": {
     "paste": "compact"
   },
-  "plugins": ["./herdr-opencode"]
+  "plugins": [
+    "./herdr-opencode"
+  ],
+  "diffs": {
+    "wrap": "word",
+    "tree": true,
+    "single": false
+  }
 }

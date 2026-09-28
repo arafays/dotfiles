@@ -19,6 +19,10 @@
   ],
   "mcp": {
     "servers": {
+      "browser-control": {
+        "type": "local",
+        "command": ["browser-control-mcp"],
+      },
       "markitdown": {
         "type": "local",
         "command": ["uvx", "markitdown-mcp"],
@@ -27,6 +31,7 @@
       "codegraph": {
         "type": "local",
         "command": ["codegraph", "serve", "--mcp"],
+        "disabled": true,
       },
       "context7": {
         "type": "remote",
@@ -44,6 +49,7 @@
           "Authorization": "Bearer {env:FAL_AI_API_KEY}",
         },
         "oauth": false,
+        "disabled": true,
       },
     },
   },

@@ -146,6 +146,9 @@ window-rule {
 window-rule {
     // regex that mantaches code and code-insiders
     match app-id="code(-insiders)?$"
+  match app-id="^codex-desktop$"
+
+  match app-id="^cursor$"
 
     // for zed thats match id id dev.zed.Zed
     match app-id="dev\\.zed\\.Zed$"

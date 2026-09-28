@@ -31,6 +31,7 @@ aube = "latest"
 
 playwright = "latest"
 "github:dmtrKovalenko/bashka" = "latest"
+"npm:@opencode-ai/browser-control" = "latest"
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"

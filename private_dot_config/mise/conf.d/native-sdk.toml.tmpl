@@ -1,0 +1,20 @@
+# Native SDK CLI (@native-sdk/cli) -- environment overrides.
+#
+# Why this exists:
+# The `native` Zig binary locates its bundled skills/ and skill-data/ by walking
+# up from its own executable path. mise's npm backend installs @native-sdk/cli
+# (which owns skills/, skill-data/, src/, build.zig) and
+# @native-sdk/cli-<platform> (which owns the binary) as *sibling* trees under
+# .mise/, so that upward walk never reaches skills/ and every skills command
+# fails with:
+#
+#   native skills: could not find skills/ or skill-data/ near the native-sdk executable
+#
+# NATIVE_SDK_PATH does not help: the binary only consults it for the build
+# framework (build.zig), not for skills. NATIVE_SDK_SKILLS_ROOT is the override
+# it actually honours.
+#
+# `latest` is a stable symlink, so this survives @native-sdk/cli version bumps.
+
+[env]
+NATIVE_SDK_SKILLS_ROOT = "{{ .chezmoi.homeDir }}/.local/share/mise/installs/npm-native-sdk-cli/latest/node_modules/@native-sdk/cli"

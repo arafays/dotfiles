@@ -13,7 +13,7 @@ binds {
     Mod+Shift+ESCAPE                                                                     { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+RETURN               hotkey-overlay-title="Open a Terminal: alacritty"           { spawn "alacritty"; }
+    Mod+RETURN               hotkey-overlay-title="Open a Terminal: ghostty"             { spawn "ghostty"; }
     Mod+SPACE                hotkey-overlay-title="Open App Launcher: noctalia launcher" { spawn-sh "noctalia msg panel-toggle launcher"; }
     Mod+ALT+L                hotkey-overlay-title="Lock Screen: noctalia lock"           { spawn-sh "noctalia msg session lock"; }
     Mod+Shift+Q              hotkey-overlay-title="Session Menu: noctalia sessionMenu"   { spawn-sh "noctalia msg panel-toggle session"; }
