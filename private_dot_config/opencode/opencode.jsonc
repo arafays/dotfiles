@@ -13,7 +13,7 @@
     {
       "package": "opencode-dcp@latest",
       "options": {
-        "maxContextLimit": 150000,
+        "maxContextLimit": 200000,
       },
     },
   ],
@@ -22,6 +22,7 @@
       "browser-control": {
         "type": "local",
         "command": ["browser-control-mcp"],
+        "disabled": true,
       },
       "markitdown": {
         "type": "local",

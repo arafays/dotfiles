@@ -42,7 +42,6 @@ if status is-interactive
     function __mise_deferred --on-event fish_prompt
         mise activate fish | source
         mise completion fish | source
-        type -q zoxide; and zoxide init fish --cmd cd | source
 
         # Load completions for mise-managed tools
         if type -q mise
@@ -216,43 +215,6 @@ if status is-interactive
         commandline -f repaint
     end
 
-    # ── pi suggest ──
-    # Usage: suggest <prompt>, #comment→command, <command>→explain
-    function suggest
-        set -l cmd (commandline)
-        set -l model opencode/deepseek-v4-flash-free
-        set -l pi_args -p -ne --no-session --model $model --tools read,grep,find,ls
-
-        if test (count $argv) -gt 0
-            set -l prompt (string join ' ' $argv)
-            printf '\r%s⏳ ▸ %s%s\n\r' (set_color cyan) $prompt (set_color normal) >&2
-            set -l result (pi $pi_args "$prompt" 2>/dev/null)
-            printf '\033[K' >&2
-            test -n "$result"; and printf '%s%s%s\n' (set_color green) $result (set_color normal); or printf '%s⚠ No response%s\n' (set_color brblack) (set_color normal) >&2
-            return
-        end
-
-        test -z "$cmd"; and return
-
-        if string match -q '#*' "$cmd"
-            set -l prompt (string replace -r '^#\s*' '' -- $cmd)
-            printf '\r%s⏳ ▸ Converting: %s%s%s\r' (set_color cyan) (set_color yellow) $prompt (set_color normal) >&2
-            set -l result (pi $pi_args "Convert to a shell command. Output ONLY the command, no explanation: $prompt" 2>/dev/null)
-            printf '\033[K' >&2
-            if test -n "$result"
-                printf '%s✔ %s%s\n' (set_color green) $result (set_color normal) >&2
-                commandline -r "$result"
-            else
-                printf '%s✘ Failed%s\n' (set_color brblack) (set_color normal) >&2
-            end
-        else
-            printf '\r%s⏳ ▸ Explaining: %s%s%s\r' (set_color cyan) (set_color yellow) $cmd (set_color normal) >&2
-            set -l result (pi $pi_args "Explain concisely: $cmd" 2>/dev/null)
-            printf '\033[K' >&2
-            test -n "$result"; and printf '%s%s%s\n' (set_color green) $result (set_color normal); or printf '%s⚠ No explanation%s\n' (set_color brblack) (set_color normal) >&2
-        end
-    end
-
     function fish_user_key_bindings
         bind \ep parufind-widget
         bind -M insert \ch backward-delete-char
@@ -283,6 +245,19 @@ if status is-interactive
         set -l archive (test (count $argv) -gt 0; and echo $argv[1]; or echo "../"(basename $PWD)-(date +%Y%m%d).tar.gz)
         set -l dirs (test (count $argv) -gt 1; and echo $argv[2..]; or echo .)
         noglob tar --exclude={node_modules,.next,.astro,.svelte-kit,.nuxt,.output,.turbo,.vercel,.expo,dist,build,out,target,__pycache__,.venv,venv,.ruff_cache,.mypy_cache,.pytest_cache,.cache,.yarn,.pnpm-store,.direnv,'*.pyc',.DS_Store,.terraform,ios/build,android/build,.gradle,.swiftpm,Pods,DerivedData,.nx,.serverless,coverage,.nyc_output,.eslintcache,.parcel-cache,.angular,.storybook/out,.netlify} -czf $archive $dirs
+    end
+
+    type -q zoxide; and zoxide init fish --cmd cd | source
+
+    if type -q yazi
+        function y
+            set tmp (mktemp -t "yazi-cwd.XXXXXX")
+            yazi $argv --cwd-file="$tmp"
+            if set cwd (command cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+                builtin cd -- "$cwd"
+            end
+            rm -f -- "$tmp"
+        end
     end
 
     type -q starship; and starship init fish | source

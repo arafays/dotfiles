@@ -40,5 +40,8 @@
     "wrap": "word",
     "tree": true,
     "single": false
+  },
+  "terminal": {
+    "copy": "select"
   }
 }
