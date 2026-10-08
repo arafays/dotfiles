@@ -55,4 +55,7 @@
     },
   },
   "lsp": true,
+  "compaction": {
+    "prune": false,
+  },
 }

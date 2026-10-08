@@ -1,16 +1,15 @@
 {
   "skills": [],
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "1.0.4",
   "packages": [
     "npm:@plannotator/pi-extension",
     "npm:pi-thinking-steps",
     "npm:pi-exa",
-    "npm:pi-mcp-adapter",
     "npm:pi-context-view",
     "npm:@ff-labs/pi-fff",
     "npm:pi-subagents"
   ],
-  "theme": "dark",
+  "theme": "system",
   "hideThinkingBlock": false,
   "showHardwareCursor": false,
   "editorPaddingX": 3,
@@ -28,8 +27,7 @@
   },
   "autocompleteMaxVisible": 15,
   "httpIdleTimeoutMs": 120000,
-  "enabledModels": [
-    "opencode/deepseek-v4-pro",
-    "opencode-go/hy4-preview"
-  ]
+  "showCacheMissNotices": true,
+  "quietStartup": true,
+  "collapseChangelog": true
 }

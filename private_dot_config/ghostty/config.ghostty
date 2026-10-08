@@ -1,0 +1,11 @@
+config-file = ?auto/theme.ghostty
+
+window-decoration = false
+mouse-hide-while-typing = true
+
+background-opacity = 0.6
+background-blur = true
+
+# Font
+font-size = 12
+

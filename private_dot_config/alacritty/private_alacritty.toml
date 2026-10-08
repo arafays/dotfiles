@@ -11,35 +11,6 @@ blur = true
 [terminal.shell]
 program = "/usr/bin/fish"
 
-# # Colors (Oxocarbon theme to match Starship)
-# [colors.primary]
-# background = "#161616"
-# foreground = "#dde1e6"
-#
-# [colors.cursor]
-# text = "#161616"
-# cursor = "#dde1e6"
-#
-# [colors.normal]
-# black = "#161616"
-# red = "#ee5396"
-# green = "#42be65"
-# yellow = "#ffe97b"
-# blue = "#33b1ff"
-# magenta = "#be95ff"
-# cyan = "#3ddbd9"
-# white = "#dde1e6"
-#
-# [colors.bright]
-# black = "#262626"
-# red = "#ee5396"
-# green = "#42be65"
-# yellow = "#ffe97b"
-# blue = "#78a9ff"
-# magenta = "#be95ff"
-# cyan = "#3ddbd9"
-# white = "#ffffff"
-
 [font]
 size = 12
 
@@ -63,4 +34,5 @@ mods = "Control"
 action = "ResetFontSize"
 
 [general]
+import = ["~/.config/alacritty/themes/noctalia.toml"]
 live_config_reload = true

@@ -13,31 +13,26 @@ uv = "latest"
 "npm:vim-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
 
-"npm:firebase-tools" = "latest"
 "npm:portless" = { version = "latest", minimum_release_age = "0s" }
 "npm:vercel" = { version = "latest", minimum_release_age = "0s" }
-"npm:@native-sdk/cli" = "latest"
-
-"npm:@biomejs/biome" = "latest"
-
-"npm:@ast-grep/napi" = "latest"
-"npm:neovim" = "latest"
 "npm:prettier" = "latest"
+"npm:neovim" = "latest"
 "cargo:kdlfmt" = "latest"
-"npm:typescript-language-server" = "latest"
+
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
-
 aube = "latest"
-
 playwright = "latest"
+
 "github:dmtrKovalenko/bashka" = "latest"
-"npm:@opencode-ai/browser-control" = "latest"
+"npm:typescript-language-server" = "latest"
+biome = "latest"
 
 [tasks.update-daily]
 description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
 run = [
-  "mise upgrade --bump --minimum-release-age 0 npm:@earendil-works/pi-coding-agent npm:@zaly/cli",
+  "mise upgrade --bump --minimum-release-age 0 npm:@earendil-works/pi-coding-agent",
   "mise prune -y",
+  "codex update",
   "pi update --extensions",
   "chezmoi re-add --verbose",
 ]
@@ -175,5 +170,7 @@ for cmd in "$@"; do
   echo ""
 done
 '''
+
+
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

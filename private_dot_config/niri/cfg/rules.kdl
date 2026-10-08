@@ -43,24 +43,11 @@ layer-rule {
     place-within-backdrop true
 }
 
-// Window rules let you adjust behavior for individual windows.
-// Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Window-Rules
-// Enable borders for Alacritty since it no longer has window decorations
-// Opacity + blur for a translucent terminal look.
-// NOTE: transparency comes client-side from alacritty.toml (`window.opacity = 0.8`);
-// do NOT add a compositor `opacity` here — niri's rule opacity multiplies on top.
-// draw-border-with-background false: draw the focus ring AROUND the window instead
-// of as a solid rectangle behind it (which would show through the translucency).
-
 window-rule {
     match app-id="^Alacritty$"
-    match app-id=r#"^com\.mitchellh\.ghostty$"#
+    match app-id="^com\\.mitchellh\\.ghostty$"
     draw-border-with-background false
-    background-effect {
-        blur true
-        xray true
-    }
+    background-effect     { blur true; }
     default-column-width  { proportion 0.8887; }
     border                { off; }
 }
@@ -82,7 +69,6 @@ window-rule {
         background-effect { blur true; }
     }
 }
-
 window-rule {
     match app-id="zen$"
     match app-id="codex-desktop"
@@ -99,8 +85,6 @@ window-rule {
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id="firefox$" title="^Picture-in-Picture$"
     match app-id="zen$" title="^Picture-in-Picture$"
-    
-  
     open-floating true
 }
 
@@ -146,9 +130,8 @@ window-rule {
 window-rule {
     // regex that mantaches code and code-insiders
     match app-id="code(-insiders)?$"
-  match app-id="^codex-desktop$"
-
-  match app-id="^cursor$"
+    match app-id="^codex-desktop$"
+    match app-id="^cursor$"
 
     // for zed thats match id id dev.zed.Zed
     match app-id="dev\\.zed\\.Zed$"
