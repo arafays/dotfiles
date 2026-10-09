@@ -52,42 +52,6 @@ end
 # === INTERACTIVE ===
 
 if status is-interactive
-
-    function __mise_load_completion
-        # Some generators exit before piped stdout drains. A regular file captures
-        # their complete output; parse it before letting it reach the prompt.
-        set -l completion_file (mktemp -t mise-completions.XXXXXX.fish 2>/dev/null)
-        or return
-        if $argv >"$completion_file" 2>/dev/null
-            if fish --no-config -n "$completion_file" 2>/dev/null
-                source "$completion_file" 2>/dev/null
-            end
-        end
-        command rm -f -- "$completion_file"
-    end
-
-    function __mise_deferred --on-event fish_prompt
-        # Generate once for commands actually available, including backend-qualified tools.
-        type -q mise; and __mise_load_completion mise completion fish
-        if type -q aube
-            for aube_bin in aube aubr aubx
-                type -q $aube_bin; and __mise_load_completion aube completion fish --bin $aube_bin
-            end
-        end
-        # Bun would install bunx if absent. Require both and suppress its installer path.
-        if type -q bun; and type -q bunx
-            __mise_load_completion env SHELL=/usr/bin/fish bun completions
-        end
-        type -q pnpm; and __mise_load_completion pnpm completion fish
-        type -q uv; and __mise_load_completion uv generate-shell-completion fish
-        type -q rustup; and __mise_load_completion rustup completions fish
-        type -q pip; and __mise_load_completion pip completion --fish
-        type -q opencode2; and __mise_load_completion opencode2 --completions fish
-
-        functions -e __mise_deferred
-    end
-
-    # vi key bindings
     fish_vi_key_bindings
 
     # abbreviations
@@ -137,14 +101,6 @@ if status is-interactive
             alias orphans="$helper -Qtdq"
             alias ua-drop-caches="sudo paccache -rk3; $helper -Sc --aur --noconfirm"
             break
-        end
-    end
-
-    function in
-        if test -n "$aurhelper"
-            $aurhelper -S $argv
-        else
-            sudo pacman -S $argv
         end
     end
 

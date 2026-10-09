@@ -34,15 +34,6 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate bash)"
 fi
 
-# Aube's CLI completions, while mise retains runtime/PATH ownership.
-if command -v aube >/dev/null 2>&1; then
-  for _aube_bin in aube aubr aubx; do
-    command -v "$_aube_bin" >/dev/null 2>&1 || continue
-    source <(aube completion bash --bin "$_aube_bin")
-  done
-  unset _aube_bin
-fi
-
 # ---- prompt ----
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
