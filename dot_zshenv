@@ -1,0 +1,5 @@
+# Zsh reads this for interactive and non-interactive shells.
+# Keep it quiet and cheap; prompt hooks belong in .zshrc.
+if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/bash/mise-env.bash" ]]; then
+  source "${XDG_CONFIG_HOME:-$HOME/.config}/bash/mise-env.bash"
+fi

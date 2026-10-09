@@ -1,0 +1,4 @@
+# Mise owns runtime installation and Aube upgrades across all shells.
+# Aube remains available through explicit aube/aubr/aubx commands.
+runtimeInstaller = "mise"
+updateNotifier = false

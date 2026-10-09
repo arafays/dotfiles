@@ -1,176 +1,77 @@
 [tools]
-usage = "latest"
-rtk = "latest"
-
+# Development runtimes: update deliberately with `mise run update:runtimes`.
+# System Node/Python/Java and native libraries remain owned by pacman.
 node = "lts"
 bun = "latest"
 go = "latest"
-java = "27"
 rust = "latest"
-uv = "latest"
 
-"npm:markdownlint-cli2" = "latest"
-"npm:vim-language-server" = "latest"
-"npm:yaml-language-server" = "latest"
+# User CLI tools: the bootstrap tool-update service checks these daily.
+usage = { version = "latest", auto_update = true }
+rtk = { version = "latest", auto_update = true }
+uv = { version = "latest", auto_update = true }
+"github:dmtrKovalenko/bashka" = { version = "latest", auto_update = true }
+"cargo:kdlfmt" = { version = "latest", auto_update = true }
+shellcheck = { version = "latest", auto_update = true }
+shfmt = { version = "latest", auto_update = true }
 
-"npm:portless" = { version = "latest", minimum_release_age = "0s" }
-"npm:vercel" = { version = "latest", minimum_release_age = "0s" }
-"npm:prettier" = "latest"
-"npm:neovim" = "latest"
-"cargo:kdlfmt" = "latest"
+# AI/browser/deployment tools. Bashka remains the owner of its installer tools;
+# its updates are explicit because some installers write to /usr/local/bin.
+codex = { version = "latest", auto_update = true }
+"npm:vercel" = { version = "latest", auto_update = true, minimum_release_age = "0s" }
 
-"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s", npm_args = "--ignore-scripts=false" }
-aube = "latest"
-playwright = "latest"
+"npm:@earendil-works/pi-coding-agent" = { version = "latest", auto_update = true, allow_builds = [
+  "esbuild",
+] }
+aube = { version = "latest", auto_update = true }
+playwright = { version = "latest", auto_update = true }
 
-"github:dmtrKovalenko/bashka" = "latest"
-"npm:typescript-language-server" = "latest"
-biome = "latest"
-
-[tasks.update-daily]
-description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files"
-run = [
-  "mise upgrade --bump --minimum-release-age 0 npm:@earendil-works/pi-coding-agent",
-  "mise prune -y",
-  "codex update",
-  "pi update --extensions",
-  "chezmoi re-add --verbose",
-]
-
-[tasks.pkg-info]
-description = "Show where a command lives and how it was installed. Usage: mise run pkg-info <command> [command...]"
-run = '''
-#!/usr/bin/env bash
-set +eu  # detection relies on failing probes (command -v, pacman -Qo); never abort mid-scan
-
-# pkg-info — locate a command and show how it was installed.
-if [ $# -eq 0 ]; then
-  echo "usage: mise run pkg-info <command> [command...]"
-  echo "example: mise run pkg-info opencode2 code-insiders claude"
-  exit 1
-fi
-
-MISE_DATA="${MISE_DATA_DIR:-$HOME/.local/share/mise}"
-PNPM_HOME_DIR="${PNPM_HOME:-$HOME/.local/share/pnpm}"
-PIPX_DIR="${PIPX_HOME:-$HOME/.local/share/pipx}"
-UV_TOOLS="${UV_TOOL_DIR:-$HOME/.local/share/uv/tools}"
-
-pretty() { printf "%s" "$1" | sed "s|$HOME|~|g"; }
-
-for cmd in "$@"; do
-  loc="$(command -v "$cmd" 2>/dev/null)"
-  echo "$cmd"
-  if [ -z "$loc" ]; then
-    echo "  not found in PATH"
-    echo ""
-    continue
-  fi
-
-  src=""
-  ver=""
-  real="$loc"
-
-  # Resolve location. Mise shims are symlinks to the mise binary, so they are
-  # detected by path first and resolved via mise which instead of readlink.
-  case "$loc" in
-    "$MISE_DATA"/shims/*)
-      src="mise (shim)"
-      r="$(mise which "$cmd" 2>/dev/null)"
-      [ -n "$r" ] && real="$r"
-      ;;
-    *)
-      r="$(readlink -f "$loc" 2>/dev/null)"
-      [ -n "$r" ] && real="$r"
-      ;;
-  esac
-
-  # Mise-managed tool: parse tool@version from the installs path.
-  case "$real" in
-    "$MISE_DATA"/installs/*)
-      rel="${real#"$MISE_DATA"/installs/}"
-      tool="${rel%%/*}"
-      rest="${rel#*/}"
-      ver="$tool@${rest%%/*}"
-      src="mise"
-      ;;
-  esac
-
-  # Pacman-owned (official repos and AUR alike).
-  if [ -z "$src" ]; then
-    if pacman -Qo "$real" >/dev/null 2>&1 || pacman -Qo "$loc" >/dev/null 2>&1; then
-      owner="$(pacman -Qo "$real" 2>/dev/null || pacman -Qo "$loc" 2>/dev/null)"
-      owner="${owner##* owned by }"
-      ver="$owner"
-      src="pacman (AUR)"
-      pacman -Si "${owner%% *}" >/dev/null 2>&1 && src="pacman (repo)"
-    fi
-  fi
-
-  # uv / pipx tool venvs.
-  if [ -z "$src" ]; then
-    for d in "$UV_TOOLS"/*/; do
-      if [ -e "${d}bin/$cmd" ]; then src="uv tool ($(basename "$d"))"; break; fi
-    done
-  fi
-  if [ -z "$src" ]; then
-    for d in "$PIPX_DIR"/venvs/*/; do
-      if [ -e "${d}bin/$cmd" ]; then src="pipx ($(basename "$d"))"; break; fi
-    done
-  fi
-  if [ -z "$src" ]; then
-    case "$real" in
-      "$UV_TOOLS"/*) src="uv tool" ;;
-      "$PIPX_DIR"/*) src="pipx" ;;
-    esac
-  fi
-
-  # Known install prefixes.
-  if [ -z "$src" ]; then
-    case "$real" in
-      "$HOME"/.opencode/*) src="opencode installer (curl)" ;;
-      "$HOME"/.cargo/bin/*) src="cargo" ;;
-      "$HOME"/go/bin/*) src="go install" ;;
-      "$HOME"/.bun/*) src="bun global" ;;
-      "$PNPM_HOME_DIR"/*) src="pnpm global" ;;
-      /usr/lib/node_modules/*|/usr/local/lib/node_modules/*|"$HOME"/.npm-global/*) src="npm global" ;;
-      "$HOME"/.local/bin/mise) src="mise installer (curl)" ;;
-    esac
-  fi
-
-  # Fallbacks based on where the command itself lives.
-  if [ -z "$src" ]; then
-    in_home=""
-    case "$real" in "$HOME"/*) in_home=1 ;; esac
-    case "$loc" in
-      "$HOME"/.local/bin/*|"$HOME"/.local/sbin/*|"$HOME"/bin/*)
-        if [ -n "$in_home" ] && [ "$real" != "$loc" ]; then
-          src="native installer (self-updating curl script)"
-        else
-          src="manual user install (~/.local/bin)"
-        fi
-        ;;
-      /usr/local/bin/*|/usr/local/sbin/*|/opt/*)
-        src="manual system install (not pacman-owned)"
-        ;;
-      *)
-        src="unmanaged (not owned by pacman)"
-        ;;
-    esac
-  fi
-
-  echo "  path:    $(pretty "$loc")"
-  if [ "$real" != "$loc" ]; then
-    echo "  target:  $(pretty "$real")"
-  fi
-  if [ -n "$ver" ]; then
-    echo "  source:  $src → $ver"
-  else
-    echo "  source:  $src"
-  fi
-  echo ""
-done
-'''
-
+# Shared editor tools. Neovim itself is pacman-owned; npm:neovim is its provider.
+"npm:neovim" = { version = "latest", auto_update = true }
+# TypeScript servers/compiler stay in Mason with LazyVim's TypeScript extras.
+biome = { version = "latest", auto_update = true }
+"npm:prettier" = { version = "latest", auto_update = true }
+"npm:markdownlint-cli2" = { version = "latest", auto_update = true }
+"npm:vim-language-server" = { version = "latest", auto_update = true }
+"npm:yaml-language-server" = { version = "latest", auto_update = true }
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
+# Warn about native requirements; background tool updates must never invoke sudo.
+system_deps = "warn"
+# Keep npm tools in mise's isolated prefixes with its embedded aube installer.
+npm.package_manager = "auto"
+npm.shell_out = false
+self_update.auto = true
+self_update.check_duration = "24h"
+tool_update.check_duration = "24h"
+upgrade.prune_after = "3d"
+
+[tasks.bootstrap]
+description = "Verify the development setup after packages and tools are installed"
+run = "mise run doctor:dev"
+
+[tasks."doctor:dev"]
+description = "Inspect mise, bootstrap resources, and installer-managed tools"
+run = ["mise doctor", "mise bootstrap status", "bashka list"]
+
+[tasks."update:tools"]
+description = "Update configured CLI/editor tools, preserving runtime versions and config"
+run = "mise upgrade --exclude node --exclude bun --exclude go --exclude java --exclude rust"
+
+[tasks."update:runtimes"]
+description = "Manually update development runtimes within their configured version ranges"
+run = "mise upgrade node bun go java rust"
+
+[tasks."update:extensions"]
+description = "Update Pi extensions explicitly"
+run = "pi update --extensions"
+
+[tasks."clean:preview"]
+description = "Preview unused mise versions without removing anything"
+run = "mise prune --dry-run"
+
+[tasks.update-daily]
+description = "Update CLI/editor tools and Pi extensions (runtime updates remain manual)"
+depends = ["update:tools"]
+run = "mise run update:extensions"

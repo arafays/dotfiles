@@ -1,5 +1,39 @@
 return {
 	{
+		"mason-org/mason.nvim",
+		opts = function(_, opts)
+			-- Project/mise/system tools take precedence; Mason fills editor-only gaps.
+			opts.PATH = "append"
+			local managed = {
+				biome = true,
+				prettier = true,
+				["markdownlint-cli2"] = true,
+				["vim-language-server"] = true,
+				["yaml-language-server"] = true,
+				shellcheck = true,
+				shfmt = true,
+			}
+			opts.ensure_installed = vim.tbl_filter(function(tool)
+				return not managed[tool]
+			end, opts.ensure_installed or {})
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		opts = function(_, opts)
+			for _, server in ipairs({ "biome", "vimls", "yamlls" }) do
+				local config = (opts.servers or {})[server]
+				if config == true then
+					config = {}
+					opts.servers[server] = config
+				end
+				if type(config) == "table" then
+					config.mason = false
+				end
+			end
+		end,
+	},
+	{
 		"nvim-treesitter/nvim-treesitter",
 		init = function()
 			require("vim.treesitter.query").add_predicate("is-mise?", function(_, _, bufnr, _)

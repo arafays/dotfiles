@@ -1,22 +1,22 @@
 # ~/.profile — POSIX login shell environment
-# Sourced by sh, bash, zsh (via .zshrc), and any login shell.
-# Fish sources environment.d separately via fenv.
+# Sourced by sh, bash, and zsh (via .zshrc).
+# Fish imports missing session environment variables from systemd.
 
 # System-wide profile
 [ -f /etc/profile ] && . /etc/profile
+
+# Mise shims and BASH_ENV for child Bash commands, without prompt hooks.
+if [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/bash/mise-env.bash" ]; then
+  . "${XDG_CONFIG_HOME:-$HOME/.config}/bash/mise-env.bash"
+fi
 
 # GPG TTY (not in environment.d — needs runtime tty)
 command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
 
 # PATH — idempotent additions
-_prepend() {
-  case ":$PATH:" in *:"$1":*) ;; *) PATH="$1:$PATH" ;; esac
-}
 _append() {
   case ":$PATH:" in *:"$1":*) ;; *) PATH="$PATH:$1" ;; esac
 }
-
-_prepend "$HOME/.local/bin"
 
 # Android SDK tool dirs (append, only if they exist)
 if [ -d "$HOME/Android/Sdk" ]; then
@@ -49,4 +49,4 @@ _path_dedup
 unset _path_dedup
 
 export PATH
-unset _prepend _append
+unset _append

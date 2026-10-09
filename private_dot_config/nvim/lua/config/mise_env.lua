@@ -1,89 +1,79 @@
--- Load mise environment variables into Neovim session
--- Runs mise env --json on startup and on :cd
+-- Keep project tools available in terminal and GUI Neovim sessions.
+local mise_bin = vim.fn.exepath("mise")
+if mise_bin == "" then
+	local local_mise = vim.fn.expand("~/.local/bin/mise")
+	if vim.fn.executable(local_mise) == 1 then
+		mise_bin = local_mise
+	end
+end
 
-local mise_bin = "mise"
+-- Keep the inherited environment as the baseline when leaving a project.
 local initial_path = vim.env.PATH
-local previous_vars = {}
+local original_vars = {}
 
-local function set_previous(data)
-	previous_vars = {}
-	for var_name, var_value in pairs(data) do
-		if var_name ~= "PATH" then
-			previous_vars[var_name] = var_value
+local function restore_env()
+	vim.env.PATH = initial_path
+	-- Mason can load after this module. Preserve its fallback on later reloads.
+	local mason = package.loaded["mason"]
+	local settings = package.loaded["mason.settings"]
+	if mason and mason.has_setup and settings and settings.current.PATH == "append" then
+		local mason_bin = settings.current.install_root_dir .. "/bin"
+		if not (":" .. (vim.env.PATH or "") .. ":"):find(":" .. mason_bin .. ":", 1, true) then
+			vim.env.PATH = (vim.env.PATH or "") .. ":" .. mason_bin
+		end
+	end
+	for name, original in pairs(original_vars) do
+		vim.env[name] = original.value
+	end
+end
+
+local function load_env()
+	if mise_bin == "" then
+		return
+	end
+	restore_env()
+	local result = vim.system({ mise_bin, "env", "--json" }, {
+		cwd = vim.fn.getcwd(),
+		text = true,
+	}):wait()
+	if result.code ~= 0 then
+		vim.notify("[mise] Could not load this directory's environment; run mise doctor", vim.log.levels.WARN)
+		return
+	end
+	local ok, data = pcall(vim.json.decode, result.stdout or "")
+	if not ok or type(data) ~= "table" then
+		vim.notify("[mise] Invalid environment JSON", vim.log.levels.ERROR)
+		return
+	end
+	for name, value in pairs(data) do
+		if type(value) == "string" then
+			if name ~= "PATH" and original_vars[name] == nil then
+				-- A table records unset values too, so leaving a project restores them.
+				original_vars[name] = { value = vim.env[name] }
+			end
+			vim.env[name] = value
 		end
 	end
 end
 
-local function get_data()
-	local full_command = mise_bin .. " env --json"
-	local output = vim.fn.system(full_command)
+load_env()
 
-	-- mise may print warnings like "mise WARN" to stdout
-	if string.find(output, "^mise") then
-		local first_line = string.match(output, "^[^\n]*")
-		vim.notify("[mise] " .. first_line, vim.log.levels.WARN)
-		return nil
-	end
-
-	local ok, data = pcall(vim.json.decode, output)
-	if not ok or data == nil then
-		vim.notify("[mise] Invalid JSON from mise env --json", vim.log.levels.ERROR)
-		return nil
-	end
-
-	return data
-end
-
-local function load_env(data)
-	-- Unset previously-loaded mise vars first
-	for var_name, _ in pairs(previous_vars) do
-		vim.env[var_name] = nil
-	end
-
-	-- Apply new vars
-	for var_name, var_value in pairs(data) do
-		vim.env[var_name] = var_value
-	end
-
-	set_previous(data)
-end
-
-local function dir_changed()
-	vim.env.PATH = initial_path
-	local data = get_data()
-	if data == nil then
-		return
-	end
-	load_env(data)
-end
-
--- Initial load
-if vim.fn.executable(mise_bin) == 1 then
-	local data = get_data()
-	if data then
-		vim.env.PATH = initial_path
-		load_env(data)
-	end
-else
-	vim.notify("[mise] executable not found", vim.log.levels.WARN)
-end
-
--- Re-run on global directory changes
 local group = vim.api.nvim_create_augroup("mise-env", { clear = true })
 vim.api.nvim_create_autocmd("DirChanged", {
 	group = group,
-	desc = "Reload mise env on directory change",
+	desc = "Reload mise environment on directory change",
 	callback = function()
 		if vim.v.event.scope == "global" then
-			dir_changed()
+			load_env()
 		end
 	end,
 })
 
--- :Mise command to inspect current mise env
 vim.api.nvim_create_user_command("Mise", function()
-	local data = get_data()
-	if data then
-		vim.notify(vim.inspect(data), vim.log.levels.INFO)
+	load_env()
+	local tools = {}
+	for _, tool in ipairs({ "node", "nvim", "biome", "prettier", "markdownlint-cli2", "tsc" }) do
+		tools[#tools + 1] = tool .. ": " .. vim.fn.exepath(tool)
 	end
-end, { desc = "Show mise environment variables" })
+	vim.notify(table.concat(tools, "\n"), vim.log.levels.INFO)
+end, { desc = "Reload mise and show tool paths" })

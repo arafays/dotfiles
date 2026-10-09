@@ -12,21 +12,26 @@ setopt INTERACTIVE_COMMENTS INC_APPEND_HISTORY EXTENDED_HISTORY
 setopt HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_VERIFY
 setopt HIST_IGNORE_SPACE HIST_FIND_NO_DUPS BANG_HIST
 
-for env_file in ~/.config/environment.d/*.conf; do
+set -a
+for env_file in "${XDG_CONFIG_HOME:-$HOME/.config}"/environment.d/*.conf(N); do
   [[ -f "$env_file" ]] && source "$env_file"
 done
+set +a
+unset env_file
 
 _cmd_exists() {
   (( ${+commands[$1]} ))
 }
 
-[[ -n "$aurhelper" ]] && return
-for helper in yay paru; do
-  if _cmd_exists "$helper"; then
-    export aurhelper="$helper"
-    break
-  fi
-done
+if [[ -z "$aurhelper" ]]; then
+  for helper in yay paru; do
+    if _cmd_exists "$helper"; then
+      export aurhelper="$helper"
+      break
+    fi
+  done
+  unset helper
+fi
 
 _init_starship() {
   # Show system info only in interactive shells
@@ -38,31 +43,6 @@ _init_starship() {
   #
   if _cmd_exists starship; then
     eval "$(starship init zsh)"
-  else
-    echo "Starship not found. Install it? (y/n)"
-    read -r response
-    if [[ "$response" == "y" ]]; then
-      curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
-      eval "$(starship init zsh)"
-      export STARSHIP_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/starship"
-      export STARSHIP_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/starship/starship.toml"
-    fi
-  fi
-}
-
-_install_tool() {
-  local tool="$1"
-  local aur_package="$2"
-  if [[ -z "$aurhelper" ]]; then
-    echo "No AUR helper found. Please install $tool manually."
-    return 1
-  fi
-  echo "Installing $tool using $aurhelper..."
-  if $aurhelper -S "$aur_package"; then
-    return 0
-  else
-    echo "Failed to install $tool"
-    return 1
   fi
 }
 
@@ -70,7 +50,7 @@ _load_completion() {
   local tool="$1"
   local completion_cmd="$2"
   local delay="${3:-3}"
-  if ! _cmd_exists "$tool" || [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
+  if ! (( ${+functions[zinit]} )) || ! _cmd_exists "$tool" || [[ -z "$completion_cmd" || "$completion_cmd" == "skip" ]]; then
     return
   fi
   case "$tool" in
@@ -98,30 +78,19 @@ _setup_vi_mode() {
 
 _init_zinit() {
   local zinit_dir="$HOME/.local/share/zinit/zinit.git"
-  if [[ ! -f "$zinit_dir/zinit.zsh" ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$zinit_dir"
-  fi
+  # Installation belongs to bootstrap; opening a shell must never install tools.
+  [[ -r "$zinit_dir/zinit.zsh" ]] || return 1
   source "$zinit_dir/zinit.zsh"
 }
 
 _setup_essential_tools() {
   local tools=("git" "nvim" "gh" "docker" "bat" "rg" "fzf" "eza")
-  local packages=("git" "neovim" "github-cli" "docker" "bat" "ripgrep" "fzf" "eza")
-  local completions=("skip" "skip" "gh completion -s zsh" "skip" "bat --completion zsh" "rg --generate=complete-zsh" "fzf --zsh" "skip")
+  local completions=("skip" "skip" "gh completion -s zsh" "skip" "bat --completion zsh" "rg --generate=complete-zsh" "skip" "skip")
   for i in {1..${#tools[@]}}; do
     local tool="${tools[$i]}"
-    local package="${packages[$i]}"
     local completion_cmd="${completions[$i]}"
     if _cmd_exists "$tool"; then
       _load_completion "$tool" "$completion_cmd" "2"
-    else
-      echo "$tool not found. Install it? (y/n)"
-      read -r response
-      if [[ "$response" == "y" ]]; then
-        _install_tool "$tool" "$package" && _load_completion "$tool" "$completion_cmd" "3"
-      fi
     fi
   done
 }
@@ -150,6 +119,7 @@ _setup_menuselect_bindings() {
 }
 
 _init_plugins() {
+  (( ${+functions[zinit]} )) || return
   zstyle ':completion:*' menu yes select
   zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
   zmodload zsh/complist
@@ -174,7 +144,10 @@ _init_plugins() {
 _load_aliases() {
   _cmd_exists zoxide && alias cd='z'
   if _cmd_exists fzf; then
-    source <(fzf --zsh)
+    # Full fzf integration includes completions and needs a terminal for ZLE.
+    if [[ -t 0 && -t 1 ]]; then
+      source <(fzf --zsh)
+    fi
     alias ff='fzf --preview "bat --style=numbers --color=always {}"'
   fi
   _cmd_exists fd && alias find='fd' && alias f='fd --type f --hidden --follow --exclude .git'
@@ -298,7 +271,7 @@ _define_functions() {
     env -u QT_QPA_PLATFORM -u GDK_BACKEND -u SDL_VIDEODRIVER QT_QPA_PLATFORM=xcb "${ANDROID_HOME:-$HOME/Android/Sdk}/emulator/emulator" "$@"
   }
   _mise_chpwd_hook() {
-    _cmd_exists mise || return
+    _cmd_exists mise && (( ${+functions[zinit]} )) || return
     local tools=($(mise list --current 2>/dev/null | awk '{print $1}' | sort -u))
     [[ ${#tools[@]} -eq 0 ]] && return
     typeset -gA _mcl
@@ -355,14 +328,15 @@ _cmd_exists gpg-agent && gpg-agent --daemon >/dev/null 2>&1
 
 
 _init_mise(){
-  zinit as="command" lucid from="gh-r" for id-as="usage" jdx/usage
-  zinit as="command" lucid from="gh-r" for if='! (( $+commands[mise] ))' id-as="mise" mv="mise* -> mise" atclone="./mise* completion zsh > _mise" atpull="%atclone" jdx/mise
-
-  if (( $+commands[mise] )); then
-  eval "$(mise activate zsh)"
-  eval "$(aube activate zsh)"
-  _load_completion "mise" "mise completion zsh" "1"
-  _load_completion "aube" "aube completion zsh" "1"
+  if _cmd_exists mise; then
+    eval "$(mise activate zsh)"
+    _load_completion "mise" "mise completion zsh" "1"
+  fi
+  if _cmd_exists aube; then
+    local aube_bin
+    for aube_bin in aube aubr aubx; do
+      _load_completion "$aube_bin" "aube completion zsh --bin $aube_bin" "1"
+    done
   fi
 }
 

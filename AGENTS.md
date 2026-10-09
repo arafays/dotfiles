@@ -30,6 +30,19 @@ _Example Application:_ `chezmoi apply --source-path "/home/arafays/.local/share/
 
 _Note:_ `--source-path` resolves relative paths against the current working directory, not the chezmoi source directory. Always pass the absolute path under `~/.local/share/chezmoi`.
 
+## Mise-Generated Updater Service
+
+The user authorized mise to own its generated tool-update service directly.
+Declare it in the chezmoi-managed mise config with
+`[bootstrap.services.mise-tool-update]` and `builtin = "tool-update"`, then
+preview `mise bootstrap --only services --dry-run` and apply
+`mise bootstrap --only services` as the normal user. This is a narrow exception
+to the chezmoi deployment workflow for
+`~/.config/systemd/user/dev.mise.mise-tool-update.service` and its enablement.
+Do not keep a duplicate chezmoi source template for this generated unit.
+All other configuration still follows the source-only workflow above.
+Ask the user before any sudo command or any bootstrap phase that needs sudo.
+
 ## Chezmoi Naming Cipher
 
 Source filenames encode deployment behavior via specific prefixes and suffixes. Do not rename files without understanding this cipher.

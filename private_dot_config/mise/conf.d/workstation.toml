@@ -1,0 +1,42 @@
+# Workstation bootstrap resources, loaded alongside the shared tool config.
+# This fragment keeps native libraries and desktop dependencies with pacman.
+
+[bootstrap.packages]
+# Already-installed host packages. Normal bootstrap installs missing packages;
+# it does not replace pacman's full-system upgrade workflow.
+"pacman:base-devel" = "latest"
+"pacman:bash" = "latest"
+"pacman:fish" = "latest"
+"pacman:zsh" = "latest"
+"pacman:ghostty" = "latest"
+"pacman:ghostty-shell-integration" = "latest"
+"pacman:ghostty-terminfo" = "latest"
+"pacman:neovim" = "latest"
+"pacman:ripgrep" = "latest"
+"pacman:fd" = "latest"
+"pacman:fzf" = "latest"
+"pacman:bat" = "latest"
+"pacman:starship" = "latest"
+"pacman:zoxide" = "latest"
+"pacman:git" = "latest"
+"pacman:github-cli" = "latest"
+"pacman:curl" = "latest"
+"pacman:jq" = "latest"
+"pacman:unzip" = "latest"
+"pacman:pkgconf" = "latest"
+"pacman:cmake" = "latest"
+"pacman:ninja" = "latest"
+"pacman:clang" = "latest"
+"pacman:gtk3" = "latest"
+"pacman:gtk4" = "latest"
+"pacman:nodejs" = "latest"                    # nodejs-lts-jod satisfies this via Provides.
+"pacman:python" = "latest"
+"pacman:jdk21-openjdk" = "latest"
+"pacman:docker" = "latest"
+"pacman:docker-compose" = "latest"
+"pacman:libvirt" = "latest"
+
+[bootstrap.services.mise-tool-update]
+builtin = "tool-update"
+# Mise generates and owns this service; no separate unit template is needed.
+# Shell activation stays in chezmoi while it owns the shell startup files.

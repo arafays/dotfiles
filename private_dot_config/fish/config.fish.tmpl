@@ -6,10 +6,7 @@ if not set -q GPG_TTY
     set -gx GPG_TTY (tty)
 end
 
-# Essential PATH — mise shims + local bin (must come before any mise calls)
-fish_add_path $HOME/.local/share/mise/shims
-fish_add_path $HOME/.local/bin
-fish_add_path $HOME/.opencode/bin
+fish_add_path --global --path $HOME/.local/bin $HOME/.opencode/bin
 
 # Claude Code + OpenRouter
 ## set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
@@ -17,7 +14,7 @@ set -gx BW_SESSION '{{ .secrets.bw_session }}'
 set -gx FAL_AI_API_KEY '{{ .secrets.fal_ai_api_key }}'
 set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
 
-# Import environment from systemd user daemon (~15ms vs ~750ms with fenv).
+# Import missing environment from systemd without replacing inherited project vars.
 # systemd already loads ~/.config/environment.d/*.conf at login.
 # After editing env.d files: systemctl --user daemon-reload
 for line in (systemctl --user show-environment 2>/dev/null)
@@ -25,6 +22,7 @@ for line in (systemctl --user show-environment 2>/dev/null)
     set -l key $pair[1]
     # Skip read-only or fish-managed variables
     contains -- $key PWD SHLVL _ PATH; and continue
+    set -q $key; and continue
     set -l val $pair[2]
     # systemd wraps special chars in $'...' — strip the wrapper and unescape inner quotes
     set -l _dollar_quote (printf '\x24\x27') # literal $'
@@ -35,35 +33,56 @@ for line in (systemctl --user show-environment 2>/dev/null)
     set -gx $key $val
 end
 
+# Child AI commands in Bash use a quiet startup file rather than .profile.
+if set -q XDG_CONFIG_HOME; and test -n "$XDG_CONFIG_HOME"
+    set -gx BASH_ENV "$XDG_CONFIG_HOME/bash/mise-env.bash"
+else
+    set -gx BASH_ENV "$HOME/.config/bash/mise-env.bash"
+end
+
+# Let mise choose its paths, including custom shim directories and wrappers.
+if type -q mise
+    if status is-interactive
+        mise activate fish | source
+    else
+        mise activate fish --shims | source
+    end
+end
+
 # === INTERACTIVE ===
 
 if status is-interactive
 
-    function __mise_deferred --on-event fish_prompt
-        mise activate fish | source
-        mise completion fish | source
-
-        # Load completions for mise-managed tools
-        if type -q mise
-            for tool in (mise ls --current 2>/dev/null | awk '{print $1}')
-                switch $tool
-                    case aube
-                        type -q aube; and aube completion fish | source 2>/dev/null
-                    case bun
-                        type -q bun; and bun completions fish | source 2>/dev/null
-                    case pnpm
-                        type -q pnpm; and pnpm completion fish | source 2>/dev/null
-                    case uv
-                        type -q uv; and uv generate-shell-completion fish | source 2>/dev/null
-                    case rust
-                        type -q rustup; and rustup completions fish | source 2>/dev/null
-                    case python
-                        type -q pip; and pip completion --fish | source 2>/dev/null
-                    case opencode2
-                        type -q opencode2; and opencode2 --completions fish | source 2>/dev/null
-                end
+    function __mise_load_completion
+        # Some generators exit before piped stdout drains. A regular file captures
+        # their complete output; parse it before letting it reach the prompt.
+        set -l completion_file (mktemp -t mise-completions.XXXXXX.fish 2>/dev/null)
+        or return
+        if $argv >"$completion_file" 2>/dev/null
+            if fish --no-config -n "$completion_file" 2>/dev/null
+                source "$completion_file" 2>/dev/null
             end
         end
+        command rm -f -- "$completion_file"
+    end
+
+    function __mise_deferred --on-event fish_prompt
+        # Generate once for commands actually available, including backend-qualified tools.
+        type -q mise; and __mise_load_completion mise completion fish
+        if type -q aube
+            for aube_bin in aube aubr aubx
+                type -q $aube_bin; and __mise_load_completion aube completion fish --bin $aube_bin
+            end
+        end
+        # Bun would install bunx if absent. Require both and suppress its installer path.
+        if type -q bun; and type -q bunx
+            __mise_load_completion env SHELL=/usr/bin/fish bun completions
+        end
+        type -q pnpm; and __mise_load_completion pnpm completion fish
+        type -q uv; and __mise_load_completion uv generate-shell-completion fish
+        type -q rustup; and __mise_load_completion rustup completions fish
+        type -q pip; and __mise_load_completion pip completion --fish
+        type -q opencode2; and __mise_load_completion opencode2 --completions fish
 
         functions -e __mise_deferred
     end
@@ -80,8 +99,6 @@ if status is-interactive
     alias vim='nvim'
     abbr -a -- - 'cd -'
     alias n='nvim'
-    alias code="code-insiders"
-    alias dev='code .'
     alias czd='chezmoi cd'
     alias npx="aubx"
     alias opencode="opencode2"
@@ -247,8 +264,6 @@ if status is-interactive
         noglob tar --exclude={node_modules,.next,.astro,.svelte-kit,.nuxt,.output,.turbo,.vercel,.expo,dist,build,out,target,__pycache__,.venv,venv,.ruff_cache,.mypy_cache,.pytest_cache,.cache,.yarn,.pnpm-store,.direnv,'*.pyc',.DS_Store,.terraform,ios/build,android/build,.gradle,.swiftpm,Pods,DerivedData,.nx,.serverless,coverage,.nyc_output,.eslintcache,.parcel-cache,.angular,.storybook/out,.netlify} -czf $archive $dirs
     end
 
-    type -q zoxide; and zoxide init fish --cmd cd | source
-
     if type -q yazi
         function y
             set tmp (mktemp -t "yazi-cwd.XXXXXX")
@@ -260,5 +275,6 @@ if status is-interactive
         end
     end
 
+    type -q zoxide; and zoxide init fish --cmd cd | source
     type -q starship; and starship init fish | source
 end

@@ -15,6 +15,10 @@
 # Agent configuration
 ./AGENTS.md
 
+# mise bootstrap owns its generated updater unit and enablement.
+.config/systemd/user/dev.mise.mise-tool-update.service
+.config/systemd/user/default.target.wants/dev.mise.mise-tool-update.service
+
 # QML LSP (environment-specific per Quickshell docs)
 .qmlls.ini
 .qmllint.ini

@@ -1,5 +1,9 @@
 # ~/.bashrc — interactive bash configuration
-# Non-interactive bash gets environment via BASH_ENV=~/.profile.
+# Non-interactive Bash uses the lightweight BASH_ENV file.
+
+if [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/bash/mise-env.bash" ]; then
+  . "${XDG_CONFIG_HOME:-$HOME/.config}/bash/mise-env.bash"
+fi
 
 # ---- history ----
 export HISTSIZE=50000
@@ -30,9 +34,13 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate bash)"
 fi
 
-# ---- aube ----
+# Aube's CLI completions, while mise retains runtime/PATH ownership.
 if command -v aube >/dev/null 2>&1; then
-  eval "$(aube activate bash)"
+  for _aube_bin in aube aubr aubx; do
+    command -v "$_aube_bin" >/dev/null 2>&1 || continue
+    source <(aube completion bash --bin "$_aube_bin")
+  done
+  unset _aube_bin
 fi
 
 # ---- prompt ----
@@ -55,9 +63,6 @@ set -o vi
 stty -ixon 2>/dev/null
 
 command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"
-
-# Added by Antigravity CLI installer
-export PATH="/home/arafays/.local/bin:$PATH"
 
 # Shopify Hydrogen alias to local projects
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
