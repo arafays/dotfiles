@@ -14,10 +14,6 @@ uv = { version = "latest", auto_update = true }
 "cargo:kdlfmt" = { version = "latest", auto_update = true }
 shellcheck = { version = "latest", auto_update = true }
 shfmt = { version = "latest", auto_update = true }
-
-# AI/browser/deployment tools. Bashka remains the owner of its installer tools;
-# its updates are explicit because some installers write to /usr/local/bin.
-codex = { version = "latest", auto_update = true }
 "npm:vercel" = { version = "latest", auto_update = true, minimum_release_age = "0s" }
 
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", auto_update = true, allow_builds = [

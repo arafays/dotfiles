@@ -13,9 +13,10 @@
     {
       "package": "opencode-dcp@latest",
       "options": {
-        "maxContextLimit": 200000,
-      },
+        "maxContextLimit": 200000
+      }
     },
+    "DietrichGebert/ponytail"
   ],
   "mcp": {
     "servers": {
