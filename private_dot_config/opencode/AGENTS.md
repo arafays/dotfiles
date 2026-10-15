@@ -1,10 +1,8 @@
 ## Environment
 
-- OS: Linux/Arch/Wayland (niri); shell: fish + tmux
-- Secrets: gnome-keyring
-- Packages: paru, pacman, mise — use `mise` for tool management and global npm packages (e.g. `mise use node@24` or `mise use -g npm:vercel@latest`)
+- OS: Linux/Arch/Wayland (niri); shell: fish + herdr (ai native tmux alternative)
+- Packages: mise — use `mise` for tool management and global npm packages (e.g. `mise use node@24` or `mise use -g npm:vercel@latest`)
 - Node package manager is aube (`aube`, `aubr`, `aubx`) — never use `npm`, `npx`, `yarn`, `pnpm`, or `bun` directly: `aube install`, `aube add <pkg>`, `aubr <script>`, `aube exec <local-bin>`, `aubx <one-off-tool>`
-- Editors: vscode-insiders, nvim
 
 ## Working rules
 
