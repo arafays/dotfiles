@@ -15,10 +15,6 @@ uv = { version = "latest", auto_update = true }
 shellcheck = { version = "latest", auto_update = true }
 shfmt = { version = "latest", auto_update = true }
 "npm:vercel" = { version = "latest", auto_update = true, minimum_release_age = "0s" }
-
-"npm:@earendil-works/pi-coding-agent" = { version = "latest", auto_update = true, allow_builds = [
-  "esbuild",
-] }
 aube = { version = "latest", auto_update = true }
 playwright = { version = "latest", auto_update = true }
 
@@ -30,20 +26,12 @@ biome = { version = "latest", auto_update = true }
 "npm:markdownlint-cli2" = { version = "latest", auto_update = true }
 "npm:vim-language-server" = { version = "latest", auto_update = true }
 "npm:yaml-language-server" = { version = "latest", auto_update = true }
+"npm:tripo-cli" = "latest"
 
 [settings]
-# Keep mise tools first when a child shell inherits an already-active environment.
-activate_aggressive = true
 idiomatic_version_file_enable_tools = ["node"]
 # Warn about native requirements; background tool updates must never invoke sudo.
 system_deps = "warn"
-# Keep npm tools in mise's isolated prefixes with its embedded aube installer.
-npm.package_manager = "auto"
-npm.shell_out = false
-self_update.auto = true
-self_update.check_duration = "24h"
-tool_update.check_duration = "24h"
-upgrade.prune_after = "3d"
 
 [tasks.bootstrap]
 description = "Verify the development setup after packages and tools are installed"
@@ -62,8 +50,8 @@ description = "Manually update development runtimes within their configured vers
 run = "mise upgrade node bun go java rust"
 
 [tasks."update:extensions"]
-description = "Update Pi extensions explicitly"
-run = "pi update --extensions"
+description = "Update extensions explicitly"
+run = "codex update && "
 
 [tasks."clean:preview"]
 description = "Preview unused mise versions without removing anything"
