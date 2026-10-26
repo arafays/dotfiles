@@ -99,7 +99,7 @@ directory = "~/.herdr/worktrees"
 pane_history = false
 
 [update]
-channel = "preview"
+channel = "stable"
 
 [theme.custom]
 accent = "#e6b450"

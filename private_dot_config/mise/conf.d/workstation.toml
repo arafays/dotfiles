@@ -16,7 +16,6 @@
 "pacman:fd" = "latest"
 "pacman:fzf" = "latest"
 "pacman:bat" = "latest"
-"pacman:starship" = "latest"
 "pacman:zoxide" = "latest"
 "pacman:git" = "latest"
 "pacman:github-cli" = "latest"

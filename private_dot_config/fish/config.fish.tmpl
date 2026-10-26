@@ -9,8 +9,6 @@ if not set -q GPG_TTY
     set -gx GPG_TTY (tty)
 end
 
-fish_add_path --global --path $HOME/.local/bin $HOME/.opencode/bin
-
 # Claude Code + OpenRouter
 ## set -gx OPENROUTER_API_KEY '{{ .secrets.openrouter_api_key }}'
 set -gx BW_SESSION '{{ .secrets.bw_session }}'
@@ -57,8 +55,6 @@ end
 if status is-interactive
     fish_vi_key_bindings
 
-    # abbreviations
-    abbr g git
     abbr lzg lazygit
     abbr lzd lazydocker
     abbr oc opencode2
@@ -67,7 +63,6 @@ if status is-interactive
     abbr -a -- - 'cd -'
     alias n='nvim'
     alias czd='chezmoi cd'
-    alias npx="aubx"
     alias opencode="opencode2"
 
     function mkcd
@@ -235,5 +230,4 @@ if status is-interactive
     end
 
     type -q zoxide; and zoxide init fish --cmd cd | source
-    type -q starship; and starship init fish | source
 end

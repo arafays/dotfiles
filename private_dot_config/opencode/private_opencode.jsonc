@@ -19,25 +19,20 @@
   ],
   "mcp": {
     "servers": {
-      "browser-control": {
-        "type": "local",
-        "command": ["browser-control-mcp"],
-        "disabled": true,
-      },
       "markitdown": {
         "type": "local",
-        "command": ["uvx", "markitdown-mcp"],
-        "disabled": true,
+        "command": ["markitdown-mcp"],
+        "disabled": false,
       },
       "codegraph": {
         "type": "local",
-        "command": [
-          "codegraph",
-          "serve",
-          "--mcp"
-        ],
+        "command": ["codegraph", "serve", "--mcp"],
         "disabled": false,
-        "codemode": false
+        "codemode": false,
+      },
+      "browser-control": {
+        "type": "local",
+        "command": ["browser-control-mcp"],
       },
       "context7": {
         "type": "remote",

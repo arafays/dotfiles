@@ -33,19 +33,6 @@ if [[ -z "$aurhelper" ]]; then
   unset helper
 fi
 
-_init_starship() {
-  # Show system info only in interactive shells
-  # if [[ $- == *i* ]] && [[ -z "$TMUX" ]]; then
-  #   if _cmd_exists fastfetch; then
-  #     fastfetch --logo-type small 2>/dev/null
-  #   fi
-  # fi
-  #
-  if _cmd_exists starship; then
-    eval "$(starship init zsh)"
-  fi
-}
-
 _load_completion() {
   local tool="$1"
   local completion_cmd="$2"
@@ -350,4 +337,3 @@ _load_aliases
 _define_functions
 autoload -Uz add-zsh-hook
 add-zsh-hook chpwd _mise_chpwd_hook
-_init_starship
