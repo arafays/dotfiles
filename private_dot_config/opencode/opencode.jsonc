@@ -3,6 +3,14 @@
   "instructions": [
     "~/.agents/AGENTS.md"
   ],
+  "plugins": [
+    {
+      "package": "opencode-dcp@latest",
+      "options": {
+        "maxContextLimit": 200000,
+      },
+    }
+  ],
   "mcp": {
     "servers": {
       "markitdown": {
@@ -28,12 +36,19 @@
           "serve",
           "--mcp"
         ],
-        "disabled": true
+        "disabled": false,
+        "codemode": false
       },
       "upwork": {
         "type": "remote",
         "url": "https://mcp.upwork.com/mcp",
         "disabled": true
+      },
+      "browser-control": {
+        "type": "local",
+        "command": [
+          "browser-control-mcp"
+        ]
       }
     }
   },

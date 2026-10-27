@@ -23,11 +23,11 @@ BROWSER=brave
 # Chromium binary for automation tooling (puppeteer, agent-browser, browser-control)
 CHROMIUM_PATH={{ lookPath "chromium" | default (lookPath "google-chrome-stable" | default (lookPath "google-chrome" | default "xdg-open")) }}
 
-# ── fzf
+# ── fzf (layout only — colors from Noctalia template ~/.config/fzf/themes/noctalia.{fish,sh})
 FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
 FZF_CTRL_T_COMMAND="fd --type f --hidden --follow --exclude .git"
 FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
-FZF_DEFAULT_OPTS="--color=bg:-1,bg+:-1,fg:#dde1e6,fg+:#ffffff,border:#ffc799,hl:#99ffe4,hl+:#ffc799,info:#45475A,prompt:#ffc799,pointer:#ffc799,marker:#99ffe4,spinner:#ffc799,header:#99ffe4 --border=rounded --layout=reverse --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%"
+FZF_DEFAULT_OPTS="--border=rounded --layout=reverse --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%"
 
 # ── man / bat
 MANPAGER="sh -c 'col -bx | bat -l man -p --color always'"

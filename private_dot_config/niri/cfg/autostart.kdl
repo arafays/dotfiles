@@ -1,7 +1,5 @@
 // ────────────── Startup Applications ──────────────
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
-    spawn-sh-at-startup "dbus-update-activation-environment --all"
-
     spawn-at-startup "noctalia"
     spawn-sh-at-startup "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
     

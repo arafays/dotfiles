@@ -28,6 +28,13 @@ _prepend() {
 }
 _prepend "$HOME/.local/bin"
 _prepend "$HOME/.opencode/bin"
+_prepend "${MISE_DATA_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mise}/shims"
+# Global aube installs override mise-managed copies of the same command.
+_prepend "${XDG_DATA_HOME:-$HOME/.local/share}/aube/bin"
 
 export PATH
 unset -f _prepend
+
+# >>> Codex installer >>>
+export PATH="/home/arafays/.local/bin:$PATH"
+# <<< Codex installer <<<

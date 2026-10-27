@@ -1,29 +1,44 @@
-model = "gpt-5.6-luna"
-model_provider = "openrouter"
-model_reasoning_effort = "low"
+model = "gpt-6-luna"
+# model_provider = "openrouter"
+# model_reasoning_effort = "high"
 approvals_reviewer = "user"
 personality = "pragmatic"
+model_verbosity = "low"
+model_reasoning_effort = "high"
+service_tier = "default"
 
-[model_providers.openrouter]
-name = "OpenRouter"
-base_url = "https://openrouter.ai/api/v1"
-env_key = "OPENROUTER_API_KEY"
-wire_api = "responses"
-
-[profiles.main]
-model = "openai/gpt-5.6-terra"
-model_provider = "openrouter"
-
-[profiles.cheap]
-model = "xiaomi/mimo-v2.5"
-model_provider = "openrouter"
-model_reasoning_effort = "medium"
-
-[profiles.fast]
-model = "openai/gpt-5.6-luna"
-model_provider = "openrouter"
-
+# [model_providers.openrouter]
+# name = "OpenRouter"
+# base_url = "https://openrouter.ai/api/v1"
+# env_key = "OPENROUTER_API_KEY"
+# wire_api = "responses"
+#
+# [profiles.main]
+# model = "openai/gpt-5.6-terra"
+# model_provider = "openrouter"
+#
+# [profiles.cheap]
+# model = "xiaomi/mimo-v2.5"
+# model_provider = "openrouter"
+# model_reasoning_effort = "medium"
+#
+# [profiles.fast]
+# model = "openai/gpt-5.6-luna"
+# model_provider = "openrouter"
+#
 [projects."/home/arafays/projects/case-studies-monorepo"]
+trust_level = "trusted"
+
+[projects."/home/arafays/projects"]
+trust_level = "trusted"
+
+[projects."/home/arafays/projects/arafays-web"]
+trust_level = "trusted"
+
+[projects."/home/arafays/.local/share/chezmoi"]
+trust_level = "trusted"
+
+[projects."/home/arafays/projects/stackm3-marketing"]
 trust_level = "trusted"
 
 [hooks.state]
@@ -34,5 +49,149 @@ trusted_hash = "sha256:12efdd54b3c8a0778d63d1056073a7cbeec09518b5bfd46e2893c96b2
 [hooks.state."/home/arafays/projects/case-studies-monorepo/.codex/hooks.json:stop:0:0"]
 trusted_hash = "sha256:15e2e58db3e02eb8b44667e15b8ae7c28d08178d5dd1c1ed4b9369ef3ecf56d9"
 
+[hooks.state."/home/arafays/projects/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:43c00e64d8cbe59787e37d50994e34013ea87a1b4c091d7fa40c8de8273a6b7a"
+
+[hooks.state."/home/arafays/projects/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:7fc9c685c2eb60b35fb2d95bf2258e67c9cdcd6145a80dfac5e40c0c9d28b907"
+
+[hooks.state."/home/arafays/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:43c00e64d8cbe59787e37d50994e34013ea87a1b4c091d7fa40c8de8273a6b7a"
+
+[hooks.state."/home/arafays/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:2eff26d7bafaa7c85edd772a0e6d0185389a9acec30152fa2b71de5d7e2ceb45"
+
+[hooks.state."/home/arafays/projects/stackm3-marketing/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:f217fbcf8ebe41da3413e01f17f17afcb1cae89c2b995feccd9ebbc4b2297fb6"
+
+[hooks.state."/home/arafays/projects/stackm3-marketing/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:6eb46df3fb741be24b7d49bd375f6a1b24257fa297b6f0f886c1e34a32ef4dfb"
+
+[hooks.state."/home/arafays/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:e74ee44508671d964b0bc7ba3f2ea88ebe7975cacca02179f0b00020a5330b10"
+
+[hooks.state."/home/arafays/.codex/hooks.json:stop:1:0"]
+trusted_hash = "sha256:7fc9c685c2eb60b35fb2d95bf2258e67c9cdcd6145a80dfac5e40c0c9d28b907"
+
+[tui]
+screen_reader_detection_done = true
+
 [tui.model_availability_nux]
-"gpt-5.6-sol" = 2
+"gpt-6.1-sol" = 4
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/home/arafays/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/home/arafays/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."code-review@openai-bundled"]
+enabled = true
+
+[features]
+hooks = true
+js_repl = false
+
+[mcp_servers.node_repl]
+args = []
+command = "/usr/lib/chatgpt/resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/usr/lib/chatgpt/resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/arafays/.codex:/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+CODEX_HOME = "/home/arafays/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.1013.40934"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/arafays/.codex/plugins/cache/openai-bundled/browser/26.1013.40934/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
+
+[shell_environment_policy.set]
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "028a14b6eaa6d98dac2aae00764345ab9f244801ed8493d42b9af3be5575006e,f204d340535055781952b10ed396de20b842f00a19e430852f7e121ad1ce91f6"
+
+[desktop]
+conversationDetailMode = "STEPS_COMMANDS"
+ambient-suggestions-enabled = true
+appearanceLightCodeThemeId = "gruvbox"
+appearanceTheme = "system"
+followUpQueueMode = "queue"
+appearanceDarkCodeThemeId = "ayu"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#458588"
+contrast = 45
+ink = "#3c3836"
+opaqueWindows = false
+surface = "#fbf1c7"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#e6b450"
+accentSource = "custom"
+contrast = 60
+ink = "#bfbdb6"
+opaqueWindows = false
+surface = "#10141c"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#70bf56"
+diffRemoved = "#f26d78"
+skill = "#d0a1ff"
+
+
+[[skills.config]]
+path = "/home/arafays/.agents/skills/browser-control/SKILL.md"
+enabled = false
+
+[apps.connector_openai_chatgpt_pets]
+enabled = false
+
+[mcp_servers.codegraph]
+command = "codegraph"
+args = ["serve", "--mcp"]
+
+# Economical defaults for spawned agents; explicit custom roles may override.
+[agents]
+enabled = true
+default_subagent_model = "gpt-6-luna"
+default_subagent_reasoning_effort = "high"
+max_concurrent_threads_per_session = 2

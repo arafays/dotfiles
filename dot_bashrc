@@ -1,0 +1,65 @@
+# ---- history ----
+export HISTSIZE=50000
+export HISTFILESIZE=100000
+export HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+shopt -s checkwinsize
+
+# Bail out early if this is not an interactive shell.
+case $- in
+*i*) ;;
+*) return ;;
+esac
+
+# Safety net: if this shell was launched without .bash_profile, ensure
+# environment.d is loaded (XDG vars, editor, PATH, Android, mise, etc.).
+if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d" ]; then
+  set -a
+  for _env_file in "${XDG_CONFIG_HOME:-$HOME/.config}/environment.d/"*.conf; do
+    [ -f "$_env_file" ] && . "$_env_file"
+  done
+  set +a
+  unset _env_file
+fi
+
+# ---- mise ----
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate bash)"
+  if command -v aube >/dev/null 2>&1; then
+    eval "$(aube activate bash)"
+  fi
+fi
+
+# ---- prompt (fish uses vendor pure; bash stays minimal) ----
+if [ -f /usr/share/git/git-prompt.sh ]; then
+  # shellcheck source=/dev/share/git/git-prompt.sh
+  . /usr/share/git/git-prompt.sh
+  GIT_PS1_SHOWDIRTYSTATE=1
+  GIT_PS1_SHOWSTASHSTATE=1
+  GIT_PS1_SHOWUNTRACKEDFILES=1
+  GIT_PS1_SHOWUPSTREAM=auto
+  GIT_PS1_SHOWCOLORHINTS=1
+  GIT_PS1_DESCRIBE_STYLE=branch
+  PS1='\[\033[36m\]\w\[\033[90m\]$(__git_ps1 " (%s)")\[\033[0m\]\n\[\033[33m\]❯\[\033[0m\] '
+else
+  PS1='\[\033[36m\]\w\[\033[0m\]\n\[\033[33m\]❯\[\033[0m\] '
+fi
+
+_fzf_noctalia="${XDG_CONFIG_HOME:-$HOME/.config}/fzf/themes/noctalia.sh"
+if [ -f "$_fzf_noctalia" ]; then
+  # shellcheck source=/dev/null
+  . "$_fzf_noctalia"
+fi
+unset _fzf_noctalia
+
+# ---- directory navigation ----
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init bash)"
+fi
+
+# ---- fuzzy finder ----
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --bash)"
+fi
+
+command -v tty >/dev/null 2>&1 && export GPG_TTY="$(tty 2>/dev/null)"

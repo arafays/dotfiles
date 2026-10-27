@@ -17,5 +17,6 @@
   "animations": true,
   "tabs": {
     "enabled": false
-  }
+  },
+  "plugins": ["./herdr-opencode"]
 }

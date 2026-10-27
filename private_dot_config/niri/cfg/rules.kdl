@@ -76,10 +76,13 @@ window-rule {
     match app-id="^zen$"
     match app-id="^brave-browser$"
     match app-id="^chromium$"
+    match app-id="^Chatgpt$"
     exclude title=r#"(?i)Extension.*Bitwarden"#
+    exclude title=r#"(?i)Extension"#
     open-on-output "DP-3"
     open-maximized-to-edges true
     open-maximized true
+
     default-column-width { proportion 1.0; }
     background-effect {
         blur true
@@ -122,6 +125,8 @@ window-rule {
     match app-id=r#"(?i)^slack$"#
     match app-id="^discord$"
     match app-id="^vesktop$"
+    match app-id="^handy$"
+    match app-id="^com.shellyorg.shelly$"
     open-on-output "DP-3"
     open-floating true
 }
@@ -144,34 +149,100 @@ window-rule {
 }
 
 // ────────────── Games & Launchers (DP-3) ──────────────
+// app-id below is the Wayland app_id, which for GTK/Electron apps is the
+// Gtk.Application application_id / StartupWMClass from the .desktop file,
+// NOT the binary name. Verified against `niri msg windows` on this machine:
+//   Lutris    net.lutris.Lutris                (was already correct)
+//   Faugus    io.github.Faugus.faugus-launcher  (was "faugus-launcher" - never matched)
+//   Heroic    heroic                           (was "Heroic"      - never matched)
+//   Goverlay  goverlay                         (was "Goverlay"    - never matched)
+// The three wrong ones were silently no-ops: no error, just no rule applied.
+// Faugus pattern tolerates GTK reporting bare prgname on its splash (a plain
+// Gtk.Window) vs application_id on the main ApplicationWindow.
+
 window-rule {
     match app-id="^steam_app_default$"
     match app-id=r#"^steam_app_\d+$"#
     match app-id="^steam$"
     match app-id=r#"^net\.lutris\.Lutris$"#
-    match app-id="^faugus-launcher$"
-    match app-id="^Heroic$"
+    match app-id=r#"(?i)^(io\.github\.faugus\.)?faugus-launcher$"#
+    match app-id=r#"(?i)^heroic$"#
+    match app-id=r#"(?i)^goverlay$"#
     match app-id="^gamescope$"
-    match app-id="^Goverlay$"
     match app-id="^protontricks$"
     open-on-output "DP-3"
 }
 
-window-rule {
-    match app-id="^steam_app_default$"
-    match app-id=r#"^net\.lutris\.Lutris$"#
-    match app-id="^faugus-launcher$"
-    match app-id="^Goverlay$"
-    match app-id="^protontricks$"
-    open-floating true
-}
-
+// Heroic + Steam fill DP-3.
 window-rule {
     match app-id="^steam$"
-    match app-id="^Heroic$"
+    match app-id=r#"(?i)^heroic$"#
     open-maximized-to-edges true
     open-maximized true
     default-column-width { proportion 1.0; }
+}
+
+// Heroic opens auth / download / error screens as separate BrowserViews that
+// would otherwise claim a whole tile. Declared AFTER the maximize rule so it wins.
+window-rule {
+    match app-id=r#"(?i)^heroic$"# title=r#"(?i)sign in|log ?in|connect|authenticat|install|downloading|updat|error|not found|unhandled"#
+    open-floating true
+    default-column-width { fixed 900; }
+    default-window-height { fixed 700; }
+}
+
+// Lutris: large library list. As a bare float it got niri's small default,
+// so pin a usable size on the 2560x1440 output.
+window-rule {
+    match app-id=r#"^net\.lutris\.Lutris$"#
+    open-floating true
+    default-column-width { fixed 1500; }
+    default-window-height { fixed 950; }
+}
+
+// Faugus: float + centre, but deliberately NO size request. Its splash
+// (undecorated, 280x10) and its main window (set_default_size 1280x720) are
+// both titled "Faugus", so any forced size would also inflate the splash.
+// Faugus already sets its own geometry; placement is all we should add.
+window-rule {
+    match app-id=r#"(?i)^(io\.github\.faugus\.)?faugus-launcher$"#
+    open-floating true
+}
+
+// Faugus's log viewer is a distinct window titled "Winetricks Logs".
+window-rule {
+    match app-id=r#"(?i)^(io\.github\.faugus\.)?faugus-launcher$"# title=r#"^Winetricks Logs$"#
+    open-floating true
+    default-column-width { fixed 760; }
+    default-window-height { fixed 520; }
+}
+
+// Goverlay: small centred overlay-config dialog. Deliberately focused on open
+// (it is a dialog you type into); fullscreen games keep running regardless.
+window-rule {
+    match app-id=r#"(?i)^goverlay$"#
+    open-floating true
+    default-column-width { fixed 780; }
+    default-window-height { fixed 840; }
+}
+
+// Goverlay's "What's New" is a second window on the same app-id; passive, so
+// leave it unfocused.
+window-rule {
+    match app-id=r#"(?i)^goverlay$"# title=r#"(?i)what'?s new"#
+    open-floating true
+    open-focused false
+    default-column-width { fixed 720; }
+    default-window-height { fixed 580; }
+}
+
+// VLC used to float via the old launcher block. Kept floating and un-sized, but
+// NOTE: it also gains open-on-output, so it now lands on DP-3 like the other
+// media apps instead of wherever it happened to be launched from.
+window-rule {
+    match app-id="^vlc$"
+    open-on-output "DP-3"
+    open-floating true
 }
 
 // ────────────── Downloads ──────────────

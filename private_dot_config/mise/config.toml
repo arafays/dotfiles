@@ -4,6 +4,9 @@ experimental = true
 [settings.npm]
 package_manager = "aube"
 
+[settings.self_update]
+auto = true
+
 [tools]
 aube = "latest"
 go = "latest"
@@ -18,6 +21,11 @@ usage = "latest"
 "npm:neovim" = "latest"
 "npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
 "npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
+"npm:portless" = "latest"
+pnpm = "12"
+cloudflared = "latest"
+cmake = "latest"
+"npm:tripo-cli" = "0.7.2"
 
 [tasks]
 update-daily = { description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files", run = ["mise upgrade --bump --minimum-release-age 0 npm:vercel npm:@earendil-works/pi-coding-agent npm:@opencode-ai/browser-control github:can1357/oh-my-pi", "mise prune -y", "chezmoi re-add"] }

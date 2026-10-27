@@ -33,7 +33,8 @@
   "enabledModels": [
     "opencode-go/deepseek-v4-pro",
     "opencode/glm-5.3-flash",
-    "opencode-go/hy4-preview"
+    "opencode-go/hy4-preview",
+    "opencode-go/omen-alpha"
   ],
   "subagents": {
     "defaultModel": "opencode-go/glm-5.3",
