@@ -1,4 +1,5 @@
 set -g fish_greeting
+
 set -gx BROWSER chromium
 set -gx EDITOR nvim
 set -gx VISUAL nvim
@@ -14,6 +15,34 @@ end
 set -gx BW_SESSION '{{ .secrets.bw_session }}'
 set -gx FAL_AI_API_KEY '{{ .secrets.fal_ai_api_key }}'
 set -gx AGENT_BROWSER_EXECUTABLE_PATH (test -n "$CHROMIUM_PATH"; and echo $CHROMIUM_PATH; or echo $BROWSER; or which xdg-open)
+
+set -g pure_truncate_prompt_current_directory_keeps 3
+set -g pure_threshold_command_duration 10
+set -g pure_show_subsecond_command_duration false
+set -g pure_prompt_pad_columns 2
+
+function fish_prompt
+    set -l pad (string repeat -n $pure_prompt_pad_columns ' ')
+    set --local exit_codes $pipestatus
+
+    if contains -- --final-rendering $argv
+        set --local last_status $exit_codes[-1]
+        echo -e -n "$pad"(_pure_prompt_transient $last_status)
+        echo -e -n (_pure_prompt_ending)
+        return
+    end
+
+    echo -en $pad
+    _pure_print_prompt_rows
+    _pure_place_iterm2_prompt_mark
+    if not _pure_is_single_line_prompt
+        echo -en $pad
+    end
+    echo -e -n (_pure_prompt $exit_codes)
+    echo -e -n (_pure_prompt_ending)
+
+    set _pure_fresh_session false
+end
 
 # Import missing environment from systemd without replacing inherited project vars.
 # systemd already loads ~/.config/environment.d/*.conf at login.
@@ -50,6 +79,14 @@ if type -q mise
     end
 end
 
+if type -q aube
+    if status is-interactive
+        aube activate fish | source
+    else
+        aube activate fish --shims | source
+    end
+end
+
 # === INTERACTIVE ===
 
 if status is-interactive
@@ -60,7 +97,6 @@ if status is-interactive
     abbr oc opencode2
 
     alias vim='nvim'
-    abbr -a -- - 'cd -'
     alias n='nvim'
     alias czd='chezmoi cd'
     alias opencode="opencode2"
@@ -192,20 +228,11 @@ if status is-interactive
         bind -M insert \cf forward-char
     end
 
-    # system update functions
+    # system update functions and chaotic aur update
     function ua-update-all
         set -l TMPFILE (mktemp)
         if rate-mirrors --save=$TMPFILE arch --max-delay=21600
             sudo mv $TMPFILE /etc/pacman.d/mirrorlist
-            sudo paccache -rk3
-            test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm; and $aurhelper -Syyu --noconfirm
-        end
-    end
-
-    function ua-update-chaotic
-        set -l TMPFILE (mktemp)
-        if rate-mirrors --save=$TMPFILE chaotic-aur
-            sudo mv $TMPFILE /etc/pacman.d/chaotic-mirrorlist
             sudo paccache -rk3
             test -n "$aurhelper"; and $aurhelper -Sc --aur --noconfirm; and $aurhelper -Syyu --noconfirm
         end
@@ -231,3 +258,7 @@ if status is-interactive
 
     type -q zoxide; and zoxide init fish --cmd cd | source
 end
+
+# >>> grok installer >>>
+fish_add_path $HOME/.grok/bin
+# <<< grok installer <<<

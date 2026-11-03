@@ -1,0 +1,55 @@
+#!/bin/sh
+set -eu
+
+SHIM="$HOME/.local/bin/cursor"
+
+# Find cursor executable in PATH, excluding this shim.
+find_cursor() {
+  old_IFS="$IFS"
+  IFS=:
+  for dir in $PATH; do
+    [ -n "$dir" ] || continue
+    cursor_path="$dir/cursor"
+    if [ "$cursor_path" != "$SHIM" ] && [ -x "$cursor_path" ]; then
+      IFS="$old_IFS"
+      echo "$cursor_path"
+      return 0
+    fi
+  done
+  IFS="$old_IFS"
+  return 1
+}
+
+# Shelly (and manual) AppImages live in ~/.local/bin but are not named "cursor"
+# (e.g. Cursor-3.27.22-x86_64.AppImage). Pick the newest match.
+find_cursor_appimage() {
+  dir="$HOME/.local/bin"
+  latest=
+  for f in "$dir"/Cursor-*.AppImage "$dir"/cursor-*.AppImage; do
+    [ -e "$f" ] || continue
+    if [ -z "$latest" ] || [ "$f" -nt "$latest" ]; then
+      latest="$f"
+    fi
+  done
+  if [ -n "$latest" ]; then
+    echo "$latest"
+    return 0
+  fi
+  return 1
+}
+
+OTHER_CURSOR=$(find_cursor || true)
+if [ -z "${OTHER_CURSOR:-}" ]; then
+  OTHER_CURSOR=$(find_cursor_appimage || true)
+fi
+
+if [ -n "${OTHER_CURSOR:-}" ]; then
+  exec "$OTHER_CURSOR" "$@"
+fi
+
+if [ "${1:-}" != "agent" ]; then
+  echo "Error: No Cursor IDE installation found. Use 'cursor agent' or 'agent' to run the agent." 1>&2
+  echo "Or, install Cursor at https://cursor.com/download" 1>&2
+  exit 1
+fi
+exec "$HOME/.local/bin/agent" "$@"

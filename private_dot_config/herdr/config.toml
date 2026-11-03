@@ -15,6 +15,7 @@ prompt_new_tab_name = false
 # mouse_capture = true  # default true
 # copy_on_select = true  # default true
 
+status_indicators = "symbols"
 [ui.toast.herdr]
 position = "bottom-right"
 
@@ -121,3 +122,6 @@ red = "#ea6c73"
 blue = "#53bdfa"
 teal = "#90e1c6"
 peach = "#eaa46c"
+
+[ui.toast]
+delivery = "system"

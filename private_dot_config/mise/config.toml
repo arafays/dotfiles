@@ -33,6 +33,7 @@ biome = { version = "latest", auto_update = true }
 "github:dmtrKovalenko/bashka" = { version = "latest", auto_update = true }
 "npm:@opencode-ai/browser-control" = { version = "latest", auto_update = true }
 vercel = { version = "latest", allow_builds = ["esbuild"], trust_policy_excludes = ["undici"] }
+"npm:cf" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

@@ -1,33 +1,3 @@
 {
-  "skills": [],
-  "lastChangelogVersion": "1.1.0",
-  "packages": [
-    "npm:@plannotator/pi-extension",
-    "npm:pi-thinking-steps",
-    "npm:pi-exa",
-    "npm:pi-context-view",
-    "npm:@ff-labs/pi-fff",
-    "npm:pi-subagents"
-  ],
-  "theme": "system",
-  "hideThinkingBlock": false,
-  "showHardwareCursor": false,
-  "editorPaddingX": 3,
-  "terminal": {
-    "showTerminalProgress": true
-  },
-  "treeFilterMode": "default",
-  "doubleEscapeAction": "tree",
-  "defaultProjectTrust": "ask",
-  "transport": "auto",
-  "outputPad": 1,
-  "steeringMode": "one-at-a-time",
-  "warnings": {
-    "anthropicExtraUsage": true
-  },
-  "autocompleteMaxVisible": 15,
-  "httpIdleTimeoutMs": 120000,
-  "showCacheMissNotices": true,
-  "quietStartup": true,
-  "collapseChangelog": true
+  "lastChangelogVersion": "1.5.0"
 }
