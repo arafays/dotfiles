@@ -14,24 +14,7 @@
       "type": "stdio",
       "directTools": true
     },
-    "browser-control": {
-      "description": "Drives the user's existing Chromium-family browser with deterministic Playwright, reusing the real profile and logged-in sessions. Use when asked to inspect, automate, or test a visible browser tab, or to continue an authenticated browser workflow.",
-      "command": "browser-control-mcp",
-      "type": "stdio",
-      "lifecycle": "lazy",
-      "exposeResources": false
-    }
     {{ if false }},
-    "chrome-devtools": {
-      "description": "Browser debugging — inspect elements, take screenshots, debug JavaScript",
-      "command": "npx",
-      "args": [
-        "-y",
-        "chrome-devtools-mcp@latest"
-      ],
-      "lifecycle": "lazy",
-      "exposeResources": false
-    },
     "markitdown": {
       "description": "Converts complex files to clean Markdown formats. Use this server when the user provides non-textual documents (such as PDFs, Word files, Excel sheets, HTML strings, or image assets) that must be scraped and parsed into readable text.",
       "command": "uvx",

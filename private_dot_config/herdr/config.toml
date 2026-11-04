@@ -80,7 +80,7 @@ directory = "~/projects/worktrees"
 pane_history = false
 
 [update]
-channel = "preview"
+channel = "stable"
 
 [ui.toast]
 delivery = "system"

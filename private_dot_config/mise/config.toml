@@ -17,19 +17,23 @@ rtk = "latest"
 usage = "latest"
 
 "npm:vercel" = { version = "latest", minimum_release_age = "0s" }
-"npm:@ast-grep/napi" = "latest"
 "npm:neovim" = "latest"
-"npm:@earendil-works/pi-coding-agent" = { version = "latest", minimum_release_age = "0s" }
-"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
-"npm:portless" = "latest"
-pnpm = "12"
+
+
 cloudflared = "latest"
-cmake = "latest"
+
+"npm:@opencode-ai/browser-control" = { version = "latest", minimum_release_age = "0s" }
 "npm:tripo-cli" = "0.7.2"
 
 [tasks]
-update-daily = { description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files", run = ["mise upgrade --bump --minimum-release-age 0 npm:vercel npm:@earendil-works/pi-coding-agent npm:@opencode-ai/browser-control github:can1357/oh-my-pi", "mise prune -y", "chezmoi re-add"] }
-pkg-info = { description = "Show where a command lives and how it was installed. Usage: mise run pkg-info <command> [command...]", run = """
+update-daily = { description = "Bump bleeding-edge npm tools to latest, then re-add managed chezmoi files", run = [
+  "mise upgrade --bump --minimum-release-age 0 npm:@opencode-ai/browser-control",
+  "mise prune -y",
+  "chezmoi re-add",
+] }
+
+pkg-info = { description = "Show where a command lives and how it was installed. Usage: mise run pkg-info <command> [command...]", 
+  run = """
 #!/usr/bin/env bash
 set +eu  # detection relies on failing probes (command -v, pacman -Qo); never abort mid-scan
 

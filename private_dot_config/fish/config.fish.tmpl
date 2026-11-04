@@ -149,13 +149,10 @@ if status is-interactive
     abbr lzd lazydocker
     abbr oc opencode2
 
-    alias vim='nvim'
     abbr -a -- - 'cd -'
+    alias vim='nvim'
     alias n='nvim'
-    alias code="code-insiders"
-    alias dev='code .'
     alias czd='chezmoi cd'
-    alias npx="aubx"
     alias opencode="opencode2"
 
     function mkcd
@@ -354,3 +351,7 @@ if status is-interactive
     end
 
 end
+
+# >>> grok installer >>>
+fish_add_path $HOME/.grok/bin
+# <<< grok installer <<<
