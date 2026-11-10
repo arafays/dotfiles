@@ -40,7 +40,6 @@ layer-rule {
 // Popups and toasts float; the main window tiles.
 window-rule {
     match app-id="steam"
-    exclude title=r#"^[Ss]team$"#
     open-floating true
 }
 
@@ -79,6 +78,8 @@ window-rule {
     match app-id="^Chatgpt$"
     exclude title=r#"(?i)Extension.*Bitwarden"#
     exclude title=r#"(?i)Extension"#
+    exclude title=r#"Download file info · Hurtle"#
+    exclude title=r#"(?i)^Picture[- ]in[- ][Pp]icture$"#
     open-on-output "DP-3"
     open-maximized-to-edges true
     open-maximized true
@@ -175,7 +176,6 @@ window-rule {
 
 // Heroic + Steam fill DP-3.
 window-rule {
-    match app-id="^steam$"
     match app-id=r#"(?i)^heroic$"#
     open-maximized-to-edges true
     open-maximized true
@@ -200,10 +200,6 @@ window-rule {
     default-window-height { fixed 950; }
 }
 
-// Faugus: float + centre, but deliberately NO size request. Its splash
-// (undecorated, 280x10) and its main window (set_default_size 1280x720) are
-// both titled "Faugus", so any forced size would also inflate the splash.
-// Faugus already sets its own geometry; placement is all we should add.
 window-rule {
     match app-id=r#"(?i)^(io\.github\.faugus\.)?faugus-launcher$"#
     open-floating true
@@ -217,8 +213,6 @@ window-rule {
     default-window-height { fixed 520; }
 }
 
-// Goverlay: small centred overlay-config dialog. Deliberately focused on open
-// (it is a dialog you type into); fullscreen games keep running regardless.
 window-rule {
     match app-id=r#"(?i)^goverlay$"#
     open-floating true
@@ -249,7 +243,51 @@ window-rule {
 window-rule {
     match app-id=r#"^org\.qbittorrent\.qBittorrent$"#
     open-floating true
-    default-column-width { fixed 1734; }
-    default-window-height { fixed 1024; }
-    default-floating-position x=520 y=252
+}
+
+// Hurtle download manager: the main window floats like qBittorrent's.
+window-rule {
+    match app-id="^hurtle$"
+    open-floating true
+    open-on-output "HDMI-A-1"
+}
+
+// Hurtle dev and test runs (HURTLE_APP_ID=hurtle-dev / hurtle-test): open on the
+// small side monitor without taking focus, so they don't interrupt work on DP-3.
+window-rule {
+    match app-id="^hurtle-(dev|test)$"
+    open-on-output "HDMI-A-1"
+    open-floating true
+    open-focused false
+}
+
+// Hurtle's browser-extension dialog ("Download file info", opened by Zen /
+// Brave / Chromium as a popup window). Without this the browser rule above
+// would open it maximized on DP-3.
+// Chromium/Brave give extension windows their own app-id (chrome-/brave-<extension
+// id>-<profile>) and only set the title after mapping, so match the id there.
+window-rule {
+    match app-id=r#"^[a-z-]+-llabdeoinnakkcncicakgafkjkkjfdgh-"#
+    match title=r#"Download file info · Hurtle"#
+    open-floating true
+    open-focused true
+}
+
+// ────────────── Browser pop-ups ──────────────
+// Extension pop-up windows and picture-in-picture players float instead of
+// taking a tile. PiP stays out of the way in the bottom-right corner.
+window-rule {
+    match app-id="^zen$" title=r#"(?i)Extension"#
+    match app-id="^brave-browser$" title=r#"(?i)Extension"#
+    match app-id="^chromium$" title=r#"(?i)Extension"#
+    open-floating true
+}
+
+window-rule {
+    match title=r#"(?i)^Picture[- ]in[- ][Pp]icture$"#
+    open-floating true
+    open-focused false
+    default-column-width { fixed 640; }
+    default-window-height { fixed 360; }
+    default-floating-position x=24 y=24 relative-to="bottom-right"
 }

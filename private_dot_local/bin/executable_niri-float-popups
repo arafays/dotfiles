@@ -1,0 +1,186 @@
+#!/usr/bin/env python3
+"""Float browser pop-up windows whose title is only set AFTER they map.
+
+niri applies `open-floating` window rules once, when a window first opens.
+Firefox/Zen (and sometimes Chromium) open extension pop-ups, OAuth sign-in
+windows, etc. with a generic title and rename them a moment later, so a
+title-based rule never matches. This daemon watches `niri msg event-stream`
+and, when a *recently opened* window's title starts matching one of the
+patterns below, moves it to floating, sizes it and centres it.
+
+Each window is handled at most once, so you can still tile it manually.
+"""
+
+import json
+import os
+import re
+import subprocess
+import sys
+import threading
+import time
+
+# Only act on windows this many seconds after they first appeared, so a
+# normal tab that later navigates to e.g. a login page is left alone.
+GRACE_SECONDS = 5.0
+
+# Floated pop-ups are never smaller than this; the per-pattern sizes below
+# only make them larger. niri keeps a window's tiled size when floating it,
+# so an explicit size is required (otherwise a maximized pop-up floats
+# full-screen). After resizing, every pop-up is centred on its output.
+MIN_WIDTH = 834
+MIN_HEIGHT = 886
+
+BROWSERS = (
+    r"^(zen|firefox|librewolf|floorp|waterfox|mullvadbrowser|"
+    r"brave-browser|chromium|google-chrome|vivaldi-stable|microsoft-edge|"
+    r"thorium-browser|helium|Chatgpt)$"
+)
+
+# Chromium-family extension windows get their own app-id:
+#   <browser>-<32-char extension id>-<profile>, e.g.
+#   brave-nngceckbapebfimnlniiiahkandclblb-Default  (Bitwarden)
+# Their title is just the extension's page title, so match on the app-id.
+# Installed web apps (PWAs) use the same format, so any app-id that a .desktop
+# file claims via StartupWMClass is treated as an app and left alone.
+CHROMIUM_EXT_APP_ID = re.compile(r"^[a-z-]+-[a-p]{32}-")
+CHROMIUM_EXT_SIZE = (560, 680)
+APP_DIRS = [os.path.expanduser("~/.local/share/applications"),
+            "/usr/share/applications"]
+
+# (app-id regex, title regex, width, height)  — first match wins.
+POPUPS = [
+    # Browser-extension windows: Bitwarden, Surge, password managers, ...
+    (BROWSERS, r"(?i)^Extension:", 560, 680),
+    (BROWSERS, r"Download file info · Surge", 560, 680),
+    # OAuth / SSO sign-in pop-ups opened with window.open().
+    (BROWSERS, r"(?i)(sign[ -]?in|log[ -]?in|authori[sz]e|oauth|accounts\.google|single sign-on)", 900, 760),
+    # Generic "popup"/"dialog" windows (payment, share sheets, ...).
+    (BROWSERS, r"(?i)\b(pop-?up|dialog|share|checkout|payment|paypal)\b", 900, 760),
+]
+
+compiled = [(re.compile(a), re.compile(t), w, h) for a, t, w, h in POPUPS]
+
+
+def niri(*args: str) -> None:
+    subprocess.run(["niri", "msg", "action", *args], check=False,
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def window_size(wid: int):
+    out = subprocess.run(["niri", "msg", "-j", "windows"], check=False,
+                         capture_output=True, text=True).stdout
+    try:
+        for win in json.loads(out):
+            if win["id"] == wid:
+                return tuple(win["layout"]["window_size"])
+    except (json.JSONDecodeError, KeyError, TypeError):
+        pass
+    return None
+
+
+def center_when_resized(wid: int, w: int, h: int, timeout: float = 2.0) -> None:
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        size = window_size(wid)
+        if size is None:  # window closed
+            return
+        # Apps may clamp to their own min/max size, so accept "close enough".
+        if abs(size[0] - w) <= 40 and abs(size[1] - h) <= 40:
+            break
+        time.sleep(0.05)
+    niri("center-window", "--id", str(wid))
+
+
+def is_installed_web_app(app_id: str) -> bool:
+    needle = f"StartupWMClass={app_id}"
+    for d in APP_DIRS:
+        try:
+            names = os.listdir(d)
+        except OSError:
+            continue
+        for n in names:
+            if not n.endswith(".desktop"):
+                continue
+            try:
+                with open(os.path.join(d, n), errors="ignore") as f:
+                    if any(line.strip() == needle for line in f):
+                        return True
+            except OSError:
+                pass
+    return False
+
+
+def match(win: dict):
+    app, title = win.get("app_id") or "", win.get("title") or ""
+    if CHROMIUM_EXT_APP_ID.search(app) and not is_installed_web_app(app):
+        return CHROMIUM_EXT_SIZE
+    for a, t, w, h in compiled:
+        if a.search(app) and t.search(title):
+            return w, h
+    return None
+
+
+def run() -> None:
+    first_seen: dict[int, float] = {}
+    handled: set[int] = set()
+    started = time.monotonic()
+
+    proc = subprocess.Popen(["niri", "msg", "-j", "event-stream"],
+                            stdout=subprocess.PIPE, text=True)
+    assert proc.stdout
+    for line in proc.stdout:
+        try:
+            ev = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+
+        if "WindowsChanged" in ev:
+            # Initial snapshot: windows that already exist are not "new".
+            for w in ev["WindowsChanged"]["windows"]:
+                first_seen.setdefault(w["id"], started - GRACE_SECONDS * 2)
+            continue
+        if "WindowClosed" in ev:
+            wid = ev["WindowClosed"]["id"]
+            first_seen.pop(wid, None)
+            handled.discard(wid)
+            continue
+        if "WindowOpenedOrChanged" not in ev:
+            continue
+
+        win = ev["WindowOpenedOrChanged"]["window"]
+        wid = win["id"]
+        now = time.monotonic()
+        first_seen.setdefault(wid, now)
+
+        if wid in handled or win.get("is_floating"):
+            continue
+        if now - first_seen[wid] > GRACE_SECONDS:
+            continue
+        size = match(win)
+        if not size:
+            continue
+
+        handled.add(wid)
+        w, h = max(size[0], MIN_WIDTH), max(size[1], MIN_HEIGHT)
+        niri("move-window-to-floating", "--id", str(wid))
+        niri("set-window-width", "--id", str(wid), str(w))
+        niri("set-window-height", "--id", str(wid), str(h))
+        # niri centres using the window's *current* size, and slow clients
+        # (Zen/Firefox) commit the new size a few frames later. Centring right
+        # away would centre the old maximized size and leave the pop-up in the
+        # top-left corner, so centre in the background once the size lands.
+        threading.Thread(target=center_when_resized, args=(wid, w, h),
+                         daemon=True).start()
+        niri("focus-window", "--id", str(wid))
+
+    proc.wait()
+
+
+if __name__ == "__main__":
+    # Reconnect if niri restarts / the stream drops.
+    while True:
+        try:
+            run()
+        except Exception as e:  # noqa: BLE001
+            print(f"niri-float-popups: {e}", file=sys.stderr)
+        time.sleep(2)

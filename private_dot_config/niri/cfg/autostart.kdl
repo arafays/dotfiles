@@ -1,6 +1,8 @@
 // ────────────── Startup Applications ──────────────
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
     spawn-at-startup "noctalia"
+    // Floats browser pop-ups whose title is set after mapping (see script).
+    spawn-sh-at-startup "~/.local/bin/niri-float-popups"
     spawn-sh-at-startup "gsettings set org.gnome.desktop.interface color-scheme prefer-dark"
     
     // Open terminal on portrait monitor (focus left, spawn, focus back)

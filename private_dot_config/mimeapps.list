@@ -17,6 +17,8 @@ x-scheme-handler/about=brave-browser.desktop
 x-scheme-handler/unknown=brave-browser.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 video/matroska=vlc.desktop
+x-scheme-handler/claude=com.anthropic.Claude.desktop
+x-scheme-handler/cursor=cursor-url-handler.desktop
 
 [Added Associations]
 x-scheme-handler/codex=chatgpt.desktop;

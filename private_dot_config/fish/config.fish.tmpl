@@ -1,4 +1,6 @@
 source /usr/share/cachyos-fish-config/cachyos-config.fish
+function fish_greeting
+end
 
 # CachyOS ships fish-pure (vendor). Colors follow the terminal palette (Ghostty/Noctalia).
 set -g pure_truncate_prompt_current_directory_keeps 3
@@ -56,46 +58,28 @@ set -gx FAL_AI_API_KEY "{{ .secrets.fal_ai_api_key }}"
 # set -gx OPENROUTER_API_KEY "{{ .secrets.openrouter_api_key }}"
 set -gx BW_SESSION "{{ .secrets.bw_session }}"
 
-fish_add_path $HOME/.local/share/mise/shims
+# Let mise choose its paths, including custom shim directories and wrappers.
+if type -q mise
+    if status is-interactive
+        mise activate fish | source
+    else
+        mise activate fish --shims | source
+    end
+end
 
-# aube activation adds runtime shims, not globally installed binaries.
-# Explicit global installs take precedence over mise-managed copies.
-set -l aube_data_home "$XDG_DATA_HOME"
-test -n "$aube_data_home"; or set aube_data_home "$HOME/.local/share"
-fish_add_path --path --prepend "$aube_data_home/aube/bin"
+if type -q aube
+    if status is-interactive
+        aube activate fish | source
+    else
+        aube activate fish --shims | source
+    end
+end
 
 # Herdr hardcodes TERM=xterm-256color, which breaks Kitty graphics detection
 # in yazi and other tools. Restore the correct value for the Ghostty VT engine.
 # https://github.com/herdrdev/herdr/discussions/554
 if test "$HERDR_ENV" = 1 -a "$TERM" = xterm-256color
     set -gx TERM xterm-ghostty
-end
-
-function fish_greeting
-end
-
-# Noctalia community fzf template (regenerated when the desktop theme changes).
-function __apply_noctalia_fzf_theme
-    set -l config_home "$XDG_CONFIG_HOME"
-    test -n "$config_home"; or set config_home "$HOME/.config"
-    set -l theme_file "$config_home/fzf/themes/noctalia.fish"
-    test -f "$theme_file"; or return 0
-
-    set -l layout $FZF_DEFAULT_OPTS
-    if test -z "$layout"
-        set layout "--border=rounded --layout=reverse --preview 'bat --color=always --style=numbers --line-range=:500 {}' --preview-window=right:60%"
-    else
-        set layout (string replace -r -- '--color=[^[:space:]]+' '' $layout | string trim)
-    end
-
-    if set -q --universal FZF_DEFAULT_OPTS
-        set -eU FZF_DEFAULT_OPTS
-    end
-    if set -q FZF_DEFAULT_OPTS
-        set -e FZF_DEFAULT_OPTS
-    end
-    set -Ux FZF_DEFAULT_OPTS $layout
-    source "$theme_file"
 end
 
 function __cached_source --description "Cache and source a generator's output"
@@ -113,18 +97,11 @@ function __deferred_init --on-event fish_prompt
     test -n "$cache_dir"; or set cache_dir "$HOME/.cache"
     set -l cache "$cache_dir/fish/init"
 
-    __cached_source mise "$cache/mise.activate.fish" mise activate fish
     __cached_source mise "$cache/mise.completions.fish" mise completion fish
     __cached_source zoxide "$cache/zoxide.init.fish" zoxide init fish --cmd cd
     __cached_source herdr "$cache/herdr.completions.fish" herdr completion fish
 
-    __cached_source aube "$cache/aube.activate.fish" aube activate fish
     __cached_source aube "$cache/aube.completions.fish" aube completion fish
-    # mise and aube activation can prepend their own tool directories.
-    set -l aube_data_home "$XDG_DATA_HOME"
-    test -n "$aube_data_home"; or set aube_data_home "$HOME/.local/share"
-    fish_add_path --path --prepend --move "$aube_data_home/aube/bin"
-    __cached_source opencode2 "$cache/opencode2.fish" opencode2 --completions fish
 
     functions -e __deferred_init __cached_source
 end
