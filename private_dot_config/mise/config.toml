@@ -1,12 +1,9 @@
 [tools]
-# Development runtimes: update deliberately with `mise run update:runtimes`.
-# System Node/Python/Java and native libraries remain owned by pacman.
 node = "lts"
 bun = "latest"
 go = "latest"
 rust = "latest"
 
-# User CLI tools: the bootstrap tool-update service checks these daily.
 aube = { version = "latest", auto_update = true }
 usage = { version = "latest", auto_update = true }
 rtk = { version = "latest", auto_update = true }
@@ -15,13 +12,8 @@ uv = { version = "latest", auto_update = true }
 shellcheck = { version = "latest", auto_update = true }
 shfmt = { version = "latest", auto_update = true }
 playwright = { version = "latest", auto_update = true }
-# Any-format -> Markdown converter (pdf/docx/xlsx/pptx/html/...) plus its MCP server.
-"pypi:markitdown" = { version = "latest", extras = ["all"], auto_update = true }
-"pypi:markitdown-mcp" = "0.0.1a7" # pinned: only alpha releases, `latest` does not resolve them
 
-# Shared editor tools. Neovim itself is pacman-owned; npm:neovim is its provider.
 "npm:neovim" = { version = "latest", auto_update = true }
-# TypeScript servers/compiler stay in Mason with LazyVim's TypeScript extras.
 biome = { version = "latest", auto_update = true }
 "npm:prettier" = { version = "latest", auto_update = true }
 "npm:markdownlint-cli2" = { version = "latest", auto_update = true }
@@ -32,13 +24,13 @@ biome = { version = "latest", auto_update = true }
 
 "github:dmtrKovalenko/bashka" = { version = "latest", auto_update = true }
 "npm:@opencode-ai/browser-control" = { version = "latest", auto_update = true }
-vercel = { version = "latest", allow_builds = ["esbuild"], trust_policy_excludes = ["undici"] }
+vercel = { version = "latest", allow_builds = ["esbuild"] }
 "npm:cf" = "latest"
+pitchfork = { version = "latest", workflow = "release.yml@refs/heads/main" }
+"npm:firebase-tools" = "latest"
+"cargo:cargo-fframes" = "latest"
 
 [settings]
-idiomatic_version_file_enable_tools = ["node"]
-# Warn about native requirements; background tool updates must never invoke sudo.
-system_deps = "warn"
 
 [settings.self_update]
 auto = true
